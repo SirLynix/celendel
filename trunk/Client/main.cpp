@@ -1,9 +1,14 @@
 #include <iostream>
+#include <QCoreApplication>
+#include "ClientNetwork.h"
 
-using namespace std;
-
-int main()
+int main(int argv, char** argc)
 {
-    cout << "Hello world!" << endl;
-    return 0;
+    QCoreApplication app (argv, argc);
+
+    std::cout << "Celendel client network launched" << std::endl;
+
+    ClientNetwork cli(&app);
+
+    return app.exec();
 }

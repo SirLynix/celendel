@@ -1,13 +1,21 @@
 #include "Client.h"
 #include <QByteArray>
 
+CLID Client::cID=0;
+
 Client::Client(QTcpSocket *s) : socket(s), packet(NULL)
 {
-    static CLID cID=0;
     m_ID=cID;
     ++cID;
 
     connect(socket, SIGNAL(readyRead()), this, SLOT(readyRead()));
+    connect(socket, SIGNAL(disconnected()), this, SLOT(slot_disconnected()));
+}
+
+void Client::changeID()
+{
+    m_ID=cID;
+    ++cID;
 }
 
 void Client::readyRead()
