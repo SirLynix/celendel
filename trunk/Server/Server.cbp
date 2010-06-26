@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6" />
+	<Project>
+		<Option title="Server" />
+		<Option makefile_is_custom="1" />
+		<Option pch_mode="2" />
+		<Option compiler="gcc" />
+		<Build>
+			<Target title="Debug">
+				<Option output="debug\Server" prefix_auto="1" extension_auto="1" />
+				<Option object_output="debug\" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-g" />
+				</Compiler>
+				<MakeCommands>
+					<Build command="$make -f $makefile $target" />
+					<CompileFile command="$make -f $makefile $file" />
+					<Clean command="$make -f $makefile $target clean" />
+					<DistClean command="$make -f $makefile $target distclean" />
+				</MakeCommands>
+			</Target>
+			<Target title="Release">
+				<Option output="release\Server" prefix_auto="1" extension_auto="1" />
+				<Option object_output="release\" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-O2" />
+				</Compiler>
+				<Linker>
+					<Add option="-s" />
+				</Linker>
+				<MakeCommands>
+					<Build command="$make -f $makefile $target" />
+					<CompileFile command="$make -f $makefile $file" />
+					<Clean command="$make -f $makefile $target clean" />
+					<DistClean command="$make -f $makefile $target distclean" />
+				</MakeCommands>
+			</Target>
+		</Build>
+		<Compiler>
+			<Add option="-Wall" />
+			<Add option="-fexceptions" />
+		</Compiler>
+		<Unit filename="Client.cpp" />
+		<Unit filename="Client.h" />
+		<Unit filename="Network.cpp" />
+		<Unit filename="Network.h" />
+		<Unit filename="Packet.cpp" />
+		<Unit filename="Packet.h" />
+		<Unit filename="Server.pro" />
+		<Unit filename="TestClass.cpp" />
+		<Unit filename="TestClass.h" />
+		<Unit filename="main.cpp" />
+		<Extensions>
+			<code_completion />
+			<debugger />
+		</Extensions>
+	</Project>
+</CodeBlocks_project_file>
