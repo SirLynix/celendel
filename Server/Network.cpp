@@ -52,6 +52,15 @@ void ServerNetwork::newConnection()
     connect(newCl, SIGNAL(dataReceived(Packet*)), this, SLOT(slot_dataReceived(Packet*)));
     connect(newCl, SIGNAL(disconnected()), this, SLOT(clientDisconnected()));
 
+    for(int i=0; i<m_clients.size(); ++i)
+    {
+        if(newCl->ID()==m_clients[i]->ID())
+        {
+            newCl->changeID();
+            i=0;
+        }
+    }
+
     emit newClient(newCl->ID());
     log("Client connected with ID " + QString::number(newCl->ID()));
 
@@ -60,13 +69,13 @@ void ServerNetwork::newConnection()
 
 void ServerNetwork::clientDisconnected()
 {
-    log("A client disconnected.");
     Client *cl = qobject_cast<Client*>(sender());
     if (cl==NULL) //It shouldn't happen. Realy.
         return;
 
     m_clients.removeOne(cl);
     emit clientGone(cl->ID());
+    log("Client (ID " + QString::number(cl->ID()) + ") left");
     cl->deleteLater();
 }
 
@@ -78,13 +87,14 @@ void ServerNetwork::slot_dataReceived(Packet* packet)
         delete packet; //We'll say the packet is lost because of network lag... None shall know what happened.
         return;
     }
-
+    packet->show();///Debug
     emit dataReceived(packet, cl->ID());
 }
 
 
 bool ServerNetwork::sendToClient(CLID ID, Packet* pa, bool delegateDelete)
 {
+    log("Sending packet to Client" + QString::number(ID) + "...");
     int i;
     for(i=0; i<m_clients.size();++i)
     {
@@ -96,6 +106,7 @@ bool ServerNetwork::sendToClient(CLID ID, Packet* pa, bool delegateDelete)
             return false;
         }
     }
+    log("Error : client not found. Packet has been lost.");
 
     //The client haven't been found.
 

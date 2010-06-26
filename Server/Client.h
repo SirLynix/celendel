@@ -4,7 +4,7 @@
 #include <QObject>
 #include <QTcpSocket>
 
-#define CLID quint32 /// Alias for Client ID.
+#include "..\Shared\Constants.h"
 
 #include "../Shared/Packet.h"
 
@@ -17,6 +17,7 @@ class Client : public QObject
     Packet *packet;
 
     CLID ID () const {return m_ID;}
+    void changeID(); //Dangerous ! Only use at init
 
     signals:
         void dataReceived(Packet*);
@@ -31,6 +32,7 @@ class Client : public QObject
 
     private:
         CLID m_ID;
+        static CLID cID;
 };
 
 #endif // CLIENT_H

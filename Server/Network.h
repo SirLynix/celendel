@@ -5,9 +5,6 @@
 #define qCApp QCoreApplication::instance()
 #include <QtNetwork>
 
-#define MAX_CLIENTS 100
-#define SERVER_PORT 5577
-
 #include "Client.h"
 
 class Packet;

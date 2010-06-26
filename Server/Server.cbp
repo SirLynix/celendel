@@ -49,12 +49,13 @@
 		<Unit filename="Client.h" />
 		<Unit filename="Network.cpp" />
 		<Unit filename="Network.h" />
-		<Unit filename="Packet.cpp" />
-		<Unit filename="Packet.h" />
+		<Unit filename="Server.cpp" />
+		<Unit filename="Server.h" />
 		<Unit filename="Server.pro" />
-		<Unit filename="TestClass.cpp" />
-		<Unit filename="TestClass.h" />
 		<Unit filename="main.cpp" />
+		<Unit filename="..\Shared\Constants.h" />
+		<Unit filename="..\Shared\Packet.cpp" />
+		<Unit filename="..\Shared\Packet.h" />
 		<Extensions>
 			<code_completion />
 			<debugger />
