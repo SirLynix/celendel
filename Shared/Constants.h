@@ -1,6 +1,14 @@
 #ifndef DEF_CONSTANTS
 #define DEF_CONSTANTS
 
+                    /// The constants headers ///
+ /* Every constants, enums, macros are defined here. */
+/* This header is link-free, global and shared. */
+
+/* Workers :
+    - Gigotdarnaud
+*/
+
 #define SERVER_IP "127.0.0.1"
 #define MAX_CLIENTS 100
 #define SERVER_PORT 5577
@@ -10,7 +18,21 @@
 
 #define ENUM_TYPE qint32
 
-enum PACKET_TYPE { ERROR, CHAT, GM_ELECT, NEW_GM, LAUNCH_GAME, GAME_LAUNCHED, VOTED, SET_CLID, NEW_NICK, SET_NICK, GTFO_LYNIX };
+#include <QMap>
+#include <QString>
+
+struct ServerInformations
+{
+    QMap<CLID,QString> playersName;
+    CLID gameMasterID;
+    QString location;
+    QString timeOfDay;
+    quint16 gameStarted;
+    QString serverName;
+};
+
+
+enum PACKET_TYPE { ERROR, CHAT, GM_ELECT, NEW_GM, LAUNCH_GAME, GAME_LAUNCHED, VOTED, SET_CLID, NEW_NICK, SET_NICK, GTFO_LYNIX, TOD, LOCATION, SERVER_INFORMATIONS};
 /* GM_ELECT type structure :
 - CLID ID */
 
@@ -19,6 +41,12 @@ enum PACKET_TYPE { ERROR, CHAT, GM_ELECT, NEW_GM, LAUNCH_GAME, GAME_LAUNCHED, VO
 
 /* SET_CLID type structure :
 - CLID ID */
+
+/* TOD type structure :
+- QString when */
+
+/* LOCATION type structure :
+- QString where */
 
 /* VOTED type structure :
 - CLID From
@@ -29,14 +57,19 @@ enum CANAL_TYPE { NORMAL, NARRATOR, RP, SELF_NARRATOR };
 - CANAL_TYPE canal
 - QString text */
 
-enum ERROR_TYPE { ALREADY_VOTED, GAME_NOT_LAUNCHED, NOT_GM, INVALID_PACKET, INVALID_CANAL, CLIENT_DOES_NOT_EXIST, CLIENTS_LIMIT_REACHED };
+enum ERROR_TYPE { ALREADY_VOTED, GAME_NOT_LAUNCHED, NOT_GM, INVALID_PACKET, INVALID_CANAL, CLIENT_DOES_NOT_EXIST, CLIENTS_LIMIT_REACHED, SANCTION_UNKNOWN };
 /* ERROR type structure :
 - ERROR_TYPE error
 - QString text */
 
-enum DROP_TYPE { KICKED, BANNED };
+enum DROP_TYPE { KICK, BAN };
 
 /* GTFO_LYNIX type structure :
+- CLID ID
+- DROP_TYPE dtype
+- QString reason*/
+
+/* REQUEST_SANCTION type structure :
 - CLID ID
 - DROP_TYPE dtype
 - QString reason*/

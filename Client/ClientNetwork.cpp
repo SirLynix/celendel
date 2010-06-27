@@ -30,6 +30,7 @@ ClientNetwork::ClientNetwork(QObject* parent):QObject(parent)
 
     packet=NULL;
     m_ID=0;
+    m_gameStarted=false;
 }
 
 ClientNetwork::~ClientNetwork()
@@ -97,7 +98,19 @@ void ClientNetwork::dataReceived()
 
     packet->show(); ///Debug
 
-    if(packet->type==SET_CLID) ///Debug
+    if(packet->type==SERVER_INFORMATIONS)
+    {
+        ServerInformations si;
+        extractServerInformationsData(packet->data, si);
+        m_GMID=si.gameMasterID;
+        m_location=si.location;
+        m_TOD=si.timeOfDay;
+        m_serverName=si.serverName;
+        m_nickMap=si.playersName;
+        m_gameStarted=si.gameStarted;
+        qDebug() << "Server informations changed : " << si.gameMasterID << " " << m_nickMap;
+    }
+    else if(packet->type==SET_CLID) ///Debug
     {
         extractSetCLIDData(packet->data, m_ID);
         qDebug() << "ID changed : " << m_ID;

@@ -24,6 +24,12 @@ class Server : public QObject
 
         bool gameStarted() const {return m_gameStarted;}
 
+        QString serverName;
+        QString location;
+        QString timeOfDay;
+
+        ServerInformations getServerInformations() const;
+
     public slots:
         void addClient(CLID cID);
         void removeClient(CLID cID);
@@ -34,6 +40,8 @@ class Server : public QObject
         ServerNetwork *m_network;
         QList<Player*> m_players;
         bool m_gameStarted;
+
+        CLID m_GMID;
 
 };
 

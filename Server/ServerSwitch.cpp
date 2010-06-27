@@ -31,9 +31,7 @@ void Server::processData(Packet* pa, CLID cID)
                         m_network->sendToAll(ETI(CHAT), serialiseChatData(ETI(NARRATOR), text));
                     }
                     else
-                    {
                         m_network->sendToAll(ETI(ERROR), serialiseErrorData(ETI(NOT_GM)));
-                    }
                 }
                 break;
                 case ETI(SELF_NARRATOR):
@@ -128,6 +126,7 @@ void Server::processData(Packet* pa, CLID cID)
                         Player* winner = winners[alea(0,winners.size()-1)];
                         log("Client " + QString::number(winner->ID()) + " has been elected GM !");
                         winner->promoteGM();
+                        m_GMID=winner->ID();
                         m_network->sendToAll(ETI(NEW_GM), serialiseNewGMData(winner->ID()));
                     }
                 }
@@ -141,6 +140,67 @@ void Server::processData(Packet* pa, CLID cID)
             log("Client [" + QString::number(ply->ID())+"] changed his nickname : \""+ply->nickname+"\" -> \"" +nick);
             ply->nickname=nick;
             m_network->sendToAll(ETI(NEW_NICK),serialiseNewNickData(ply->ID(),nick));
+        }
+        break;
+        case GTFO_LYNIX:
+        {
+            if(ply->isGM())
+            {
+                CLID tID=0;
+                ENUM_TYPE kob=0;
+                QString reason;
+                extractGTFOLynixData(pa->data, tID, kob, reason);
+                Player *tar = getPlayer(tID);
+
+                if(tar==NULL)
+                {
+                    m_network->sendToClient(cID, ETI(ERROR), serialiseErrorData(ETI(CLIENT_DOES_NOT_EXIST)));
+                }
+                else
+                {
+                    switch(kob)
+                    {
+                        case KICK:
+                            log("["+QString::number(cID)+"]" +ply->nickname+" kicked ["+QString::number(tID)+"]"+tar->nickname+". Reason : \""+reason);
+                            m_network->kick(tID, reason);
+                        break;
+                        case BAN:
+                            log("["+QString::number(cID)+"]"+ply->nickname+" kicked and banned ["+QString::number(tID)+"]"+tar->nickname+". Reason : \""+reason);
+                            m_network->ban(tID, reason);
+                        break;
+                        default:
+                            log("ERROR : Sanction unknown.");
+                            m_network->sendToClient(cID, ETI(ERROR), serialiseErrorData(ETI(SANCTION_UNKNOWN)));
+                        break;
+                    }
+                }
+            }
+            else
+                m_network->sendToAll(ETI(ERROR), serialiseErrorData(ETI(NOT_GM)));
+        }
+        break;
+        case TOD:
+        {
+            if(ply->isGM())
+            {
+                extractTODData(pa->data, timeOfDay);
+                log("Game Master changed Time Of Day to : \""+timeOfDay+"\"");
+                m_network->sendToAll(ETI(TOD), serialiseTODData(timeOfDay));
+            }
+            else
+                m_network->sendToAll(ETI(ERROR), serialiseErrorData(ETI(NOT_GM)));
+        }
+        break;
+        case LOCATION:
+        {
+            if(ply->isGM())
+            {
+                extractTODData(pa->data, location);
+                log("Game Master changed location to : \""+location+"\"");
+                m_network->sendToAll(ETI(LOCATION), serialiseTODData(location));
+            }
+            else
+                m_network->sendToAll(ETI(ERROR), serialiseErrorData(ETI(NOT_GM)));
         }
         break;
         default:

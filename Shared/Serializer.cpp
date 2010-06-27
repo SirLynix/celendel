@@ -169,3 +169,65 @@ QByteArray serialiseGTFOLynixData(CLID ID, ENUM_TYPE dropType, const QString& re
 
     return data;
 }
+
+void extractTODData(QByteArray& data, QString& when)
+{
+    QDataStream in(data);
+
+    in>>when;
+}
+
+QByteArray serialiseTODData(const QString& when)
+{
+    QByteArray data;
+    QDataStream out(&data, QIODevice::ReadWrite);
+
+    out<<when;
+
+    return data;
+}
+
+void extractLocationData(QByteArray& data, QString& where)
+{
+    QDataStream in(data);
+
+    in>>where;
+}
+
+QByteArray serialiseLocationData(const QString& where)
+{
+    QByteArray data;
+    QDataStream out(&data, QIODevice::ReadWrite);
+
+    out<<where;
+
+    return data;
+}
+
+void extractServerInformationsData(QByteArray& data, ServerInformations& si)
+{
+    QDataStream in(data);
+
+    in>>si.playersName;
+    in>>si.gameMasterID;
+    in>>si.location;
+    in>>si.timeOfDay;
+    in>>si.gameStarted;
+    in>>si.serverName;
+}
+
+QByteArray serialiseServerInformationsData(const ServerInformations& si)
+{
+    QByteArray data;
+    QDataStream out(&data, QIODevice::ReadWrite);
+
+    out<<si.playersName;
+    out<<si.gameMasterID;
+    out<<si.location;
+    out<<si.timeOfDay;
+    out<<si.gameStarted;
+    out<<si.serverName;
+
+    return data;
+}
+

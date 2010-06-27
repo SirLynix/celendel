@@ -10,7 +10,7 @@ Server::Server(QObject* parent) : QObject(parent)
     connect(m_network, SIGNAL(dataReceived(Packet*, CLID)), this, SLOT(processData(Packet*, CLID)));
 
     m_gameStarted=false;
-
+    m_GMID=0;
 }
 
 Server::~Server()
@@ -22,6 +22,19 @@ Server::~Server()
 /*void Server::processData(Packet* pa, CLID cID)*/
 /// Moved in ServerSwitch.cpp
 
+ServerInformations Server::getServerInformations() const
+{
+    ServerInformations si;
+    for(int i=0;i<m_players.size();++i)
+        si.playersName[m_players[i]->ID()]=m_players[i]->nickname;
+    si.gameMasterID=m_GMID;
+    si.location=location;
+    si.timeOfDay=timeOfDay;
+    si.gameStarted=gameStarted();
+    si.serverName=serverName;
+
+    return si;
+}
 
 void Server::launchGame()
 {
@@ -33,6 +46,7 @@ void Server::addClient(CLID cID)
 {
     m_players.append(new Player(cID));
     log("Player "+QString::number(cID)+" added to game.");
+    m_network->sendToAll(ETI(SERVER_INFORMATIONS), serialiseServerInformationsData(getServerInformations()));
 }
 
 Player* Server::getPlayer(CLID cID)

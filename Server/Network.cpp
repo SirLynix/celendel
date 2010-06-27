@@ -43,7 +43,7 @@ void ServerNetwork::kick(CLID ID, const QString& reason)
     if(c==NULL)
         return;
 
-    sendToAll(ETI(GTFO_LYNIX), serialiseGTFOLynixData(ID, ETI(KICKED), reason));
+    sendToAll(ETI(GTFO_LYNIX), serialiseGTFOLynixData(ID, ETI(KICK), reason));
     c->socket->disconnectFromHost();
 }
 
@@ -54,7 +54,7 @@ void ServerNetwork::ban(CLID ID, const QString& reason)
         return;
 
     m_banList.append(c->socket->peerAddress().toString());
-    sendToAll(ETI(GTFO_LYNIX), serialiseGTFOLynixData(ID, ETI(BANNED), reason));
+    sendToAll(ETI(GTFO_LYNIX), serialiseGTFOLynixData(ID, ETI(BAN), reason));
     c->socket->disconnectFromHost();
 }
 
@@ -79,7 +79,7 @@ void ServerNetwork::newConnection()
         log("Client banned, connection denied !");
         Packet p;
         p.type=ETI(GTFO_LYNIX);
-        p.data=serialiseGTFOLynixData(0, ETI(BANNED));
+        p.data=serialiseGTFOLynixData(0, ETI(BAN));
         newCl->send(p);
         newCl->socket->disconnectFromHost();
         newCl->deleteLater();

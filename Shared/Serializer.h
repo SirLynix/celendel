@@ -1,7 +1,12 @@
 #ifndef DEF_SERIALIZER
 #define DEF_SERIALIZER
 
+            /// The serializers ///
 /* Here are all the little functions 'data <=> whatever' */
+
+/* Workers :
+    - Gigotdarnaud
+*/
 
 #include "Constants.h"
 #include <QString>
@@ -35,5 +40,14 @@ QByteArray serialiseSetNickData(const QString& ID);
 
 void extractGTFOLynixData(QByteArray& data, CLID& ID, ENUM_TYPE dropType, QString& reason);
 QByteArray serialiseGTFOLynixData(CLID ID, ENUM_TYPE dropType, const QString& reason="");
+
+void extractTODData(QByteArray& data, QString& when);
+QByteArray serialiseTODData(const QString& when);
+
+void extractLocationData(QByteArray& data, QString& where);
+QByteArray serialiseLocationData(const QString& where);
+
+void extractServerInformationsData(QByteArray& data, ServerInformations& si);
+QByteArray serialiseServerInformationsData(const ServerInformations& si);
 
 #endif
