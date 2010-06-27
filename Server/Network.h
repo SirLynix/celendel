@@ -18,6 +18,8 @@ class ServerNetwork : public QObject
         ServerNetwork(QObject* parent=NULL);
         ~ServerNetwork();
 
+        Client* getClient(CLID cID);
+
     public slots:
         bool sendToClient(CLID ID, Packet* pa, bool delegateDelete=true); //Send a packet to a client - return true if the client is not found
         void sendToAll(Packet* pa, bool delegateDelete=true); //Send a packet to all
@@ -27,6 +29,9 @@ class ServerNetwork : public QObject
 
         bool sendToClient(CLID ID, Packet& pa);
         void sendToAll(Packet& pa);
+
+        void kick(CLID ID, const QString& reason);
+        void ban(CLID ID, const QString& reason);
 
     private slots:
         void newConnection(); //Called when someone ask for connection
@@ -42,6 +47,8 @@ class ServerNetwork : public QObject
     private:
         QTcpServer* m_server;
         QList<Client*> m_clients;
+
+        QList<QString> m_banList;
 
 };
 

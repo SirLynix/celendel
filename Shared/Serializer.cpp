@@ -148,3 +148,24 @@ QByteArray serialiseSetNickData(const QString& nick)
 
     return data;
 }
+
+void extractGTFOLynixData(QByteArray& data, CLID& ID, ENUM_TYPE dropType, QString& reason)
+{
+    QDataStream in(data);
+
+    in>>ID;
+    in>>dropType;
+    in>>reason;
+}
+
+QByteArray serialiseGTFOLynixData(CLID ID, ENUM_TYPE dropType, const QString& reason)
+{
+    QByteArray data;
+    QDataStream out(&data, QIODevice::ReadWrite);
+
+    out<<(CLID)ID;
+    out<<(ENUM_TYPE)dropType;
+    out<<reason;
+
+    return data;
+}

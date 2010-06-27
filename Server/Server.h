@@ -30,7 +30,6 @@ class Server : public QObject
         void processData(Packet*, CLID);
         void launchGame();
 
-
     private:
         ServerNetwork *m_network;
         QList<Player*> m_players;
