@@ -69,6 +69,7 @@ void ServerNetwork::newConnection()
     log("Client connected with ID " + QString::number(newCl->ID()));
     m_clients.append(newCl);
     emit newClient(newCl->ID());
+    sendToClient(newCl->ID(), ETI(SET_CLID), serialiseSetCLIDData(newCl->ID()));
 }
 
 void ServerNetwork::clientDisconnected()
@@ -125,9 +126,9 @@ void ServerNetwork::sendToAll(Packet& pa)
 
 bool ServerNetwork::sendToClient(CLID ID, Packet* pa, bool delegateDelete)
 {
-    log("Sending packet to Client" + QString::number(ID) + "...");
+    log("Sending packet to Client " + QString::number(ID) + "...");
 
-    pa->show(); ///Debug
+    //pa->show(); ///Debug
 
     int i;
     for(i=0; i<m_clients.size();++i)
@@ -137,6 +138,7 @@ bool ServerNetwork::sendToClient(CLID ID, Packet* pa, bool delegateDelete)
             m_clients[i]->send(pa);
             if(delegateDelete)
                 delete pa;
+
             return false;
         }
     }

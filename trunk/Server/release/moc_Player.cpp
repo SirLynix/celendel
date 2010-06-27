@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Meta object code from reading C++ file 'Player.h'
 **
-** Created: Sun 27. Jun 13:55:08 2010
+** Created: Sun 27. Jun 17:46:30 2010
 **      by: The Qt Meta Object Compiler version 62 (Qt 4.6.2)
 **
 ** WARNING! All changes made in this file will be lost!
@@ -23,7 +23,7 @@ static const uint qt_meta_data_Player[] = {
        4,       // revision
        0,       // classname
        0,    0, // classinfo
-       1,   14, // methods
+       2,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
@@ -32,12 +32,13 @@ static const uint qt_meta_data_Player[] = {
 
  // slots: signature, parameters, type, tag, flags
        8,    7,    7,    7, 0x0a,
+      20,    7,    7,    7, 0x0a,
 
        0        // eod
 };
 
 static const char qt_meta_stringdata_Player[] = {
-    "Player\0\0promoteGM()\0"
+    "Player\0\0promoteGM()\0voteEnded()\0"
 };
 
 const QMetaObject Player::staticMetaObject = {
@@ -70,9 +71,10 @@ int Player::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_c == QMetaObject::InvokeMetaMethod) {
         switch (_id) {
         case 0: promoteGM(); break;
+        case 1: voteEnded(); break;
         default: ;
         }
-        _id -= 1;
+        _id -= 2;
     }
     return _id;
 }

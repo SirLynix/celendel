@@ -14,10 +14,11 @@ class Player : public QObject
         bool isGM() const {return m_GM;}
         bool vote(Player* ply); //Return true if the player already voted.
 
-        QString name;
+        QString nickname;
 
     public slots:
         void promoteGM();
+        void voteEnded() {m_voted=true;};
 
     private:
         CLID m_ID;

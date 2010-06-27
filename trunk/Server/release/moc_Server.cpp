@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Meta object code from reading C++ file 'Server.h'
 **
-** Created: Sun 27. Jun 13:55:06 2010
+** Created: Sun 27. Jun 17:46:28 2010
 **      by: The Qt Meta Object Compiler version 62 (Qt 4.6.2)
 **
 ** WARNING! All changes made in this file will be lost!
@@ -23,7 +23,7 @@ static const uint qt_meta_data_Server[] = {
        4,       // revision
        0,       // classname
        0,    0, // classinfo
-       3,   14, // methods
+       4,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
@@ -34,6 +34,7 @@ static const uint qt_meta_data_Server[] = {
       12,    8,    7,    7, 0x0a,
       28,    8,    7,    7, 0x0a,
       49,   47,    7,    7, 0x0a,
+      75,    7,    7,    7, 0x0a,
 
        0        // eod
 };
@@ -41,6 +42,7 @@ static const uint qt_meta_data_Server[] = {
 static const char qt_meta_stringdata_Server[] = {
     "Server\0\0cID\0addClient(CLID)\0"
     "removeClient(CLID)\0,\0processData(Packet*,CLID)\0"
+    "launchGame()\0"
 };
 
 const QMetaObject Server::staticMetaObject = {
@@ -75,9 +77,10 @@ int Server::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
         case 0: addClient((*reinterpret_cast< CLID(*)>(_a[1]))); break;
         case 1: removeClient((*reinterpret_cast< CLID(*)>(_a[1]))); break;
         case 2: processData((*reinterpret_cast< Packet*(*)>(_a[1])),(*reinterpret_cast< CLID(*)>(_a[2]))); break;
+        case 3: launchGame(); break;
         default: ;
         }
-        _id -= 3;
+        _id -= 4;
     }
     return _id;
 }

@@ -28,6 +28,7 @@ class Server : public QObject
         void addClient(CLID cID);
         void removeClient(CLID cID);
         void processData(Packet*, CLID);
+        void launchGame();
 
 
     private:
