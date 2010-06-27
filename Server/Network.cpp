@@ -61,10 +61,9 @@ void ServerNetwork::newConnection()
         }
     }
 
-    emit newClient(newCl->ID());
     log("Client connected with ID " + QString::number(newCl->ID()));
-
     m_clients.append(newCl);
+    emit newClient(newCl->ID());
 }
 
 void ServerNetwork::clientDisconnected()
@@ -89,6 +88,24 @@ void ServerNetwork::slot_dataReceived(Packet* packet)
     }
     packet->show();///Debug
     emit dataReceived(packet, cl->ID());
+}
+
+bool ServerNetwork::sendToClient(CLID ID, qint32 type, const QByteArray& data, qint32 ts)
+{
+    Packet* p=new Packet();
+    p->type=type;
+    p->timestamp=ts;
+    p->data=data;
+    return sendToClient(ID, p, true);
+}
+
+void ServerNetwork::sendToAll(qint32 type, const QByteArray& data, qint32 ts)
+{
+    Packet* p=new Packet();
+    p->type=type;
+    p->timestamp=ts;
+    p->data=data;
+    sendToAll(p, true);
 }
 
 

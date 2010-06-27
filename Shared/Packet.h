@@ -13,7 +13,7 @@ class Packet : public QObject
         void setBody(QDataStream& in);
 
         void unSerialise(QByteArray& pa);
-        void serialise(QByteArray& pa, qint32 time=-1);
+        void serialise(QByteArray& pa);
 
         ///Header
         qint32 ID;

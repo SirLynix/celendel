@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Meta object code from reading C++ file 'ClientNetwork.h'
 **
-** Created: Sat 26. Jun 23:24:26 2010
+** Created: Sun 27. Jun 12:09:04 2010
 **      by: The Qt Meta Object Compiler version 62 (Qt 4.6.2)
 **
 ** WARNING! All changes made in this file will be lost!
@@ -23,25 +23,29 @@ static const uint qt_meta_data_ClientNetwork[] = {
        4,       // revision
        0,       // classname
        0,    0, // classinfo
-       4,   14, // methods
+       5,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
        0,       // flags
-       0,       // signalCount
+       1,       // signalCount
+
+ // signals: signature, parameters, type, tag, flags
+      15,   14,   14,   14, 0x05,
 
  // slots: signature, parameters, type, tag, flags
-      15,   14,   14,   14, 0x08,
-      27,   14,   14,   14, 0x08,
-      42,   14,   14,   14, 0x08,
-      57,   14,   14,   14, 0x08,
+      39,   14,   14,   14, 0x08,
+      51,   14,   14,   14, 0x08,
+      66,   14,   14,   14, 0x08,
+      81,   14,   14,   14, 0x08,
 
        0        // eod
 };
 
 static const char qt_meta_stringdata_ClientNetwork[] = {
-    "ClientNetwork\0\0connected()\0disconnected()\0"
-    "dataReceived()\0socketError(QAbstractSocket::SocketError)\0"
+    "ClientNetwork\0\0packetReceived(Packet*)\0"
+    "connected()\0disconnected()\0dataReceived()\0"
+    "socketError(QAbstractSocket::SocketError)\0"
 };
 
 const QMetaObject ClientNetwork::staticMetaObject = {
@@ -73,14 +77,22 @@ int ClientNetwork::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
         switch (_id) {
-        case 0: connected(); break;
-        case 1: disconnected(); break;
-        case 2: dataReceived(); break;
-        case 3: socketError((*reinterpret_cast< QAbstractSocket::SocketError(*)>(_a[1]))); break;
+        case 0: packetReceived((*reinterpret_cast< Packet*(*)>(_a[1]))); break;
+        case 1: connected(); break;
+        case 2: disconnected(); break;
+        case 3: dataReceived(); break;
+        case 4: socketError((*reinterpret_cast< QAbstractSocket::SocketError(*)>(_a[1]))); break;
         default: ;
         }
-        _id -= 4;
+        _id -= 5;
     }
     return _id;
+}
+
+// SIGNAL 0
+void ClientNetwork::packetReceived(Packet * _t1)
+{
+    void *_a[] = { 0, const_cast<void*>(reinterpret_cast<const void*>(&_t1)) };
+    QMetaObject::activate(this, &staticMetaObject, 0, _a);
 }
 QT_END_MOC_NAMESPACE
