@@ -28,6 +28,8 @@ class Server : public QObject
         QString location;
         QString timeOfDay;
 
+        bool changeGM(CLID cID); // Returns true if error
+
         ServerInformations getServerInformations() const;
 
     public slots:

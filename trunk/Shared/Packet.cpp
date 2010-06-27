@@ -3,6 +3,9 @@
 #include <QDateTime>
 
 #include <QDebug>
+
+quint32 getTimeStamp(){return QDateTime::currentDateTime().toTime_t()*1000+QTime::currentTime().msec();}
+
 void Packet::show() const //Temporary - only for debug and tests
 {
     qDebug() << "ID=" + QString::number(ID) + "\nType=" + QString::number(type) + "\nDataSize=" + QString::number(dataSize) + "\ntimestamp=" + QString::number(timestamp) + "\nDatas=\n" << data;
@@ -33,7 +36,7 @@ void Packet::serialise(QByteArray& pa)
 {
     if(timestamp==-1)
     {
-        timestamp=QDateTime::currentDateTime().toTime_t()*1000+QTime::currentTime().msec();
+        timestamp=getTimeStamp();
     }
 
 

@@ -5,6 +5,8 @@
 
 #define sizeofheader 4*sizeof(qint32)
 
+quint32 getTimeStamp();
+
 class Packet : public QObject
 {
     public:

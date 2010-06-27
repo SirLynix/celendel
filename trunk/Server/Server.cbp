@@ -49,13 +49,18 @@
 		<Unit filename="Client.h" />
 		<Unit filename="Network.cpp" />
 		<Unit filename="Network.h" />
+		<Unit filename="Player.cpp" />
+		<Unit filename="Player.h" />
 		<Unit filename="Server.cpp" />
 		<Unit filename="Server.h" />
 		<Unit filename="Server.pro" />
+		<Unit filename="ServerSwitch.cpp" />
 		<Unit filename="main.cpp" />
 		<Unit filename="..\Shared\Constants.h" />
 		<Unit filename="..\Shared\Packet.cpp" />
 		<Unit filename="..\Shared\Packet.h" />
+		<Unit filename="..\Shared\Serializer.cpp" />
+		<Unit filename="..\Shared\Serializer.h" />
 		<Extensions>
 			<code_completion />
 			<debugger />

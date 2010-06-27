@@ -24,8 +24,8 @@ class ServerNetwork : public QObject
         bool sendToClient(CLID ID, Packet* pa, bool delegateDelete=true); //Send a packet to a client - return true if the client is not found
         void sendToAll(Packet* pa, bool delegateDelete=true); //Send a packet to all
 
-        bool sendToClient(CLID ID, qint32 type, const QByteArray& data, qint32 ts=-1); //Overloaded functions for convenience.
-        void sendToAll(qint32 type, const QByteArray& data, qint32 ts=-1);
+        bool sendToClient(CLID ID, qint32 type, const QByteArray& data, qint32 ts=-1, qint32 pID=-1); //Overloaded functions for convenience.
+        void sendToAll(qint32 type, const QByteArray& data, qint32 ts=-1, qint32 pID=-1);
 
         bool sendToClient(CLID ID, Packet& pa);
         void sendToAll(Packet& pa);

@@ -77,7 +77,11 @@ void Server::removeClient(CLID cID)
                 m_players[i]=m_players.last();
             }
             m_players.removeLast();
-            delete ply;
+
+            if(ply->isGM()&&m_players.size())
+                changeGM(m_players[0]->ID());
+
+            ply->deleteLater();
             log("Player succefully removed from game.");
             return;
         }

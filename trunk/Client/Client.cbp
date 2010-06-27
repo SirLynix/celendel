@@ -52,6 +52,8 @@
 		<Unit filename="..\Shared\Constants.h" />
 		<Unit filename="..\Shared\Packet.cpp" />
 		<Unit filename="..\Shared\Packet.h" />
+		<Unit filename="..\Shared\Serializer.cpp" />
+		<Unit filename="..\Shared\Serializer.h" />
 		<Extensions>
 			<code_completion />
 			<debugger />

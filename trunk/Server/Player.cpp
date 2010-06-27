@@ -13,6 +13,12 @@ void Player::promoteGM()
     m_voted=true;
 }
 
+void Player::unPromoteGM()
+{
+    m_GM=false;
+    m_voted=true;
+}
+
 bool Player::vote(Player* ply)
 {
     if(m_voted)

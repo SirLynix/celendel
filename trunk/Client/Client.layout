@@ -1,19 +1,31 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
 <CodeBlocks_layout_file>
-	<ActiveTarget name="Debug" />
+	<ActiveTarget name="Release" />
 	<File name="Client.pro" open="0" top="0" tabpos="0">
-		<Cursor position="228" topLine="0" />
+		<Cursor position="276" topLine="0" />
 	</File>
-	<File name="ClientNetwork.cpp" open="1" top="1" tabpos="1">
-		<Cursor position="1055" topLine="15" />
+	<File name="ClientNetwork.cpp" open="0" top="0" tabpos="1">
+		<Cursor position="1256" topLine="21" />
 	</File>
-	<File name="ClientNetwork.h" open="1" top="0" tabpos="2">
-		<Cursor position="500" topLine="0" />
+	<File name="ClientNetwork.h" open="0" top="0" tabpos="2">
+		<Cursor position="109" topLine="0" />
 	</File>
 	<File name="main.cpp" open="0" top="0" tabpos="0">
 		<Cursor position="48" topLine="0" />
 	</File>
 	<File name="..\Shared\Constants.h" open="0" top="0" tabpos="0">
-		<Cursor position="77" topLine="0" />
+		<Cursor position="366" topLine="0" />
+	</File>
+	<File name="..\Shared\Packet.cpp" open="0" top="0" tabpos="0">
+		<Cursor position="88" topLine="0" />
+	</File>
+	<File name="..\Shared\Packet.h" open="0" top="0" tabpos="0">
+		<Cursor position="124" topLine="0" />
+	</File>
+	<File name="..\Shared\Serializer.cpp" open="0" top="0" tabpos="0">
+		<Cursor position="2621" topLine="110" />
+	</File>
+	<File name="..\Shared\Serializer.h" open="0" top="0" tabpos="0">
+		<Cursor position="1113" topLine="0" />
 	</File>
 </CodeBlocks_layout_file>
