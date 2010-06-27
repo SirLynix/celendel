@@ -29,14 +29,13 @@ void Packet::unSerialise(QByteArray& pa)
     setBody(in);
 }
 
-void Packet::serialise(QByteArray& pa, qint32 time)
+void Packet::serialise(QByteArray& pa)
 {
-    if(time==-1)
+    if(timestamp==-1)
     {
         timestamp=QDateTime::currentDateTime().toTime_t()*1000+QTime::currentTime().msec();
     }
-    else if(time!=0)
-        timestamp=time;
+
 
     QDataStream out(&pa, QIODevice::WriteOnly);
 

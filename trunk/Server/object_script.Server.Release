@@ -1,0 +1,13 @@
+INPUT(
+./release\main.o
+./release\Network.o
+./release\Packet.o
+./release\Client.o
+./release\Server.o
+./release\Player.o
+./release\Serializer.o
+./release\moc_Network.o
+./release\moc_Client.o
+./release\moc_Server.o
+./release\moc_Player.o
+);

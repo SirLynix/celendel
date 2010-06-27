@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Meta object code from reading C++ file 'Network.h'
 **
-** Created: Sat 26. Jun 23:44:39 2010
+** Created: Sun 27. Jun 12:07:35 2010
 **      by: The Qt Meta Object Compiler version 62 (Qt 4.6.2)
 **
 ** WARNING! All changes made in this file will be lost!
@@ -23,7 +23,7 @@ static const uint qt_meta_data_ServerNetwork[] = {
        4,       // revision
        0,       // classname
        0,    0, // classinfo
-      10,   14, // methods
+      14,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
@@ -36,28 +36,35 @@ static const uint qt_meta_data_ServerNetwork[] = {
       56,   51,   14,   14, 0x05,
 
  // slots: signature, parameters, type, tag, flags
-      86,   14,   14,   14, 0x08,
-     102,   14,   14,   14, 0x08,
-     123,   14,   14,   14, 0x08,
-     176,  155,  150,   14, 0x08,
-     214,  208,  150,   14, 0x28,
-     259,  241,   14,   14, 0x08,
-     286,  283,   14,   14, 0x28,
+     109,   88,   83,   14, 0x0a,
+     147,  141,   83,   14, 0x2a,
+     192,  174,   14,   14, 0x0a,
+     219,  216,   14,   14, 0x2a,
+     254,  238,   83,   14, 0x0a,
+     311,  298,   83,   14, 0x2a,
+     361,  348,   14,   14, 0x0a,
+     407,  397,   14,   14, 0x2a,
+     436,   14,   14,   14, 0x08,
+     452,   14,   14,   14, 0x08,
+     473,   14,   14,   14, 0x08,
 
        0        // eod
 };
 
 static const char qt_meta_stringdata_ServerNetwork[] = {
     "ServerNetwork\0\0ID\0newClient(CLID)\0"
-    "clientGone(CLID)\0,who\0"
-    "dataReceived(Packet*,quint32)\0"
-    "newConnection()\0clientDisconnected()\0"
-    "slot_dataReceived(Packet*)\0bool\0"
-    "ID,pa,delegateDelete\0"
+    "clientGone(CLID)\0,who\0dataReceived(Packet*,CLID)\0"
+    "bool\0ID,pa,delegateDelete\0"
     "sendToClient(CLID,Packet*,bool)\0ID,pa\0"
     "sendToClient(CLID,Packet*)\0pa,delegateDelete\0"
     "sendToAll(Packet*,bool)\0pa\0"
-    "sendToAll(Packet*)\0"
+    "sendToAll(Packet*)\0ID,type,data,ts\0"
+    "sendToClient(CLID,qint32,QByteArray,qint32)\0"
+    "ID,type,data\0sendToClient(CLID,qint32,QByteArray)\0"
+    "type,data,ts\0sendToAll(qint32,QByteArray,qint32)\0"
+    "type,data\0sendToAll(qint32,QByteArray)\0"
+    "newConnection()\0clientDisconnected()\0"
+    "slot_dataReceived(Packet*)\0"
 };
 
 const QMetaObject ServerNetwork::staticMetaObject = {
@@ -91,19 +98,25 @@ int ServerNetwork::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
         switch (_id) {
         case 0: newClient((*reinterpret_cast< CLID(*)>(_a[1]))); break;
         case 1: clientGone((*reinterpret_cast< CLID(*)>(_a[1]))); break;
-        case 2: dataReceived((*reinterpret_cast< Packet*(*)>(_a[1])),(*reinterpret_cast< quint32(*)>(_a[2]))); break;
-        case 3: newConnection(); break;
-        case 4: clientDisconnected(); break;
-        case 5: slot_dataReceived((*reinterpret_cast< Packet*(*)>(_a[1]))); break;
-        case 6: { bool _r = sendToClient((*reinterpret_cast< CLID(*)>(_a[1])),(*reinterpret_cast< Packet*(*)>(_a[2])),(*reinterpret_cast< bool(*)>(_a[3])));
+        case 2: dataReceived((*reinterpret_cast< Packet*(*)>(_a[1])),(*reinterpret_cast< CLID(*)>(_a[2]))); break;
+        case 3: { bool _r = sendToClient((*reinterpret_cast< CLID(*)>(_a[1])),(*reinterpret_cast< Packet*(*)>(_a[2])),(*reinterpret_cast< bool(*)>(_a[3])));
             if (_a[0]) *reinterpret_cast< bool*>(_a[0]) = _r; }  break;
-        case 7: { bool _r = sendToClient((*reinterpret_cast< CLID(*)>(_a[1])),(*reinterpret_cast< Packet*(*)>(_a[2])));
+        case 4: { bool _r = sendToClient((*reinterpret_cast< CLID(*)>(_a[1])),(*reinterpret_cast< Packet*(*)>(_a[2])));
             if (_a[0]) *reinterpret_cast< bool*>(_a[0]) = _r; }  break;
-        case 8: sendToAll((*reinterpret_cast< Packet*(*)>(_a[1])),(*reinterpret_cast< bool(*)>(_a[2]))); break;
-        case 9: sendToAll((*reinterpret_cast< Packet*(*)>(_a[1]))); break;
+        case 5: sendToAll((*reinterpret_cast< Packet*(*)>(_a[1])),(*reinterpret_cast< bool(*)>(_a[2]))); break;
+        case 6: sendToAll((*reinterpret_cast< Packet*(*)>(_a[1]))); break;
+        case 7: { bool _r = sendToClient((*reinterpret_cast< CLID(*)>(_a[1])),(*reinterpret_cast< qint32(*)>(_a[2])),(*reinterpret_cast< const QByteArray(*)>(_a[3])),(*reinterpret_cast< qint32(*)>(_a[4])));
+            if (_a[0]) *reinterpret_cast< bool*>(_a[0]) = _r; }  break;
+        case 8: { bool _r = sendToClient((*reinterpret_cast< CLID(*)>(_a[1])),(*reinterpret_cast< qint32(*)>(_a[2])),(*reinterpret_cast< const QByteArray(*)>(_a[3])));
+            if (_a[0]) *reinterpret_cast< bool*>(_a[0]) = _r; }  break;
+        case 9: sendToAll((*reinterpret_cast< qint32(*)>(_a[1])),(*reinterpret_cast< const QByteArray(*)>(_a[2])),(*reinterpret_cast< qint32(*)>(_a[3]))); break;
+        case 10: sendToAll((*reinterpret_cast< qint32(*)>(_a[1])),(*reinterpret_cast< const QByteArray(*)>(_a[2]))); break;
+        case 11: newConnection(); break;
+        case 12: clientDisconnected(); break;
+        case 13: slot_dataReceived((*reinterpret_cast< Packet*(*)>(_a[1]))); break;
         default: ;
         }
-        _id -= 10;
+        _id -= 14;
     }
     return _id;
 }
@@ -123,7 +136,7 @@ void ServerNetwork::clientGone(CLID _t1)
 }
 
 // SIGNAL 2
-void ServerNetwork::dataReceived(Packet * _t1, quint32 _t2)
+void ServerNetwork::dataReceived(Packet * _t1, CLID _t2)
 {
     void *_a[] = { 0, const_cast<void*>(reinterpret_cast<const void*>(&_t1)), const_cast<void*>(reinterpret_cast<const void*>(&_t2)) };
     QMetaObject::activate(this, &staticMetaObject, 2, _a);

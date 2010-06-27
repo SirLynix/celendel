@@ -10,17 +10,28 @@
 */
 
 #include "Network.h"
-
+#include <QList>
+#include "Player.h"
 
 class Server : public QObject
 {
     Q_OBJECT
     public:
         Server(QObject* parent=NULL);
+        ~Server();
+
+        Player* getPlayer(CLID cID);
+
+    public slots:
+        void addClient(CLID cID);
+        void removeClient(CLID cID);
+        void processData(Packet*, CLID);
 
 
     private:
         ServerNetwork *m_network;
+        QList<Player*> m_players;
+        bool m_gameStarted;
 
 };
 
