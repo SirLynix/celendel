@@ -6,6 +6,7 @@ INPUT(
 ./release\Server.o
 ./release\Player.o
 ./release\Serializer.o
+./release\ServerSwitch.o
 ./release\moc_Network.o
 ./release\moc_Client.o
 ./release\moc_Server.o

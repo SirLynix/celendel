@@ -33,4 +33,7 @@ QByteArray serialiseNewNickData(CLID ID, const QString& nick);
 void extractSetNickData(QByteArray& data, QString& ID);
 QByteArray serialiseSetNickData(const QString& ID);
 
+void extractGTFOLynixData(QByteArray& data, CLID& ID, ENUM_TYPE dropType, QString& reason);
+QByteArray serialiseGTFOLynixData(CLID ID, ENUM_TYPE dropType, const QString& reason="");
+
 #endif

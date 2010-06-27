@@ -37,6 +37,27 @@ ServerNetwork::~ServerNetwork()
         delete m_clients[i];
 }
 
+void ServerNetwork::kick(CLID ID, const QString& reason)
+{
+    Client *c = getClient(ID);
+    if(c==NULL)
+        return;
+
+    sendToAll(ETI(GTFO_LYNIX), serialiseGTFOLynixData(ID, ETI(KICKED), reason));
+    c->socket->disconnectFromHost();
+}
+
+void ServerNetwork::ban(CLID ID, const QString& reason)
+{
+    Client *c = getClient(ID);
+    if(c==NULL)
+        return;
+
+    m_banList.append(c->socket->peerAddress().toString());
+    sendToAll(ETI(GTFO_LYNIX), serialiseGTFOLynixData(ID, ETI(BANNED), reason));
+    c->socket->disconnectFromHost();
+}
+
 void ServerNetwork::newConnection()
 {
     log("Someone connected.");
@@ -50,6 +71,17 @@ void ServerNetwork::newConnection()
         p.data=serialiseErrorData(ETI(CLIENTS_LIMIT_REACHED));
         newCl->send(p);
         newCl->socket->disconnectFromHost(); //Be polite. Just disconnect, do not abort !
+        newCl->deleteLater();
+        return;
+    }
+    else if(m_banList.contains(newCl->socket->peerAddress().toString()))
+    {
+        log("Client banned, connection denied !");
+        Packet p;
+        p.type=ETI(GTFO_LYNIX);
+        p.data=serialiseGTFOLynixData(0, ETI(BANNED));
+        newCl->send(p);
+        newCl->socket->disconnectFromHost();
         newCl->deleteLater();
         return;
     }
@@ -82,6 +114,19 @@ void ServerNetwork::clientDisconnected()
     emit clientGone(cl->ID());
     log("Client (ID " + QString::number(cl->ID()) + ") left");
     cl->deleteLater();
+}
+
+Client* ServerNetwork::getClient(CLID cID)
+{
+    for(int i=0; i<m_clients.size();++i)
+    {
+        if(m_clients[i]->ID()==cID)
+        {
+            return m_clients[i];
+        }
+    }
+    log("ERROR : Client "+QString::number(cID)+" not found !");
+    return NULL;
 }
 
 void ServerNetwork::slot_dataReceived(Packet* packet)
