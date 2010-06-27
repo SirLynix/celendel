@@ -32,7 +32,12 @@ class ClientNetwork : public QObject
         QTcpSocket* m_socket;
         Packet *packet;
 
+        bool m_gameStarted;
         CLID m_ID;
+        CLID m_GMID;
+        QString m_location;
+        QString m_TOD;
+        QString m_serverName;
         QMap<CLID, QString> m_nickMap;
 
 };
