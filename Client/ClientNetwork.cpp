@@ -29,6 +29,7 @@ ClientNetwork::ClientNetwork(QObject* parent):QObject(parent)
     m_socket->connectToHost(SERVER_IP, SERVER_PORT);
 
     packet=NULL;
+    m_ID=0;
 }
 
 ClientNetwork::~ClientNetwork()
@@ -38,16 +39,18 @@ ClientNetwork::~ClientNetwork()
 
 void ClientNetwork::connected()
 {
-    log("Connecte");
+    log("Connected");
 
     ///Debug
-    send(ETI(CHAT), serialiseChatData(ETI(NORMAL), "Je suis une chaine."));
+    //send(ETI(CHAT), serialiseChatData(ETI(NORMAL), "Je suis une chaine."));
+    //send(ETI(GM_ELECT), serialiseGMElectData(0));
+    send(ETI(SET_NICK), serialiseSetNickData("Gigotdarnaud"));
 
 }
 
 void ClientNetwork::disconnected()
 {
-    log("Deconnecte");
+    log("Disconnected");
 }
 
 void ClientNetwork::send(Packet* pa, bool delegateDelete)
@@ -55,6 +58,7 @@ void ClientNetwork::send(Packet* pa, bool delegateDelete)
     QByteArray ba;
     pa->serialise(ba);
     m_socket->write(ba);
+    m_socket->flush();
 
     if(delegateDelete)
         delete pa;
@@ -79,7 +83,7 @@ void ClientNetwork::dataReceived()
 
     if (packet == NULL)//Try to get the header
     {
-        if (m_socket->bytesAvailable() < (int)sizeof(qint32)*4) //The header is not here yet
+        if (m_socket->bytesAvailable() < (int)sizeofheader) //The header is not here yet
              return;
 
         packet = new Packet();
@@ -92,13 +96,42 @@ void ClientNetwork::dataReceived()
     packet->setBody(in);
 
     packet->show(); ///Debug
-    QString txt;
-    ENUM_TYPE can;
-    extractChatData(packet->data, can, txt);
 
-    qDebug()<<txt<<can;
+    if(packet->type==SET_CLID) ///Debug
+    {
+        extractSetCLIDData(packet->data, m_ID);
+        qDebug() << "ID changed : " << m_ID;
+    }
+    else if(packet->type==NEW_NICK) ///Debug
+    {
+        CLID nID; QString nick;
+        extractNewNickData(packet->data, nID, nick);
+        m_nickMap[nID]=nick;
+        qDebug() << "Nick changed : " << nID << " = " << nick;
+    }
+    else if(packet->type==CHAT) ///Debug
+    {
+        QString txt;
+        ENUM_TYPE can;
+        extractChatData(packet->data, can, txt);
+
+        qDebug()<<txt<<can;
+    }
+    else if(packet->type==NEW_GM) ///Debug
+    {
+        CLID gm;
+        extractNewGMData(packet->data, gm);
+        qDebug()<<gm;
+    }
+    else if(packet->type==VOTED) ///Debug
+    {
+        CLID f, t;
+        extractVotedData(packet->data, f, t);
+        qDebug()<<f<<" "<<t;
+    }
 
     emit packetReceived(packet);
+    delete packet; ///Debug
     packet=NULL;
 }
 

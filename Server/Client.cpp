@@ -50,4 +50,5 @@ void Client::send(Packet* pa)
     QByteArray ba;
     pa->serialise(ba);
     socket->write(ba);
+    socket->flush();
 }

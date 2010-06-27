@@ -1,6 +1,7 @@
 #ifndef CLIENTNETWORK_H
 #define CLIENTNETWORK_H
 
+#include <QMap>
 #include <QTcpSocket>
 #include "..\Shared\Constants.h"
 #include "..\Shared\Packet.h"
@@ -30,6 +31,9 @@ class ClientNetwork : public QObject
     private:
         QTcpSocket* m_socket;
         Packet *packet;
+
+        CLID m_ID;
+        QMap<CLID, QString> m_nickMap;
 
 };
 
