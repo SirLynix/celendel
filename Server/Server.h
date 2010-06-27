@@ -22,6 +22,8 @@ class Server : public QObject
 
         Player* getPlayer(CLID cID);
 
+        bool gameStarted() const {return m_gameStarted;}
+
     public slots:
         void addClient(CLID cID);
         void removeClient(CLID cID);

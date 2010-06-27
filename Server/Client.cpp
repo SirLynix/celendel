@@ -40,6 +40,11 @@ void Client::readyRead()
     packet=NULL;
 }
 
+void Client::send(Packet& pa)
+{
+    send(&pa);
+}
+
 void Client::send(Packet* pa)
 {
     QByteArray ba;

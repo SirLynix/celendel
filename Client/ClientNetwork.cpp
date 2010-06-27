@@ -2,6 +2,7 @@
 
 #include <QDebug>
 #include <QDateTime>
+#include "..\Shared\Serializer.h"
 
 void log(const QString txt, bool time = true);
 void log(const QString txt, bool time)
@@ -38,11 +39,38 @@ ClientNetwork::~ClientNetwork()
 void ClientNetwork::connected()
 {
     log("Connecte");
+
+    ///Debug
+    send(ETI(CHAT), serialiseChatData(ETI(NORMAL), "Je suis une chaine."));
+
 }
 
 void ClientNetwork::disconnected()
 {
     log("Deconnecte");
+}
+
+void ClientNetwork::send(Packet* pa, bool delegateDelete)
+{
+    QByteArray ba;
+    pa->serialise(ba);
+    m_socket->write(ba);
+
+    if(delegateDelete)
+        delete pa;
+}
+
+void ClientNetwork::send(Packet& pa)
+{
+    send(&pa, false);
+}
+
+void ClientNetwork::send(qint32 type, const QByteArray& data)
+{
+    Packet p;
+    p.type=type;
+    p.data=data;
+    send(p);
 }
 
 void ClientNetwork::dataReceived()
@@ -63,7 +91,15 @@ void ClientNetwork::dataReceived()
 
     packet->setBody(in);
 
+    packet->show(); ///Debug
+    QString txt;
+    ENUM_TYPE can;
+    extractChatData(packet->data, can, txt);
+
+    qDebug()<<txt<<can;
+
     emit packetReceived(packet);
+    packet=NULL;
 }
 
 void ClientNetwork::socketError(QAbstractSocket::SocketError)

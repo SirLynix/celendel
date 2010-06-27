@@ -38,7 +38,47 @@ void Server::processData(Packet* pa, CLID cID)
             log("Chat message received : ["+QString::number(ply->isGM())+"]"+ply->name+" say on ["+QString::number(canal)+"] : \""+text+"\"");
             switch(canal)
             {
-
+                case ETI(NORMAL):
+                {
+                    m_network->sendToAll(ETI(CHAT), serialiseChatData(ETI(NORMAL), text));
+                }
+                break;
+                case ETI(NARRATOR):
+                {
+                    if(ply->isGM())
+                    {
+                        m_network->sendToAll(ETI(CHAT), serialiseChatData(ETI(NARRATOR), text));
+                    }
+                    else
+                    {
+                        m_network->sendToAll(ETI(ERROR), serialiseErrorData(ETI(NOT_GM)));
+                    }
+                }
+                break;
+                case ETI(SELF_NARRATOR):
+                {
+                    if(gameStarted())
+                    {
+                        m_network->sendToAll(ETI(CHAT), serialiseChatData(ETI(SELF_NARRATOR), text));
+                    }
+                    else
+                    {
+                        m_network->sendToAll(ETI(ERROR), serialiseErrorData(ETI(NOT_GM)));
+                    }
+                }
+                break;
+                case ETI(RP):
+                {
+                    if(gameStarted()))
+                    {
+                        m_network->sendToAll(ETI(CHAT), serialiseChatData(ETI(RP), text));
+                    }
+                    else
+                    {
+                        m_network->sendToAll(ETI(ERROR), serialiseErrorData(ETI(NOT_GM)));
+                    }
+                }
+                break;
                 default:
                 {
                     log("ERROR : Canal unknown !");
@@ -48,9 +88,15 @@ void Server::processData(Packet* pa, CLID cID)
             }
         }
         break;
+        case ERROR:
+        {
+            log("ERROR : Client sent an error.");
+        }
+        break;
         default:
         {
             log("ERROR : packet type "+QString::number(pa->type)+" unknown ! (from Client "+QString::number(cID)+")");
+            m_network->sendToClient(cID, ETI(ERROR), serialiseErrorData(ETI(INVALID_PACKET)));
         }
         break;
     }

@@ -3,6 +3,7 @@
 
 #include <QDebug>
 #include <QDateTime>
+#include "..\Shared\Serializer.h"
 
 void log(const QString txt, bool time)
 {
@@ -44,6 +45,10 @@ void ServerNetwork::newConnection()
     if(m_clients.size() >= MAX_CLIENTS)
     {
         log("Server full, connection denied !");
+        Packet p;
+        p.type=ETI(ERROR);
+        p.data=serialiseErrorData(ETI(CLIENTS_LIMIT_REACHED));
+        newCl->send(p);
         newCl->socket->disconnectFromHost(); //Be polite. Just disconnect, do not abort !
         newCl->deleteLater();
         return;
@@ -86,32 +91,44 @@ void ServerNetwork::slot_dataReceived(Packet* packet)
         delete packet; //We'll say the packet is lost because of network lag... None shall know what happened.
         return;
     }
-    packet->show();///Debug
+
     emit dataReceived(packet, cl->ID());
 }
 
 bool ServerNetwork::sendToClient(CLID ID, qint32 type, const QByteArray& data, qint32 ts)
 {
-    Packet* p=new Packet();
-    p->type=type;
-    p->timestamp=ts;
-    p->data=data;
-    return sendToClient(ID, p, true);
+    Packet p;
+    p.type=type;
+    p.timestamp=ts;
+    p.data=data;
+    return sendToClient(ID, p);
 }
 
 void ServerNetwork::sendToAll(qint32 type, const QByteArray& data, qint32 ts)
 {
-    Packet* p=new Packet();
-    p->type=type;
-    p->timestamp=ts;
-    p->data=data;
-    sendToAll(p, true);
+    Packet p;
+    p.type=type;
+    p.timestamp=ts;
+    p.data=data;
+    sendToAll(p);
 }
 
+bool ServerNetwork::sendToClient(CLID ID, Packet& pa)
+{
+    return sendToClient(ID, &pa, false);
+}
+
+void ServerNetwork::sendToAll(Packet& pa)
+{
+    sendToAll(&pa, false);
+}
 
 bool ServerNetwork::sendToClient(CLID ID, Packet* pa, bool delegateDelete)
 {
     log("Sending packet to Client" + QString::number(ID) + "...");
+
+    pa->show(); ///Debug
+
     int i;
     for(i=0; i<m_clients.size();++i)
     {

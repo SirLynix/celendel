@@ -1,5 +1,6 @@
 #include "Serializer.h"
 #include <QDataStream>
+#include <QDebug>
 
 void extractChatData(QByteArray& data, ENUM_TYPE& canal, QString& text)
 {
@@ -12,11 +13,10 @@ void extractChatData(QByteArray& data, ENUM_TYPE& canal, QString& text)
 QByteArray serialiseChatData(ENUM_TYPE canal, const QString& text)
 {
     QByteArray data;
-    QDataStream out(data);
+    QDataStream out(&data, QIODevice::ReadWrite);
 
     out<<(ENUM_TYPE)canal;
     out<<text;
-
     return data;
 }
 
@@ -31,7 +31,7 @@ void extractErrorData(QByteArray& data, ENUM_TYPE& error_type, QString& text)
 QByteArray serialiseErrorData(ENUM_TYPE error_type, const QString& text)
 {
     QByteArray data;
-    QDataStream out(data);
+    QDataStream out(&data, QIODevice::WriteOnly);
 
     out<<(ENUM_TYPE)error_type;
     out<<text;
