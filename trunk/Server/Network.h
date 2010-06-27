@@ -2,7 +2,6 @@
 #define NETWORK_H
 
 #include <QCoreApplication>
-#define qCApp QCoreApplication::instance()
 #include <QtNetwork>
 
 #include "Client.h"
@@ -25,6 +24,9 @@ class ServerNetwork : public QObject
 
         bool sendToClient(CLID ID, qint32 type, const QByteArray& data, qint32 ts=-1); //Overloaded functions for convenience.
         void sendToAll(qint32 type, const QByteArray& data, qint32 ts=-1);
+
+        bool sendToClient(CLID ID, Packet& pa);
+        void sendToAll(Packet& pa);
 
     private slots:
         void newConnection(); //Called when someone ask for connection

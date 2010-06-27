@@ -25,6 +25,7 @@ class Client : public QObject
 
     public slots:
         void send(Packet* pa);
+        void send(Packet& pa);
 
     private slots:
         void readyRead();

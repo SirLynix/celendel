@@ -5,10 +5,10 @@
 #include <QDebug>
 void Packet::show() const //Temporary - only for debug and tests
 {
-    qDebug() << "ID=" + QString::number(ID) + "\nType=" + QString::number(type) + "\nDataSize=" + QString::number(dataSize) + "\ntimestamp=" + QString::number(timestamp) + "\nDatas= " + data;
+    qDebug() << "ID=" + QString::number(ID) + "\nType=" + QString::number(type) + "\nDataSize=" + QString::number(dataSize) + "\ntimestamp=" + QString::number(timestamp) + "\nDatas=\n" << data;
 }
 
-Packet::Packet() : ID(0), type(0), dataSize(0), timestamp(0)
+Packet::Packet() : ID(0), type(0), dataSize(0), timestamp(-1)
 {
     static qint32 sID = 0;
     ID=sID;
@@ -43,7 +43,7 @@ void Packet::serialise(QByteArray& pa)
     out << (qint32)type;
     out << (qint32)0;
     out << (qint32)timestamp;
-    out << qCompress(data, 1);
+    out << data;
     out.device()->seek(2*sizeof(qint32));
     dataSize=pa.size()-sizeofheader;
     out << (quint32)dataSize;
@@ -53,6 +53,5 @@ void Packet::serialise(QByteArray& pa)
 void Packet::setBody(QDataStream& in)
 {
     in>>data;
-    data=qUncompress(data);
     full=true;
 }
