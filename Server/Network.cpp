@@ -141,21 +141,25 @@ void ServerNetwork::slot_dataReceived(Packet* packet)
     emit dataReceived(packet, cl->ID());
 }
 
-bool ServerNetwork::sendToClient(CLID ID, qint32 type, const QByteArray& data, qint32 ts)
+bool ServerNetwork::sendToClient(CLID ID, qint32 type, const QByteArray& data, qint32 ts, qint32 pID)
 {
     Packet p;
     p.type=type;
     p.timestamp=ts;
     p.data=data;
+    if(pID!=-1)
+        p.ID=pID;
     return sendToClient(ID, p);
 }
 
-void ServerNetwork::sendToAll(qint32 type, const QByteArray& data, qint32 ts)
+void ServerNetwork::sendToAll(qint32 type, const QByteArray& data, qint32 ts, qint32 pID)
 {
     Packet p;
     p.type=type;
     p.timestamp=ts;
     p.data=data;
+    if(pID!=-1)
+        p.ID=pID;
     sendToAll(p);
 }
 

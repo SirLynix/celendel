@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Meta object code from reading C++ file 'Network.h'
 **
-** Created: Sun 27. Jun 21:37:21 2010
+** Created: Sun 27. Jun 22:55:59 2010
 **      by: The Qt Meta Object Compiler version 62 (Qt 4.6.2)
 **
 ** WARNING! All changes made in this file will be lost!
@@ -23,7 +23,7 @@ static const uint qt_meta_data_ServerNetwork[] = {
        4,       // revision
        0,       // classname
        0,    0, // classinfo
-      18,   14, // methods
+      20,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
@@ -40,17 +40,19 @@ static const uint qt_meta_data_ServerNetwork[] = {
      147,  141,   83,   14, 0x2a,
      192,  174,   14,   14, 0x0a,
      219,  216,   14,   14, 0x2a,
-     254,  238,   83,   14, 0x0a,
-     311,  298,   83,   14, 0x2a,
-     361,  348,   14,   14, 0x0a,
-     407,  397,   14,   14, 0x2a,
-     436,  141,   83,   14, 0x0a,
-     463,  216,   14,   14, 0x0a,
-     492,  482,   14,   14, 0x0a,
-     511,  482,   14,   14, 0x0a,
-     529,   14,   14,   14, 0x08,
-     545,   14,   14,   14, 0x08,
-     566,   14,   14,   14, 0x08,
+     258,  238,   83,   14, 0x0a,
+     325,  309,   83,   14, 0x2a,
+     382,  369,   83,   14, 0x2a,
+     436,  419,   14,   14, 0x0a,
+     492,  479,   14,   14, 0x2a,
+     538,  528,   14,   14, 0x2a,
+     567,  141,   83,   14, 0x0a,
+     594,  216,   14,   14, 0x0a,
+     623,  613,   14,   14, 0x0a,
+     642,  613,   14,   14, 0x0a,
+     660,   14,   14,   14, 0x08,
+     676,   14,   14,   14, 0x08,
+     697,   14,   14,   14, 0x08,
 
        0        // eod
 };
@@ -62,9 +64,13 @@ static const char qt_meta_stringdata_ServerNetwork[] = {
     "sendToClient(CLID,Packet*,bool)\0ID,pa\0"
     "sendToClient(CLID,Packet*)\0pa,delegateDelete\0"
     "sendToAll(Packet*,bool)\0pa\0"
-    "sendToAll(Packet*)\0ID,type,data,ts\0"
+    "sendToAll(Packet*)\0ID,type,data,ts,pID\0"
+    "sendToClient(CLID,qint32,QByteArray,qint32,qint32)\0"
+    "ID,type,data,ts\0"
     "sendToClient(CLID,qint32,QByteArray,qint32)\0"
     "ID,type,data\0sendToClient(CLID,qint32,QByteArray)\0"
+    "type,data,ts,pID\0"
+    "sendToAll(qint32,QByteArray,qint32,qint32)\0"
     "type,data,ts\0sendToAll(qint32,QByteArray,qint32)\0"
     "type,data\0sendToAll(qint32,QByteArray)\0"
     "sendToClient(CLID,Packet&)\0"
@@ -112,23 +118,26 @@ int ServerNetwork::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
             if (_a[0]) *reinterpret_cast< bool*>(_a[0]) = _r; }  break;
         case 5: sendToAll((*reinterpret_cast< Packet*(*)>(_a[1])),(*reinterpret_cast< bool(*)>(_a[2]))); break;
         case 6: sendToAll((*reinterpret_cast< Packet*(*)>(_a[1]))); break;
-        case 7: { bool _r = sendToClient((*reinterpret_cast< CLID(*)>(_a[1])),(*reinterpret_cast< qint32(*)>(_a[2])),(*reinterpret_cast< const QByteArray(*)>(_a[3])),(*reinterpret_cast< qint32(*)>(_a[4])));
+        case 7: { bool _r = sendToClient((*reinterpret_cast< CLID(*)>(_a[1])),(*reinterpret_cast< qint32(*)>(_a[2])),(*reinterpret_cast< const QByteArray(*)>(_a[3])),(*reinterpret_cast< qint32(*)>(_a[4])),(*reinterpret_cast< qint32(*)>(_a[5])));
             if (_a[0]) *reinterpret_cast< bool*>(_a[0]) = _r; }  break;
-        case 8: { bool _r = sendToClient((*reinterpret_cast< CLID(*)>(_a[1])),(*reinterpret_cast< qint32(*)>(_a[2])),(*reinterpret_cast< const QByteArray(*)>(_a[3])));
+        case 8: { bool _r = sendToClient((*reinterpret_cast< CLID(*)>(_a[1])),(*reinterpret_cast< qint32(*)>(_a[2])),(*reinterpret_cast< const QByteArray(*)>(_a[3])),(*reinterpret_cast< qint32(*)>(_a[4])));
             if (_a[0]) *reinterpret_cast< bool*>(_a[0]) = _r; }  break;
-        case 9: sendToAll((*reinterpret_cast< qint32(*)>(_a[1])),(*reinterpret_cast< const QByteArray(*)>(_a[2])),(*reinterpret_cast< qint32(*)>(_a[3]))); break;
-        case 10: sendToAll((*reinterpret_cast< qint32(*)>(_a[1])),(*reinterpret_cast< const QByteArray(*)>(_a[2]))); break;
-        case 11: { bool _r = sendToClient((*reinterpret_cast< CLID(*)>(_a[1])),(*reinterpret_cast< Packet(*)>(_a[2])));
+        case 9: { bool _r = sendToClient((*reinterpret_cast< CLID(*)>(_a[1])),(*reinterpret_cast< qint32(*)>(_a[2])),(*reinterpret_cast< const QByteArray(*)>(_a[3])));
             if (_a[0]) *reinterpret_cast< bool*>(_a[0]) = _r; }  break;
-        case 12: sendToAll((*reinterpret_cast< Packet(*)>(_a[1]))); break;
-        case 13: kick((*reinterpret_cast< CLID(*)>(_a[1])),(*reinterpret_cast< const QString(*)>(_a[2]))); break;
-        case 14: ban((*reinterpret_cast< CLID(*)>(_a[1])),(*reinterpret_cast< const QString(*)>(_a[2]))); break;
-        case 15: newConnection(); break;
-        case 16: clientDisconnected(); break;
-        case 17: slot_dataReceived((*reinterpret_cast< Packet*(*)>(_a[1]))); break;
+        case 10: sendToAll((*reinterpret_cast< qint32(*)>(_a[1])),(*reinterpret_cast< const QByteArray(*)>(_a[2])),(*reinterpret_cast< qint32(*)>(_a[3])),(*reinterpret_cast< qint32(*)>(_a[4]))); break;
+        case 11: sendToAll((*reinterpret_cast< qint32(*)>(_a[1])),(*reinterpret_cast< const QByteArray(*)>(_a[2])),(*reinterpret_cast< qint32(*)>(_a[3]))); break;
+        case 12: sendToAll((*reinterpret_cast< qint32(*)>(_a[1])),(*reinterpret_cast< const QByteArray(*)>(_a[2]))); break;
+        case 13: { bool _r = sendToClient((*reinterpret_cast< CLID(*)>(_a[1])),(*reinterpret_cast< Packet(*)>(_a[2])));
+            if (_a[0]) *reinterpret_cast< bool*>(_a[0]) = _r; }  break;
+        case 14: sendToAll((*reinterpret_cast< Packet(*)>(_a[1]))); break;
+        case 15: kick((*reinterpret_cast< CLID(*)>(_a[1])),(*reinterpret_cast< const QString(*)>(_a[2]))); break;
+        case 16: ban((*reinterpret_cast< CLID(*)>(_a[1])),(*reinterpret_cast< const QString(*)>(_a[2]))); break;
+        case 17: newConnection(); break;
+        case 18: clientDisconnected(); break;
+        case 19: slot_dataReceived((*reinterpret_cast< Packet*(*)>(_a[1]))); break;
         default: ;
         }
-        _id -= 18;
+        _id -= 20;
     }
     return _id;
 }

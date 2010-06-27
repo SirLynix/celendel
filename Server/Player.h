@@ -18,6 +18,7 @@ class Player : public QObject
 
     public slots:
         void promoteGM();
+        void unPromoteGM();
         void voteEnded() {m_voted=true;};
 
     private:

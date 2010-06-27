@@ -3,6 +3,7 @@
 
 #include <QMap>
 #include <QTcpSocket>
+#include <QTimer>
 #include "..\Shared\Constants.h"
 #include "..\Shared\Packet.h"
 
@@ -19,6 +20,9 @@ class ClientNetwork : public QObject
         void send(Packet& pa); //Overload functions for convenience.
         void send(qint32 type, const QByteArray& data);
 
+        void ping();
+        qint32 getPing() const {return m_ping;}
+
     private slots:
         void connected();
         void disconnected();
@@ -27,6 +31,7 @@ class ClientNetwork : public QObject
 
     signals:
         void packetReceived(Packet*);
+        void pingUpdated(quint32);
 
     private:
         QTcpSocket* m_socket;
@@ -39,6 +44,10 @@ class ClientNetwork : public QObject
         QString m_TOD;
         QString m_serverName;
         QMap<CLID, QString> m_nickMap;
+
+        qint32 m_ping;
+
+        QTimer *pingTimer;
 
 };
 

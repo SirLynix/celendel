@@ -1,6 +1,27 @@
 #include "Server.h"
 #include "..\Shared\Serializer.h"
 
+bool Server::changeGM(CLID cID)
+{
+    Player *ne=getPlayer(m_GMID);
+
+    if(ne==NULL)
+        return true;
+
+    Player *old=getPlayer(m_GMID);
+
+    if(old!=NULL)
+        old->unPromoteGM();
+
+    m_GMID=cID;
+    ne->promoteGM();
+    m_network->sendToAll(ETI(NEW_GM), serialiseNewGMData(cID));
+
+    log("The Game Master has been changed. ["+QString::number(ne->ID())+"]"+ne->nickname+" is now Game Master.");
+
+    return false;
+}
+
 void Server::processData(Packet* pa, CLID cID)
 {
     Player *ply = getPlayer(cID);
@@ -31,7 +52,7 @@ void Server::processData(Packet* pa, CLID cID)
                         m_network->sendToAll(ETI(CHAT), serialiseChatData(ETI(NARRATOR), text));
                     }
                     else
-                        m_network->sendToAll(ETI(ERROR), serialiseErrorData(ETI(NOT_GM)));
+                        m_network->sendToClient(cID, ETI(ERROR), serialiseErrorData(ETI(NOT_GM)));
                 }
                 break;
                 case ETI(SELF_NARRATOR):
@@ -42,7 +63,7 @@ void Server::processData(Packet* pa, CLID cID)
                     }
                     else
                     {
-                        m_network->sendToAll(ETI(ERROR), serialiseErrorData(ETI(NOT_GM)));
+                        m_network->sendToClient(cID, ETI(ERROR), serialiseErrorData(ETI(NOT_GM)));
                     }
                 }
                 break;
@@ -54,7 +75,7 @@ void Server::processData(Packet* pa, CLID cID)
                     }
                     else
                     {
-                        m_network->sendToAll(ETI(ERROR), serialiseErrorData(ETI(NOT_GM)));
+                        m_network->sendToClient(cID, ETI(ERROR), serialiseErrorData(ETI(NOT_GM)));
                     }
                 }
                 break;
@@ -79,7 +100,7 @@ void Server::processData(Packet* pa, CLID cID)
                 launchGame();
             }
             else
-                m_network->sendToAll(ETI(ERROR), serialiseErrorData(ETI(NOT_GM)));
+                m_network->sendToClient(cID, ETI(ERROR), serialiseErrorData(ETI(NOT_GM)));
         }
         break;
         case GM_ELECT:
@@ -133,6 +154,26 @@ void Server::processData(Packet* pa, CLID cID)
             }
         }
         break;
+        case NEW_GM:
+        {
+            if(ply->isGM())
+            {
+                CLID tID;
+                extractNewGMData(pa->data, tID);
+                Player*p=getPlayer(tID);
+                if(p==NULL)
+                {
+                    m_network->sendToClient(cID, ETI(ERROR), serialiseErrorData(ETI(CLIENT_DOES_NOT_EXIST)));
+                }
+                else
+                {
+                    changeGM(tID);
+                }
+            }
+            else
+                m_network->sendToClient(cID, ETI(ERROR), serialiseErrorData(ETI(NOT_GM)));
+        }
+        break;
         case SET_NICK:
         {
             QString nick;
@@ -176,7 +217,7 @@ void Server::processData(Packet* pa, CLID cID)
                 }
             }
             else
-                m_network->sendToAll(ETI(ERROR), serialiseErrorData(ETI(NOT_GM)));
+                m_network->sendToClient(cID, ETI(ERROR), serialiseErrorData(ETI(NOT_GM)));
         }
         break;
         case TOD:
@@ -188,7 +229,7 @@ void Server::processData(Packet* pa, CLID cID)
                 m_network->sendToAll(ETI(TOD), serialiseTODData(timeOfDay));
             }
             else
-                m_network->sendToAll(ETI(ERROR), serialiseErrorData(ETI(NOT_GM)));
+                m_network->sendToClient(cID, ETI(ERROR), serialiseErrorData(ETI(NOT_GM)));
         }
         break;
         case LOCATION:
@@ -200,7 +241,13 @@ void Server::processData(Packet* pa, CLID cID)
                 m_network->sendToAll(ETI(LOCATION), serialiseTODData(location));
             }
             else
-                m_network->sendToAll(ETI(ERROR), serialiseErrorData(ETI(NOT_GM)));
+                m_network->sendToClient(cID, ETI(ERROR), serialiseErrorData(ETI(NOT_GM)));
+        }
+        break;
+        case PING:
+        {
+            log("Ping received. Answering...");
+            m_network->sendToClient(cID, ETI(PING), QByteArray(), pa->timestamp, pa->ID);
         }
         break;
         default:

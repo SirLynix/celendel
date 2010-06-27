@@ -31,6 +31,11 @@ ClientNetwork::ClientNetwork(QObject* parent):QObject(parent)
     packet=NULL;
     m_ID=0;
     m_gameStarted=false;
+
+    pingTimer=new QTimer(this);
+
+    pingTimer->setSingleShot(false);
+    connect(pingTimer, SIGNAL(timeout()), this, SLOT(ping()));
 }
 
 ClientNetwork::~ClientNetwork()
@@ -42,6 +47,8 @@ void ClientNetwork::connected()
 {
     log("Connected");
 
+    pingTimer->start(10000);
+
     ///Debug
     //send(ETI(CHAT), serialiseChatData(ETI(NORMAL), "Je suis une chaine."));
     //send(ETI(GM_ELECT), serialiseGMElectData(0));
@@ -52,6 +59,7 @@ void ClientNetwork::connected()
 void ClientNetwork::disconnected()
 {
     log("Disconnected");
+    pingTimer->stop();
 }
 
 void ClientNetwork::send(Packet* pa, bool delegateDelete)
@@ -78,6 +86,11 @@ void ClientNetwork::send(qint32 type, const QByteArray& data)
     send(p);
 }
 
+void ClientNetwork::ping()
+{
+    send(ETI(PING), QByteArray());
+}
+
 void ClientNetwork::dataReceived()
 {
     QDataStream in(m_socket);
@@ -96,7 +109,16 @@ void ClientNetwork::dataReceived()
 
     packet->setBody(in);
 
-    packet->show(); ///Debug
+    if(packet->type==PING) /// NOT DEBUG
+    {
+        m_ping=getTimeStamp()-packet->timestamp;
+        emit pingUpdated(m_ping);
+        qDebug() << "Ping = " << m_ping;
+        delete packet;
+        packet=NULL;
+        return;
+    }
+    //packet->show(); ///Debug
 
     if(packet->type==SERVER_INFORMATIONS)
     {
@@ -109,6 +131,8 @@ void ClientNetwork::dataReceived()
         m_nickMap=si.playersName;
         m_gameStarted=si.gameStarted;
         qDebug() << "Server informations changed : " << si.gameMasterID << " " << m_nickMap;
+
+        ping(); ///Debug
     }
     else if(packet->type==SET_CLID) ///Debug
     {
@@ -145,6 +169,7 @@ void ClientNetwork::dataReceived()
 
     emit packetReceived(packet);
     delete packet; ///Debug
+
     packet=NULL;
 }
 
