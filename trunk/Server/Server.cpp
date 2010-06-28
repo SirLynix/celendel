@@ -12,7 +12,6 @@ Server::Server(QObject* parent) : QObject(parent)
     m_gameStarted=false;
     m_GMID=0;
 
-    m_map.map=new MapArray(mapDim(0,0));
 }
 
 Server::~Server()

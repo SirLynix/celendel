@@ -9,10 +9,16 @@
 */
 
 #include "Constants.h"
+#include "MapStructs.h"
 #include <QString>
 #include <QByteArray>
 
 int alea(int min,int max);
+
+quint32 sizeX(const MapArray& m);
+quint32 sizeY(const MapArray& m);
+quint32 sizeX(MapArray* m);
+quint32 sizeY(MapArray* m);
 
 void extractChatData(QByteArray& data, ENUM_TYPE& canal, QString& text);
 QByteArray serialiseChatData(ENUM_TYPE canal, const QString& text);
@@ -49,5 +55,8 @@ QByteArray serialiseLocationData(const QString& where);
 
 void extractServerInformationsData(QByteArray& data, ServerInformations& si);
 QByteArray serialiseServerInformationsData(const ServerInformations& si);
+
+void extractMapInformationsData(QByteArray& data, MapInformations& mi);
+QByteArray serialiseMapInformationsData(const MapInformations& mi);
 
 #endif
