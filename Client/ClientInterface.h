@@ -12,6 +12,9 @@ class ClientInterface : public QMainWindow
     public:
         ClientInterface();
 
+    private slots:
+        void sendMessage();
+
     private:
         ClientNetwork* m_network;
 
@@ -19,6 +22,8 @@ class ClientInterface : public QMainWindow
         QTextEdit* m_chat;
         QTextEdit* m_narrator;
         QTextEdit* m_RPChat;
+        QLineEdit* m_chatInput;
+        QPushButton* m_rollTheDice;
 
         QWidget* m_mapWi;
 };

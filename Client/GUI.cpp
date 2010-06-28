@@ -15,7 +15,7 @@ w_chatDock->setLayout(l_chatDock);
 m_chat = new QTextEdit(this);
 l_chatDock->addWidget(m_chat);
 
-addDockWidget(Qt::LeftDockWidgetArea, chatDock);
+addDockWidget(Qt::RightDockWidgetArea, chatDock);
 
 ///NARRATOR DOCK
 QDockWidget *narratorDock = new QDockWidget(tr("Narrator"), this);
@@ -29,7 +29,7 @@ w_narratorDock->setLayout(l_narratorDock);
 m_narrator = new QTextEdit(this);
 l_narratorDock->addWidget(m_narrator);
 
-addDockWidget(Qt::LeftDockWidgetArea, narratorDock);
+addDockWidget(Qt::RightDockWidgetArea, narratorDock);
 
 
 ///RP CHAT DOCK
@@ -45,4 +45,22 @@ m_RPChat = new QTextEdit(this);
 l_RPChatDock->addWidget(m_RPChat);
 
 addDockWidget(Qt::RightDockWidgetArea, RPChatDock);
+
+///CHAT INPUT DOCK
+QDockWidget *chatInputDock = new QDockWidget(tr("chatInput"), this);
+chatInputDock->setFeatures(QDockWidget::NoDockWidgetFeatures);
+chatInputDock->setFeatures(QDockWidget::DockWidgetFloatable|QDockWidget::DockWidgetMovable);
+QWidget *w_chatInputDock = new QWidget(chatInputDock);
+chatInputDock->setWidget(w_chatInputDock);
+QVBoxLayout *l_chatInputDock = new QVBoxLayout(w_chatInputDock);
+w_chatInputDock->setLayout(l_chatInputDock);
+
+m_chatInput = new QLineEdit(this);
+l_chatInputDock->addWidget(m_chatInput);
+connect(m_chatInput, SIGNAL(returnPressed()), this, SLOT(sendMessage()));
+
+m_rollTheDice = new QPushButton(tr("Roll 1d20"), this);
+l_chatInputDock->addWidget(m_rollTheDice);
+
+addDockWidget(Qt::RightDockWidgetArea, chatInputDock);
 

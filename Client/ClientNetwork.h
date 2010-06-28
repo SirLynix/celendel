@@ -14,6 +14,8 @@ class ClientNetwork : public QObject
         ClientNetwork(QObject* parent=NULL);
         ~ClientNetwork();
 
+        bool isConnected() const;
+
     public slots:
         void send(Packet* pa, bool delegateDelete=true);
 

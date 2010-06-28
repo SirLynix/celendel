@@ -43,6 +43,11 @@ ClientNetwork::ClientNetwork(QObject* parent):QObject(parent)
     connect(flushTimer, SIGNAL(timeout()), this, SLOT(flush()));
 }
 
+bool ClientNetwork::isConnected() const
+{
+    return m_socket->state()==QAbstractSocket::ConnectedState;
+}
+
 ClientNetwork::~ClientNetwork()
 {
     m_socket->disconnectFromHost();
