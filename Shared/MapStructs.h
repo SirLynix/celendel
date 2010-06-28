@@ -15,6 +15,7 @@ struct Coords
 
 struct MapItem
 {
+    MapItem(Coords co = Coords(), RSID p=0):coords(co), pixID(p) {}
     Coords coords;
     RSID pixID;
 };

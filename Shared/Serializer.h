@@ -59,4 +59,10 @@ QByteArray serialiseServerInformationsData(const ServerInformations& si);
 void extractMapInformationsData(QByteArray& data, MapInformations& mi);
 QByteArray serialiseMapInformationsData(const MapInformations& mi);
 
+void extractMapItemsInformationsData(QByteArray& data, QList<MapItem>& mi);
+QByteArray serialiseMapItemsInformationsData(const QList<MapItem>& mi);
+
+void extractDiceRollData(QByteArray& data, CLID& ID, quint16& result);
+QByteArray serialiseDiceRollData(CLID ID, quint16 result);
+
 #endif

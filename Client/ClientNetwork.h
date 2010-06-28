@@ -17,7 +17,7 @@ class ClientNetwork : public QObject
     public slots:
         void send(Packet* pa, bool delegateDelete=true);
 
-        void send(Packet& pa); //Overload functions for convenience.
+        void send(Packet& pa); //Overloaded functions for convenience.
         void send(qint32 type, const QByteArray& data);
 
         void ping();
@@ -28,6 +28,9 @@ class ClientNetwork : public QObject
         void disconnected();
         void dataReceived();
         void socketError(QAbstractSocket::SocketError);
+
+        void flush();
+
 
     signals:
         void packetReceived(Packet*);
@@ -48,6 +51,7 @@ class ClientNetwork : public QObject
         qint32 m_ping;
 
         QTimer *pingTimer;
+        QTimer *flushTimer;
 
 };
 

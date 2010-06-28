@@ -1,7 +1,7 @@
 #ifndef DEF_CONSTANTS
 #define DEF_CONSTANTS
 
-                    /// The constants headers ///
+                    /// The constants header ///
  /* Every constants, enums, macros are defined here. */
 /* This header is link-free, global and shared. */
 
@@ -38,16 +38,17 @@ struct ServerInformations
 /* MAP_ITEMS_INFORMATIONS type structure :
 - QList<MapItem> listMi */
 
-enum RESS_INFO_TYPE { TILES, SOUNDS };
-
-/* RESSOURCES_INFORMATIONS type structure :
-- RESS_INFO_TYPE type
-- QByteArray ress  /!\Serialized and compressed data/!\ : QList<QByteArray>*/
 
 enum PACKET_TYPE { ERROR, PING, CHAT, GM_ELECT, NEW_GM, LAUNCH_GAME, GAME_LAUNCHED, VOTED, SET_CLID, NEW_NICK,
-                SET_NICK, GTFO_LYNIX, TOD, LOCATION, SERVER_INFORMATIONS, MAP_INFORMATIONS, MAP_ITEMS_INFORMATIONS, RESSOURCES_INFORMATIONS};
+                SET_NICK, GTFO_LYNIX, TOD, LOCATION, SERVER_INFORMATIONS, MAP_INFORMATIONS, MAP_ITEMS_INFORMATIONS,
+                PLAY_SOUND, SCRIPTS_INFOS, ROLL_DICE};
 
+/* ROLL_DICE type structure :
+- CLID ID
+- quint16 result */
 
+/* PLAY_SOUND type structure :
+- RSID ID */
 
 /* GM_ELECT type structure :
 - CLID ID */

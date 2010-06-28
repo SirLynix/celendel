@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Meta object code from reading C++ file 'Network.h'
 **
-** Created: Mon 28. Jun 12:38:49 2010
+** Created: Mon 28. Jun 15:33:15 2010
 **      by: The Qt Meta Object Compiler version 62 (Qt 4.6.2)
 **
 ** WARNING! All changes made in this file will be lost!
@@ -23,7 +23,7 @@ static const uint qt_meta_data_ServerNetwork[] = {
        4,       // revision
        0,       // classname
        0,    0, // classinfo
-      20,   14, // methods
+      21,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
@@ -53,6 +53,7 @@ static const uint qt_meta_data_ServerNetwork[] = {
      660,   14,   14,   14, 0x08,
      676,   14,   14,   14, 0x08,
      697,   14,   14,   14, 0x08,
+     724,   14,   14,   14, 0x08,
 
        0        // eod
 };
@@ -77,7 +78,7 @@ static const char qt_meta_stringdata_ServerNetwork[] = {
     "sendToAll(Packet&)\0ID,reason\0"
     "kick(CLID,QString)\0ban(CLID,QString)\0"
     "newConnection()\0clientDisconnected()\0"
-    "slot_dataReceived(Packet*)\0"
+    "slot_dataReceived(Packet*)\0flush()\0"
 };
 
 const QMetaObject ServerNetwork::staticMetaObject = {
@@ -135,9 +136,10 @@ int ServerNetwork::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
         case 17: newConnection(); break;
         case 18: clientDisconnected(); break;
         case 19: slot_dataReceived((*reinterpret_cast< Packet*(*)>(_a[1]))); break;
+        case 20: flush(); break;
         default: ;
         }
-        _id -= 20;
+        _id -= 21;
     }
     return _id;
 }

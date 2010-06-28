@@ -50,6 +50,7 @@ void Server::addClient(CLID cID)
     m_players.append(new Player(cID));
     log("Player "+QString::number(cID)+" added to game.");
     m_network->sendToAll(ETI(SERVER_INFORMATIONS), serialiseServerInformationsData(getServerInformations()));
+    m_network->sendToClient(cID, ETI(MAP_INFORMATIONS), serialiseMapInformationsData(*m_map));
 }
 
 Player* Server::getPlayer(CLID cID)
