@@ -63,12 +63,7 @@ void ClientNetwork::connected()
 
     pingTimer->start(10000);
     flushTimer->start(100);
-
-    ///Debug
-    //send(ETI(CHAT), serialiseChatData(ETI(NORMAL), "Je suis une chaine."));
-    //send(ETI(GM_ELECT), serialiseGMElectData(0));
-    send(ETI(SET_NICK), serialiseSetNickData("Gigotdarnaud"));
-
+    ping();
 }
 
 void ClientNetwork::disconnected()
