@@ -19,8 +19,10 @@ TEMPLATE = app
 
 SOURCES += main.cpp \
     xmlobject.cpp \
-    object.cpp
+    object.cpp \
+    person.cpp
 
 HEADERS += \
     xmlobject.h \
-    object.h
+    object.h \
+    person.h
