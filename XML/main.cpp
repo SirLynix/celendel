@@ -1,11 +1,11 @@
 #include <QtCore/QCoreApplication>
-#include "Object.h"
+#include "person.h"
 
 int main(int argc, char *argv[])
 {
     QCoreApplication a(argc, argv);
 
-    Object myObject;
+    person myObject;
     myObject.save("test.xml");
 
     return a.exec();

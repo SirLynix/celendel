@@ -1,4 +1,4 @@
 <XMLObject>
- <General Description="Cet Objet est un Objet par defaut" Name="Objet"/>
- <Object Weight="1"/>
+ <General Description="Ce personnage est cree par defaut" Name="Personnage"/>
+ <Person Life="10" Behavior="3"/>
 </XMLObject>
