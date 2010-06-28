@@ -11,21 +11,23 @@ quint32 sizeY(const MapArray& m)  { return (quint32)m.shape()[1];}
 quint32 sizeX(MapArray* m)  { return (quint32)m->shape()[0];}
 quint32 sizeY(MapArray* m)  { return (quint32)m->shape()[1];}
 
-void extractChatData(QByteArray& data, ENUM_TYPE& canal, QString& text)
+void extractChatData(QByteArray& data, ENUM_TYPE& canal, QString& text, CLID& sender)
 {
     QDataStream in(data);
 
     in>>canal;
     in>>text;
+    in>>sender;
 }
 
-QByteArray serialiseChatData(ENUM_TYPE canal, const QString& text)
+QByteArray serialiseChatData(ENUM_TYPE canal, const QString& text, CLID sender)
 {
     QByteArray data;
     QDataStream out(&data, QIODevice::ReadWrite);
 
     out<<(ENUM_TYPE)canal;
     out<<text;
+    out<<(CLID)sender;
     return data;
 }
 

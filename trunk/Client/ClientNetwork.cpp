@@ -29,8 +29,6 @@ ClientNetwork::ClientNetwork(QObject* parent):QObject(parent)
     m_socket->connectToHost(SERVER_IP, SERVER_PORT);
 
     packet=NULL;
-    m_ID=0;
-    m_gameStarted=false;
 
     pingTimer=new QTimer(this);
 
@@ -127,69 +125,10 @@ void ClientNetwork::dataReceived()
 
     packet->setBody(in);
 
-    if(packet->type==PING) /// NOT DEBUG
-    {
-        m_ping=getTimeStamp()-packet->timestamp;
-        emit pingUpdated(m_ping);
-        qDebug() << "Ping = " << m_ping;
-        delete packet;
-        packet=NULL;
-        return;
-    }
-    //packet->show(); ///Debug
 
-    if(packet->type==MAP_INFORMATIONS)
-    {
-        qDebug() << "Map informations received.";
-    }
-    else if(packet->type==SERVER_INFORMATIONS)
-    {
-        ServerInformations si;
-        extractServerInformationsData(packet->data, si);
-        m_GMID=si.gameMasterID;
-        m_location=si.location;
-        m_TOD=si.timeOfDay;
-        m_serverName=si.serverName;
-        m_nickMap=si.playersName;
-        m_gameStarted=si.gameStarted;
-        qDebug() << "Server informations changed : " << si.gameMasterID << " " << m_nickMap;
-    }
-    else if(packet->type==SET_CLID) ///Debug
-    {
-        extractSetCLIDData(packet->data, m_ID);
-        qDebug() << "ID changed : " << m_ID;
-    }
-    else if(packet->type==NEW_NICK) ///Debug
-    {
-        CLID nID; QString nick;
-        extractNewNickData(packet->data, nID, nick);
-        m_nickMap[nID]=nick;
-        qDebug() << "Nick changed : " << nID << " = " << nick;
-    }
-    else if(packet->type==CHAT) ///Debug
-    {
-        QString txt;
-        ENUM_TYPE can;
-        extractChatData(packet->data, can, txt);
-
-        qDebug()<<txt<<can;
-    }
-    else if(packet->type==NEW_GM) ///Debug
-    {
-        CLID gm;
-        extractNewGMData(packet->data, gm);
-        qDebug()<<gm;
-    }
-    else if(packet->type==VOTED) ///Debug
-    {
-        CLID f, t;
-        extractVotedData(packet->data, f, t);
-        qDebug()<<f<<" "<<t;
-    }
+    operatePacket(packet);
 
     emit packetReceived();
-
-
 
     delete packet;
 

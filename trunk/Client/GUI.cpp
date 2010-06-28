@@ -2,6 +2,7 @@
 /* This file will be included in ClientInterface constructor. */
 
 resize(1024,768);
+setTabPosition(Qt::AllDockWidgetAreas, QTabWidget::North);
 
 ///MAIN CHAT DOCK
 QDockWidget *chatDock = new QDockWidget(tr("Chat"), this);

@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Meta object code from reading C++ file 'ClientInterface.h'
 **
-** Created: Mon 28. Jun 19:14:00 2010
+** Created: Mon 28. Jun 21:18:27 2010
 **      by: The Qt Meta Object Compiler version 62 (Qt 4.6.2)
 **
 ** WARNING! All changes made in this file will be lost!
@@ -23,7 +23,7 @@ static const uint qt_meta_data_ClientInterface[] = {
        4,       // revision
        0,       // classname
        0,    0, // classinfo
-       1,   14, // methods
+       5,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
@@ -32,12 +32,20 @@ static const uint qt_meta_data_ClientInterface[] = {
 
  // slots: signature, parameters, type, tag, flags
       17,   16,   16,   16, 0x08,
+      49,   31,   16,   16, 0x08,
+      81,   78,   16,   16, 0x08,
+     129,  126,   16,   16, 0x08,
+     158,  150,   16,   16, 0x08,
 
        0        // eod
 };
 
 static const char qt_meta_stringdata_ClientInterface[] = {
     "ClientInterface\0\0sendMessage()\0"
+    "sender,text,canal\0chat(CLID,QString,ENUM_TYPE)\0"
+    "si\0changeServerInformations(ServerInformations)\0"
+    "ID\0changeClientID(CLID)\0ID,nick\0"
+    "changeClientNickname(CLID,QString)\0"
 };
 
 const QMetaObject ClientInterface::staticMetaObject = {
@@ -70,9 +78,13 @@ int ClientInterface::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_c == QMetaObject::InvokeMetaMethod) {
         switch (_id) {
         case 0: sendMessage(); break;
+        case 1: chat((*reinterpret_cast< CLID(*)>(_a[1])),(*reinterpret_cast< QString(*)>(_a[2])),(*reinterpret_cast< ENUM_TYPE(*)>(_a[3]))); break;
+        case 2: changeServerInformations((*reinterpret_cast< ServerInformations(*)>(_a[1]))); break;
+        case 3: changeClientID((*reinterpret_cast< CLID(*)>(_a[1]))); break;
+        case 4: changeClientNickname((*reinterpret_cast< CLID(*)>(_a[1])),(*reinterpret_cast< QString(*)>(_a[2]))); break;
         default: ;
         }
-        _id -= 1;
+        _id -= 5;
     }
     return _id;
 }

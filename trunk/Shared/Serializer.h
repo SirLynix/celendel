@@ -20,8 +20,8 @@ quint32 sizeY(const MapArray& m);
 quint32 sizeX(MapArray* m);
 quint32 sizeY(MapArray* m);
 
-void extractChatData(QByteArray& data, ENUM_TYPE& canal, QString& text);
-QByteArray serialiseChatData(ENUM_TYPE canal, const QString& text);
+void extractChatData(QByteArray& data, ENUM_TYPE& canal, QString& text, CLID& sender);
+QByteArray serialiseChatData(ENUM_TYPE canal, const QString& text, CLID sender);
 
 void extractErrorData(QByteArray& data, ENUM_TYPE& error_type, QString& text);
 QByteArray serialiseErrorData(ENUM_TYPE error_type, const QString& text="");
