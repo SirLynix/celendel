@@ -11,13 +11,15 @@ Server::Server(QObject* parent) : QObject(parent)
 
     m_gameStarted=false;
     m_GMID=0;
-
+    m_map=new MapInformations();
 }
 
 Server::~Server()
 {
     for(int i=0; i<m_players.size();++i)
         delete m_players[i];
+
+    delete m_map;
 }
 
 /*void Server::processData(Packet* pa, CLID cID)*/
