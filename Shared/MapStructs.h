@@ -22,16 +22,11 @@ struct MapItem
 typedef boost::multi_array<RSID, 2> MapArray;
 #define mapDim(x,y) boost::extents[x][y]
 
-quint32 sizeX(const MapArray& m)  { return (quint32)m.shape()[0];}
-quint32 sizeY(const MapArray& m)  { return (quint32)m.shape()[1];}
-quint32 sizeX(MapArray* m)  { return (quint32)m->shape()[0];}
-quint32 sizeY(MapArray* m)  { return (quint32)m->shape()[1];}
-
 struct MapInformations
 {
-    MapInformations(){map=NULL;}
+    MapInformations() : map(mapDim(0,0)) {}
     QList<MapItem> mapItems;
-    MapArray* map;
+    MapArray map;
 
     private:
         MapInformations(const MapInformations&); ///Non copiable

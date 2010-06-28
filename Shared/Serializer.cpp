@@ -6,6 +6,11 @@
 
 int alea(int min,int max){static bool first=true;if(first){srand(time(NULL));first=false;alea(0,150);}return (int)(min+((float)rand()/RAND_MAX*(max-min+1)));}
 
+quint32 sizeX(const MapArray& m)  { return (quint32)m.shape()[0];}
+quint32 sizeY(const MapArray& m)  { return (quint32)m.shape()[1];}
+quint32 sizeX(MapArray* m)  { return (quint32)m->shape()[0];}
+quint32 sizeY(MapArray* m)  { return (quint32)m->shape()[1];}
+
 void extractChatData(QByteArray& data, ENUM_TYPE& canal, QString& text)
 {
     QDataStream in(data);
@@ -231,3 +236,23 @@ QByteArray serialiseServerInformationsData(const ServerInformations& si)
     return data;
 }
 
+void extractMapInformationsData(QByteArray& data, MapInformations& mi)
+{
+    QDataStream in(data);
+
+  /*  in>>mi.mapItems;
+    in>>mi.map;*/
+
+}
+
+QByteArray serialiseMapInformationsData(const MapInformations& mi)
+{
+    QByteArray data;
+    QDataStream out(&data, QIODevice::ReadWrite);
+
+   /* out<<mi.mapItems;
+
+    out<<mi.map;*/
+
+    return data;
+}
