@@ -1,4 +1,5 @@
 #include "ClientInterface.h"
+#include "..\Shared\Serializer.h"
 
 ClientInterface::ClientInterface()
 {
@@ -12,4 +13,12 @@ ClientInterface::ClientInterface()
     m_network=new ClientNetwork(this);
 }
 
-
+void ClientInterface::sendMessage()
+{
+    if(!m_network->isConnected())
+    {
+        return;
+    }
+    m_network->send(ETI(CHAT), serialiseChatData(ETI(NORMAL), m_chatInput->text()));
+    m_chatInput->setText("");
+}
