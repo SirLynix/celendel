@@ -45,6 +45,8 @@ class Server : public QObject
 
         CLID m_GMID;
 
+        MapInformations m_map;
+
 };
 
 #endif // SERVER_H

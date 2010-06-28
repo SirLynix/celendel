@@ -5,17 +5,6 @@
 #include <QDateTime>
 #include "..\Shared\Serializer.h"
 
-void log(const QString txt, bool time)
-{
-    QString tmp;
-    if(time)
-    {
-        tmp += QDateTime::currentDateTime().toString("dd/MM/yyyy - HH:mm:ss.zzz") + " : ";
-    }
-    tmp+=txt;
-    qDebug(tmp.toAscii());
-}
-
 ServerNetwork::ServerNetwork(QObject* parent) : QObject(parent)
 {
     m_server=new QTcpServer(this);
@@ -29,6 +18,7 @@ ServerNetwork::ServerNetwork(QObject* parent) : QObject(parent)
         connect(m_server, SIGNAL(newConnection()), this, SLOT(newConnection()));
         log(tr("Server launched on port ") + QString::number(m_server->serverPort()) + tr(" and ready to use."));
     }
+
 }
 
 ServerNetwork::~ServerNetwork()
@@ -210,4 +200,15 @@ void ServerNetwork::sendToAll(Packet* pa, bool delegateDelete)
 
     if(delegateDelete)
         delete pa;
+}
+
+void log(const QString txt, bool time)
+{
+    QString tmp;
+    if(time)
+    {
+        tmp += QDateTime::currentDateTime().toString("dd/MM/yyyy - HH:mm:ss.zzz") + " : ";
+    }
+    tmp+=txt;
+    qDebug(tmp.toAscii());
 }
