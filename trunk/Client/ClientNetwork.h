@@ -36,7 +36,7 @@ class ClientNetwork : public QObject
 
 
     signals:
-        void packetReceived(Packet*);
+        void packetReceived();
         void pingUpdated(quint32);
 
     private:
