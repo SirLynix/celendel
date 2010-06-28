@@ -6,9 +6,11 @@ int main(int argv, char** argc)
 {
     QCoreApplication app (argv, argc);
 
-    std::cout << "Celendel client network launched" << std::endl;
+    /*std::cout << "Celendel client network launched" << std::endl;
 
-    ClientNetwork cli(&app);
+    ClientNetwork cli(&app);*/
+
+
 
     return app.exec();
 }

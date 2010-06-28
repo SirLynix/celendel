@@ -27,6 +27,8 @@ class Client : public QObject
         void send(Packet* pa);
         void send(Packet& pa);
 
+        void flush();
+
     private slots:
         void readyRead();
         void slot_disconnected() { emit disconnected(); }

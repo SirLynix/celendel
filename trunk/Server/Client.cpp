@@ -45,10 +45,16 @@ void Client::send(Packet& pa)
     send(&pa);
 }
 
+void Client::flush()
+{
+    socket->flush();
+    readyRead();
+}
+
 void Client::send(Packet* pa)
 {
     QByteArray ba;
     pa->serialise(ba);
     socket->write(ba);
-    socket->flush();
+    flush();
 }

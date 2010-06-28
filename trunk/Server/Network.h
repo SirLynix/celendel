@@ -38,6 +38,8 @@ class ServerNetwork : public QObject
         void clientDisconnected(); //Called when someone is disconnected
         void slot_dataReceived(Packet*); //Called when a client has send a FULL packet
 
+        void flush();
+
     signals:
         void newClient(CLID ID);
         void clientGone(CLID ID);
@@ -50,6 +52,7 @@ class ServerNetwork : public QObject
 
         QList<QString> m_banList;
 
+        QTimer *flushTimer;
 };
 
 #endif

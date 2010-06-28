@@ -238,10 +238,34 @@ QByteArray serialiseServerInformationsData(const ServerInformations& si)
 
 void extractMapInformationsData(QByteArray& data, MapInformations& mi)
 {
+    data=qUncompress(data);
+
     QDataStream in(data);
 
-  /*  in>>mi.mapItems;
-    in>>mi.map;*/
+
+    qint32 size;
+    in>>size;
+    mi.mapItems.clear();
+    for(int i=0; i<size; ++i)
+    {
+        mi.mapItems.append(MapItem());
+        in>>mi.mapItems[i].coords.x;
+        in>>mi.mapItems[i].coords.y;
+        in>>mi.mapItems[i].pixID;
+    }
+
+    qint32 mapX, mapY;
+    in>>mapX>>mapY;
+
+    mi.map.resize(mapDim(mapX, mapY));
+
+    for(int x=0; x<mapX; ++x)
+    {
+        for(int y=0; y<mapY; ++y)
+        {
+            in>>mi.map[x][y];
+        }
+    }
 
 }
 
@@ -250,9 +274,79 @@ QByteArray serialiseMapInformationsData(const MapInformations& mi)
     QByteArray data;
     QDataStream out(&data, QIODevice::ReadWrite);
 
-   /* out<<mi.mapItems;
+    out<<(qint32)mi.mapItems.size();
 
-    out<<mi.map;*/
+    for(int i=0; i<mi.mapItems.size(); ++i)
+    {
+        out<<(CELEM)mi.mapItems[i].coords.x;
+        out<<(CELEM)mi.mapItems[i].coords.y;
+        out<<(RSID) mi.mapItems[i].pixID;
+    }
+
+    qint32 mapX = sizeX(mi.map);
+    qint32 mapY = sizeY(mi.map);
+
+    out<<(qint32)mapX;
+    out<<(qint32)mapY;
+
+    for(int x=0; x<mapX; ++x)
+    {
+        for(int y=0; y<mapY; ++y)
+        {
+            out<<mi.map[x][y];
+        }
+    }
+
+    return qCompress(data,1);
+}
+
+void extractMapItemsInformationsData(QByteArray& data, QList<MapItem>& mi)
+{
+    QDataStream in(data);
+
+    qint32 size;
+    in>>size;
+    mi.clear();
+    for(int i=0; i<size; ++i)
+    {
+        mi.append(MapItem());
+        in>>mi[i].coords.x;
+        in>>mi[i].coords.y;
+        in>>mi[i].pixID;
+    }
+}
+
+QByteArray serialiseMapItemsInformationsData(const QList<MapItem>& mi)
+{
+    QByteArray data;
+    QDataStream out(&data, QIODevice::ReadWrite);
+
+    out<<(qint32)mi.size();
+
+    for(int i=0; i<mi.size(); ++i)
+    {
+        out<<(CELEM)mi[i].coords.x;
+        out<<(CELEM)mi[i].coords.y;
+        out<<(RSID) mi[i].pixID;
+    }
+
+    return data;
+}
+
+void extractDiceRollData(QByteArray& data, CLID& ID, quint16& result)
+{
+    QDataStream in(data);
+    in>>ID;
+    in>>result;
+}
+
+QByteArray serialiseDiceRollData(CLID ID, quint16 result)
+{
+    QByteArray data;
+    QDataStream out(&data, QIODevice::ReadWrite);
+
+    out<<(CLID)ID;
+    out<<(quint16)result;
 
     return data;
 }

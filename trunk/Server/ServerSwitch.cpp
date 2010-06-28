@@ -250,6 +250,38 @@ void Server::processData(Packet* pa, CLID cID)
             m_network->sendToClient(cID, ETI(PING), QByteArray(), pa->timestamp, pa->ID);
         }
         break;
+        case MAP_INFORMATIONS:
+        {
+            if(ply->isGM())
+            {
+                extractMapInformationsData(pa->data, *m_map);
+                m_network->sendToAll(ETI(MAP_INFORMATIONS), serialiseMapInformationsData(*m_map));
+            }
+            else
+                m_network->sendToClient(cID, ETI(ERROR), serialiseErrorData(ETI(NOT_GM)));
+        }
+        break;
+        case MAP_ITEMS_INFORMATIONS:
+        {
+            if(ply->isGM())
+            {
+                extractMapItemsInformationsData(pa->data, m_map->mapItems);
+                m_network->sendToAll(ETI(MAP_ITEMS_INFORMATIONS), serialiseMapItemsInformationsData(m_map->mapItems));
+            }
+            else
+                m_network->sendToClient(cID, ETI(ERROR), serialiseErrorData(ETI(NOT_GM)));
+        }
+        break;
+        case PLAY_SOUND:
+        {
+            if(ply->isGM())
+            {
+                m_network->sendToAll(pa, false);
+            }
+            else
+                m_network->sendToClient(cID, ETI(ERROR), serialiseErrorData(ETI(NOT_GM)));
+        }
+        break;
         default:
         {
             log("ERROR : packet type "+QString::number(pa->type)+" unknown ! (from Client "+QString::number(cID)+")");

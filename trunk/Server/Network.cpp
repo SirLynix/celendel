@@ -19,12 +19,24 @@ ServerNetwork::ServerNetwork(QObject* parent) : QObject(parent)
         log(tr("Server launched on port ") + QString::number(m_server->serverPort()) + tr(" and ready to use."));
     }
 
+    flushTimer=new QTimer(this);
+
+    flushTimer->setSingleShot(false);
+    connect(flushTimer, SIGNAL(timeout()), this, SLOT(flush()));
+    flushTimer->start(100);
 }
 
 ServerNetwork::~ServerNetwork()
 {
     for(int i=0; i<m_clients.size(); ++i)
         delete m_clients[i];
+}
+
+void ServerNetwork::flush()
+{
+    for(int i=0;i<m_clients.size();++i)
+        m_clients[i]->flush();
+
 }
 
 void ServerNetwork::kick(CLID ID, const QString& reason)
