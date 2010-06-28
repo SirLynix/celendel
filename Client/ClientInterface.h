@@ -1,15 +1,26 @@
 #ifndef DEF_CLIENTINTERFACE
 #define DEF_CLIENTINTERFACE
 
-#include <QWidget>
+#include <QMainWindow>
+#include "ClientNetwork.h"
 
+#include <QtGui>
 
-class ClientInterface : public QWidget
+class ClientInterface : public QMainWindow
 {
+    Q_OBJECT
     public:
         ClientInterface();
-    protected:
+
     private:
+        ClientNetwork* m_network;
+
+        ///Chat GUI
+        QTextEdit* m_chat;
+        QTextEdit* m_narrator;
+        QTextEdit* m_RPChat;
+
+        QWidget* m_mapWi;
 };
 
-#endif // DEF_CLIENTINTERFACE
+#endif
