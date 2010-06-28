@@ -23,13 +23,14 @@ class ClientNetwork : public QObject
         void ping();
         qint32 getPing() const {return m_ping;}
 
+        void flush();
+
     private slots:
         void connected();
         void disconnected();
         void dataReceived();
         void socketError(QAbstractSocket::SocketError);
 
-        void flush();
 
 
     signals:
