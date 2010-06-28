@@ -187,8 +187,11 @@ void ClientNetwork::dataReceived()
         qDebug()<<f<<" "<<t;
     }
 
-    emit packetReceived(packet);
-    delete packet; ///Debug
+    emit packetReceived();
+
+
+
+    delete packet;
 
     packet=NULL;
 }
