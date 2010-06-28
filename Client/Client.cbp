@@ -50,6 +50,8 @@
 		<Unit filename="ClientInterface.h" />
 		<Unit filename="ClientNetwork.cpp" />
 		<Unit filename="ClientNetwork.h" />
+		<Unit filename="ClientNetworkSwitch.cpp" />
+		<Unit filename="GUI.cpp" />
 		<Unit filename="main.cpp" />
 		<Unit filename="..\Shared\Constants.h" />
 		<Unit filename="..\Shared\Packet.cpp" />

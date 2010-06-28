@@ -33,23 +33,19 @@ class ClientNetwork : public QObject
         void dataReceived();
         void socketError(QAbstractSocket::SocketError);
 
-
+        void operatePacket(Packet* packet);
 
     signals:
         void packetReceived();
         void pingUpdated(quint32);
+        void chatReceived(CLID sender, QString text, ENUM_TYPE canal);
+        void serverInformationsChanged(ServerInformations);
+        void clientIDChanged(CLID);
+        void nicknameChanged(CLID, QString);
 
     private:
         QTcpSocket* m_socket;
         Packet *packet;
-
-        bool m_gameStarted;
-        CLID m_ID;
-        CLID m_GMID;
-        QString m_location;
-        QString m_TOD;
-        QString m_serverName;
-        QMap<CLID, QString> m_nickMap;
 
         qint32 m_ping;
 

@@ -14,9 +14,23 @@ class ClientInterface : public QMainWindow
 
     private slots:
         void sendMessage();
+        void chat(CLID sender, QString text, ENUM_TYPE canal);
+        void changeServerInformations(ServerInformations si);
+        void changeClientID(CLID ID);
+        void changeClientNickname(CLID ID, QString nick);
 
     private:
         ClientNetwork* m_network;
+
+        ///Infos
+        bool m_gameStarted;
+        CLID m_ID;
+        CLID m_GMID;
+        QString m_location;
+        QString m_TOD;
+        QString m_serverName;
+        QMap<CLID, QString> m_nickMap;
+
 
         ///Chat GUI
         QTextEdit* m_chat;

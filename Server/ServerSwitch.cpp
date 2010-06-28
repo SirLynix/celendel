@@ -36,20 +36,24 @@ void Server::processData(Packet* pa, CLID cID)
         case CHAT:
         {
             ENUM_TYPE canal; QString text;
-            extractChatData(pa->data, canal, text);
+            CLID garbage;
+            extractChatData(pa->data, canal, text, garbage);
             log("Chat message received : ["+QString::number(ply->isGM())+"]"+ply->nickname+" say on ["+QString::number(canal)+"] : \""+text+"\"");
             switch(canal)
             {
                 case ETI(NORMAL):
                 {
-                    m_network->sendToAll(ETI(CHAT), serialiseChatData(ETI(NORMAL), text));
+                    text=text.simplified();
+                    text.truncate(MAX_MESSAGE_LENGHT);
+                    text.replace('\n', "");
+                    m_network->sendToAll(ETI(CHAT), serialiseChatData(ETI(NORMAL), text, cID));
                 }
                 break;
                 case ETI(NARRATOR):
                 {
                     if(ply->isGM())
                     {
-                        m_network->sendToAll(ETI(CHAT), serialiseChatData(ETI(NARRATOR), text));
+                        m_network->sendToAll(ETI(CHAT), serialiseChatData(ETI(NARRATOR), text, cID));
                     }
                     else
                         m_network->sendToClient(cID, ETI(ERROR), serialiseErrorData(ETI(NOT_GM)));
@@ -59,7 +63,7 @@ void Server::processData(Packet* pa, CLID cID)
                 {
                     if(gameStarted())
                     {
-                        m_network->sendToAll(ETI(CHAT), serialiseChatData(ETI(SELF_NARRATOR), text));
+                        m_network->sendToAll(ETI(CHAT), serialiseChatData(ETI(SELF_NARRATOR), text, cID));
                     }
                     else
                     {
@@ -71,7 +75,7 @@ void Server::processData(Packet* pa, CLID cID)
                 {
                     if(gameStarted())
                     {
-                        m_network->sendToAll(ETI(CHAT), serialiseChatData(ETI(RP), text));
+                        m_network->sendToAll(ETI(CHAT), serialiseChatData(ETI(RP), text, cID));
                     }
                     else
                     {
@@ -178,6 +182,8 @@ void Server::processData(Packet* pa, CLID cID)
         {
             QString nick;
             extractSetNickData(pa->data, nick);
+            nick=nick.simplified();
+            nick.truncate(MAX_NICKNAME_LENGHT);
             log("Client [" + QString::number(ply->ID())+"] changed his nickname : \""+ply->nickname+"\" -> \"" +nick);
             ply->nickname=nick;
             m_network->sendToAll(ETI(NEW_NICK),serialiseNewNickData(ply->ID(),nick));
