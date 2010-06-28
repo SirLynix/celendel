@@ -21,7 +21,6 @@
 
 #include <QMap>
 #include <QString>
-#include <Boost/multi_array.hpp>
 
 struct ServerInformations
 {
@@ -31,34 +30,6 @@ struct ServerInformations
     QString timeOfDay;
     quint16 gameStarted;
     QString serverName;
-};
-
-#define CELEM quint32
-
-struct Coords
-{
-    Coords(CELEM a=0, CELEM b=0): x(a), y(b) {}
-    CELEM x;
-    CELEM y;
-};
-
-struct MapItem
-{
-    Coords coords;
-    RSID pixID;
-};
-
-typedef boost::multi_array<RSID, 2> MapArray;
-#define mapDim(x,y) boost::extents[x][y]
-
-struct MapInformations
-{
-    MapInformations(){map=NULL;}
-    QList<MapItem> mapItems;
-    MapArray* map;
-
-    private:
-        MapInformations(const MapInformations&); ///Non copiable
 };
 
 /* MAP_INFORMATIONS type structure :
