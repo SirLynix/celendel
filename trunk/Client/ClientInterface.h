@@ -12,6 +12,8 @@ class ClientInterface : public QMainWindow
     public:
         ClientInterface();
 
+        void ClientInterface::lg(const QString txt, bool time=true);
+
     private slots:
         void sendMessage();
         void chat(CLID sender, QString text, ENUM_TYPE canal);

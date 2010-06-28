@@ -46,7 +46,8 @@ void Server::processData(Packet* pa, CLID cID)
                     text=text.simplified();
                     text.truncate(MAX_MESSAGE_LENGHT);
                     text.replace('\n', "");
-                    m_network->sendToAll(ETI(CHAT), serialiseChatData(ETI(NORMAL), text, cID));
+                    if(text != "")
+                        m_network->sendToAll(ETI(CHAT), serialiseChatData(ETI(NORMAL), text, cID));
                 }
                 break;
                 case ETI(NARRATOR):
@@ -183,10 +184,16 @@ void Server::processData(Packet* pa, CLID cID)
             QString nick;
             extractSetNickData(pa->data, nick);
             nick=nick.simplified();
+            nick.replace('\n', "");
+            nick.replace(' ', '_');
+            nick.replace('\t', '_');
             nick.truncate(MAX_NICKNAME_LENGHT);
-            log("Client [" + QString::number(ply->ID())+"] changed his nickname : \""+ply->nickname+"\" -> \"" +nick);
-            ply->nickname=nick;
-            m_network->sendToAll(ETI(NEW_NICK),serialiseNewNickData(ply->ID(),nick));
+            if(nick != "")
+            {
+                log("Client [" + QString::number(ply->ID())+"] changed his nickname : \""+ply->nickname+"\" -> \"" +nick);
+                ply->nickname=nick;
+                m_network->sendToAll(ETI(NEW_NICK),serialiseNewNickData(ply->ID(),nick));
+            }
         }
         break;
         case GTFO_LYNIX:
