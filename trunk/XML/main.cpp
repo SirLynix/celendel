@@ -9,8 +9,11 @@ int main(int argc, char *argv[])
     Person personnage;
     Object objet;
 
+    objet.save("objet.xml");
     objet.give(&personnage);
     objet.save("objet.xml");
+
+    personnage.save("perso.xml");
 
     return a.exec();
 }

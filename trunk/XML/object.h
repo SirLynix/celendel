@@ -9,7 +9,7 @@ public:
     Object();
     //~Object();
 
-   bool save(QTextStream& fileTxtStr);
+   void save(QTextStream& fileTxtStr);
    bool save(QString filename);
 
 public slots:
