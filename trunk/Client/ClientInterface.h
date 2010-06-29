@@ -13,6 +13,7 @@ class ClientInterface : public QMainWindow
         ClientInterface();
 
         void ClientInterface::lg(const QString txt, bool time=true);
+        QString ClientInterface::getRolePlayName(CLID ID);
 
     private slots:
         void sendMessage();
@@ -21,6 +22,10 @@ class ClientInterface : public QMainWindow
         void changeClientID(CLID ID);
         void changeClientNickname(CLID ID, QString nick);
         void showError(ENUM_TYPE e, QString txt);
+
+        void changeGameMaster(CLID ID);
+        void clientVoted(CLID f, CLID t);
+
 
     private:
         ClientNetwork* m_network;

@@ -42,6 +42,7 @@ ServerInformations Server::getServerInformations() const
 void Server::launchGame()
 {
     m_gameStarted=true;
+    log("Game have been launched be Game Master !");
     m_network->sendToAll(ETI(GAME_LAUNCHED), QByteArray());
 }
 

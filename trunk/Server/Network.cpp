@@ -177,7 +177,7 @@ void ServerNetwork::sendToAll(Packet& pa)
 
 bool ServerNetwork::sendToClient(CLID ID, Packet* pa, bool delegateDelete)
 {
-    log("Sending packet to Client " + QString::number(ID) + "...");
+    //log("Sending packet to Client " + QString::number(ID) + "...");
 
     //pa->show(); ///Debug
 

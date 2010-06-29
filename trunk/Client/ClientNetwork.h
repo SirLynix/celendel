@@ -27,6 +27,8 @@ class ClientNetwork : public QObject
 
         void flush();
 
+        void connection();
+
     private slots:
         void connected();
         void disconnected();
