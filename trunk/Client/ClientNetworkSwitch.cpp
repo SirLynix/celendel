@@ -10,7 +10,6 @@ void ClientNetwork::operatePacket(Packet* packet)
         {
             m_ping=getTimeStamp()-packet->timestamp;
             emit pingUpdated(m_ping);
-            qDebug() << "Ping = " << m_ping;
         }
         break;
         case MAP_INFORMATIONS:
@@ -47,7 +46,6 @@ void ClientNetwork::operatePacket(Packet* packet)
             CLID sender;
             extractChatData(packet->data, can, txt, sender);
 
-            qDebug()<<txt<<can;
             emit chatReceived(sender, txt, can);
         }
         break;
@@ -55,14 +53,22 @@ void ClientNetwork::operatePacket(Packet* packet)
         {
             CLID gm;
             extractNewGMData(packet->data, gm);
-            qDebug()<<gm;
+            emit newGameMaster(gm);
         }
         break;
         case VOTED:
         {
             CLID f, t;
             extractVotedData(packet->data, f, t);
-            qDebug()<<f<<" "<<t;
+            emit clientVoted(f, t);
+        }
+        break;
+        case ERROR:
+        {
+            ENUM_TYPE type;
+            QString txt;
+            extractErrorData(packet->data, type, txt);
+            emit error(type, txt);
         }
         break;
         default:

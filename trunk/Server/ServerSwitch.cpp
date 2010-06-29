@@ -1,5 +1,6 @@
 #include "Server.h"
 #include "..\Shared\Serializer.h"
+#include "..\Shared\Constants.h"
 
 bool Server::changeGM(CLID cID)
 {
@@ -259,7 +260,6 @@ void Server::processData(Packet* pa, CLID cID)
         break;
         case PING:
         {
-            log("Ping received. Answering...");
             m_network->sendToClient(cID, ETI(PING), QByteArray(), pa->timestamp, pa->ID);
         }
         break;

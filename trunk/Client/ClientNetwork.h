@@ -42,6 +42,9 @@ class ClientNetwork : public QObject
         void serverInformationsChanged(ServerInformations);
         void clientIDChanged(CLID);
         void nicknameChanged(CLID, QString);
+        void error(ENUM_TYPE, QString);
+        void clientVoted(CLID f, CLID t);
+        void newGameMaster(CLID);
 
     private:
         QTcpSocket* m_socket;

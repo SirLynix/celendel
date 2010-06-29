@@ -54,6 +54,8 @@
 		<Unit filename="GUI.cpp" />
 		<Unit filename="main.cpp" />
 		<Unit filename="..\Shared\Constants.h" />
+		<Unit filename="..\Shared\MapStructs.h" />
+		<Unit filename="..\Shared\Miscelaneous.cpp" />
 		<Unit filename="..\Shared\Packet.cpp" />
 		<Unit filename="..\Shared\Packet.h" />
 		<Unit filename="..\Shared\Serializer.cpp" />

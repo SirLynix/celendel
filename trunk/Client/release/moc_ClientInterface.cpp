@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Meta object code from reading C++ file 'ClientInterface.h'
 **
-** Created: Mon 28. Jun 21:57:21 2010
+** Created: Tue 29. Jun 11:44:18 2010
 **      by: The Qt Meta Object Compiler version 62 (Qt 4.6.2)
 **
 ** WARNING! All changes made in this file will be lost!
@@ -23,7 +23,7 @@ static const uint qt_meta_data_ClientInterface[] = {
        4,       // revision
        0,       // classname
        0,    0, // classinfo
-       5,   14, // methods
+       6,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
@@ -36,6 +36,7 @@ static const uint qt_meta_data_ClientInterface[] = {
       81,   78,   16,   16, 0x08,
      129,  126,   16,   16, 0x08,
      158,  150,   16,   16, 0x08,
+     199,  193,   16,   16, 0x08,
 
        0        // eod
 };
@@ -46,6 +47,7 @@ static const char qt_meta_stringdata_ClientInterface[] = {
     "si\0changeServerInformations(ServerInformations)\0"
     "ID\0changeClientID(CLID)\0ID,nick\0"
     "changeClientNickname(CLID,QString)\0"
+    "e,txt\0showError(ENUM_TYPE,QString)\0"
 };
 
 const QMetaObject ClientInterface::staticMetaObject = {
@@ -82,9 +84,10 @@ int ClientInterface::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
         case 2: changeServerInformations((*reinterpret_cast< ServerInformations(*)>(_a[1]))); break;
         case 3: changeClientID((*reinterpret_cast< CLID(*)>(_a[1]))); break;
         case 4: changeClientNickname((*reinterpret_cast< CLID(*)>(_a[1])),(*reinterpret_cast< QString(*)>(_a[2]))); break;
+        case 5: showError((*reinterpret_cast< ENUM_TYPE(*)>(_a[1])),(*reinterpret_cast< QString(*)>(_a[2]))); break;
         default: ;
         }
-        _id -= 5;
+        _id -= 6;
     }
     return _id;
 }
