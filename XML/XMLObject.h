@@ -12,8 +12,6 @@ Q_OBJECT
 public:
     XMLObject();
     ~XMLObject();
-    bool save(QString filename);
-    bool save(QTextStream& fileTxtStr);
     bool load(QString filename);
     QString getName();
 

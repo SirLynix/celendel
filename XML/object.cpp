@@ -3,6 +3,7 @@
 Object::Object()
 {
     m_weight = 1;
+    m_owner = NULL;
     m_name = "Objet";
     m_infos = "Cet Objet est un Objet par defaut";
 
@@ -20,7 +21,7 @@ bool Object::give(Person *target)
     return false;
 }
 
-bool Object::save(QTextStream &fileTxtStr)
+void Object::save(QTextStream &fileTxtStr)
 {
     dom.clear();
     QDomElement docElem = dom.createElement("XMLObject");
@@ -41,7 +42,6 @@ bool Object::save(QTextStream &fileTxtStr)
     docElem.appendChild(object_elem);
 
     fileTxtStr << dom.toString();
-    return true;
 }
 
 bool Object::save(QString filename)

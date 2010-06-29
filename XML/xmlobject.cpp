@@ -15,23 +15,6 @@ XMLObject::~XMLObject()
 {
 }
 
-bool XMLObject::save(QString filename)
-{
-
-    QFile file(filename);
-    if(!file.open(QIODevice::WriteOnly))
-    {
-        file.close();
-        qDebug() << tr("Impossible writing file ") << filename;
-        return false;
-    }
-    QTextStream stream(&file);
-    stream << dom.toString();
-    file.close();
-    qDebug() << tr("File successfully written");
-    return true;
-}
-
 
 
 bool XMLObject::load(QString filename)
