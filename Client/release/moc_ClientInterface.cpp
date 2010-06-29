@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Meta object code from reading C++ file 'ClientInterface.h'
 **
-** Created: Tue 29. Jun 11:44:18 2010
+** Created: Tue 29. Jun 22:23:52 2010
 **      by: The Qt Meta Object Compiler version 62 (Qt 4.6.2)
 **
 ** WARNING! All changes made in this file will be lost!
@@ -23,7 +23,7 @@ static const uint qt_meta_data_ClientInterface[] = {
        4,       // revision
        0,       // classname
        0,    0, // classinfo
-       6,   14, // methods
+       8,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
@@ -37,6 +37,8 @@ static const uint qt_meta_data_ClientInterface[] = {
      129,  126,   16,   16, 0x08,
      158,  150,   16,   16, 0x08,
      199,  193,   16,   16, 0x08,
+     228,  126,   16,   16, 0x08,
+     255,  251,   16,   16, 0x08,
 
        0        // eod
 };
@@ -48,6 +50,8 @@ static const char qt_meta_stringdata_ClientInterface[] = {
     "ID\0changeClientID(CLID)\0ID,nick\0"
     "changeClientNickname(CLID,QString)\0"
     "e,txt\0showError(ENUM_TYPE,QString)\0"
+    "changeGameMaster(CLID)\0f,t\0"
+    "clientVoted(CLID,CLID)\0"
 };
 
 const QMetaObject ClientInterface::staticMetaObject = {
@@ -85,9 +89,11 @@ int ClientInterface::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
         case 3: changeClientID((*reinterpret_cast< CLID(*)>(_a[1]))); break;
         case 4: changeClientNickname((*reinterpret_cast< CLID(*)>(_a[1])),(*reinterpret_cast< QString(*)>(_a[2]))); break;
         case 5: showError((*reinterpret_cast< ENUM_TYPE(*)>(_a[1])),(*reinterpret_cast< QString(*)>(_a[2]))); break;
+        case 6: changeGameMaster((*reinterpret_cast< CLID(*)>(_a[1]))); break;
+        case 7: clientVoted((*reinterpret_cast< CLID(*)>(_a[1])),(*reinterpret_cast< CLID(*)>(_a[2]))); break;
         default: ;
         }
-        _id -= 6;
+        _id -= 8;
     }
     return _id;
 }

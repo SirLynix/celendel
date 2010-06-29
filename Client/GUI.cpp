@@ -14,12 +14,13 @@ QVBoxLayout *l_chatDock = new QVBoxLayout(w_chatDock);
 w_chatDock->setLayout(l_chatDock);
 
 m_chat = new QTextEdit(this);
+m_chat->setReadOnly(true);
 l_chatDock->addWidget(m_chat);
 
 addDockWidget(Qt::RightDockWidgetArea, chatDock);
 
 ///NARRATOR DOCK
-QDockWidget *narratorDock = new QDockWidget(tr("Narrator"), this);
+QDockWidget *narratorDock = new QDockWidget(tr("Narrateur"), this);
 narratorDock->setFeatures(QDockWidget::NoDockWidgetFeatures);
 narratorDock->setFeatures(QDockWidget::DockWidgetFloatable|QDockWidget::DockWidgetMovable);
 QWidget *w_narratorDock = new QWidget(narratorDock);
@@ -28,13 +29,14 @@ QVBoxLayout *l_narratorDock = new QVBoxLayout(w_narratorDock);
 w_narratorDock->setLayout(l_narratorDock);
 
 m_narrator = new QTextEdit(this);
+m_narrator->setReadOnly(true);
 l_narratorDock->addWidget(m_narrator);
 
 addDockWidget(Qt::RightDockWidgetArea, narratorDock);
 
 
 ///RP CHAT DOCK
-QDockWidget *RPChatDock = new QDockWidget(tr("Chat RP"), this);
+QDockWidget *RPChatDock = new QDockWidget(tr("Jeu de rôle"), this);
 RPChatDock->setFeatures(QDockWidget::NoDockWidgetFeatures);
 RPChatDock->setFeatures(QDockWidget::DockWidgetFloatable|QDockWidget::DockWidgetMovable);
 QWidget *w_RPChatDock = new QWidget(RPChatDock);
@@ -43,6 +45,7 @@ QVBoxLayout *l_RPChatDock = new QVBoxLayout(w_RPChatDock);
 w_RPChatDock->setLayout(l_RPChatDock);
 
 m_RPChat = new QTextEdit(this);
+m_RPChat->setReadOnly(true);
 l_RPChatDock->addWidget(m_RPChat);
 
 addDockWidget(Qt::RightDockWidgetArea, RPChatDock);

@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Meta object code from reading C++ file 'ClientNetwork.h'
 **
-** Created: Tue 29. Jun 11:44:21 2010
+** Created: Tue 29. Jun 22:17:46 2010
 **      by: The Qt Meta Object Compiler version 62 (Qt 4.6.2)
 **
 ** WARNING! All changes made in this file will be lost!
@@ -23,7 +23,7 @@ static const uint qt_meta_data_ClientNetwork[] = {
        4,       // revision
        0,       // classname
        0,    0, // classinfo
-      21,   14, // methods
+      22,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
@@ -49,11 +49,12 @@ static const uint qt_meta_data_ClientNetwork[] = {
      382,   14,   14,   14, 0x0a,
      396,   14,  389,   14, 0x0a,
      406,   14,   14,   14, 0x0a,
-     414,   14,   14,   14, 0x08,
-     426,   14,   14,   14, 0x08,
-     441,   14,   14,   14, 0x08,
-     456,   14,   14,   14, 0x08,
-     505,  498,   14,   14, 0x08,
+     414,   14,   14,   14, 0x0a,
+     427,   14,   14,   14, 0x08,
+     439,   14,   14,   14, 0x08,
+     454,   14,   14,   14, 0x08,
+     469,   14,   14,   14, 0x08,
+     518,  511,   14,   14, 0x08,
 
        0        // eod
 };
@@ -70,8 +71,8 @@ static const char qt_meta_stringdata_ClientNetwork[] = {
     "pa,delegateDelete\0send(Packet*,bool)\0"
     "pa\0send(Packet*)\0send(Packet&)\0type,data\0"
     "send(qint32,QByteArray)\0ping()\0qint32\0"
-    "getPing()\0flush()\0connected()\0"
-    "disconnected()\0dataReceived()\0"
+    "getPing()\0flush()\0connection()\0"
+    "connected()\0disconnected()\0dataReceived()\0"
     "socketError(QAbstractSocket::SocketError)\0"
     "packet\0operatePacket(Packet*)\0"
 };
@@ -122,14 +123,15 @@ int ClientNetwork::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
         case 14: { qint32 _r = getPing();
             if (_a[0]) *reinterpret_cast< qint32*>(_a[0]) = _r; }  break;
         case 15: flush(); break;
-        case 16: connected(); break;
-        case 17: disconnected(); break;
-        case 18: dataReceived(); break;
-        case 19: socketError((*reinterpret_cast< QAbstractSocket::SocketError(*)>(_a[1]))); break;
-        case 20: operatePacket((*reinterpret_cast< Packet*(*)>(_a[1]))); break;
+        case 16: connection(); break;
+        case 17: connected(); break;
+        case 18: disconnected(); break;
+        case 19: dataReceived(); break;
+        case 20: socketError((*reinterpret_cast< QAbstractSocket::SocketError(*)>(_a[1]))); break;
+        case 21: operatePacket((*reinterpret_cast< Packet*(*)>(_a[1]))); break;
         default: ;
         }
-        _id -= 21;
+        _id -= 22;
     }
     return _id;
 }

@@ -26,8 +26,6 @@ ClientNetwork::ClientNetwork(QObject* parent):QObject(parent)
     connect(m_socket, SIGNAL(disconnected()), this, SLOT(disconnected()));
     connect(m_socket, SIGNAL(error(QAbstractSocket::SocketError)), this, SLOT(socketError(QAbstractSocket::SocketError)));
 
-    m_socket->connectToHost(SERVER_IP, SERVER_PORT);
-
     packet=NULL;
 
     pingTimer=new QTimer(this);
@@ -39,6 +37,13 @@ ClientNetwork::ClientNetwork(QObject* parent):QObject(parent)
 
     flushTimer->setSingleShot(false);
     connect(flushTimer, SIGNAL(timeout()), this, SLOT(flush()));
+
+    connection();
+}
+
+void ClientNetwork::connection()
+{
+    m_socket->connectToHost(SERVER_IP, SERVER_PORT);
 }
 
 bool ClientNetwork::isConnected() const

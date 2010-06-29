@@ -31,7 +31,7 @@ void Server::processData(Packet* pa, CLID cID)
         delete pa;
         return;
     }
-    log("Packet received.");
+  //  log("Packet received.");
     switch(pa->type)
     {
         case CHAT:
@@ -69,7 +69,7 @@ void Server::processData(Packet* pa, CLID cID)
                     }
                     else
                     {
-                        m_network->sendToClient(cID, ETI(ERROR), serialiseErrorData(ETI(NOT_GM)));
+                        m_network->sendToClient(cID, ETI(ERROR), serialiseErrorData(ETI(GAME_NOT_LAUNCHED)));
                     }
                 }
                 break;
