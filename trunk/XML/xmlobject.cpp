@@ -18,8 +18,6 @@ XMLObject::~XMLObject()
 bool XMLObject::save(QString filename)
 {
 
-    QString write_doc = dom.toString();
-
     QFile file(filename);
     if(!file.open(QIODevice::WriteOnly))
     {
@@ -28,12 +26,13 @@ bool XMLObject::save(QString filename)
         return false;
     }
     QTextStream stream(&file);
-    stream << write_doc;
+    stream << dom.toString();
     file.close();
     qDebug() << tr("File successfully written");
-    qDebug() << dom.toString();
     return true;
 }
+
+
 
 bool XMLObject::load(QString filename)
 {
@@ -50,3 +49,8 @@ void XMLObject::alertPlayer(QString message, bool toAll) const
 {
 
 }*/
+
+QString XMLObject::getName()
+{
+    return m_name;
+}
