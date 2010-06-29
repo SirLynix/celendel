@@ -13,7 +13,10 @@ public:
     XMLObject();
     ~XMLObject();
     bool save(QString filename);
+    bool save(QTextStream& fileTxtStr);
     bool load(QString filename);
+    QString getName();
+
 
 private slots:
     //void onEvent();
@@ -26,6 +29,7 @@ protected:
     QString m_name;
     QString m_infos;
     QDomDocument dom;
+
     //QMap<TRIGGER_TYPE, Event> m_eventMap;
 };
 

@@ -1,7 +1,7 @@
 #include "person.h"
 #define VIE_MAX 10
 
-person::person()
+Person::Person()
 {
     m_vie = VIE_MAX;
     m_behavior = BH_UNKNOWN;
@@ -22,7 +22,7 @@ person::person()
     docElem.appendChild(perso_elem);
 }
 
-bool person::damage(unsigned int damage)
+bool Person::damage(unsigned int damage)
 {
     m_vie -= damage;
     if(m_vie <= 0)
@@ -33,7 +33,7 @@ bool person::damage(unsigned int damage)
     return false;
 }
 
-bool person::heal(unsigned int amount)
+bool Person::heal(unsigned int amount)
 {
     m_vie += amount;
     if(m_vie >= VIE_MAX)
@@ -43,3 +43,5 @@ bool person::heal(unsigned int amount)
     }
     return false;
 }
+
+

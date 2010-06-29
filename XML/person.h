@@ -4,10 +4,10 @@
 
 enum BEHAVIOR_TYPE {BH_PLAYER, BH_ENNEMY, BH_AGGRESSIVE, BH_UNKNOWN };
 
-class person : public XMLObject
+class Person : public XMLObject
 {
 public:
-    person();
+    Person();
 
 private:
    bool damage(unsigned int damage);
