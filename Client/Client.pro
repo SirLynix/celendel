@@ -22,4 +22,5 @@ SOURCES += ClientInterface.cpp \
            GUI.cpp \
            main.cpp \
            ../Shared/Packet.cpp \
-           ../Shared/Serializer.cpp ClientNetworkSwitch.cpp
+           ../Shared/Serializer.cpp ClientNetworkSwitch.cpp \
+           ../Shared/Miscelaneous.cpp

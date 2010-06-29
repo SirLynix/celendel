@@ -7,6 +7,7 @@ INPUT(
 ./debug\Player.o
 ./debug\Serializer.o
 ./debug\ServerSwitch.o
+./debug\Miscelaneous.o
 ./debug\moc_Network.o
 ./debug\moc_Client.o
 ./debug\moc_Server.o

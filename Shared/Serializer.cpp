@@ -1,15 +1,6 @@
 #include "Serializer.h"
 #include <QDataStream>
 #include <QDebug>
-#include <ctime>
-#include <cstdio>
-
-int alea(int min,int max){static bool first=true;if(first){srand(time(NULL));first=false;alea(0,150);}return (int)(min+((float)rand()/RAND_MAX*(max-min+1)));}
-
-quint32 sizeX(const MapArray& m)  { return (quint32)m.shape()[0];}
-quint32 sizeY(const MapArray& m)  { return (quint32)m.shape()[1];}
-quint32 sizeX(MapArray* m)  { return (quint32)m->shape()[0];}
-quint32 sizeY(MapArray* m)  { return (quint32)m->shape()[1];}
 
 void extractChatData(QByteArray& data, ENUM_TYPE& canal, QString& text, CLID& sender)
 {
@@ -349,6 +340,22 @@ QByteArray serialiseDiceRollData(CLID ID, quint16 result)
 
     out<<(CLID)ID;
     out<<(quint16)result;
+
+    return data;
+}
+
+void extractPlaySoundData(QByteArray& data, RSID& ID)
+{
+    QDataStream in(data);
+    in>>ID;
+}
+
+QByteArray serialisePlaySoundData(RSID ID)
+{
+    QByteArray data;
+    QDataStream out(&data, QIODevice::ReadWrite);
+
+    out<<(RSID)ID;
 
     return data;
 }

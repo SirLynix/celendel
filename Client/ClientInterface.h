@@ -20,6 +20,7 @@ class ClientInterface : public QMainWindow
         void changeServerInformations(ServerInformations si);
         void changeClientID(CLID ID);
         void changeClientNickname(CLID ID, QString nick);
+        void showError(ENUM_TYPE e, QString txt);
 
     private:
         ClientNetwork* m_network;

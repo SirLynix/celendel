@@ -19,8 +19,17 @@
 
 #define ENUM_TYPE qint32
 
-#include <QMap>
+#include "MapStructs.h"
 #include <QString>
+#include <QMap>
+
+
+int alea(int min,int max);
+
+quint32 sizeX(const MapArray& m);
+quint32 sizeY(const MapArray& m);
+quint32 sizeX(MapArray* m);
+quint32 sizeY(MapArray* m);
 
 struct ServerInformations
 {
@@ -79,7 +88,7 @@ enum CANAL_TYPE { NORMAL, NARRATOR, RP, SELF_NARRATOR };
 - QString text
 - CLID sender */
 
-enum ERROR_TYPE { ALREADY_VOTED, GAME_NOT_LAUNCHED, NOT_GM, INVALID_PACKET, INVALID_CANAL, CLIENT_DOES_NOT_EXIST, CLIENTS_LIMIT_REACHED, SANCTION_UNKNOWN };
+enum ERROR_TYPE { ALREADY_VOTED, GAME_NOT_LAUNCHED, NOT_GM, INVALID_PACKET, INVALID_CANAL, CLIENT_DOES_NOT_EXIST, CLIENTS_LIMIT_REACHED, SANCTION_UNKNOWN, CONNECTION_FAILED };
 /* ERROR type structure :
 - ERROR_TYPE error
 - QString text */
@@ -98,5 +107,7 @@ enum DROP_TYPE { KICK, BAN };
 
 #define ETI(a) static_cast<ENUM_TYPE>(a)
 // ETI means Enum To Integer. Just a cast.
+QString ETS(ENUM_TYPE errorCode, QString txt);
+//ETS means Error To String. Convert error code to a readable translated QString
 
 #endif //Guard

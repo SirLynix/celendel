@@ -13,13 +13,6 @@
 #include <QString>
 #include <QByteArray>
 
-int alea(int min,int max);
-
-quint32 sizeX(const MapArray& m);
-quint32 sizeY(const MapArray& m);
-quint32 sizeX(MapArray* m);
-quint32 sizeY(MapArray* m);
-
 void extractChatData(QByteArray& data, ENUM_TYPE& canal, QString& text, CLID& sender);
 QByteArray serialiseChatData(ENUM_TYPE canal, const QString& text, CLID sender);
 
@@ -64,5 +57,8 @@ QByteArray serialiseMapItemsInformationsData(const QList<MapItem>& mi);
 
 void extractDiceRollData(QByteArray& data, CLID& ID, quint16& result);
 QByteArray serialiseDiceRollData(CLID ID, quint16 result);
+
+void extractPlaySoundData(QByteArray& data, RSID& ID);
+QByteArray serialisePlaySoundData(RSID ID);
 
 #endif
