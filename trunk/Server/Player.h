@@ -21,6 +21,9 @@ class Player : public QObject
         void unPromoteGM();
         void voteEnded() {m_voted=true;};
 
+        void reset();
+
+
     private:
         CLID m_ID;
         bool m_GM;

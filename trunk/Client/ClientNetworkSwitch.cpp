@@ -71,6 +71,23 @@ void ClientNetwork::operatePacket(Packet* packet)
             emit error(type, txt);
         }
         break;
+        case GTFO_LYNIX:
+        {
+            CLID tar=0;
+            ENUM_TYPE ty=0;
+            QString rea;
+            extractGTFOLynixData(packet->data, tar, ty, rea);
+            emit sanctionned(tar, ty, rea);
+        }
+        break;
+        case ROLL_DICE:
+        {
+            CLID rID=0;
+            quint16 res=0;
+            extractDiceRollData(packet->data, rID, res);
+            emit diceRolled(rID, res);
+        }
+        break;
         default:
         break;
     }

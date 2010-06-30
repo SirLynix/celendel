@@ -36,8 +36,11 @@ class Server : public QObject
     public slots:
         void addClient(CLID cID);
         void removeClient(CLID cID);
-        void processData(Packet*, CLID);
         void launchGame();
+
+    private slots:
+        void cleanUp();
+        void processData(Packet*, CLID);
 
     private:
         ServerNetwork *m_network;

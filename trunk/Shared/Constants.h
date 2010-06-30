@@ -15,6 +15,9 @@
 #define CLID quint16 /// Alias for Client ID.
 #define RSID quint16 /// Alias for Ressource ID.
 
+#define MAX_SEQUENTIALS_PACKETS 15
+#define PACKETS_COUNT_RESET_DELAY 100
+
 #define qCApp QCoreApplication::instance()
 
 #define ENUM_TYPE qint32

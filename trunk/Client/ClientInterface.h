@@ -12,7 +12,7 @@ class ClientInterface : public QMainWindow
     public:
         ClientInterface();
 
-        void ClientInterface::lg(const QString txt, bool time=true);
+        void ClientInterface::lg(const QString txt, bool time=true, bool html=true);
         QString ClientInterface::getRolePlayName(CLID ID);
 
     private slots:
@@ -26,9 +26,15 @@ class ClientInterface : public QMainWindow
         void changeGameMaster(CLID ID);
         void clientVoted(CLID f, CLID t);
 
+        void connectionEtablished();
+        void connectionLost();
+        void diceRolled(CLID, quint16);
+        void sanctionned(CLID, ENUM_TYPE, QString);
+
 
     private:
         ClientNetwork* m_network;
+        QString anonym(CLID ID);
 
         ///Infos
         bool m_gameStarted;

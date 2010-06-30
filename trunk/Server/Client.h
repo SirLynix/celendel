@@ -8,6 +8,8 @@
 
 #include "../Shared/Packet.h"
 
+#include <QTimer>
+
 class Client : public QObject
 {
     Q_OBJECT
@@ -32,10 +34,13 @@ class Client : public QObject
     private slots:
         void readyRead();
         void slot_disconnected() { emit disconnected(); }
+        void resetSecurity();
 
     private:
         CLID m_ID;
         static CLID cID;
+        QTimer* m_securityTimer;
+        quint16 m_sequentialsPackets;
 };
 
 #endif // CLIENT_H

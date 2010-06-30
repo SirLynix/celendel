@@ -23,4 +23,5 @@ SOURCES += ClientInterface.cpp \
            main.cpp \
            ../Shared/Packet.cpp \
            ../Shared/Serializer.cpp ClientNetworkSwitch.cpp \
-           ../Shared/Miscelaneous.cpp
+           ../Shared/Miscelaneous.cpp \
+           ClientChatCommands.cpp

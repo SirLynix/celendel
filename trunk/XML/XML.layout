@@ -1,11 +1,14 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
 <CodeBlocks_layout_file>
 	<ActiveTarget name="Debug" />
+	<File name="XMLObject.h" open="0" top="0" tabpos="0">
+		<Cursor position="328" topLine="0" />
+	</File>
 	<File name="object.cpp" open="0" top="0" tabpos="0">
-		<Cursor position="639" topLine="0" />
+		<Cursor position="302" topLine="31" />
 	</File>
 	<File name="person.cpp" open="0" top="0" tabpos="0">
-		<Cursor position="742" topLine="0" />
+		<Cursor position="441" topLine="0" />
 	</File>
 	<File name="xmlobject.cpp" open="0" top="0" tabpos="0">
 		<Cursor position="646" topLine="0" />

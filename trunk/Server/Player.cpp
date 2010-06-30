@@ -2,15 +2,20 @@
 
 Player::Player(CLID cID, QObject* parent) : QObject(parent), m_ID(cID)
 {
-    m_GM=false;
-    m_voted=false;
-    m_voteCount=0;
+    reset();
 }
 
 void Player::promoteGM()
 {
     m_GM=true;
     m_voted=true;
+}
+
+void Player::reset()
+{
+    m_GM=false;
+    m_voted=false;
+    m_voteCount=0;
 }
 
 void Player::unPromoteGM()

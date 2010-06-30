@@ -3,6 +3,7 @@
 #include <QDebug>
 #include <QDateTime>
 #include "..\Shared\Serializer.h"
+#include <QHostAddress>
 
 void log(const QString txt, bool time = true);
 void log(const QString txt, bool time)
@@ -41,6 +42,18 @@ ClientNetwork::ClientNetwork(QObject* parent):QObject(parent)
     connection();
 }
 
+QString ClientNetwork::serverIP() const
+{
+    if(!isConnected())
+        return QString();
+    return m_socket->peerAddress().toString();
+}
+
+quint16 ClientNetwork::serverPort() const
+{
+    return m_socket->peerPort();
+}
+
 void ClientNetwork::connection()
 {
     m_socket->connectToHost(SERVER_IP, SERVER_PORT);
@@ -64,7 +77,7 @@ void ClientNetwork::flush()
 
 void ClientNetwork::connected()
 {
-    log("Connected");
+    emit connectionEtablished();
 
     pingTimer->start(10000);
     flushTimer->start(100);
@@ -73,7 +86,8 @@ void ClientNetwork::connected()
 
 void ClientNetwork::disconnected()
 {
-    log("Disconnected");
+    emit connectionLost();
+
     pingTimer->stop();
     flushTimer->stop();
 }

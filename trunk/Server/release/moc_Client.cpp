@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Meta object code from reading C++ file 'Client.h'
 **
-** Created: Tue 29. Jun 21:53:09 2010
+** Created: Wed 30. Jun 21:53:58 2010
 **      by: The Qt Meta Object Compiler version 62 (Qt 4.6.2)
 **
 ** WARNING! All changes made in this file will be lost!
@@ -23,7 +23,7 @@ static const uint qt_meta_data_Client[] = {
        4,       // revision
        0,       // classname
        0,    0, // classinfo
-       7,   14, // methods
+       8,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
@@ -40,6 +40,7 @@ static const uint qt_meta_data_Client[] = {
       76,    7,    7,    7, 0x0a,
       84,    7,    7,    7, 0x08,
       96,    7,    7,    7, 0x08,
+     116,    7,    7,    7, 0x08,
 
        0        // eod
 };
@@ -48,7 +49,7 @@ static const char qt_meta_stringdata_Client[] = {
     "Client\0\0dataReceived(Packet*)\0"
     "disconnected()\0pa\0send(Packet*)\0"
     "send(Packet&)\0flush()\0readyRead()\0"
-    "slot_disconnected()\0"
+    "slot_disconnected()\0resetSecurity()\0"
 };
 
 const QMetaObject Client::staticMetaObject = {
@@ -87,9 +88,10 @@ int Client::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
         case 4: flush(); break;
         case 5: readyRead(); break;
         case 6: slot_disconnected(); break;
+        case 7: resetSecurity(); break;
         default: ;
         }
-        _id -= 7;
+        _id -= 8;
     }
     return _id;
 }
