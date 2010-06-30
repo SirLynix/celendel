@@ -5,21 +5,32 @@ CLID Client::cID=0;
 
 Client::Client(QTcpSocket *s) : socket(s), packet(NULL)
 {
-    m_ID=cID;
-    ++cID;
+    changeID();
 
     connect(socket, SIGNAL(readyRead()), this, SLOT(readyRead()));
     connect(socket, SIGNAL(disconnected()), this, SLOT(slot_disconnected()));
+    m_securityTimer=new QTimer(this);
+    m_securityTimer->start(PACKETS_COUNT_RESET_DELAY);
+    m_sequentialsPackets=0;
 }
 
 void Client::changeID()
 {
-    m_ID=cID;
     ++cID;
+    if(cID<1)
+        cID=1;
+
+    m_ID=cID;
+}
+
+void Client::resetSecurity()
+{
+    m_sequentialsPackets=0;
 }
 
 void Client::readyRead()
 {
+    m_securityTimer->start(PACKETS_COUNT_RESET_DELAY);
     QDataStream in(socket);
 
     if (packet == NULL)//Try to get the header
@@ -29,6 +40,11 @@ void Client::readyRead()
 
         packet = new Packet();
         packet->setHeader(in);
+        if(packet->dataSize > 1024*1024*1024) //A legal packet will NEVER be bigger than 1Mio, else it's an attack.
+        {
+            qDebug() << "Error, packet too big. Client will be kicked.";
+            socket->abort(); // ... and guess what we do to crackers...
+        }
     }
 
     if (socket->bytesAvailable() < packet->dataSize) //Try to get the body
@@ -38,6 +54,13 @@ void Client::readyRead()
 
     emit dataReceived(packet);
     packet=NULL;
+    ++m_sequentialsPackets;
+
+    if(m_sequentialsPackets>=MAX_SEQUENTIALS_PACKETS)//A legal client will NEVER send so much sequentials packet. It's probably an attack.
+    {
+        qDebug() << "Error, too much packets. Client will be kicked.";
+        socket->abort(); // So, seeya pirate !
+    }
 }
 
 void Client::send(Packet& pa)

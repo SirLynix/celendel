@@ -22,9 +22,13 @@ ClientInterface::ClientInterface()
     connect(m_network, SIGNAL(error(ENUM_TYPE, QString)), this, SLOT(showError(ENUM_TYPE, QString)));
     connect(m_network, SIGNAL(newGameMaster(CLID)), this, SLOT(changeGameMaster(CLID)));
     connect(m_network, SIGNAL(clientVoted(CLID, CLID)), this, SLOT(clientVoted(CLID, CLID)));
+    connect(m_network, SIGNAL(connectionEtablished()), this, SLOT(connectionEtablished()));
+    connect(m_network, SIGNAL(connectionLost()), this, SLOT(connectionLost()));
+    connect(m_network, SIGNAL(sanctionned(CLID, ENUM_TYPE, QString)), this, SLOT(sanctionned(CLID, ENUM_TYPE, QString)));
+    connect(m_network, SIGNAL(diceRolled(CLID, quint16)), this, SLOT(diceRolled(CLID, quint16)));
 }
 
-void ClientInterface::lg(const QString txt, bool time)
+void ClientInterface::lg(const QString txt, bool time, bool html)
 {
     QString tmp;
     if(time)
@@ -32,197 +36,56 @@ void ClientInterface::lg(const QString txt, bool time)
         tmp += QTime::currentTime().toString("HH:mm:ss") + " : ";
     }
     tmp+=txt;
-    m_chat->append(tmp.toAscii());
+
+    if(html)
+    {
+        m_chat->setHtml(m_chat->toHtml()+tmp);
+        m_chat->verticalScrollBar()->setValue(m_chat->verticalScrollBar()->maximum());
+    }
+    else
+        m_chat->append(tmp.toAscii());
 }
 
-void ClientInterface::sendMessage()
+void ClientInterface::connectionEtablished()
 {
-    QString txt = m_chatInput->text().simplified();
-    if(txt.isEmpty())
-        return;
+    lg(tr("Vous êtes maintenant connecté à un serveur (%1:%2) !").arg(m_network->serverIP()).arg(m_network->serverPort()));
+}
 
-    if(txt.startsWith(tr("/retry")))
-    {
-        if(!m_network->isConnected())
-            m_network->connection();
-        return;
-    }
+void ClientInterface::connectionLost()
+{
+    lg(tr("Vous avez été déconnecté du serveur. Tappez /retry pour tenter une reconnexion."));
+}
 
-    if(!m_network->isConnected())
-    {
-        lg(tr("Vous n'êtes pas connecté !"));
-        return;
-    }
-
-
-    bool show=true;
-
-    m_chatInput->setText("");
-
-    if(txt[0]=='/')
-    {
-        if(txt.startsWith(tr("/pseudo")))
-        {
-            m_network->send(ETI(SET_NICK), serialiseSetNickData(txt.mid( tr("/pseudo").size() )));
-        }
-        else if(txt.startsWith(tr("/ping")))
-        {
-            lg(tr("Ping actuel : %1ms").arg(m_network->getPing()));
-            m_network->ping();
-            show=false;
-        }
-        else if(txt.startsWith(tr("/kick")))
-        {
-            QStringList spl = txt.split(' ');
-            QString r;
-            if(spl.size()<2)
-            {
-                lg(tr("Erreur : pas assez d'arguments."));
-                return;
-            }
-            else if(spl.size()>3)
-            {
-                r=txt.mid(txt.indexOf(spl[2]));
-            }
-            m_network->send(ETI(GTFO_LYNIX), serialiseGTFOLynixData(spl[1].toInt(), ETI(KICK), r));
-        }
-        else if(txt.startsWith(tr("/ban")))
-        {
-            QStringList spl = txt.split(' ', QString::SkipEmptyParts);
-            QString r;
-            if(spl.size()<2)
-            {
-                lg(tr("Erreur : pas assez d'arguments."));
-                return;
-            }
-            else if(spl.size()>3)
-            {
-                r=txt.mid(txt.indexOf(spl[2]));
-            }
-            m_network->send(ETI(GTFO_LYNIX), serialiseGTFOLynixData(spl[1].toInt(), ETI(BAN), r));
-        }
-        else if(txt.startsWith(tr("/son")))
-        {
-            QStringList spl = txt.split(' ', QString::SkipEmptyParts);
-            QString r;
-            if(spl.size()<2)
-            {
-                lg(tr("Erreur : pas assez d'arguments."));
-                return;
-            }
-
-            m_network->send(ETI(PLAY_SOUND), serialisePlaySoundData(spl[1].toInt()));
-        }
-        else if(txt.startsWith(tr("/votemj"), Qt::CaseInsensitive))
-        {
-            QStringList spl = txt.split(' ', QString::SkipEmptyParts);
-            QString r;
-            if(spl.size()<2)
-            {
-                lg(tr("Erreur : pas assez d'arguments."));
-                return;
-            }
-
-            m_network->send(ETI(GM_ELECT), serialiseGMElectData(spl[1].toInt()));
-            show=false;
-        }
-        else if(txt.startsWith(tr("/changemj"), Qt::CaseInsensitive))
-        {
-            QStringList spl = txt.split(' ', QString::SkipEmptyParts);
-            QString r;
-            if(spl.size()<2)
-            {
-                lg(tr("Erreur : pas assez d'arguments."));
-                return;
-            }
-
-            m_network->send(ETI(NEW_GM), serialiseNewGMData(spl[1].toInt()));
-        }
-        else if(txt.startsWith(tr("/lancerpartie"), Qt::CaseInsensitive))
-        {
-            m_network->send(ETI(LAUNCH_GAME), QByteArray());
-        }
-        else if(txt.startsWith(tr("/partir"))||txt.startsWith(tr("/quitter"))||txt.startsWith(tr("/sortir")))
-        {
-            show=false;
-            qApp->quit();
-        }
-        else if(txt.startsWith(tr("/me"))||txt.startsWith(tr("/moi")))
-        {
-            QStringList spl = txt.split(' ', QString::SkipEmptyParts);
-            QString r;
-            if(spl.size()<2)
-            {
-                lg(tr("Erreur : pas assez d'arguments."));
-                return;
-            }
-
-            m_network->send(ETI(CHAT), serialiseChatData(ETI(SELF_NARRATOR), txt.mid( spl[0].size()).simplified(), 0));
-            show=false;
-        }
-        else if(txt.startsWith(tr("/rp"))||txt.startsWith(tr("/jdr")))
-        {
-            QStringList spl = txt.split(' ', QString::SkipEmptyParts);
-            QString r;
-            if(spl.size()<2)
-            {
-                lg(tr("Erreur : pas assez d'arguments."));
-                return;
-            }
-
-            m_network->send(ETI(CHAT), serialiseChatData(ETI(RP), txt.mid( spl[0].size()).simplified(), 0));
-            show=false;
-        }
-        else if(txt.startsWith(tr("/nar")))
-        {
-            QStringList spl = txt.split(' ', QString::SkipEmptyParts);
-            QString r;
-            if(spl.size()<2)
-            {
-                lg(tr("Erreur : pas assez d'arguments."));
-                return;
-            }
-
-            m_network->send(ETI(CHAT), serialiseChatData(ETI(NARRATOR), txt.mid( spl[0].size()).trimmed(), 0));
-            show=false;
-        }
-        else if(txt.startsWith(tr("/aide")))
-        {
-            lg(tr("Liste des commandes :"));
-            lg(tr("/aide") + tr(" : Afficher ces informations."));
-            lg(tr("/pseudo") + tr(" [pseudo] : Changer de pseudo sur le chat."), false);
-            lg(tr("/ping") + tr(" : Affiche le dernier ping."), false);
-            lg(tr("/kick") + tr(" [Client ID] [Raison] : (MJ) Ejecte un client du serveur."), false);
-            lg(tr("/ban") + tr(" [Client ID] [Raison] : (MJ) Banni un client du serveur (par IP, valable jusqu'au redémarage du serveur)."), false);
-            lg(tr("/son") + tr(" [Ressource ID] : (MJ) Joue un son chez tous les clients."), false);
-            lg(tr("/votemj") + tr(" [Client ID] : Voter pour qu'un joueur devienne MJ - un seul vote par partie."), false);
-            lg(tr("/changemj") + tr(" [Client ID] : (MJ) Changer le MJ. Attention, vous perdrez vos privilèges."), false);
-            lg(tr("/lancerpartie") + tr(" : (MJ) Lancer la partie."), false);
-            lg(tr("/partir") + " | " + tr("/quitter") + " | " + tr("/sortir") + tr(" : Fermer le client."), false);
-            lg(tr("/rp") + " | " + tr("/jdr") + tr(" : Ecrire du dialogue, au format [Personnage : Blah]."), false);
-            lg(tr("/me") + " | " + tr("/moi") + tr(" : Ecrire de la narration, au format [Personnage fait quelque chose]."), false);
-            lg(tr("/nar") + tr(" : (MJ) Ecrire en tant que narrateur."), false);
-            show=false;
-        }
-    }
-
-    if(show)
-        m_network->send(ETI(CHAT), serialiseChatData(ETI(NORMAL), txt, 0));
-
+void ClientInterface::diceRolled(CLID ID, quint16 result)
+{
+    lg(tr("%1 lance 1d20, et obtient un %2.").arg(anonym(ID)).arg(result));
 }
 
 void ClientInterface::changeClientNickname(CLID ID, QString nick)
 {
-    if(m_nickMap.value(ID)!="")
+    QString old(anonym(ID));
+    m_nickMap[ID]=nick;
+    lg(tr("%1 s'appelle maintenant %2.").arg(old).arg(nick));
+
+}
+
+void ClientInterface::sanctionned(CLID ID, ENUM_TYPE type, QString reason)
+{
+    QString st;
+    if(type==KICK)
     {
-        lg(tr("%1 s'appelle maintenant %2 (ID %3).").arg(m_nickMap.value(ID)).arg(nick).arg(ID));
+        st=tr("a été éjecté");
     }
     else
-    {
-        lg(tr("Le client anonyme ID %1 s'appelle maintenant %2.").arg(ID).arg(nick));
-    }
-    m_nickMap[ID]=nick;
+        st=tr("a été banni");
 
+    QString rea;
+    if(!reason.isEmpty())
+    {
+        rea=" "+tr("Raison : %1").arg(reason);
+    }
+
+    lg(tr("%1 %2 du serveur par le Maître du Jeu.%3").arg(anonym(ID)).arg(st).arg(rea));
 }
 
 void ClientInterface::showError(ENUM_TYPE e, QString txt)
@@ -237,27 +100,92 @@ void ClientInterface::changeClientID(CLID ID)
 
 void ClientInterface::clientVoted(CLID f, CLID t)
 {
-    lg(m_nickMap.value(f)+"["+QString::number(f)+"] a voté pour  "+m_nickMap.value(t)+"["+QString::number(t)+"] pour le poste de Maître de Jeu.");
+    lg(tr("%1 a voté pour %2 pour le poste de <strong>Maître de Jeu</strong>.").arg(anonym(f)).arg(anonym(t)), true, true);
     if(m_nickMap.value(t)=="Lynix")
-        lg(tr("Evidement, comme c'est un vote pour Lynix, il ne comptera pas. Faut pas rêver !"));
+        lg(tr("Evidement, comme c'est un vote pour Lynix, il ne comptera <strong>pas</strong>. Faut pas rêver !"), false, true);
 }
 
 void ClientInterface::changeGameMaster(CLID ID)
 {
     m_GMID=ID;
-    lg(tr("%1 est maintenant Maître du Jeu.").arg(m_nickMap.value(ID)));
+    lg(tr("<em><strong>%1</strong> est maintenant <strong>Maître du Jeu</strong>.</em>").arg(m_nickMap.value(ID)), true, true);
     if(m_nickMap.value(ID)=="Gigotdarnaud")
-        lg(tr("Tremblez, mortels ! Le grand Gigotdarnaud arrive !"));
+        lg(tr("Tremblez, mortels ! Le grand <strong>Gigotdarnaud</strong> arrive !"), false, true);
 }
 
 void ClientInterface::changeServerInformations(ServerInformations si)
 {
-    m_GMID=si.gameMasterID;
-    m_location=si.location;
-    m_TOD=si.timeOfDay;
-    m_serverName=si.serverName;
-    m_nickMap=si.playersName;
-    m_gameStarted=si.gameStarted;
+
+    lg(tr("<strong>Mise à jour des informations du serveur :</strong>"));
+
+    if(!si.serverName.isEmpty()&&m_serverName!=si.serverName)
+    {
+        lg(tr("Nom du serveur : %1").arg(m_serverName), false, true);
+        m_serverName=si.serverName;
+    }
+
+    int nms=si.playersName.size();
+    if(si.playersName != m_nickMap)
+    {
+        m_nickMap==si.playersName;
+        if(nms==1)
+        {
+            lg(tr("<em>Vous êtes le seul client connecté.</em>"), false, true);
+        }
+        else
+        {
+            lg(tr("<strong>%n</strong> client(s) connecté(s) :","",nms), false, true);
+            QMap<CLID, QString>::const_iterator i = m_nickMap.constBegin();
+            while (i != m_nickMap.constEnd())
+            {
+                if(i.key()==m_ID)
+                {
+                    lg(tr("%1 (vous)").arg(anonym(i.key())), false);
+                }
+                else
+                    lg(anonym(i.key()), false);
+                ++i;
+            }
+        }
+    }
+
+    if(m_GMID!=si.gameMasterID && si.gameMasterID!=0)
+    {
+        lg(tr("<em><strong>%1</strong> est <strong>Maître du Jeu</strong></em>").arg(anonym(m_GMID)), false, true);
+        m_GMID=si.gameMasterID;
+    }
+
+    if(si.gameStarted)
+    {
+        if(m_gameStarted!=si.gameStarted)
+        {
+            lg(tr("<em>La partie a déjà démarré.</em>"), false, true);
+            m_gameStarted=si.gameStarted;
+        }
+        if(si.location!=m_location && !m_location.isEmpty())
+        {
+            lg(tr("<em>Lieu du RP</em> : %1").arg(m_location), false, true);
+            m_location=si.location;
+        }
+        if(si.timeOfDay!=m_TOD && !m_TOD.isEmpty())
+        {
+            lg(tr("<em>Heure du RP :</em> %1").arg(m_TOD), false, true);
+            m_TOD=si.timeOfDay;
+        }
+    }
+}
+
+QString ClientInterface::anonym(CLID ID)
+{
+    QString nick=m_nickMap.value(ID);
+
+    if(nick.isEmpty())
+        return tr("Le client anonyme [%1]").arg(ID);
+
+    if(m_GMID == ID)
+        return tr("(MJ) %1[%2]").arg(nick).arg(ID);
+
+    return tr("%1[%2]").arg(nick).arg(ID);
 }
 
 QString ClientInterface::getRolePlayName(CLID ID)
@@ -270,7 +198,7 @@ void ClientInterface::chat(CLID sender, QString txt, ENUM_TYPE canal)
 {
     if(canal==NORMAL)
     {
-        lg(m_nickMap.value(sender)+"["+QString::number(sender)+"] : "+txt);
+        lg(anonym(sender)+" : "+txt);
     }
     else if(canal==NARRATOR)
     {

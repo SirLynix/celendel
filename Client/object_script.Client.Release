@@ -1,0 +1,12 @@
+INPUT(
+./release\ClientInterface.o
+./release\ClientNetwork.o
+./release\main.o
+./release\Packet.o
+./release\Serializer.o
+./release\ClientNetworkSwitch.o
+./release\Miscelaneous.o
+./release\ClientChatCommands.o
+./release\moc_ClientInterface.o
+./release\moc_ClientNetwork.o
+);

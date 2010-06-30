@@ -36,7 +36,6 @@ void ServerNetwork::flush()
 {
     for(int i=0;i<m_clients.size();++i)
         m_clients[i]->flush();
-
 }
 
 void ServerNetwork::kick(CLID ID, const QString& reason)

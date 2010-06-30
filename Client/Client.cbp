@@ -47,6 +47,7 @@
 			<Add option="-fexceptions" />
 		</Compiler>
 		<Unit filename="Client.pro" />
+		<Unit filename="ClientChatCommands.cpp" />
 		<Unit filename="ClientInterface.cpp" />
 		<Unit filename="ClientInterface.h" />
 		<Unit filename="ClientNetwork.cpp" />

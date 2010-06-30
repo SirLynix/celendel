@@ -295,6 +295,11 @@ void Server::processData(Packet* pa, CLID cID)
                 m_network->sendToClient(cID, ETI(ERROR), serialiseErrorData(ETI(NOT_GM)));
         }
         break;
+        case ROLL_DICE:
+        {
+            m_network->sendToAll(ETI(ROLL_DICE), serialiseDiceRollData(cID, alea(1,20)));
+        }
+        break;
         default:
         {
             log("ERROR : packet type "+QString::number(pa->type)+" unknown ! (from Client "+QString::number(cID)+")");

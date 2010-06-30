@@ -25,6 +25,9 @@ class ClientNetwork : public QObject
         void ping();
         qint32 getPing() const {return m_ping;}
 
+        QString serverIP() const;
+        quint16 serverPort() const;
+
         void flush();
 
         void connection();
@@ -47,6 +50,11 @@ class ClientNetwork : public QObject
         void error(ENUM_TYPE, QString);
         void clientVoted(CLID f, CLID t);
         void newGameMaster(CLID);
+
+        void connectionEtablished();
+        void connectionLost();
+        void diceRolled(CLID, quint16);
+        void sanctionned(CLID, ENUM_TYPE, QString);
 
     private:
         QTcpSocket* m_socket;

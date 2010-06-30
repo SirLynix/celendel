@@ -1,0 +1,12 @@
+INPUT(
+./debug\ClientInterface.o
+./debug\ClientNetwork.o
+./debug\main.o
+./debug\Packet.o
+./debug\Serializer.o
+./debug\ClientNetworkSwitch.o
+./debug\Miscelaneous.o
+./debug\ClientChatCommands.o
+./debug\moc_ClientInterface.o
+./debug\moc_ClientNetwork.o
+);

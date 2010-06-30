@@ -2,34 +2,37 @@
 <CodeBlocks_layout_file>
 	<ActiveTarget name="Release" />
 	<File name="Client.pro" open="0" top="0" tabpos="0">
-		<Cursor position="788" topLine="0" />
+		<Cursor position="790" topLine="0" />
 	</File>
-	<File name="ClientInterface.cpp" open="1" top="0" tabpos="1">
-		<Cursor position="8881" topLine="207" />
+	<File name="ClientChatCommands.cpp" open="0" top="0" tabpos="0">
+		<Cursor position="2486" topLine="39" />
 	</File>
-	<File name="ClientInterface.h" open="1" top="1" tabpos="3">
-		<Cursor position="781" topLine="3" />
+	<File name="ClientInterface.cpp" open="0" top="0" tabpos="1">
+		<Cursor position="262" topLine="0" />
+	</File>
+	<File name="ClientInterface.h" open="0" top="0" tabpos="3">
+		<Cursor position="908" topLine="4" />
 	</File>
 	<File name="ClientNetwork.cpp" open="0" top="0" tabpos="1">
-		<Cursor position="1152" topLine="16" />
+		<Cursor position="1931" topLine="78" />
 	</File>
-	<File name="ClientNetwork.h" open="1" top="0" tabpos="2">
-		<Cursor position="1324" topLine="17" />
+	<File name="ClientNetwork.h" open="0" top="0" tabpos="2">
+		<Cursor position="1511" topLine="30" />
 	</File>
 	<File name="ClientNetworkSwitch.cpp" open="0" top="0" tabpos="0">
-		<Cursor position="293" topLine="37" />
+		<Cursor position="2279" topLine="50" />
 	</File>
 	<File name="GUI.cpp" open="0" top="0" tabpos="0">
 		<Cursor position="1785" topLine="10" />
 	</File>
 	<File name="main.cpp" open="0" top="0" tabpos="0">
-		<Cursor position="174" topLine="0" />
+		<Cursor position="156" topLine="0" />
 	</File>
 	<File name="..\Shared\Constants.h" open="0" top="0" tabpos="0">
-		<Cursor position="1383" topLine="55" />
+		<Cursor position="1349" topLine="31" />
 	</File>
 	<File name="..\Shared\MapStructs.h" open="0" top="0" tabpos="0">
-		<Cursor position="129" topLine="0" />
+		<Cursor position="573" topLine="0" />
 	</File>
 	<File name="..\Shared\Miscelaneous.cpp" open="0" top="0" tabpos="0">
 		<Cursor position="1537" topLine="0" />
@@ -44,6 +47,6 @@
 		<Cursor position="6626" topLine="317" />
 	</File>
 	<File name="..\Shared\Serializer.h" open="0" top="0" tabpos="0">
-		<Cursor position="372" topLine="0" />
+		<Cursor position="1686" topLine="24" />
 	</File>
 </CodeBlocks_layout_file>

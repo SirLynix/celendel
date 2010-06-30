@@ -67,6 +67,16 @@ Player* Server::getPlayer(CLID cID)
     return NULL;
 }
 
+void Server::cleanUp()
+{
+    m_GMID=0;
+    m_gameStarted=false;
+    for(int i=0; i<m_players.size();++i)
+    {
+        m_players[i]->reset();
+    }
+}
+
 void Server::removeClient(CLID cID)
 {
     if(getPlayer(cID)==NULL)
@@ -87,6 +97,7 @@ void Server::removeClient(CLID cID)
                 changeGM(m_players[0]->ID());
 
             ply->deleteLater();
+            cleanUp();
             log("Player succefully removed from game.");
             return;
         }
