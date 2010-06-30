@@ -7,7 +7,7 @@ class Object : public XMLObject
 Q_OBJECT
 public:
     Object();
-    //~Object();
+    Object(QString name, int weight, QString infos);
 
    void save(QTextStream& fileTxtStr);
    bool save(QString filename);

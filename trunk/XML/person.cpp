@@ -9,6 +9,15 @@ Person::Person()
     m_infos = "Ce personnage est cree par defaut";
 }
 
+Person::Person(QString name, BEHAVIOR_TYPE bh, QString infos)
+{
+        m_name = name;
+        m_vie = VIE_MAX;
+        m_behavior = bh;
+        m_infos = infos;
+
+}
+
 bool Person::damage(unsigned int damage)
 {
     m_vie -= damage;

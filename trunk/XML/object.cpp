@@ -9,6 +9,14 @@ Object::Object()
 
 }
 
+Object::Object(QString name, int weight, QString infos)
+{
+        m_name = name;
+        m_infos = infos;
+        m_weight = weight;
+        m_owner = NULL;
+}
+
 bool Object::throwUp()
 {
     m_owner = NULL;
