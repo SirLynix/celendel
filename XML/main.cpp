@@ -6,13 +6,12 @@ int main(int argc, char *argv[])
 {
     QCoreApplication a(argc, argv);
 
-    Person personnage;
-    Object objet;
+    Person personnage();
+    Object objet();
 
-    objet.save("objet.xml");
     objet.give(&personnage);
-    objet.save("objet.xml");
 
+    objet.save("objet.xml");
     personnage.save("perso.xml");
 
     return a.exec();

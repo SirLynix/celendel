@@ -8,6 +8,8 @@ class Person : public XMLObject
 {
 public:
     Person();
+    Person(QString name, BEHAVIOR_TYPE bh, QString infos);
+
     void save(QTextStream& fileTxtStr);
     bool save(QString filename);
 
