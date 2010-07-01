@@ -1,20 +1,20 @@
 #include "object.h"
 
-Object::Object()
-{
-    m_weight = 1;
-    m_owner = NULL;
-    m_name = "Objet";
-    m_infos = "Cet Objet est un Objet par defaut";
 
-}
-
-Object::Object(QString name, int weight, QString infos)
+Object::Object(QString filename, QString name, int weight, QString infos)
 {
+    if(filename != "")
+    {
+        XMLObject::load(filename);
+    }
+    else
+    {
         m_name = name;
         m_infos = infos;
         m_weight = weight;
         m_owner = NULL;
+        baseDoc();
+    }
 }
 
 bool Object::throwUp()
@@ -29,9 +29,8 @@ bool Object::give(Person *target)
     return false;
 }
 
-void Object::save(QTextStream &fileTxtStr)
+void Object::baseDoc()
 {
-    dom.clear();
     QDomElement docElem = dom.createElement("XMLObject");
     dom.appendChild(docElem);
 
@@ -48,24 +47,6 @@ void Object::save(QTextStream &fileTxtStr)
     }
     else { object_elem.setAttribute("Owner", "None"); }
     docElem.appendChild(object_elem);
-
-    fileTxtStr << dom.toString();
-}
-
-bool Object::save(QString filename)
-{
-    QFile file(filename);
-    if(!file.open(QIODevice::WriteOnly))
-    {
-        file.close();
-        qDebug() << tr("Impossible writing file ") << filename;
-        return false;
-    }
-    QTextStream stream(&file);
-    save(stream);
-    file.close();
-    qDebug() << tr("File successfuly written ");
-    return true;
 }
 
 

@@ -12,8 +12,15 @@ Q_OBJECT
 public:
     XMLObject();
     ~XMLObject();
-    bool load(QString filename);
     QString getName();
+    //QByteArray serialiseXMLDocument();
+
+   QString findAttribute(QString attribute);
+   bool addAttributeOnTag(QString tagName, QString attribute, QString value);
+   void addAttributeWithTag(QString NewTagName, QString attribute, QString value);
+
+   bool save(QString filename);
+   bool load(QString filename);
 
 
 private slots:
@@ -27,6 +34,7 @@ protected:
     QString m_name;
     QString m_infos;
     QDomDocument dom;
+    bool isSynced;
 
     //QMap<TRIGGER_TYPE, Event> m_eventMap;
 };

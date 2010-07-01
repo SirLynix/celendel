@@ -1,21 +1,21 @@
 #include "person.h"
 #define VIE_MAX 10
 
-Person::Person()
-{
-    m_vie = VIE_MAX;
-    m_behavior = BH_UNKNOWN;
-    m_name = "Personnage";
-    m_infos = "Ce personnage est cree par defaut";
-}
 
-Person::Person(QString name, BEHAVIOR_TYPE bh, QString infos)
+Person::Person(QString filename,QString name, BEHAVIOR_TYPE bh, QString infos)
 {
-        m_name = name;
-        m_vie = VIE_MAX;
-        m_behavior = bh;
-        m_infos = infos;
-
+        if(filename != "")
+        {
+            XMLObject::load(filename);
+        }
+        else
+        {
+            m_name = name;
+            m_vie = VIE_MAX;
+            m_behavior = bh;
+            m_infos = infos;
+            baseDoc();
+        }
 }
 
 bool Person::damage(unsigned int damage)
@@ -40,9 +40,8 @@ bool Person::heal(unsigned int amount)
     return false;
 }
 
-void Person::save(QTextStream &fileTxtStr)
+void Person::baseDoc()
 {
-    dom.clear();
     QDomElement docElem = dom.createElement("XMLObject");
     dom.appendChild(docElem);
 
@@ -55,24 +54,5 @@ void Person::save(QTextStream &fileTxtStr)
     perso_elem.setAttribute("Life", m_vie);
     perso_elem.setAttribute("Behavior", m_behavior);
     docElem.appendChild(perso_elem);
-
-    fileTxtStr << dom.toString();
 }
-
-bool Person::save(QString filename)
-{
-    QFile file(filename);
-    if(!file.open(QIODevice::WriteOnly))
-    {
-        file.close();
-        qDebug() << tr("Impossible writing file ") << filename;
-        return false;
-    }
-    QTextStream stream(&file);
-    save(stream);
-    file.close();
-    qDebug() << tr("File successfuly written ");
-    return true;
-}
-
 
