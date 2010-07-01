@@ -359,3 +359,19 @@ QByteArray serialisePlaySoundData(RSID ID)
 
     return data;
 }
+
+void extractServerNameData(QByteArray& data, QString& name)
+{
+    QDataStream in(data);
+    in>>name;
+}
+
+QByteArray serialiseServerNameData(const QString& name)
+{
+    QByteArray data;
+    QDataStream out(&data, QIODevice::ReadWrite);
+
+    out<<name;
+
+    return data;
+}

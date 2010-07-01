@@ -7,6 +7,8 @@ void ClientInterface::sendMessage()
     if(txt.isEmpty())
         return;
 
+    m_chatInput->setText("");
+
     if(txt.startsWith(tr("/retry")))
     {
         if(!m_network->isConnected())
@@ -29,6 +31,7 @@ void ClientInterface::sendMessage()
         lg(tr("/rp") + " | " + tr("/jdr") + tr(" : Ecrire du dialogue, au format [Personnage : Blah]."), false);
         lg(tr("/me") + " | " + tr("/moi") + tr(" : Ecrire de la narration, au format [Personnage fait quelque chose]."), false);
         lg(tr("/nar") + tr(" : (MJ) Ecrire en tant que narrateur."), false);
+        lg(tr("/retry") + tr(" : Tenter de se re-connecter au serveur (sans effet si déjà connecté)."), false);
         return;
     }
     else if(txt.startsWith(tr("/partir"))||txt.startsWith(tr("/quitter"))||txt.startsWith(tr("/sortir")))
@@ -46,7 +49,6 @@ void ClientInterface::sendMessage()
 
     bool show=true;
 
-    m_chatInput->setText("");
 
     if(txt[0]=='/')
     {
@@ -134,6 +136,7 @@ void ClientInterface::sendMessage()
         else if(txt.startsWith(tr("/lancerpartie"), Qt::CaseInsensitive))
         {
             m_network->send(ETI(LAUNCH_GAME), QByteArray());
+            show=false;
         }
         else if(txt.startsWith(tr("/me"))||txt.startsWith(tr("/moi")))
         {
@@ -173,6 +176,23 @@ void ClientInterface::sendMessage()
 
             m_network->send(ETI(CHAT), serialiseChatData(ETI(NARRATOR), txt.mid( spl[0].size()).trimmed(), 0));
             show=false;
+        }
+        else if(txt.startsWith(tr("/1d20")))
+        {
+            rollDice();
+            show=false;
+        }
+        else if(txt.startsWith(tr("/nomserveur")))
+        {
+            QStringList spl = txt.split(' ', QString::SkipEmptyParts);
+            QString r;
+            if(spl.size()<2)
+            {
+                lg(tr("Erreur : pas assez d'arguments."));
+                return;
+            }
+
+            m_network->send(ETI(SERVER_NAME), serialiseServerNameData(txt.mid( spl[0].size()).trimmed()));
         }
     }
 

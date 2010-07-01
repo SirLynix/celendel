@@ -65,6 +65,7 @@ connect(m_chatInput, SIGNAL(returnPressed()), this, SLOT(sendMessage()));
 
 m_rollTheDice = new QPushButton(tr("Roll 1d20"), this);
 l_chatInputDock->addWidget(m_rollTheDice);
+connect(m_rollTheDice, SIGNAL(pressed()), this, SLOT(rollDice()));
 
 addDockWidget(Qt::RightDockWidgetArea, chatInputDock);
 

@@ -1,9 +1,17 @@
 #include "Server.h"
 #include "..\Shared\Serializer.h"
 
+#include <QCoreApplication>
+
 Server::Server(QObject* parent) : QObject(parent)
 {
-    m_network=new ServerNetwork(this); //Start the network
+    QStringList args = QCoreApplication::arguments();
+    quint16 port=SERVER_PORT;
+
+    if(args.size()>1)
+        port=args[1].toInt();
+
+    m_network=new ServerNetwork(port, this); //Start the network
 
     connect(m_network, SIGNAL(newClient(CLID)), this, SLOT(addClient(CLID)));
     connect(m_network, SIGNAL(clientGone(CLID)), this, SLOT(removeClient(CLID)));
@@ -42,7 +50,7 @@ ServerInformations Server::getServerInformations() const
 void Server::launchGame()
 {
     m_gameStarted=true;
-    log("Game have been launched be Game Master !");
+    log("Game have been launched by Game Master !");
     m_network->sendToAll(ETI(GAME_LAUNCHED), QByteArray());
 }
 

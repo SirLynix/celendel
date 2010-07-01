@@ -39,15 +39,15 @@ void Server::processData(Packet* pa, CLID cID)
             ENUM_TYPE canal; QString text;
             CLID garbage;
             extractChatData(pa->data, canal, text, garbage);
+            text=securise(text);
             log("Chat message received : ["+QString::number(ply->isGM())+"]"+ply->nickname+" say on ["+QString::number(canal)+"] : \""+text+"\"");
             switch(canal)
             {
                 case ETI(NORMAL):
                 {
-                    text=text.simplified();
                     text.truncate(MAX_MESSAGE_LENGHT);
                     text.replace('\n', "");
-                    if(text != "")
+                    if(!text.isEmpty())
                         m_network->sendToAll(ETI(CHAT), serialiseChatData(ETI(NORMAL), text, cID));
                 }
                 break;
@@ -184,10 +184,7 @@ void Server::processData(Packet* pa, CLID cID)
         {
             QString nick;
             extractSetNickData(pa->data, nick);
-            nick=nick.simplified();
-            nick.replace('\n', "");
-            nick.replace(' ', '_');
-            nick.replace('\t', '_');
+            nick.replace(QRegExp("[^a-zA-Z0-9_]"), "");
             nick.truncate(MAX_NICKNAME_LENGHT);
             if(nick != "")
             {
@@ -298,6 +295,22 @@ void Server::processData(Packet* pa, CLID cID)
         case ROLL_DICE:
         {
             m_network->sendToAll(ETI(ROLL_DICE), serialiseDiceRollData(cID, alea(1,20)));
+        }
+        break;
+        case SERVER_NAME:
+        {
+            if(ply->isGM())
+            {
+                QString n;
+                extractServerNameData(pa->data, n);
+                n.replace(QRegExp("[^a-zA-Z0-9_]"), "");
+                n.truncate(50);
+                serverName=n;
+                m_network->sendToAll(ETI(SERVER_NAME), serialiseServerNameData(n));
+            }
+            else
+                m_network->sendToClient(cID, ETI(ERROR), serialiseErrorData(ETI(NOT_GM)));
+
         }
         break;
         default:

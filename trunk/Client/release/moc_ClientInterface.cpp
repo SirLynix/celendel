@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Meta object code from reading C++ file 'ClientInterface.h'
 **
-** Created: Wed 30. Jun 21:58:32 2010
+** Created: Thu 1. Jul 15:14:06 2010
 **      by: The Qt Meta Object Compiler version 62 (Qt 4.6.2)
 **
 ** WARNING! All changes made in this file will be lost!
@@ -23,7 +23,7 @@ static const uint qt_meta_data_ClientInterface[] = {
        4,       // revision
        0,       // classname
        0,    0, // classinfo
-      12,   14, // methods
+      16,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
@@ -43,6 +43,10 @@ static const uint qt_meta_data_ClientInterface[] = {
      301,   16,   16,   16, 0x08,
      320,  318,   16,   16, 0x08,
      348,  345,   16,   16, 0x08,
+     384,   16,   16,   16, 0x08,
+     395,   16,   16,   16, 0x08,
+     415,   16,   16,   16, 0x08,
+     441,  430,   16,   16, 0x08,
 
        0        // eod
 };
@@ -58,6 +62,8 @@ static const char qt_meta_stringdata_ClientInterface[] = {
     "clientVoted(CLID,CLID)\0connectionEtablished()\0"
     "connectionLost()\0,\0diceRolled(CLID,quint16)\0"
     ",,\0sanctionned(CLID,ENUM_TYPE,QString)\0"
+    "rollDice()\0serverName(QString)\0"
+    "gameLaunched()\0serverName\0setTitle(QString)\0"
 };
 
 const QMetaObject ClientInterface::staticMetaObject = {
@@ -101,9 +107,13 @@ int ClientInterface::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
         case 9: connectionLost(); break;
         case 10: diceRolled((*reinterpret_cast< CLID(*)>(_a[1])),(*reinterpret_cast< quint16(*)>(_a[2]))); break;
         case 11: sanctionned((*reinterpret_cast< CLID(*)>(_a[1])),(*reinterpret_cast< ENUM_TYPE(*)>(_a[2])),(*reinterpret_cast< QString(*)>(_a[3]))); break;
+        case 12: rollDice(); break;
+        case 13: serverName((*reinterpret_cast< QString(*)>(_a[1]))); break;
+        case 14: gameLaunched(); break;
+        case 15: setTitle((*reinterpret_cast< const QString(*)>(_a[1]))); break;
         default: ;
         }
-        _id -= 12;
+        _id -= 16;
     }
     return _id;
 }

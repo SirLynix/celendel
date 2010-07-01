@@ -12,6 +12,7 @@ Client::Client(QTcpSocket *s) : socket(s), packet(NULL)
     m_securityTimer=new QTimer(this);
     m_securityTimer->start(PACKETS_COUNT_RESET_DELAY);
     m_sequentialsPackets=0;
+    connect(m_securityTimer, SIGNAL(timeout()), this, SLOT(resetSecurity()));
 }
 
 void Client::changeID()

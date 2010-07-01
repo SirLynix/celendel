@@ -31,6 +31,12 @@ class ClientInterface : public QMainWindow
         void diceRolled(CLID, quint16);
         void sanctionned(CLID, ENUM_TYPE, QString);
 
+        void rollDice();
+        void serverName(QString);
+        void gameLaunched();
+
+        void setTitle(const QString& serverName);
+
 
     private:
         ClientNetwork* m_network;

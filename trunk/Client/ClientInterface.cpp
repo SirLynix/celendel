@@ -26,6 +26,10 @@ ClientInterface::ClientInterface()
     connect(m_network, SIGNAL(connectionLost()), this, SLOT(connectionLost()));
     connect(m_network, SIGNAL(sanctionned(CLID, ENUM_TYPE, QString)), this, SLOT(sanctionned(CLID, ENUM_TYPE, QString)));
     connect(m_network, SIGNAL(diceRolled(CLID, quint16)), this, SLOT(diceRolled(CLID, quint16)));
+    connect(m_network, SIGNAL(gameLaunched()), this, SLOT(gameLaunched()));
+    connect(m_network, SIGNAL(serverName(QString)), this, SLOT(serverName(QString)));
+
+    setTitle("");
 }
 
 void ClientInterface::lg(const QString txt, bool time, bool html)
@@ -46,6 +50,17 @@ void ClientInterface::lg(const QString txt, bool time, bool html)
         m_chat->append(tmp.toAscii());
 }
 
+void ClientInterface::setTitle(const QString& serverName)
+{
+    if(serverName.isEmpty())
+    {
+        setWindowTitle(tr("Celendel - Déconnecté"));
+        return;
+    }
+
+    setWindowTitle(tr("Celendel - %1", "Window title").arg(serverName));
+}
+
 void ClientInterface::connectionEtablished()
 {
     lg(tr("Vous êtes maintenant connecté à un serveur (%1:%2) !").arg(m_network->serverIP()).arg(m_network->serverPort()));
@@ -54,11 +69,17 @@ void ClientInterface::connectionEtablished()
 void ClientInterface::connectionLost()
 {
     lg(tr("Vous avez été déconnecté du serveur. Tappez /retry pour tenter une reconnexion."));
+    setTitle("");
 }
 
 void ClientInterface::diceRolled(CLID ID, quint16 result)
 {
     lg(tr("%1 lance 1d20, et obtient un %2.").arg(anonym(ID)).arg(result));
+}
+
+void ClientInterface::rollDice()
+{
+    m_network->send(ETI(ROLL_DICE), serialiseDiceRollData(0,0) );
 }
 
 void ClientInterface::changeClientNickname(CLID ID, QString nick)
@@ -67,6 +88,13 @@ void ClientInterface::changeClientNickname(CLID ID, QString nick)
     m_nickMap[ID]=nick;
     lg(tr("%1 s'appelle maintenant %2.").arg(old).arg(nick));
 
+}
+
+void ClientInterface::serverName(QString n)
+{
+    m_serverName=n;
+    lg(tr("Le serveur s'appelle maintenant \"%1\".").arg(n));
+    setTitle(n);
 }
 
 void ClientInterface::sanctionned(CLID ID, ENUM_TYPE type, QString reason)
@@ -88,6 +116,11 @@ void ClientInterface::sanctionned(CLID ID, ENUM_TYPE type, QString reason)
     lg(tr("%1 %2 du serveur par le Maître du Jeu.%3").arg(anonym(ID)).arg(st).arg(rea));
 }
 
+void ClientInterface::gameLaunched()
+{
+    lg(tr("La partie a été lancée par le <strong>Maître du Jeu !</strong>"), true, true);
+}
+
 void ClientInterface::showError(ENUM_TYPE e, QString txt)
 {
     lg(tr("Erreur : %1").arg(ETS(e, txt)));
@@ -96,11 +129,17 @@ void ClientInterface::showError(ENUM_TYPE e, QString txt)
 void ClientInterface::changeClientID(CLID ID)
 {
     m_ID=ID;
+    lg(tr("Votre Client ID est le %1.").arg(m_ID));
 }
 
 void ClientInterface::clientVoted(CLID f, CLID t)
 {
-    lg(tr("%1 a voté pour %2 pour le poste de <strong>Maître de Jeu</strong>.").arg(anonym(f)).arg(anonym(t)), true, true);
+    if(f==t)
+    {
+        lg(tr("%1 a voté pour lui-même pour le poste de <strong>Maître de Jeu</strong>. Évidement.").arg(anonym(f)), true, true);
+    }
+    else
+        lg(tr("%1 a voté pour %2 pour le poste de <strong>Maître de Jeu</strong>.").arg(anonym(f)).arg(anonym(t)), true, true);
     if(m_nickMap.value(t)=="Lynix")
         lg(tr("Evidement, comme c'est un vote pour Lynix, il ne comptera <strong>pas</strong>. Faut pas rêver !"), false, true);
 }
@@ -108,9 +147,7 @@ void ClientInterface::clientVoted(CLID f, CLID t)
 void ClientInterface::changeGameMaster(CLID ID)
 {
     m_GMID=ID;
-    lg(tr("<em><strong>%1</strong> est maintenant <strong>Maître du Jeu</strong>.</em>").arg(m_nickMap.value(ID)), true, true);
-    if(m_nickMap.value(ID)=="Gigotdarnaud")
-        lg(tr("Tremblez, mortels ! Le grand <strong>Gigotdarnaud</strong> arrive !"), false, true);
+    lg(tr("<em><strong>%1</strong> est maintenant <strong>Maître du Jeu</strong>.</em>").arg(anonym(ID)), true, true);
 }
 
 void ClientInterface::changeServerInformations(ServerInformations si)
@@ -122,6 +159,7 @@ void ClientInterface::changeServerInformations(ServerInformations si)
     {
         lg(tr("Nom du serveur : %1").arg(m_serverName), false, true);
         m_serverName=si.serverName;
+        setTitle(m_serverName);
     }
 
     int nms=si.playersName.size();

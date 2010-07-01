@@ -5,10 +5,19 @@
 #include <QDateTime>
 #include "..\Shared\Serializer.h"
 
-ServerNetwork::ServerNetwork(QObject* parent) : QObject(parent)
+QString securise (const QString& in)
+{
+    QString ret=in.simplified();
+    ret.replace('>', "&gt;");
+    ret.replace('<', "&lt;");
+
+    return ret;
+}
+
+ServerNetwork::ServerNetwork(quint16 port, QObject* parent) : QObject(parent)
 {
     m_server=new QTcpServer(this);
-    if(!m_server->listen(QHostAddress::Any, SERVER_PORT))
+    if(!m_server->listen(QHostAddress::Any, port))
     {
         qDebug() << tr("Error - The server network failed to start. Reason : ") << m_server->errorString();
         //Well, what are we supposed to do now ?
