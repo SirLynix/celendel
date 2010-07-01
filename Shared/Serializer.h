@@ -61,4 +61,7 @@ QByteArray serialiseDiceRollData(CLID ID, quint16 result);
 void extractPlaySoundData(QByteArray& data, RSID& ID);
 QByteArray serialisePlaySoundData(RSID ID);
 
+void extractServerNameData(QByteArray& data, QString& name);
+QByteArray serialiseServerNameData(const QString& name);
+
 #endif

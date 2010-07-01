@@ -88,6 +88,17 @@ void ClientNetwork::operatePacket(Packet* packet)
             emit diceRolled(rID, res);
         }
         break;
+        case GAME_LAUNCHED:
+        {
+            emit gameLaunched();
+        }
+        break;
+        case SERVER_NAME:
+        {
+            QString n;
+            extractServerNameData(packet->data, n);
+            emit serverName(n);
+        }
         default:
         break;
     }

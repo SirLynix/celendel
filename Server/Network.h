@@ -9,13 +9,14 @@
 class Packet;
 
 void log(const QString txt, bool time=true); //Write a log in console with date and time.
+QString securise (const QString& in);
 
 class ServerNetwork : public QObject
 {
     Q_OBJECT
 
     public:
-        ServerNetwork(QObject* parent=NULL);
+        ServerNetwork(quint16 port=SERVER_PORT, QObject* parent=NULL);
         ~ServerNetwork();
 
         Client* getClient(CLID cID);
