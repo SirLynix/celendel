@@ -6,11 +6,7 @@ class Object : public XMLObject
 {
 Q_OBJECT
 public:
-    Object();
-    Object(QString name, int weight, QString infos);
-
-   void save(QTextStream& fileTxtStr);
-   bool save(QString filename);
+    Object(QString filename = "",QString name = "", int weight = 1, QString infos = "");
 
 public slots:
     bool throwUp();
@@ -19,6 +15,7 @@ public slots:
 private:
     unsigned int m_weight;
     Person *m_owner;
+    void baseDoc();
 
 
 };
