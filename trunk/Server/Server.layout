@@ -8,7 +8,7 @@
 		<Cursor position="148" topLine="5" />
 	</File>
 	<File name="Network.cpp" open="0" top="0" tabpos="2">
-		<Cursor position="342" topLine="0" />
+		<Cursor position="3180" topLine="84" />
 	</File>
 	<File name="Network.h" open="0" top="0" tabpos="3">
 		<Cursor position="957" topLine="7" />
@@ -19,8 +19,8 @@
 	<File name="Player.h" open="0" top="0" tabpos="0">
 		<Cursor position="584" topLine="0" />
 	</File>
-	<File name="Server.cpp" open="0" top="0" tabpos="0">
-		<Cursor position="1368" topLine="29" />
+	<File name="Server.cpp" open="0" top="0" tabpos="3">
+		<Cursor position="1464" topLine="43" />
 	</File>
 	<File name="Server.h" open="0" top="0" tabpos="0">
 		<Cursor position="611" topLine="16" />
@@ -29,12 +29,12 @@
 		<Cursor position="141" topLine="0" />
 	</File>
 	<File name="ServerSwitch.cpp" open="0" top="0" tabpos="2">
-		<Cursor position="3345" topLine="99" />
+		<Cursor position="583" topLine="0" />
 	</File>
 	<File name="main.cpp" open="0" top="0" tabpos="1">
 		<Cursor position="118" topLine="0" />
 	</File>
-	<File name="..\Shared\Constants.h" open="0" top="0" tabpos="0">
+	<File name="..\Shared\Constants.h" open="1" top="0" tabpos="0">
 		<Cursor position="1527" topLine="27" />
 	</File>
 	<File name="..\Shared\MapStructs.h" open="1" top="0" tabpos="0">
@@ -47,7 +47,7 @@
 		<Cursor position="333" topLine="0" />
 	</File>
 	<File name="..\Shared\Serializer.cpp" open="0" top="0" tabpos="0">
-		<Cursor position="6903" topLine="334" />
+		<Cursor position="7087" topLine="369" />
 	</File>
 	<File name="..\Shared\Serializer.h" open="1" top="0" tabpos="0">
 		<Cursor position="1458" topLine="24" />

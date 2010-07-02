@@ -51,7 +51,7 @@ l_RPChatDock->addWidget(m_RPChat);
 addDockWidget(Qt::RightDockWidgetArea, RPChatDock);
 
 ///CHAT INPUT DOCK
-QDockWidget *chatInputDock = new QDockWidget(tr("chatInput"), this);
+QDockWidget *chatInputDock = new QDockWidget(tr("Commandes"), this);
 chatInputDock->setFeatures(QDockWidget::NoDockWidgetFeatures);
 chatInputDock->setFeatures(QDockWidget::DockWidgetFloatable|QDockWidget::DockWidgetMovable);
 QWidget *w_chatInputDock = new QWidget(chatInputDock);
@@ -68,4 +68,20 @@ l_chatInputDock->addWidget(m_rollTheDice);
 connect(m_rollTheDice, SIGNAL(pressed()), this, SLOT(rollDice()));
 
 addDockWidget(Qt::RightDockWidgetArea, chatInputDock);
+
+
+///PLAYER LIST DOCK
+QDockWidget *playerListDock = new QDockWidget(tr("Liste des joueurs"), this);
+playerListDock->setFeatures(QDockWidget::NoDockWidgetFeatures);
+playerListDock->setFeatures(QDockWidget::DockWidgetFloatable|QDockWidget::DockWidgetMovable);
+m_playerList = new QStandardItemModel(this);
+
+QTreeView *v = new QTreeView(this);
+v->setModel(m_playerList);
+v->header()->hide();
+v->setEditTriggers(QAbstractItemView::NoEditTriggers);
+
+playerListDock->setWidget(v);
+
+addDockWidget(Qt::LeftDockWidgetArea, playerListDock);
 

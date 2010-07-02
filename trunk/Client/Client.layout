@@ -8,28 +8,28 @@
 		<Cursor position="6784" topLine="163" />
 	</File>
 	<File name="ClientInterface.cpp" open="1" top="1" tabpos="1">
-		<Cursor position="4096" topLine="112" />
+		<Cursor position="8090" topLine="203" />
 	</File>
-	<File name="ClientInterface.h" open="1" top="0" tabpos="2">
-		<Cursor position="1071" topLine="7" />
+	<File name="ClientInterface.h" open="0" top="0" tabpos="2">
+		<Cursor position="1147" topLine="15" />
 	</File>
 	<File name="ClientNetwork.cpp" open="0" top="0" tabpos="1">
-		<Cursor position="2241" topLine="69" />
+		<Cursor position="2029" topLine="62" />
 	</File>
 	<File name="ClientNetwork.h" open="0" top="0" tabpos="2">
-		<Cursor position="1433" topLine="30" />
+		<Cursor position="1697" topLine="30" />
 	</File>
-	<File name="ClientNetworkSwitch.cpp" open="1" top="0" tabpos="3">
-		<Cursor position="418" topLine="11" />
+	<File name="ClientNetworkSwitch.cpp" open="0" top="0" tabpos="3">
+		<Cursor position="2902" topLine="74" />
 	</File>
-	<File name="GUI.cpp" open="0" top="0" tabpos="0">
-		<Cursor position="2684" topLine="30" />
+	<File name="GUI.cpp" open="0" top="0" tabpos="1">
+		<Cursor position="2742" topLine="46" />
 	</File>
 	<File name="main.cpp" open="0" top="0" tabpos="0">
 		<Cursor position="550" topLine="0" />
 	</File>
 	<File name="..\Shared\Constants.h" open="0" top="0" tabpos="0">
-		<Cursor position="1137" topLine="49" />
+		<Cursor position="1563" topLine="49" />
 	</File>
 	<File name="..\Shared\MapStructs.h" open="0" top="0" tabpos="0">
 		<Cursor position="573" topLine="0" />
@@ -44,9 +44,9 @@
 		<Cursor position="124" topLine="0" />
 	</File>
 	<File name="..\Shared\Serializer.cpp" open="0" top="0" tabpos="0">
-		<Cursor position="6626" topLine="317" />
+		<Cursor position="6350" topLine="208" />
 	</File>
 	<File name="..\Shared\Serializer.h" open="0" top="0" tabpos="0">
-		<Cursor position="2377" topLine="24" />
+		<Cursor position="2556" topLine="33" />
 	</File>
 </CodeBlocks_layout_file>

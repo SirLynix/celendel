@@ -375,3 +375,35 @@ QByteArray serialiseServerNameData(const QString& name)
 
     return data;
 }
+
+void extractClientJoinedData(QByteArray& data, CLID& ID)
+{
+    QDataStream in(data);
+    in>>ID;
+}
+
+QByteArray serialiseClientJoinedData(const CLID& ID)
+{
+    QByteArray data;
+    QDataStream out(&data, QIODevice::ReadWrite);
+
+    out<<ID;
+
+    return data;
+}
+
+void extractClientLeftData(QByteArray& data, CLID& ID)
+{
+    QDataStream in(data);
+    in>>ID;
+}
+
+QByteArray serialiseClientLeftData(const CLID& ID)
+{
+    QByteArray data;
+    QDataStream out(&data, QIODevice::ReadWrite);
+
+    out<<ID;
+
+    return data;
+}

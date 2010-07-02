@@ -20,6 +20,7 @@ Server::Server(QObject* parent) : QObject(parent)
     m_gameStarted=false;
     m_GMID=0;
     m_map=new MapInformations();
+    serverName="Server";
 }
 
 Server::~Server()
@@ -38,6 +39,7 @@ ServerInformations Server::getServerInformations() const
     ServerInformations si;
     for(int i=0;i<m_players.size();++i)
         si.playersName[m_players[i]->ID()]=m_players[i]->nickname;
+    log(QString::number(m_players.size())+" here");
     si.gameMasterID=m_GMID;
     si.location=location;
     si.timeOfDay=timeOfDay;
@@ -58,8 +60,10 @@ void Server::addClient(CLID cID)
 {
     m_players.append(new Player(cID));
     log("Player "+QString::number(cID)+" added to game.");
-    m_network->sendToAll(ETI(SERVER_INFORMATIONS), serialiseServerInformationsData(getServerInformations()));
+    m_network->sendToClient(cID, ETI(SET_CLID), serialiseSetCLIDData(cID));
+    m_network->sendToClient(cID, ETI(SERVER_INFORMATIONS), serialiseServerInformationsData(getServerInformations()));
     m_network->sendToClient(cID, ETI(MAP_INFORMATIONS), serialiseMapInformationsData(*m_map));
+    m_network->sendToAll(ETI(CLIENT_JOINED), serialiseClientJoinedData(cID));
 }
 
 Player* Server::getPlayer(CLID cID)
@@ -106,6 +110,7 @@ void Server::removeClient(CLID cID)
 
             ply->deleteLater();
             cleanUp();
+            m_network->sendToAll(ETI(CLIENT_LEFT), serialiseClientJoinedData(cID));
             log("Player succefully removed from game.");
             return;
         }

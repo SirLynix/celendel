@@ -58,6 +58,9 @@ class ClientNetwork : public QObject
         void diceRolled(CLID, quint16);
         void sanctionned(CLID, ENUM_TYPE, QString);
 
+        void clientJoined(CLID);
+        void clientLeft(CLID);
+
     private:
         QTcpSocket* m_socket;
         Packet *packet;

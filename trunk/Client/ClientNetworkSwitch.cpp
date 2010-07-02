@@ -99,6 +99,20 @@ void ClientNetwork::operatePacket(Packet* packet)
             extractServerNameData(packet->data, n);
             emit serverName(n);
         }
+        case CLIENT_JOINED:
+        {
+            CLID cID;
+            extractClientJoinedData(packet->data, cID);
+            emit clientJoined(cID);
+        }
+        break;
+        case CLIENT_LEFT:
+        {
+            CLID cID;
+            extractClientLeftData(packet->data, cID);
+            emit clientLeft(cID);
+        }
+        break;
         default:
         break;
     }

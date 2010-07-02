@@ -111,7 +111,6 @@ void ServerNetwork::newConnection()
     log("Client connected with ID " + QString::number(newCl->ID()));
     m_clients.append(newCl);
     emit newClient(newCl->ID());
-    sendToClient(newCl->ID(), ETI(SET_CLID), serialiseSetCLIDData(newCl->ID()));
 }
 
 void ServerNetwork::clientDisconnected()
