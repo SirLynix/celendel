@@ -64,4 +64,10 @@ QByteArray serialisePlaySoundData(RSID ID);
 void extractServerNameData(QByteArray& data, QString& name);
 QByteArray serialiseServerNameData(const QString& name);
 
+void extractClientJoinedData(QByteArray& data, CLID& ID);
+QByteArray serialiseClientJoinedData(const CLID& ID);
+
+void extractClientLeftData(QByteArray& data, CLID& ID);
+QByteArray serialiseClientLeftData(const CLID& ID);
+
 #endif

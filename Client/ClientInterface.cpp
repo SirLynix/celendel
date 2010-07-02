@@ -28,6 +28,8 @@ ClientInterface::ClientInterface()
     connect(m_network, SIGNAL(diceRolled(CLID, quint16)), this, SLOT(diceRolled(CLID, quint16)));
     connect(m_network, SIGNAL(gameLaunched()), this, SLOT(gameLaunched()));
     connect(m_network, SIGNAL(serverName(QString)), this, SLOT(serverName(QString)));
+    connect(m_network, SIGNAL(clientLeft(CLID)), this, SLOT(clientLeft(CLID)));
+    connect(m_network, SIGNAL(clientJoined(CLID)), this, SLOT(clientJoined(CLID)));
 
     setTitle("");
 }
@@ -70,6 +72,25 @@ void ClientInterface::connectionLost()
 {
     lg(tr("Vous avez été déconnecté du serveur. Tappez /retry pour tenter une reconnexion."));
     setTitle("");
+    m_nickMap.clear();
+    updatePlayerList();
+}
+
+void ClientInterface::clientJoined(CLID cID)
+{
+    if(cID==m_ID)
+        return;
+
+    lg(tr("Un joueur s'est connecté (ID %1).").arg(cID));
+    m_nickMap.insert(cID, "");
+    updatePlayerList();
+}
+
+void ClientInterface::clientLeft(CLID cID)
+{
+    lg(tr("%1 s'est déconnecté.").arg(anonym(cID)));
+    m_nickMap.remove(cID);
+    updatePlayerList();
 }
 
 void ClientInterface::diceRolled(CLID ID, quint16 result)
@@ -87,7 +108,7 @@ void ClientInterface::changeClientNickname(CLID ID, QString nick)
     QString old(anonym(ID));
     m_nickMap[ID]=nick;
     lg(tr("%1 s'appelle maintenant %2.").arg(old).arg(nick));
-
+    updatePlayerList();
 }
 
 void ClientInterface::serverName(QString n)
@@ -95,6 +116,35 @@ void ClientInterface::serverName(QString n)
     m_serverName=n;
     lg(tr("Le serveur s'appelle maintenant \"%1\".").arg(n));
     setTitle(n);
+}
+
+void ClientInterface::updatePlayerList()
+{
+    m_playerList->clear();
+    QMap<CLID, QString>::const_iterator i = m_nickMap.constBegin();
+    while (i != m_nickMap.constEnd())
+    {
+        QStandardItem *item = new QStandardItem(anonym2(i.key()));
+        m_playerList->appendRow(item);
+
+        item->appendRow(new QStandardItem(tr("Client ID %1").arg(i.key())));
+        if(i.key()==m_GMID)
+        {
+            item->appendRow(new QStandardItem(tr("Maître du Jeu")));
+        }
+        else
+            item->appendRow(new QStandardItem(tr("Simple joueur")));
+
+        if(m_gameStarted)
+        {
+            QStandardItem *it = new QStandardItem(tr("Rôle :"));
+            item->appendRow(it);
+            it->appendRow(new QStandardItem(getRolePlayName(i.key())));
+        }
+
+        ++i;
+    }
+
 }
 
 void ClientInterface::sanctionned(CLID ID, ENUM_TYPE type, QString reason)
@@ -136,7 +186,7 @@ void ClientInterface::clientVoted(CLID f, CLID t)
 {
     if(f==t)
     {
-        lg(tr("%1 a voté pour lui-même pour le poste de <strong>Maître de Jeu</strong>. Évidement.").arg(anonym(f)), true, true);
+        lg(tr("%1 a voté pour lui-même pour le poste de <strong>Maître de Jeu</strong>.").arg(anonym(f)), true, true);
     }
     else
         lg(tr("%1 a voté pour %2 pour le poste de <strong>Maître de Jeu</strong>.").arg(anonym(f)).arg(anonym(t)), true, true);
@@ -148,6 +198,7 @@ void ClientInterface::changeGameMaster(CLID ID)
 {
     m_GMID=ID;
     lg(tr("<em><strong>%1</strong> est maintenant <strong>Maître du Jeu</strong>.</em>").arg(anonym(ID)), true, true);
+    updatePlayerList();
 }
 
 void ClientInterface::changeServerInformations(ServerInformations si)
@@ -157,60 +208,67 @@ void ClientInterface::changeServerInformations(ServerInformations si)
 
     if(!si.serverName.isEmpty()&&m_serverName!=si.serverName)
     {
-        lg(tr("Nom du serveur : %1").arg(m_serverName), false, true);
         m_serverName=si.serverName;
+        lg(tr("Nom du serveur : %1").arg(m_serverName), false, true);
         setTitle(m_serverName);
     }
 
     int nms=si.playersName.size();
-    if(si.playersName != m_nickMap)
+
+    m_nickMap.clear();
+    QMap<CLID, QString>::const_iterator i = si.playersName.constBegin(); //Manual copy - operator=() seems to be broken for empty values like QString("")... I realy don't know why (Gigotdarnaud, 2 July 2010)
+    while (i != si.playersName.constEnd())
     {
-        m_nickMap==si.playersName;
-        if(nms==1)
-        {
-            lg(tr("<em>Vous êtes le seul client connecté.</em>"), false, true);
-        }
-        else
-        {
-            lg(tr("<strong>%n</strong> client(s) connecté(s) :","",nms), false, true);
-            QMap<CLID, QString>::const_iterator i = m_nickMap.constBegin();
-            while (i != m_nickMap.constEnd())
-            {
-                if(i.key()==m_ID)
-                {
-                    lg(tr("%1 (vous)").arg(anonym(i.key())), false);
-                }
-                else
-                    lg(anonym(i.key()), false);
-                ++i;
-            }
-        }
+        m_nickMap.insert(i.key(),i.value());
+        ++i;
+    }
+
+
+
+    if(nms==1)
+    {
+        lg(tr("<em>Vous êtes le seul client connecté.</em>"), false, true);
+    }
+    else
+    {
+        lg(tr("<strong>%n</strong> client(s) maintenant connecté(s).","",nms), false, true);
     }
 
     if(m_GMID!=si.gameMasterID && si.gameMasterID!=0)
     {
-        lg(tr("<em><strong>%1</strong> est <strong>Maître du Jeu</strong></em>").arg(anonym(m_GMID)), false, true);
         m_GMID=si.gameMasterID;
+        lg(tr("<em><strong>%1</strong> est <strong>Maître du Jeu</strong></em>").arg(anonym(m_GMID)), false, true);
     }
 
     if(si.gameStarted)
     {
         if(m_gameStarted!=si.gameStarted)
         {
-            lg(tr("<em>La partie a déjà démarré.</em>"), false, true);
             m_gameStarted=si.gameStarted;
+            lg(tr("<em>La partie a déjà démarré.</em>"), false, true);
         }
         if(si.location!=m_location && !m_location.isEmpty())
         {
-            lg(tr("<em>Lieu du RP</em> : %1").arg(m_location), false, true);
             m_location=si.location;
+            lg(tr("<em>Lieu du RP</em> : %1").arg(m_location), false, true);
         }
         if(si.timeOfDay!=m_TOD && !m_TOD.isEmpty())
         {
-            lg(tr("<em>Heure du RP :</em> %1").arg(m_TOD), false, true);
             m_TOD=si.timeOfDay;
+            lg(tr("<em>Heure du RP :</em> %1").arg(m_TOD), false, true);
         }
     }
+    updatePlayerList();
+}
+
+QString ClientInterface::anonym2(CLID ID)
+{
+    QString nick=m_nickMap.value(ID);
+
+    if(nick.isEmpty())
+        return tr("Client anonyme %1").arg(ID);
+
+    return nick;
 }
 
 QString ClientInterface::anonym(CLID ID)

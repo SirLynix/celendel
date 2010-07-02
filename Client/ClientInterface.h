@@ -37,10 +37,16 @@ class ClientInterface : public QMainWindow
 
         void setTitle(const QString& serverName);
 
+        void updatePlayerList();
+
+        void clientJoined(CLID);
+        void clientLeft(CLID);
+
 
     private:
         ClientNetwork* m_network;
         QString anonym(CLID ID);
+        QString anonym2(CLID ID);
 
         ///Infos
         bool m_gameStarted;
@@ -60,6 +66,9 @@ class ClientInterface : public QMainWindow
         QPushButton* m_rollTheDice;
 
         QWidget* m_mapWi;
+
+        ///Player list
+        QStandardItemModel *m_playerList;
 };
 
 #endif
