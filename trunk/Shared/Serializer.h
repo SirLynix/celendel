@@ -37,7 +37,7 @@ QByteArray serialiseNewNickData(CLID ID, const QString& nick);
 void extractSetNickData(QByteArray& data, QString& ID);
 QByteArray serialiseSetNickData(const QString& ID);
 
-void extractGTFOLynixData(QByteArray& data, CLID& ID, ENUM_TYPE dropType, QString& reason);
+void extractGTFOLynixData(QByteArray& data, CLID& ID, ENUM_TYPE& dropType, QString& reason);
 QByteArray serialiseGTFOLynixData(CLID ID, ENUM_TYPE dropType, const QString& reason="");
 
 void extractTODData(QByteArray& data, QString& when);
@@ -69,5 +69,8 @@ QByteArray serialiseClientJoinedData(const CLID& ID);
 
 void extractClientLeftData(QByteArray& data, CLID& ID);
 QByteArray serialiseClientLeftData(const CLID& ID);
+
+void extractUnbanData(QByteArray& data, QString& IP);
+QByteArray serialiseUnbanData(const QString& IP);
 
 #endif

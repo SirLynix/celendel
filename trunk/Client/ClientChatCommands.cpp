@@ -1,6 +1,16 @@
 #include "ClientInterface.h"
 #include "..\Shared\Serializer.h"
 
+CLID ClientInterface::CLIDFromString(const QString& str) //Zero on error
+{
+    bool ok=false;
+    CLID ID = str.toInt(&ok);
+    if(ok)
+        return ID;
+
+    return m_nickMap.key(str, 0);
+}
+
 void ClientInterface::sendMessage()
 {
     QString txt = m_chatInput->text().simplified();
@@ -18,20 +28,33 @@ void ClientInterface::sendMessage()
     else if(txt.startsWith(tr("/aide")))
     {
         lg(tr("Liste des commandes :"));
-        lg(tr("/aide") + tr(" : Afficher ces informations."));
-        lg(tr("/pseudo") + tr(" [pseudo] : Changer de pseudo sur le chat."), false);
-        lg(tr("/ping") + tr(" : Affiche le dernier ping."), false);
-        lg(tr("/kick") + tr(" [Client ID] [Raison] : (MJ) Ejecte un client du serveur."), false);
-        lg(tr("/ban") + tr(" [Client ID] [Raison] : (MJ) Banni un client du serveur (par IP, valable jusqu'au redémarage du serveur)."), false);
-        lg(tr("/son") + tr(" [Ressource ID] : (MJ) Joue un son chez tous les clients."), false);
-        lg(tr("/votemj") + tr(" [Client ID] : Voter pour qu'un joueur devienne MJ - un seul vote par partie."), false);
-        lg(tr("/changemj") + tr(" [Client ID] : (MJ) Changer le MJ. Attention, vous perdrez vos privilèges."), false);
-        lg(tr("/lancerpartie") + tr(" : (MJ) Lancer la partie."), false);
-        lg(tr("/partir") + " | " + tr("/quitter") + " | " + tr("/sortir") + tr(" : Fermer le client."), false);
-        lg(tr("/rp") + " | " + tr("/jdr") + tr(" : Ecrire du dialogue, au format [Personnage : Blah]."), false);
-        lg(tr("/me") + " | " + tr("/moi") + tr(" : Ecrire de la narration, au format [Personnage fait quelque chose]."), false);
-        lg(tr("/nar") + tr(" : (MJ) Ecrire en tant que narrateur."), false);
-        lg(tr("/retry") + tr(" : Tenter de se re-connecter au serveur (sans effet si déjà connecté)."), false);
+        lg(tr("Note : remplacez <strong>[Client ID]</strong> par l'ID du client OU son pseudo ENTIER (si non anonyme)."), false, true);
+
+
+        lg(tr("<br />Commandes de canal :"), false, true);
+        lg("<strong>" + tr("/rp") + "</strong> | <strong>" + tr("/jdr") + "</strong>" + tr("<em>[Texte]</em> : Ecrire du dialogue, au format [Personnage : Blah]."), false, true);
+        lg("<strong>" + tr("/me") + "</strong> | <strong>" + tr("/moi") + "</strong>" + tr("<em>[Texte]</em> : Ecrire de la narration, au format [Personnage fait quelque chose]."), false, true);
+        lg("<strong>" + tr("/nar") + "</strong>" + tr("<em>[Texte]</em> : <strong>(MJ)</strong> Ecrire en tant que narrateur."), false, true);
+        lg("<strong>" + tr("/1d20") + "</strong>" + tr(" : Lancer 1d20."), false, true);
+
+        lg(tr("<br />Commandes locales :"), false, true);
+        lg("<strong>" + tr("/retry") + "</strong>" + tr(" : Tenter de se re-connecter au serveur (sans effet si déjà connecté)."), false, true);
+        lg("<strong>" + tr("/partir") + "</strong> | <strong>" + tr("/quitter") + "</strong> | <strong>" + tr("/sortir") + "</strong>" + tr(" : Fermer le client."), false, true);
+        lg("<strong>" + tr("/ping") + "</strong>" + tr(" : Affiche le dernier ping."), false, true);
+        lg("<strong>" + tr("/aide") + "</strong>" + tr(" : Afficher ces informations."), false, true);
+
+        lg(tr("<br />Commandes d'administration :"), false, true);
+        lg("<strong>" + tr("/pseudo") + "</strong>" + tr(" <em>[Pseudo]</em> : Changer de pseudo sur le chat. Caractères autorisés : \"[a-Z][0-9]-_éèà'\""), false, true);
+        lg("<strong>" + tr("/votemj") + "</strong>" + tr(" <em>[Client ID]</em> : Voter pour qu'un joueur devienne MJ - un seul vote par partie."), false, true);
+
+        lg(tr("<br />Commandes d'administration (Maître du Jeu uniquement) :"), false, true);
+        lg("<strong>" + tr("/kick") + "</strong>" + tr(" <em>[Client ID] [Raison]</em> : <strong>(MJ)</strong> Ejecte un client du serveur."), false, true);
+        lg("<strong>" + tr("/ban") + "</strong>" + tr(" <em>[Client ID] [Raison]</em> : <strong>(MJ)</strong> Banni un client du serveur (par IP, valable jusqu'au redémarage du serveur)."), false, true);
+        lg("<strong>" + tr("/unban") + "</strong>" + tr(" <em>[IP]</em> : <strong>(MJ)</strong> Supprime une IP de la banlist."), false, true);
+        lg("<strong>" + tr("/son") + "</strong>" + tr(" <em>[Ressource ID]</em> : <strong>(MJ)</strong> Joue un son chez tous les clients."), false, true);
+        lg("<strong>" + tr("/lancerpartie") + "</strong>" + tr(" : <strong>(MJ)</strong> Lancer la partie."), false, true);
+        lg("<strong>" + tr("/changemj") + "</strong>" + tr(" <em>[Client ID]</em> : <strong>(MJ)</strong> Changer le MJ. Attention, vous perdrez vos privilèges."), false, true);
+        lg("<strong>" + tr("/nomserveur") + "</strong>" + tr(" <em>[Nom]</em> : <strong>(MJ)</strong> Changer le nom du serveur."), false, true);
         return;
     }
     else if(txt.startsWith(tr("/partir"))||txt.startsWith(tr("/quitter"))||txt.startsWith(tr("/sortir")))
@@ -79,7 +102,7 @@ void ClientInterface::sendMessage()
             {
                 r=txt.mid(txt.indexOf(spl[2]));
             }
-            m_network->send(ETI(GTFO_LYNIX), serialiseGTFOLynixData(spl[1].toInt(), ETI(KICK), r));
+            m_network->send(ETI(GTFO_LYNIX), serialiseGTFOLynixData(CLIDFromString(spl[1]), ETI(KICK), r));
         }
         else if(txt.startsWith(tr("/ban")))
         {
@@ -94,7 +117,18 @@ void ClientInterface::sendMessage()
             {
                 r=txt.mid(txt.indexOf(spl[2]));
             }
-            m_network->send(ETI(GTFO_LYNIX), serialiseGTFOLynixData(spl[1].toInt(), ETI(BAN), r));
+            m_network->send(ETI(GTFO_LYNIX), serialiseGTFOLynixData(CLIDFromString(spl[1]), ETI(BAN), r));
+        }
+        else if(txt.startsWith(tr("/unban")))
+        {
+            QStringList spl = txt.split(' ', QString::SkipEmptyParts);
+            if(spl.size()<2)
+            {
+                lg(tr("Erreur : pas assez d'arguments."));
+                return;
+            }
+
+            m_network->send(ETI(GTFO_LYNIX), serialiseUnbanData(spl[1]));
         }
         else if(txt.startsWith(tr("/son")))
         {
@@ -118,7 +152,7 @@ void ClientInterface::sendMessage()
                 return;
             }
 
-            m_network->send(ETI(GM_ELECT), serialiseGMElectData(spl[1].toInt()));
+            m_network->send(ETI(GM_ELECT), serialiseGMElectData(CLIDFromString(spl[1])));
             show=false;
         }
         else if(txt.startsWith(tr("/changemj"), Qt::CaseInsensitive))
@@ -131,7 +165,7 @@ void ClientInterface::sendMessage()
                 return;
             }
 
-            m_network->send(ETI(NEW_GM), serialiseNewGMData(spl[1].toInt()));
+            m_network->send(ETI(NEW_GM), serialiseNewGMData(CLIDFromString(spl[1])));
         }
         else if(txt.startsWith(tr("/lancerpartie"), Qt::CaseInsensitive))
         {

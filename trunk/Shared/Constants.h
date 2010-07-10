@@ -26,6 +26,9 @@
 #include <QString>
 #include <QMap>
 
+#define QT_USE_FAST_CONCATENATION ///QString concatenate optimisation
+#define QT_USE_FAST_OPERATOR_PLUS
+
 
 int alea(int min,int max);
 
@@ -53,12 +56,15 @@ struct ServerInformations
 
 enum PACKET_TYPE { ERROR, PING, CHAT, GM_ELECT, NEW_GM, LAUNCH_GAME, GAME_LAUNCHED, VOTED, SET_CLID, NEW_NICK,
                 SET_NICK, GTFO_LYNIX, TOD, LOCATION, SERVER_INFORMATIONS, MAP_INFORMATIONS, MAP_ITEMS_INFORMATIONS,
-                PLAY_SOUND, SCRIPTS_INFOS, ROLL_DICE, SERVER_NAME, CLIENT_LEFT, CLIENT_JOINED};
+                PLAY_SOUND, SCRIPTS_INFOS, ROLL_DICE, SERVER_NAME, CLIENT_LEFT, CLIENT_JOINED, UNBAN};
 
 #define MAX_NICKNAME_LENGHT 15
 
 /* CLIENT_LEFT and CLIENT_JOINED structure :
 - CLID ID */
+
+/* UNBAN structure :
+- QString IP */
 
 /* SERVER_NAME type structure :
 - QString name */

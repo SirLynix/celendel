@@ -68,6 +68,11 @@ void ServerNetwork::ban(CLID ID, const QString& reason)
     c->socket->disconnectFromHost();
 }
 
+int ServerNetwork::unban(const QString& IP)
+{
+    return m_banList.removeAll(IP);
+}
+
 void ServerNetwork::newConnection()
 {
     log("Someone connected.");

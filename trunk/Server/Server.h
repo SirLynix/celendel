@@ -32,6 +32,7 @@ class Server : public QObject
         bool changeGM(CLID cID); // Returns true if error
 
         ServerInformations getServerInformations() const;
+        CLID nickToCLID(const QString& nick);
 
     public slots:
         void addClient(CLID cID);

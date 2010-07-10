@@ -42,6 +42,9 @@ class ClientInterface : public QMainWindow
         void clientJoined(CLID);
         void clientLeft(CLID);
 
+        void updateGMLabel();
+        CLID CLIDFromString(const QString& str);
+
 
     private:
         ClientNetwork* m_network;
@@ -69,6 +72,7 @@ class ClientInterface : public QMainWindow
 
         ///Player list
         QStandardItemModel *m_playerList;
+        QLabel *m_GMLabel;
 };
 
 #endif

@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Meta object code from reading C++ file 'ClientInterface.h'
 **
-** Created: Fri 2. Jul 22:19:36 2010
+** Created: Sat 3. Jul 11:25:02 2010
 **      by: The Qt Meta Object Compiler version 62 (Qt 4.6.2)
 **
 ** WARNING! All changes made in this file will be lost!
@@ -23,7 +23,7 @@ static const uint qt_meta_data_ClientInterface[] = {
        4,       // revision
        0,       // classname
        0,    0, // classinfo
-      19,   14, // methods
+      21,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
@@ -50,6 +50,8 @@ static const uint qt_meta_data_ClientInterface[] = {
      459,   16,   16,   16, 0x08,
      478,   16,   16,   16, 0x08,
      497,   16,   16,   16, 0x08,
+     514,   16,   16,   16, 0x08,
+     539,  535,  530,   16, 0x08,
 
        0        // eod
 };
@@ -68,7 +70,8 @@ static const char qt_meta_stringdata_ClientInterface[] = {
     "rollDice()\0serverName(QString)\0"
     "gameLaunched()\0serverName\0setTitle(QString)\0"
     "updatePlayerList()\0clientJoined(CLID)\0"
-    "clientLeft(CLID)\0"
+    "clientLeft(CLID)\0updateGMLabel()\0CLID\0"
+    "str\0CLIDFromString(QString)\0"
 };
 
 const QMetaObject ClientInterface::staticMetaObject = {
@@ -119,9 +122,12 @@ int ClientInterface::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
         case 16: updatePlayerList(); break;
         case 17: clientJoined((*reinterpret_cast< CLID(*)>(_a[1]))); break;
         case 18: clientLeft((*reinterpret_cast< CLID(*)>(_a[1]))); break;
+        case 19: updateGMLabel(); break;
+        case 20: { CLID _r = CLIDFromString((*reinterpret_cast< const QString(*)>(_a[1])));
+            if (_a[0]) *reinterpret_cast< CLID*>(_a[0]) = _r; }  break;
         default: ;
         }
-        _id -= 19;
+        _id -= 21;
     }
     return _id;
 }

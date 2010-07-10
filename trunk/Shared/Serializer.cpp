@@ -147,7 +147,7 @@ QByteArray serialiseSetNickData(const QString& nick)
     return data;
 }
 
-void extractGTFOLynixData(QByteArray& data, CLID& ID, ENUM_TYPE dropType, QString& reason)
+void extractGTFOLynixData(QByteArray& data, CLID& ID, ENUM_TYPE& dropType, QString& reason)
 {
     QDataStream in(data);
 
@@ -387,7 +387,7 @@ QByteArray serialiseClientJoinedData(const CLID& ID)
     QByteArray data;
     QDataStream out(&data, QIODevice::ReadWrite);
 
-    out<<ID;
+    out<<(CLID)ID;
 
     return data;
 }
@@ -403,7 +403,23 @@ QByteArray serialiseClientLeftData(const CLID& ID)
     QByteArray data;
     QDataStream out(&data, QIODevice::ReadWrite);
 
-    out<<ID;
+    out<<(CLID)ID;
+
+    return data;
+}
+
+void extractUnbanData(QByteArray& data, QString& IP)
+{
+    QDataStream in(data);
+    in>>IP;
+}
+
+QByteArray serialiseUnbanData(const QString& IP)
+{
+    QByteArray data;
+    QDataStream out(&data, QIODevice::ReadWrite);
+
+    out<<IP;
 
     return data;
 }
