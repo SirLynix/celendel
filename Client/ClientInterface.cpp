@@ -32,6 +32,7 @@ ClientInterface::ClientInterface()
     connect(m_network, SIGNAL(clientJoined(CLID)), this, SLOT(clientJoined(CLID)));
 
     setTitle("");
+    updateGMLabel();
 }
 
 void ClientInterface::lg(const QString txt, bool time, bool html)
@@ -39,7 +40,7 @@ void ClientInterface::lg(const QString txt, bool time, bool html)
     QString tmp;
     if(time)
     {
-        tmp += QTime::currentTime().toString("HH:mm:ss") + " : ";
+        tmp = QTime::currentTime().toString("HH:mm:ss") + " : ";
     }
     tmp+=txt;
 
@@ -144,7 +145,22 @@ void ClientInterface::updatePlayerList()
 
         ++i;
     }
+}
 
+void ClientInterface::updateGMLabel()
+{
+    if(m_GMID==0)
+    {
+        m_GMLabel->setText(tr("<strong>Il n'y a pas de Maître du Jeu.</strong>"));
+    }
+    else if(m_GMID==m_ID)
+    {
+        m_GMLabel->setText(tr("<strong>Vous êtes actuellement le Maître du Jeu.</strong>"));
+    }
+    else
+    {
+        m_GMLabel->setText(tr("Le Maître du jeu est <strong>%1</strong>").arg(anonym2(m_GMID)));
+    }
 }
 
 void ClientInterface::sanctionned(CLID ID, ENUM_TYPE type, QString reason)
@@ -199,6 +215,7 @@ void ClientInterface::changeGameMaster(CLID ID)
     m_GMID=ID;
     lg(tr("<em><strong>%1</strong> est maintenant <strong>Maître du Jeu</strong>.</em>").arg(anonym(ID)), true, true);
     updatePlayerList();
+    updateGMLabel();
 }
 
 void ClientInterface::changeServerInformations(ServerInformations si)
@@ -238,6 +255,7 @@ void ClientInterface::changeServerInformations(ServerInformations si)
     {
         m_GMID=si.gameMasterID;
         lg(tr("<em><strong>%1</strong> est <strong>Maître du Jeu</strong></em>").arg(anonym(m_GMID)), false, true);
+        updateGMLabel();
     }
 
     if(si.gameStarted)

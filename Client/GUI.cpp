@@ -76,12 +76,21 @@ playerListDock->setFeatures(QDockWidget::NoDockWidgetFeatures);
 playerListDock->setFeatures(QDockWidget::DockWidgetFloatable|QDockWidget::DockWidgetMovable);
 m_playerList = new QStandardItemModel(this);
 
+QWidget *w_playerListDock = new QWidget(playerListDock);
+playerListDock->setWidget(w_playerListDock);
+QVBoxLayout *l_playerListDock = new QVBoxLayout(w_playerListDock);
+w_playerListDock->setLayout(l_playerListDock);
+
 QTreeView *v = new QTreeView(this);
 v->setModel(m_playerList);
 v->header()->hide();
 v->setEditTriggers(QAbstractItemView::NoEditTriggers);
+l_playerListDock->addWidget(v);
 
-playerListDock->setWidget(v);
+m_GMLabel=new QLabel(this);
+l_playerListDock->addWidget(m_GMLabel);
+
+playerListDock->setWidget(w_playerListDock);
 
 addDockWidget(Qt::LeftDockWidgetArea, playerListDock);
 

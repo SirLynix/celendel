@@ -8,10 +8,10 @@
 		<Cursor position="148" topLine="5" />
 	</File>
 	<File name="Network.cpp" open="0" top="0" tabpos="2">
-		<Cursor position="3180" topLine="84" />
+		<Cursor position="1894" topLine="42" />
 	</File>
 	<File name="Network.h" open="0" top="0" tabpos="3">
-		<Cursor position="957" topLine="7" />
+		<Cursor position="1167" topLine="7" />
 	</File>
 	<File name="Player.cpp" open="0" top="0" tabpos="0">
 		<Cursor position="197" topLine="0" />
@@ -23,33 +23,33 @@
 		<Cursor position="1464" topLine="43" />
 	</File>
 	<File name="Server.h" open="0" top="0" tabpos="0">
-		<Cursor position="611" topLine="16" />
+		<Cursor position="806" topLine="16" />
 	</File>
 	<File name="Server.pro" open="0" top="0" tabpos="0">
 		<Cursor position="141" topLine="0" />
 	</File>
 	<File name="ServerSwitch.cpp" open="0" top="0" tabpos="2">
-		<Cursor position="583" topLine="0" />
+		<Cursor position="8811" topLine="219" />
 	</File>
 	<File name="main.cpp" open="0" top="0" tabpos="1">
 		<Cursor position="118" topLine="0" />
 	</File>
-	<File name="..\Shared\Constants.h" open="1" top="0" tabpos="0">
-		<Cursor position="1527" topLine="27" />
+	<File name="..\Shared\Constants.h" open="0" top="0" tabpos="0">
+		<Cursor position="1611" topLine="46" />
 	</File>
-	<File name="..\Shared\MapStructs.h" open="1" top="0" tabpos="0">
+	<File name="..\Shared\MapStructs.h" open="0" top="0" tabpos="1">
 		<Cursor position="50" topLine="0" />
 	</File>
-	<File name="..\Shared\Packet.cpp" open="1" top="0" tabpos="0">
+	<File name="..\Shared\Packet.cpp" open="0" top="0" tabpos="1">
 		<Cursor position="920" topLine="6" />
 	</File>
 	<File name="..\Shared\Packet.h" open="0" top="0" tabpos="0">
 		<Cursor position="333" topLine="0" />
 	</File>
 	<File name="..\Shared\Serializer.cpp" open="0" top="0" tabpos="0">
-		<Cursor position="7087" topLine="369" />
+		<Cursor position="7744" topLine="384" />
 	</File>
-	<File name="..\Shared\Serializer.h" open="1" top="0" tabpos="0">
-		<Cursor position="1458" topLine="24" />
+	<File name="..\Shared\Serializer.h" open="0" top="0" tabpos="0">
+		<Cursor position="2728" topLine="33" />
 	</File>
 </CodeBlocks_layout_file>

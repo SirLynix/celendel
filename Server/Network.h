@@ -34,6 +34,8 @@ class ServerNetwork : public QObject
         void kick(CLID ID, const QString& reason);
         void ban(CLID ID, const QString& reason);
 
+        int unban(const QString& IP);
+
     private slots:
         void newConnection(); //Called when someone ask for connection
         void clientDisconnected(); //Called when someone is disconnected

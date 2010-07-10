@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Meta object code from reading C++ file 'Network.h'
 **
-** Created: Fri 2. Jul 22:09:37 2010
+** Created: Wed 7. Jul 18:48:28 2010
 **      by: The Qt Meta Object Compiler version 62 (Qt 4.6.2)
 **
 ** WARNING! All changes made in this file will be lost!
@@ -23,7 +23,7 @@ static const uint qt_meta_data_ServerNetwork[] = {
        4,       // revision
        0,       // classname
        0,    0, // classinfo
-      21,   14, // methods
+      22,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
@@ -50,10 +50,11 @@ static const uint qt_meta_data_ServerNetwork[] = {
      594,  216,   14,   14, 0x0a,
      623,  613,   14,   14, 0x0a,
      642,  613,   14,   14, 0x0a,
-     660,   14,   14,   14, 0x08,
-     676,   14,   14,   14, 0x08,
-     697,   14,   14,   14, 0x08,
-     724,   14,   14,   14, 0x08,
+     667,  664,  660,   14, 0x0a,
+     682,   14,   14,   14, 0x08,
+     698,   14,   14,   14, 0x08,
+     719,   14,   14,   14, 0x08,
+     746,   14,   14,   14, 0x08,
 
        0        // eod
 };
@@ -77,8 +78,9 @@ static const char qt_meta_stringdata_ServerNetwork[] = {
     "sendToClient(CLID,Packet&)\0"
     "sendToAll(Packet&)\0ID,reason\0"
     "kick(CLID,QString)\0ban(CLID,QString)\0"
-    "newConnection()\0clientDisconnected()\0"
-    "slot_dataReceived(Packet*)\0flush()\0"
+    "int\0IP\0unban(QString)\0newConnection()\0"
+    "clientDisconnected()\0slot_dataReceived(Packet*)\0"
+    "flush()\0"
 };
 
 const QMetaObject ServerNetwork::staticMetaObject = {
@@ -133,13 +135,15 @@ int ServerNetwork::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
         case 14: sendToAll((*reinterpret_cast< Packet(*)>(_a[1]))); break;
         case 15: kick((*reinterpret_cast< CLID(*)>(_a[1])),(*reinterpret_cast< const QString(*)>(_a[2]))); break;
         case 16: ban((*reinterpret_cast< CLID(*)>(_a[1])),(*reinterpret_cast< const QString(*)>(_a[2]))); break;
-        case 17: newConnection(); break;
-        case 18: clientDisconnected(); break;
-        case 19: slot_dataReceived((*reinterpret_cast< Packet*(*)>(_a[1]))); break;
-        case 20: flush(); break;
+        case 17: { int _r = unban((*reinterpret_cast< const QString(*)>(_a[1])));
+            if (_a[0]) *reinterpret_cast< int*>(_a[0]) = _r; }  break;
+        case 18: newConnection(); break;
+        case 19: clientDisconnected(); break;
+        case 20: slot_dataReceived((*reinterpret_cast< Packet*(*)>(_a[1]))); break;
+        case 21: flush(); break;
         default: ;
         }
-        _id -= 21;
+        _id -= 22;
     }
     return _id;
 }

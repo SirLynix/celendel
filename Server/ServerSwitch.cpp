@@ -23,6 +23,16 @@ bool Server::changeGM(CLID cID)
     return false;
 }
 
+CLID Server::nickToCLID(const QString& nick)
+{
+    for(int i=0;i<m_players.size();++i)
+    {
+        if(nick==m_players[i]->nickname)
+            return m_players[i]->ID();
+    }
+    return 0;
+}
+
 void Server::processData(Packet* pa, CLID cID)
 {
     Player *ply = getPlayer(cID);
@@ -184,9 +194,9 @@ void Server::processData(Packet* pa, CLID cID)
         {
             QString nick;
             extractSetNickData(pa->data, nick);
-            nick.replace(QRegExp("[^a-zA-Z0-9_]"), "");
+            nick.replace(QRegExp("[^a-zA-Z0-9_'\\-יטאח]"), "");
             nick.truncate(MAX_NICKNAME_LENGHT);
-            if(nick != "")
+            if(nick != "" && nickToCLID(nick) == 0)
             {
                 log("Client [" + QString::number(ply->ID())+"] changed his nickname : \""+ply->nickname+"\" -> \"" +nick);
                 ply->nickname=nick;
@@ -226,6 +236,18 @@ void Server::processData(Packet* pa, CLID cID)
                         break;
                     }
                 }
+            }
+            else
+                m_network->sendToClient(cID, ETI(ERROR), serialiseErrorData(ETI(NOT_GM)));
+        }
+        break;
+        case UNBAN:
+        {
+            if(ply->isGM())
+            {
+                QString IP;
+                extractUnbanData(pa->data, IP);
+                m_network->unban(IP);
             }
             else
                 m_network->sendToClient(cID, ETI(ERROR), serialiseErrorData(ETI(NOT_GM)));
