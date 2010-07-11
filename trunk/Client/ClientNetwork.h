@@ -11,7 +11,7 @@ class ClientNetwork : public QObject
 {
     Q_OBJECT
     public:
-        ClientNetwork(QObject* parent=NULL);
+        ClientNetwork(QString IP, quint16 port, QObject* parent=NULL);
         ~ClientNetwork();
 
         bool isConnected() const;
@@ -31,6 +31,9 @@ class ClientNetwork : public QObject
         void flush();
 
         void connection();
+        void disconnection();
+
+        bool setServer(QString IP, quint16 port); //True on error (connection already etablish - disconnect first)
 
     private slots:
         void connected();
@@ -69,6 +72,9 @@ class ClientNetwork : public QObject
 
         QTimer *pingTimer;
         QTimer *flushTimer;
+
+        QString m_serverIP;
+        quint16 m_serverPort;
 
 };
 

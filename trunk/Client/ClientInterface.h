@@ -3,8 +3,7 @@
 
 #include <QMainWindow>
 #include "ClientNetwork.h"
-
-#include <QtGui>
+#include "ClientSettings.h"
 
 class ClientInterface : public QMainWindow
 {
@@ -14,9 +13,10 @@ class ClientInterface : public QMainWindow
 
         void ClientInterface::lg(const QString txt, bool time=true, bool html=true);
         QString ClientInterface::getRolePlayName(CLID ID);
+        bool isConnected() const { return m_network->isConnected(); }
 
     private slots:
-        void sendMessage();
+        void sendMessage(); // In ClientChatCommands.cpp
         void chat(CLID sender, QString text, ENUM_TYPE canal);
         void changeServerInformations(ServerInformations si);
         void changeClientID(CLID ID);
@@ -35,7 +35,7 @@ class ClientInterface : public QMainWindow
         void serverName(QString);
         void gameLaunched();
 
-        void setTitle(const QString& serverName);
+        void setTitle();
 
         void updatePlayerList();
 
@@ -43,7 +43,15 @@ class ClientInterface : public QMainWindow
         void clientLeft(CLID);
 
         void updateGMLabel();
-        CLID CLIDFromString(const QString& str);
+        CLID CLIDFromString(const QString& str); // In ClientChatCommands.cpp
+
+        void switchConnectionState();
+        void openSettings();
+
+        void resetData();
+
+        void setCSS(const QString& fileName = ""); // If fileName is empty, the defaut theme (OS dependent) will be loaded
+        void setInterface(const QString& path = DEFAULT_INTERFACE);  // If path is empty, the defaut interface will be loaded
 
 
     private:
@@ -73,6 +81,12 @@ class ClientInterface : public QMainWindow
         ///Player list
         QStandardItemModel *m_playerList;
         QLabel *m_GMLabel;
+
+        ///Character list
+        QStandardItemModel *m_characterList;
+
+        ///Menus
+        QAction *m_ac_joinOrLeave;
 };
 
 #endif

@@ -1,8 +1,47 @@
+  /*                GUI.cpp : build the client GUI                    */
+ /* This file shall be included in ClientInterface constructor only. */
+/* Workers :
+- Gigotdarnaud */
 
-/* This file will be included in ClientInterface constructor. */
+  ////////////////////////////
+ /// MENUS FEATURES BELOW ///
+////////////////////////////
+
+// FILE MENU
+QMenu *fileMenu = menuBar()->addMenu(tr("&Fichier"));
+QAction *ac_save = fileMenu->addAction(tr("Sauvegarder la partie"));
+ac_save->setShortcut(QKeySequence(QKeySequence::Save));
+QAction *ac_load = fileMenu->addAction(tr("Charger une partie"));
+ac_load->setShortcut(QKeySequence(QKeySequence::Open));
+m_ac_joinOrLeave = fileMenu->addAction(tr("Se connecter au serveur")); //This text will change, depending if the client is connected or not.
+connect(m_ac_joinOrLeave, SIGNAL(triggered()), this, SLOT(switchConnectionState()));
+QAction *ac_serverInfos = fileMenu->addAction(tr("Voir les informations serveur"));
+QAction *ac_quit = fileMenu->addAction(tr("Quitter"));
+ac_quit->setShortcut(QKeySequence(QKeySequence::Quit));
+connect(ac_quit, SIGNAL(triggered()), qApp, SLOT(quit()));
+
+
+
+// SETTINGS MENU
+QMenu *settingsMenu = menuBar()->addMenu(tr("&Paramètres"));
+QAction *ac_settings = settingsMenu->addAction(tr("Options"));
+ac_settings->setShortcut(QKeySequence(QKeySequence::Preferences));
+connect(ac_settings, SIGNAL(triggered()), this, SLOT(openSettings()));
+
+  ////////////////////////////
+ /// DOCKS FEATURES BELOW ///
+////////////////////////////
+
+QWidget* m_centralWi=new QWidget(this);
+
+m_centralWi->setMinimumSize(0,0);
+m_centralWi->setMaximumSize(1,1);
+
+setCentralWidget(m_centralWi);
 
 resize(1024,768);
 setTabPosition(Qt::AllDockWidgetAreas, QTabWidget::North);
+setDockNestingEnabled(true);
 
 ///MAIN CHAT DOCK
 QDockWidget *chatDock = new QDockWidget(tr("Chat"), this);
@@ -34,6 +73,8 @@ l_narratorDock->addWidget(m_narrator);
 
 addDockWidget(Qt::RightDockWidgetArea, narratorDock);
 
+tabifyDockWidget(chatDock, narratorDock);
+
 
 ///RP CHAT DOCK
 QDockWidget *RPChatDock = new QDockWidget(tr("Jeu de rôle"), this);
@@ -49,6 +90,8 @@ m_RPChat->setReadOnly(true);
 l_RPChatDock->addWidget(m_RPChat);
 
 addDockWidget(Qt::RightDockWidgetArea, RPChatDock);
+
+tabifyDockWidget(chatDock, RPChatDock);
 
 ///CHAT INPUT DOCK
 QDockWidget *chatInputDock = new QDockWidget(tr("Commandes"), this);
@@ -69,6 +112,8 @@ connect(m_rollTheDice, SIGNAL(pressed()), this, SLOT(rollDice()));
 
 addDockWidget(Qt::RightDockWidgetArea, chatInputDock);
 
+w_chatInputDock->setMaximumHeight(m_chatInput->height()+m_rollTheDice->height()*3/2);
+
 
 ///PLAYER LIST DOCK
 QDockWidget *playerListDock = new QDockWidget(tr("Liste des joueurs"), this);
@@ -81,11 +126,13 @@ playerListDock->setWidget(w_playerListDock);
 QVBoxLayout *l_playerListDock = new QVBoxLayout(w_playerListDock);
 w_playerListDock->setLayout(l_playerListDock);
 
+{
 QTreeView *v = new QTreeView(this);
 v->setModel(m_playerList);
 v->header()->hide();
 v->setEditTriggers(QAbstractItemView::NoEditTriggers);
 l_playerListDock->addWidget(v);
+}
 
 m_GMLabel=new QLabel(this);
 l_playerListDock->addWidget(m_GMLabel);
@@ -94,3 +141,29 @@ playerListDock->setWidget(w_playerListDock);
 
 addDockWidget(Qt::LeftDockWidgetArea, playerListDock);
 
+
+///character LIST DOCK
+QDockWidget *characterListDock = new QDockWidget(tr("Liste des personnages"), this);
+characterListDock->setFeatures(QDockWidget::NoDockWidgetFeatures);
+characterListDock->setFeatures(QDockWidget::DockWidgetFloatable|QDockWidget::DockWidgetMovable);
+m_characterList = new QStandardItemModel(this);
+
+QWidget *w_characterListDock = new QWidget(characterListDock);
+characterListDock->setWidget(w_characterListDock);
+QVBoxLayout *l_characterListDock = new QVBoxLayout(w_characterListDock);
+w_characterListDock->setLayout(l_characterListDock);
+
+{
+QTreeView *v = new QTreeView(this);
+v->setModel(m_characterList);
+v->header()->hide();
+v->setEditTriggers(QAbstractItemView::NoEditTriggers);
+l_characterListDock->addWidget(v);
+}
+
+
+characterListDock->setWidget(w_characterListDock);
+
+addDockWidget(Qt::LeftDockWidgetArea, characterListDock);
+
+m_centralWi->setMaximumSize(1,1);

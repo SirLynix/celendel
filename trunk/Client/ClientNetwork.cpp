@@ -18,9 +18,12 @@ void log(const QString txt, bool time)
 }
 
 
-ClientNetwork::ClientNetwork(QObject* parent):QObject(parent)
+ClientNetwork::ClientNetwork(QString IP, quint16 port, QObject* parent):QObject(parent)
 {
     m_socket=new QTcpSocket(this);
+
+    m_serverIP=IP;
+    m_serverPort=port;
 
     connect(m_socket, SIGNAL(readyRead()), this, SLOT(dataReceived()));
     connect(m_socket, SIGNAL(connected()), this, SLOT(connected()));
@@ -42,21 +45,40 @@ ClientNetwork::ClientNetwork(QObject* parent):QObject(parent)
     connection();
 }
 
+bool ClientNetwork::setServer(QString IP, quint16 port)
+{
+    if(isConnected())
+        return true;
+
+    m_serverIP=IP;
+    m_serverPort=port;
+
+    return false;
+}
+
 QString ClientNetwork::serverIP() const
 {
     if(!isConnected())
-        return QString();
+        return m_serverIP;
     return m_socket->peerAddress().toString();
 }
 
 quint16 ClientNetwork::serverPort() const
 {
+    if(!isConnected())
+        return m_serverPort;
     return m_socket->peerPort();
 }
 
 void ClientNetwork::connection()
 {
-    m_socket->connectToHost(SERVER_IP, SERVER_PORT);
+    m_socket->abort();
+    m_socket->connectToHost(m_serverIP, m_serverPort);
+}
+
+void ClientNetwork::disconnection()
+{
+    m_socket->disconnectFromHost();
 }
 
 bool ClientNetwork::isConnected() const

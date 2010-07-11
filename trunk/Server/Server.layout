@@ -34,7 +34,7 @@
 	<File name="main.cpp" open="0" top="0" tabpos="1">
 		<Cursor position="118" topLine="0" />
 	</File>
-	<File name="..\Shared\Constants.h" open="0" top="0" tabpos="0">
+	<File name="..\Shared\Constants.h" open="1" top="0" tabpos="0">
 		<Cursor position="1611" topLine="46" />
 	</File>
 	<File name="..\Shared\MapStructs.h" open="0" top="0" tabpos="1">
