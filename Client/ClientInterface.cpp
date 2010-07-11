@@ -4,17 +4,12 @@
 
 ClientInterface::ClientInterface()
 {
-    m_mapWi=new QWidget(this); ///Debug
-    m_mapWi->setMinimumSize(200,200);
-
-    setCentralWidget(m_mapWi);
 
     #include "GUI.cpp"
 
-    m_ID=0;
-    m_gameStarted=false;
+    QSettings* set=allocateSettings();
 
-    m_network=new ClientNetwork(this);
+    m_network=new ClientNetwork(set->value(PARAM_IP, SERVER_IP).toString(), set->value(PARAM_PORT, SERVER_PORT).toInt(), this);
     connect(m_network, SIGNAL(chatReceived(CLID, QString, ENUM_TYPE)), this, SLOT(chat(CLID, QString, ENUM_TYPE )));
     connect(m_network, SIGNAL(serverInformationsChanged(ServerInformations)), this, SLOT(changeServerInformations(ServerInformations)));
     connect(m_network, SIGNAL(clientIDChanged(CLID)), this, SLOT(changeClientID(CLID)));
@@ -31,8 +26,21 @@ ClientInterface::ClientInterface()
     connect(m_network, SIGNAL(clientLeft(CLID)), this, SLOT(clientLeft(CLID)));
     connect(m_network, SIGNAL(clientJoined(CLID)), this, SLOT(clientJoined(CLID)));
 
-    setTitle("");
-    updateGMLabel();
+    resetData();
+
+    setCSS(set->value(PARAM_CSS).toString());
+    setInterface(set->value(PARAM_INTERFACE, DEFAULT_INTERFACE).toString());
+
+    delete set;
+}
+
+void ClientInterface::setInterface(const QString& path)
+{
+    QFile file (path);
+    if (!file.open(QIODevice::ReadOnly))
+        return;
+
+    restoreState(file.readAll());
 }
 
 void ClientInterface::lg(const QString txt, bool time, bool html)
@@ -53,28 +61,75 @@ void ClientInterface::lg(const QString txt, bool time, bool html)
         m_chat->append(tmp.toAscii());
 }
 
-void ClientInterface::setTitle(const QString& serverName)
+void ClientInterface::switchConnectionState()
 {
-    if(serverName.isEmpty())
+    if(!isConnected())
+    {
+        m_network->connection();
+    }
+    else
+    {
+        m_network->disconnection();
+    }
+}
+void ClientInterface::openSettings()
+{
+    ClientSettings cs(this);
+    cs.exec();
+    QSettings* set=allocateSettings();
+
+    m_network->setServer(set->value(PARAM_IP).toString(), set->value(PARAM_PORT).toInt());
+    m_network->send(ETI(SET_NICK), serialiseSetNickData(set->value(PARAM_NICK).toString()));
+
+    delete set;
+}
+
+void ClientInterface::setTitle()
+{
+    if(!isConnected())
     {
         setWindowTitle(tr("Celendel - Déconnecté"));
         return;
     }
-
-    setWindowTitle(tr("Celendel - %1", "Window title").arg(serverName));
+    if(!m_serverName.isEmpty())
+    {
+        setWindowTitle(tr("Celendel - %1", "Window title").arg(m_serverName));
+        return;
+    }
+    setWindowTitle(tr("Celendel - Connecté", "Window title"));
 }
 
 void ClientInterface::connectionEtablished()
 {
-    lg(tr("Vous êtes maintenant connecté à un serveur (%1:%2) !").arg(m_network->serverIP()).arg(m_network->serverPort()));
+    QSettings* set=allocateSettings();
+
+    lg(tr("Vous êtes maintenant <strong>connecté</strong> à un serveur (%1:%2) !").arg(m_network->serverIP()).arg(m_network->serverPort()), true, true);
+    m_network->send(ETI(SET_NICK), serialiseSetNickData(set->value(PARAM_NICK).toString()));
+    m_ac_joinOrLeave->setText(tr("&Se déconnecter du serveur"));
+    updateGMLabel();
+
+    delete set;
 }
 
 void ClientInterface::connectionLost()
 {
     lg(tr("Vous avez été déconnecté du serveur. Tappez /retry pour tenter une reconnexion."));
-    setTitle("");
+    m_ac_joinOrLeave->setText(tr("&Se connecter au serveur"));
+    resetData();
+}
+
+void ClientInterface::resetData()
+{
+    setTitle();
+    m_gameStarted=false;
+    m_ID=0;
+    m_GMID=0;
+    m_location.clear();
+    m_TOD.clear();
+    m_serverName.clear();
     m_nickMap.clear();
     updatePlayerList();
+    updateGMLabel();
 }
 
 void ClientInterface::clientJoined(CLID cID)
@@ -116,12 +171,34 @@ void ClientInterface::serverName(QString n)
 {
     m_serverName=n;
     lg(tr("Le serveur s'appelle maintenant \"%1\".").arg(n));
-    setTitle(n);
+    setTitle();
+}
+
+void ClientInterface::setCSS(const QString& fileName)
+{
+    if(fileName.isEmpty())
+    {
+        setStyleSheet(QString());
+        return;
+    }
+
+    QFile file (fileName);
+    if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
+        return;
+
+    QString css=file.readAll();
+    if(css.isEmpty())
+        return;
+
+    setStyleSheet(css);
 }
 
 void ClientInterface::updatePlayerList()
 {
     m_playerList->clear();
+    if(!m_network->isConnected())
+        return;
+
     QMap<CLID, QString>::const_iterator i = m_nickMap.constBegin();
     while (i != m_nickMap.constEnd())
     {
@@ -149,9 +226,13 @@ void ClientInterface::updatePlayerList()
 
 void ClientInterface::updateGMLabel()
 {
-    if(m_GMID==0)
+    if(!m_network->isConnected())
     {
-        m_GMLabel->setText(tr("<strong>Il n'y a pas de Maître du Jeu.</strong>"));
+        m_GMLabel->setText(tr("Vous n'êtes pas connecté."));
+    }
+    else if(m_GMID==0)
+    {
+        m_GMLabel->setText(tr("<strong>Il n'y a actuellement pas de Maître du Jeu.</strong>"));
     }
     else if(m_GMID==m_ID)
     {
@@ -189,7 +270,7 @@ void ClientInterface::gameLaunched()
 
 void ClientInterface::showError(ENUM_TYPE e, QString txt)
 {
-    lg(tr("Erreur : %1").arg(ETS(e, txt)));
+    lg(tr("Erreur : \"%1\"").arg(ETS(e, txt)));
 }
 
 void ClientInterface::changeClientID(CLID ID)
@@ -227,7 +308,7 @@ void ClientInterface::changeServerInformations(ServerInformations si)
     {
         m_serverName=si.serverName;
         lg(tr("Nom du serveur : %1").arg(m_serverName), false, true);
-        setTitle(m_serverName);
+        setTitle();
     }
 
     int nms=si.playersName.size();

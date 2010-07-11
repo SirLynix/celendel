@@ -7,6 +7,8 @@ INPUT(
 ./debug\ClientNetworkSwitch.o
 ./debug\Miscelaneous.o
 ./debug\ClientChatCommands.o
+./debug\ClientSettings.o
 ./debug\moc_ClientInterface.o
 ./debug\moc_ClientNetwork.o
+./debug\moc_ClientSettings.o
 );

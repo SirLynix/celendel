@@ -1,0 +1,227 @@
+QTextEdit 
+		{
+			background-color: rgb(25, 25, 25);
+			color: rgb(175, 175, 175);
+			border-radius: 3px;
+		}
+QLineEdit 
+		{
+			background-color: rgb(50, 50, 50);
+			color: rgb(190, 190, 190);
+			border: 1px solid #5c5c5c;
+			border-radius: 3px;
+		}
+QListView 
+		{
+			background-color: rgb(25, 25, 25);
+			color: rgb(175, 175, 175);
+			border-radius: 4px;
+		}
+QTreeView 
+		{
+			background-color: rgb(25, 25, 25);
+			color: rgb(175, 175, 175);
+			border-radius: 4px;
+		}
+ QTreeView::item:selected
+ {
+     color: rgb(75, 75, 75);
+ }
+
+QScrollBar:horizontal 
+		{
+			background: qlineargradient(x1:0, y1:0, x2:1, y2:1, stop:0 rgb(200,200,200), stop:1 rgb(175,175,175));
+			border: 1px solid #5c5c5c;
+			height: 15px;
+			margin: 0px 25px 0 25px;
+			border-radius: 3px;
+		}
+QScrollBar::handle:horizontal 
+		{
+			background: qlineargradient(x1:0, y1:0, x2:1, y2:1, stop:0 rgb(180,180,180), stop:1 rgb(143,143,143));
+			border: 1px solid #5c5c5c;
+			width: 18px;
+			margin: 1px 1px;
+			border-radius: 3px;
+		}
+QScrollBar::add-line:horizontal 
+		{
+			subcontrol-position: right;
+			subcontrol-origin: margin;
+			background: transparent;
+			width: 20px;
+			height: 15px;
+		}
+
+QScrollBar::sub-line:horizontal 
+		{
+			background: transparent;
+			width: 20px;
+			height: 15px;
+			subcontrol-position: left;
+			subcontrol-origin: margin;
+		}
+QScrollBar:left-arrow:horizontal, QScrollBar::right-arrow:horizontal
+		{
+			background: qlineargradient(x1:0, y1:0, x2:1, y2:1, stop:0 #b4b4b4, stop:1 #8f8f8f);
+			border: 1px solid #5c5c5c;
+			width: 18px;
+			border-radius: 4px;
+		}
+
+QScrollBar::add-page:horizontal, QScrollBar::sub-page:horizontal 
+		{
+			background: none;
+		}
+
+QScrollBar:vertical 
+		{
+			background: qlineargradient(x1:0, y1:0, x2:1, y2:1, stop:0 rgb(200,200,200), stop:1 rgb(175,175,175));
+			border: 1px solid #5c5c5c;
+			width: 15px;
+			margin: 25px 0 25px 0;
+			border-radius: 3px;
+		}
+QScrollBar::handle:vertical
+		{
+			background: qlineargradient(x1:0, y1:0, x2:1, y2:1, stop:0 rgb(180,180,180), stop:1 rgb(143,143,143));
+			border: 1px solid #5c5c5c;
+			height: 18px;
+			margin: 1px 1px;
+			border-radius: 3px;
+		}
+QScrollBar::add-line:vertical 
+		{
+			subcontrol-position: bottom;
+			subcontrol-origin: margin;
+			background: transparent;
+			height: 25px;
+			width: 15px;
+		}
+
+QScrollBar::sub-line:vertical 
+		{
+			 background: transparent;
+			 height: 25px;
+			 width: 15px;
+			 subcontrol-position: top;
+			 subcontrol-origin: margin;
+		}
+QScrollBar:down-arrow:vertical, QScrollBar::up-arrow:vertical
+		{
+			background: qlineargradient(x1:0, y1:0, x2:1, y2:1, stop:0 #b4b4b4, stop:1 #8f8f8f);
+			border: 1px solid #5c5c5c;
+			height: 17px;
+			border-radius: 4px;
+		}
+QScrollBar::add-page:vertical, QScrollBar::sub-page:vertical
+		{
+			background: none;
+		}
+
+QMenuBar 
+		{
+			background-color: qlineargradient(x1:0, y1:0, x2:1, y2:1, stop:0 rgb(175, 175, 175), stop:1 rgb(215, 215, 215));
+			border: 1px solid grey;
+			border-bottom-right-radius: 4px;
+			border-bottom-left-radius: 4px;
+	    }
+
+QMenuBar::item 
+		{
+			spacing: 3px; /* spacing between menu bar items */
+		    padding: 1px 4px;
+		    background: transparent;
+		    border-radius: 2px;
+		}
+
+QMenuBar::item:selected 
+		{
+			background-color: qlineargradient(x1:0, y1:0, x2:1, y2:1, stop:0 rgb(175, 175, 175), stop:1 rgb(230, 230, 230));
+		}
+QMenuBar::item:pressed 
+		{
+			background-color: qlineargradient(x1:0, y1:0, x2:1, y2:1, stop:0 rgb(150, 150, 150), stop:1 rgb(200, 200, 200));
+		}
+
+QMenu 
+		{
+			background-color: qlineargradient(x1:0, y1:0, x2:1, y2:1, stop:0 rgb(175, 175, 175), stop:1 rgb(215, 215, 215));
+			/*border: 1px solid grey;*/
+			border-bottom-right-radius: 6px;
+			border-bottom-left-radius: 6px;
+	    }
+
+QMenu::item:selected 
+		{
+			background-color: qlineargradient(x1:0, y1:0, x2:1, y2:1, stop:0 rgb(175, 175, 175), stop:1 rgb(245, 245, 245));
+			border: 1px solid grey;
+			border: 1px solid transparent;
+			padding: 2px 25px 2px 20px;
+		}
+QMenu::separator
+		{
+		    height: 2px;
+		    background: lightblue;
+		    margin-left: 10px;
+		    margin-right: 5px;
+		}
+
+QMenu::indicator 
+		{
+		    width: 13px;
+		    height: 13px;
+		}
+
+QPushButton 
+		{
+			background-color: qlineargradient(x1:0, y1:0, x2:1, y2:1, stop:0 rgb(175, 175, 175), stop:1 rgb(215, 215, 215));
+			border-style: outset;
+			border-width: 1px;
+			border-radius: 7px;
+			border-color: rgb(200, 200, 200);
+			min-width: 2em;
+			padding: 6px;
+			max-width: 10em
+		}
+QPushButton:pressed
+		{
+			background-color: qlineargradient(x1:0, y1:0, x2:1, y2:1, stop:0 rgb(150, 150, 150), stop:1 rgb(190, 190, 190));
+			border-style: inset;
+		}
+QPushButton:checked
+		{
+			background-color: qlineargradient(x1:0, y1:0, x2:1, y2:1, stop:0 rgb(150, 150, 150), stop:1 rgb(190, 190, 190));
+			border-style: inset;
+		}
+
+QMainWindow 
+		{
+			background:origin qlineargradient(x1:0, y1:0, x2:1, y2:1, stop:0 rgb(170, 170, 170), stop:1 rgb(215, 215, 215));
+		}
+		
+QDialog
+		{
+			background:origin qlineargradient(x1:0, y1:0, x2:1, y2:1, stop:0 rgb(190, 190, 190), stop:1 rgb(230, 230, 230));
+		}
+QGroupBox
+	{
+	border: 2px solid gray;
+     border-radius: 5px;
+     margin-top: 1ex;
+	}
+	
+QGroupBox::title
+{
+     subcontrol-origin: margin;
+     subcontrol-position: top center;
+     padding: 0 3px;
+ }
+		
+QDockWidget::title 
+	{
+		text-align: center;
+		background: qlineargradient(x1:0, y1:0, x2:1, y2:1, stop:0 rgb(170, 170, 170), stop:1 rgb(215, 215, 215));
+		border-bottom-right-radius: 6px;
+		border-top-left-radius: 6px;
+	}

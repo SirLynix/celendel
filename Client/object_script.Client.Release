@@ -7,6 +7,8 @@ INPUT(
 ./release\ClientNetworkSwitch.o
 ./release\Miscelaneous.o
 ./release\ClientChatCommands.o
+./release\ClientSettings.o
 ./release\moc_ClientInterface.o
 ./release\moc_ClientNetwork.o
+./release\moc_ClientSettings.o
 );

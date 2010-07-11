@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Meta object code from reading C++ file 'ClientInterface.h'
 **
-** Created: Sat 3. Jul 11:25:02 2010
+** Created: Sun 11. Jul 14:14:21 2010
 **      by: The Qt Meta Object Compiler version 62 (Qt 4.6.2)
 **
 ** WARNING! All changes made in this file will be lost!
@@ -23,7 +23,7 @@ static const uint qt_meta_data_ClientInterface[] = {
        4,       // revision
        0,       // classname
        0,    0, // classinfo
-      21,   14, // methods
+      28,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
@@ -46,12 +46,19 @@ static const uint qt_meta_data_ClientInterface[] = {
      384,   16,   16,   16, 0x08,
      395,   16,   16,   16, 0x08,
      415,   16,   16,   16, 0x08,
-     441,  430,   16,   16, 0x08,
-     459,   16,   16,   16, 0x08,
-     478,   16,   16,   16, 0x08,
-     497,   16,   16,   16, 0x08,
-     514,   16,   16,   16, 0x08,
-     539,  535,  530,   16, 0x08,
+     430,   16,   16,   16, 0x08,
+     441,   16,   16,   16, 0x08,
+     460,   16,   16,   16, 0x08,
+     479,   16,   16,   16, 0x08,
+     496,   16,   16,   16, 0x08,
+     521,  517,  512,   16, 0x08,
+     545,   16,   16,   16, 0x08,
+     569,   16,   16,   16, 0x08,
+     584,   16,   16,   16, 0x08,
+     605,  596,   16,   16, 0x08,
+     621,   16,   16,   16, 0x28,
+     635,  630,   16,   16, 0x08,
+     657,   16,   16,   16, 0x28,
 
        0        // eod
 };
@@ -68,10 +75,13 @@ static const char qt_meta_stringdata_ClientInterface[] = {
     "connectionLost()\0,\0diceRolled(CLID,quint16)\0"
     ",,\0sanctionned(CLID,ENUM_TYPE,QString)\0"
     "rollDice()\0serverName(QString)\0"
-    "gameLaunched()\0serverName\0setTitle(QString)\0"
-    "updatePlayerList()\0clientJoined(CLID)\0"
-    "clientLeft(CLID)\0updateGMLabel()\0CLID\0"
-    "str\0CLIDFromString(QString)\0"
+    "gameLaunched()\0setTitle()\0updatePlayerList()\0"
+    "clientJoined(CLID)\0clientLeft(CLID)\0"
+    "updateGMLabel()\0CLID\0str\0"
+    "CLIDFromString(QString)\0switchConnectionState()\0"
+    "openSettings()\0resetData()\0fileName\0"
+    "setCSS(QString)\0setCSS()\0path\0"
+    "setInterface(QString)\0setInterface()\0"
 };
 
 const QMetaObject ClientInterface::staticMetaObject = {
@@ -118,16 +128,23 @@ int ClientInterface::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
         case 12: rollDice(); break;
         case 13: serverName((*reinterpret_cast< QString(*)>(_a[1]))); break;
         case 14: gameLaunched(); break;
-        case 15: setTitle((*reinterpret_cast< const QString(*)>(_a[1]))); break;
+        case 15: setTitle(); break;
         case 16: updatePlayerList(); break;
         case 17: clientJoined((*reinterpret_cast< CLID(*)>(_a[1]))); break;
         case 18: clientLeft((*reinterpret_cast< CLID(*)>(_a[1]))); break;
         case 19: updateGMLabel(); break;
         case 20: { CLID _r = CLIDFromString((*reinterpret_cast< const QString(*)>(_a[1])));
             if (_a[0]) *reinterpret_cast< CLID*>(_a[0]) = _r; }  break;
+        case 21: switchConnectionState(); break;
+        case 22: openSettings(); break;
+        case 23: resetData(); break;
+        case 24: setCSS((*reinterpret_cast< const QString(*)>(_a[1]))); break;
+        case 25: setCSS(); break;
+        case 26: setInterface((*reinterpret_cast< const QString(*)>(_a[1]))); break;
+        case 27: setInterface(); break;
         default: ;
         }
-        _id -= 21;
+        _id -= 28;
     }
     return _id;
 }
