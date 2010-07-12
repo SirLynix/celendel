@@ -29,6 +29,7 @@ ClientSettings::ClientSettings(ClientInterface* parent)
             v_la->addLayout(h_la);
 
             m_nickname = new QLineEdit(m_settings->value(PARAM_NICK).toString(), this);
+            m_nickname->setMaxLength(MAX_NICKNAME_LENGHT);
             h_la->addWidget(new QLabel(tr("Pseudo :")));
             h_la->addWidget(m_nickname);
         }

@@ -3,6 +3,7 @@ QTextEdit
 			background-color: rgb(25, 25, 25);
 			color: rgb(175, 175, 175);
 			border-radius: 3px;
+			selection-background-color: darkgray;
 		}
 QLineEdit 
 		{
@@ -10,6 +11,7 @@ QLineEdit
 			color: rgb(190, 190, 190);
 			border: 1px solid #5c5c5c;
 			border-radius: 3px;
+			selection-background-color: darkgray;
 		}
 QListView 
 		{
@@ -25,7 +27,7 @@ QTreeView
 		}
  QTreeView::item:selected
  {
-     color: rgb(75, 75, 75);
+     color: rgb(55, 55, 55);
  }
 
 QScrollBar:horizontal 
@@ -161,8 +163,8 @@ QMenu::item:selected
 		}
 QMenu::separator
 		{
-		    height: 2px;
-		    background: lightblue;
+		    height: 1px;
+		    background: lightgrey;
 		    margin-left: 10px;
 		    margin-right: 5px;
 		}

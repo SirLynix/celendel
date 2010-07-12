@@ -43,6 +43,65 @@ void ClientInterface::setInterface(const QString& path)
     restoreState(file.readAll());
 }
 
+void ClientInterface::playerListMenu(const QPoint& pos)
+{
+    QModelIndex mod = m_v_pl->indexAt(pos);
+    if(!mod.isValid())
+        return;
+    CLID cID=mod.data(DTA_CLID).toInt();
+    QList<QAction*> list;
+
+    m_kick->setData(cID);
+    m_ban->setData(cID);
+    m_voteGM->setData(cID);
+    m_changeGM->setData(cID);
+
+    if(isGM())
+        list << m_kick << m_ban << m_changeGM;
+
+    if(m_GMID==0&&!m_voted) //No GM
+        list << m_voteGM;
+
+    if(!list.isEmpty())
+        QMenu::exec(list, mapToGlobal(pos));
+}
+
+void ClientInterface::actionKick()
+{
+    CLID cID=m_kick->data().toInt();
+    if(cID==0)
+        return;
+
+    m_network->send(ETI(GTFO_LYNIX), serialiseGTFOLynixData(cID, ETI(KICK)));
+}
+
+void ClientInterface::actionVoteGM()
+{
+    CLID cID=m_voteGM->data().toInt();
+    if(cID==0)
+        return;
+
+    m_network->send(ETI(GM_ELECT), serialiseGMElectData(cID));
+}
+
+void ClientInterface::actionChangeGM()
+{
+    CLID cID=m_changeGM->data().toInt();
+    if(cID==0)
+        return;
+
+    m_network->send(ETI(NEW_GM), serialiseGMElectData(cID));
+}
+
+void ClientInterface::actionBan()
+{
+    CLID cID=m_ban->data().toInt();
+    if(cID==0)
+        return;
+
+    m_network->send(ETI(GTFO_LYNIX), serialiseGTFOLynixData(cID, ETI(BAN)));
+}
+
 void ClientInterface::lg(const QString txt, bool time, bool html)
 {
     QString tmp;
@@ -122,6 +181,7 @@ void ClientInterface::resetData()
 {
     setTitle();
     m_gameStarted=false;
+    m_voted=false;
     m_ID=0;
     m_GMID=0;
     m_location.clear();
@@ -203,21 +263,35 @@ void ClientInterface::updatePlayerList()
     while (i != m_nickMap.constEnd())
     {
         QStandardItem *item = new QStandardItem(anonym2(i.key()));
+        item->setData(i.key(), DTA_CLID);
         m_playerList->appendRow(item);
 
-        item->appendRow(new QStandardItem(tr("Client ID %1").arg(i.key())));
+        {
+        QStandardItem *u=new QStandardItem(tr("Client ID %1").arg(i.key()));
+        u->setData(i.key(), DTA_CLID);
+        item->appendRow(u);
+        }
+        {
+        QStandardItem *sti=new QStandardItem;
+        sti->setData(i.key(), DTA_CLID);
         if(i.key()==m_GMID)
         {
-            item->appendRow(new QStandardItem(tr("Maître du Jeu")));
+            sti->setText(tr("Maître du Jeu"));
         }
         else
-            item->appendRow(new QStandardItem(tr("Simple joueur")));
+            sti->setText(tr("Simple joueur"));
+
+        item->appendRow(sti);
+        }
 
         if(m_gameStarted)
         {
             QStandardItem *it = new QStandardItem(tr("Rôle :"));
+            it->setData(i.key(), DTA_CLID);
             item->appendRow(it);
-            it->appendRow(new QStandardItem(getRolePlayName(i.key())));
+            QStandardItem* u=new QStandardItem(getRolePlayName(i.key()));
+            u->setData(i.key(), DTA_CLID);
+            it->appendRow(u);
         }
 
         ++i;
@@ -281,6 +355,9 @@ void ClientInterface::changeClientID(CLID ID)
 
 void ClientInterface::clientVoted(CLID f, CLID t)
 {
+    if(f==m_ID)
+        m_voted=true;
+
     if(f==t)
     {
         lg(tr("%1 a voté pour lui-même pour le poste de <strong>Maître de Jeu</strong>.").arg(anonym(f)), true, true);

@@ -28,6 +28,16 @@ QAction *ac_settings = settingsMenu->addAction(tr("Options"));
 ac_settings->setShortcut(QKeySequence(QKeySequence::Preferences));
 connect(ac_settings, SIGNAL(triggered()), this, SLOT(openSettings()));
 
+// CONTEXTUAL MENUS
+m_kick = new QAction(tr("Ejecter le joueur"), this);
+connect(m_kick, SIGNAL(triggered()), this, SLOT(actionKick()));
+m_ban = new QAction(tr("Bannir le joueur"), this);
+connect(m_ban, SIGNAL(triggered()), this, SLOT(actionBan()));
+m_voteGM = new QAction(tr("Elire Maître du Jeu"), this);
+connect(m_voteGM, SIGNAL(triggered()), this, SLOT(actionVoteGM()));
+m_changeGM = new QAction(tr("Changer de Maître du Jeu"), this);
+connect(m_changeGM, SIGNAL(triggered()), this, SLOT(actionChangeGM()));
+
   ////////////////////////////
  /// DOCKS FEATURES BELOW ///
 ////////////////////////////
@@ -126,13 +136,13 @@ playerListDock->setWidget(w_playerListDock);
 QVBoxLayout *l_playerListDock = new QVBoxLayout(w_playerListDock);
 w_playerListDock->setLayout(l_playerListDock);
 
-{
-QTreeView *v = new QTreeView(this);
-v->setModel(m_playerList);
-v->header()->hide();
-v->setEditTriggers(QAbstractItemView::NoEditTriggers);
-l_playerListDock->addWidget(v);
-}
+m_v_pl = new QTreeView(this);
+m_v_pl->setModel(m_playerList);
+m_v_pl->header()->hide();
+m_v_pl->setEditTriggers(QAbstractItemView::NoEditTriggers);
+m_v_pl->setContextMenuPolicy(Qt::CustomContextMenu);
+connect(m_v_pl, SIGNAL(customContextMenuRequested(const QPoint&)), this, SLOT(playerListMenu(const QPoint&)));
+l_playerListDock->addWidget(m_v_pl);
 
 m_GMLabel=new QLabel(this);
 l_playerListDock->addWidget(m_GMLabel);

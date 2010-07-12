@@ -5,6 +5,8 @@
 #include "ClientNetwork.h"
 #include "ClientSettings.h"
 
+#define DTA_CLID  Qt::UserRole+42
+
 class ClientInterface : public QMainWindow
 {
     Q_OBJECT
@@ -14,6 +16,8 @@ class ClientInterface : public QMainWindow
         void ClientInterface::lg(const QString txt, bool time=true, bool html=true);
         QString ClientInterface::getRolePlayName(CLID ID);
         bool isConnected() const { return m_network->isConnected(); }
+
+        bool isGM() const {return m_ID==m_GMID&&isConnected();}
 
     private slots:
         void sendMessage(); // In ClientChatCommands.cpp
@@ -53,6 +57,12 @@ class ClientInterface : public QMainWindow
         void setCSS(const QString& fileName = ""); // If fileName is empty, the defaut theme (OS dependent) will be loaded
         void setInterface(const QString& path = DEFAULT_INTERFACE);  // If path is empty, the defaut interface will be loaded
 
+        void playerListMenu(const QPoint& pos);
+        void actionKick();
+        void actionBan();
+        void actionVoteGM();
+        void actionChangeGM();
+
 
     private:
         ClientNetwork* m_network;
@@ -61,6 +71,7 @@ class ClientInterface : public QMainWindow
 
         ///Infos
         bool m_gameStarted;
+        bool m_voted;
         CLID m_ID;
         CLID m_GMID;
         QString m_location;
@@ -79,6 +90,7 @@ class ClientInterface : public QMainWindow
         QWidget* m_mapWi;
 
         ///Player list
+        QTreeView *m_v_pl;
         QStandardItemModel *m_playerList;
         QLabel *m_GMLabel;
 
@@ -87,6 +99,12 @@ class ClientInterface : public QMainWindow
 
         ///Menus
         QAction *m_ac_joinOrLeave;
+
+        ///Context Menus
+        QAction *m_kick;
+        QAction *m_ban;
+        QAction *m_voteGM;
+        QAction *m_changeGM;
 };
 
 #endif

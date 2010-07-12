@@ -39,7 +39,7 @@ ServerInformations Server::getServerInformations() const
     ServerInformations si;
     for(int i=0;i<m_players.size();++i)
         si.playersName[m_players[i]->ID()]=m_players[i]->nickname;
-    log(QString::number(m_players.size())+" here");
+
     si.gameMasterID=m_GMID;
     si.location=location;
     si.timeOfDay=timeOfDay;
@@ -109,7 +109,10 @@ void Server::removeClient(CLID cID)
                 changeGM(m_players[0]->ID());
 
             ply->deleteLater();
-            cleanUp();
+
+            if(ply->isGM()&&!m_players.size())
+                cleanUp();
+
             m_network->sendToAll(ETI(CLIENT_LEFT), serialiseClientJoinedData(cID));
             log("Player succefully removed from game.");
             return;
