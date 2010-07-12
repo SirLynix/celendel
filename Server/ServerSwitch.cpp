@@ -4,7 +4,7 @@
 
 bool Server::changeGM(CLID cID)
 {
-    Player *ne=getPlayer(m_GMID);
+    Player *ne=getPlayer(cID);
 
     if(ne==NULL)
         return true;
