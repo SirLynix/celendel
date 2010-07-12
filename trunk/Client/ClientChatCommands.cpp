@@ -128,7 +128,7 @@ void ClientInterface::sendMessage()
                 return;
             }
 
-            m_network->send(ETI(GTFO_LYNIX), serialiseUnbanData(spl[1]));
+            m_network->send(ETI(UNBAN), serialiseUnbanData(spl[1]));
         }
         else if(txt.startsWith(tr("/son")))
         {

@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Meta object code from reading C++ file 'ClientInterface.h'
 **
-** Created: Sun 11. Jul 14:14:21 2010
+** Created: Mon 12. Jul 12:35:24 2010
 **      by: The Qt Meta Object Compiler version 62 (Qt 4.6.2)
 **
 ** WARNING! All changes made in this file will be lost!
@@ -23,7 +23,7 @@ static const uint qt_meta_data_ClientInterface[] = {
        4,       // revision
        0,       // classname
        0,    0, // classinfo
-      28,   14, // methods
+      33,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
@@ -59,6 +59,11 @@ static const uint qt_meta_data_ClientInterface[] = {
      621,   16,   16,   16, 0x28,
      635,  630,   16,   16, 0x08,
      657,   16,   16,   16, 0x28,
+     676,  672,   16,   16, 0x08,
+     699,   16,   16,   16, 0x08,
+     712,   16,   16,   16, 0x08,
+     724,   16,   16,   16, 0x08,
+     739,   16,   16,   16, 0x08,
 
        0        // eod
 };
@@ -82,6 +87,8 @@ static const char qt_meta_stringdata_ClientInterface[] = {
     "openSettings()\0resetData()\0fileName\0"
     "setCSS(QString)\0setCSS()\0path\0"
     "setInterface(QString)\0setInterface()\0"
+    "pos\0playerListMenu(QPoint)\0actionKick()\0"
+    "actionBan()\0actionVoteGM()\0actionChangeGM()\0"
 };
 
 const QMetaObject ClientInterface::staticMetaObject = {
@@ -142,9 +149,14 @@ int ClientInterface::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
         case 25: setCSS(); break;
         case 26: setInterface((*reinterpret_cast< const QString(*)>(_a[1]))); break;
         case 27: setInterface(); break;
+        case 28: playerListMenu((*reinterpret_cast< const QPoint(*)>(_a[1]))); break;
+        case 29: actionKick(); break;
+        case 30: actionBan(); break;
+        case 31: actionVoteGM(); break;
+        case 32: actionChangeGM(); break;
         default: ;
         }
-        _id -= 28;
+        _id -= 33;
     }
     return _id;
 }

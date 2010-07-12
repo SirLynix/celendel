@@ -5,12 +5,10 @@
 bool Server::changeGM(CLID cID)
 {
     Player *ne=getPlayer(cID);
-
     if(ne==NULL)
         return true;
 
     Player *old=getPlayer(m_GMID);
-
     if(old!=NULL)
         old->unPromoteGM();
 
