@@ -25,9 +25,11 @@ class Server : public QObject
 
         bool gameStarted() const {return m_gameStarted;}
 
+        QString narration;
         QString serverName;
         QString location;
         QString timeOfDay;
+        QString motd;
 
         bool changeGM(CLID cID); // Returns true if error
 

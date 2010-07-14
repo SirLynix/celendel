@@ -1,32 +1,42 @@
-  /*                GUI.cpp : build the client GUI                    */
- /* This file shall be included in ClientInterface constructor only. */
-/* Workers :
-- Gigotdarnaud */
+  /*         buildGui() : build the client GUI          */
+ /* This function in ClientInterface constructor only. */
+/*         Workers :
+                - Gigotdarnaud                        */
 
+#include "ClientInterface.h"
+
+void ClientInterface::buildGUI()
+{
   ////////////////////////////
  /// MENUS FEATURES BELOW ///
 ////////////////////////////
 
 // FILE MENU
 QMenu *fileMenu = menuBar()->addMenu(tr("&Fichier"));
-QAction *ac_save = fileMenu->addAction(tr("Sauvegarder la partie"));
+QAction *ac_save = fileMenu->addAction(tr("&Sauvegarder la partie"));
 ac_save->setShortcut(QKeySequence(QKeySequence::Save));
 QAction *ac_load = fileMenu->addAction(tr("Charger une partie"));
 ac_load->setShortcut(QKeySequence(QKeySequence::Open));
 m_ac_joinOrLeave = fileMenu->addAction(tr("Se connecter au serveur")); //This text will change, depending if the client is connected or not.
 connect(m_ac_joinOrLeave, SIGNAL(triggered()), this, SLOT(switchConnectionState()));
-QAction *ac_serverInfos = fileMenu->addAction(tr("Voir les informations serveur"));
-QAction *ac_quit = fileMenu->addAction(tr("Quitter"));
+QAction *ac_quit = fileMenu->addAction(tr("&Quitter"));
 ac_quit->setShortcut(QKeySequence(QKeySequence::Quit));
 connect(ac_quit, SIGNAL(triggered()), qApp, SLOT(quit()));
-
-
 
 // SETTINGS MENU
 QMenu *settingsMenu = menuBar()->addMenu(tr("&Paramètres"));
 QAction *ac_settings = settingsMenu->addAction(tr("Options"));
 ac_settings->setShortcut(QKeySequence(QKeySequence::Preferences));
 connect(ac_settings, SIGNAL(triggered()), this, SLOT(openSettings()));
+
+// ABOUT MENU
+QMenu *aboutMenu = menuBar()->addMenu(tr("&A propos..."));
+QAction *ac_aboutServer = aboutMenu->addAction(tr("... du serveur"));
+connect(ac_aboutServer, SIGNAL(triggered()), this, SLOT(aboutServer()));
+
+QAction *ac_aboutUs = aboutMenu->addAction(tr("... de Celendel"));
+connect(ac_aboutUs, SIGNAL(triggered()), this, SLOT(aboutUs()));
+
 
 // CONTEXTUAL MENUS
 m_kick = new QAction(tr("Ejecter le joueur"), this);
@@ -177,3 +187,4 @@ characterListDock->setWidget(w_characterListDock);
 addDockWidget(Qt::LeftDockWidgetArea, characterListDock);
 
 m_centralWi->setMaximumSize(1,1);
+}

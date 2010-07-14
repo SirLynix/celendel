@@ -14,9 +14,9 @@ HEADERS += ClientInterface.h \
            ClientNetwork.h \
            ../Shared/Constants.h \
            ../Shared/Packet.h \
-           GUI.cpp \
            ../Shared/Serializer.h \
-           ../Shared/MapStructs.h ClientSettings.h
+           ../Shared/MapStructs.h ClientSettings.h \
+           AboutWindow.h
 SOURCES += ClientInterface.cpp \
            ClientNetwork.cpp \
            GUI.cpp \
@@ -24,4 +24,7 @@ SOURCES += ClientInterface.cpp \
            ../Shared/Packet.cpp \
            ../Shared/Serializer.cpp ClientNetworkSwitch.cpp \
            ../Shared/Miscelaneous.cpp \
-           ClientChatCommands.cpp ClientSettings.cpp
+           ClientChatCommands.cpp ClientSettings.cpp \
+           AboutWindow.cpp ClientGMInterface.cpp \
+
+TRANSLATIONS = Client_en.ts

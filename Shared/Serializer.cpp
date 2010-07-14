@@ -204,7 +204,8 @@ QByteArray serialiseLocationData(const QString& where)
 
 void extractServerInformationsData(QByteArray& data, ServerInformations& si)
 {
-    QDataStream in(data);
+    QByteArray t=qUncompress(data);
+    QDataStream in(t);
 
     in>>si.playersName;
     in>>si.gameMasterID;
@@ -212,6 +213,8 @@ void extractServerInformationsData(QByteArray& data, ServerInformations& si)
     in>>si.timeOfDay;
     in>>si.gameStarted;
     in>>si.serverName;
+    in>>si.motd;
+    in>>si.narration;
 }
 
 QByteArray serialiseServerInformationsData(const ServerInformations& si)
@@ -225,15 +228,36 @@ QByteArray serialiseServerInformationsData(const ServerInformations& si)
     out<<si.timeOfDay;
     out<<si.gameStarted;
     out<<si.serverName;
+    out<<si.motd;
+    out<<si.narration;
 
-    return data;
+    return qCompress(data);
 }
+
+void extractMOTDData(QByteArray& data, QString& motd)
+{
+    QByteArray t=qUncompress(data);
+    QDataStream in(t);
+
+    in>>motd;
+}
+
+QByteArray serialiseMOTDData(const QString& motd)
+{
+    QByteArray data;
+    QDataStream out(&data, QIODevice::ReadWrite);
+
+    out<<motd;
+
+    return qCompress(data);
+}
+
 
 void extractMapInformationsData(QByteArray& data, MapInformations& mi)
 {
-    data=qUncompress(data);
+    QByteArray d=qUncompress(data);
 
-    QDataStream in(data);
+    QDataStream in(d);
 
 
     qint32 size;
@@ -422,4 +446,22 @@ QByteArray serialiseUnbanData(const QString& IP)
     out<<IP;
 
     return data;
+}
+
+void extractAllNarrationData(QByteArray& data, QString& txt)
+{
+    QByteArray d=qUncompress(data);
+
+    QDataStream in(d);
+    in>>txt;
+}
+
+QByteArray serialiseAllNarrationData(const QString& txt)
+{
+    QByteArray data;
+    QDataStream out(&data, QIODevice::ReadWrite);
+
+    out<<txt;
+
+    return qCompress(data);
 }

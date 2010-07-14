@@ -4,6 +4,7 @@
 #include <QDialog>
 #include <QSettings>
 #include <QtGui>
+#include "..\Shared\Constants.h"
 class ClientInterface;
 
 QSettings* allocateSettings(QObject* parent=0);
@@ -23,6 +24,9 @@ class ClientSettings : public QDialog
     Q_OBJECT
     public:
         ClientSettings(ClientInterface* parent);
+
+        static QString ETS(ENUM_TYPE errorCode, const QString& txt);
+        //ETS means Error To String. Convert error code to a readable translated QString
 
     private slots:
         void ok();
@@ -54,5 +58,7 @@ class ClientSettings : public QDialog
 
         ClientInterface* m_parent;
 };
+
+#define ETS(a,b) ClientSettings::ETS(a,b)
 
 #endif // CLIENTSETTINGS_H

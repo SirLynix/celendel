@@ -1,6 +1,7 @@
 INPUT(
 ./debug\ClientInterface.o
 ./debug\ClientNetwork.o
+./debug\GUI.o
 ./debug\main.o
 ./debug\Packet.o
 ./debug\Serializer.o
@@ -8,7 +9,10 @@ INPUT(
 ./debug\Miscelaneous.o
 ./debug\ClientChatCommands.o
 ./debug\ClientSettings.o
+./debug\AboutWindow.o
+./debug\ClientGMInterface.o
 ./debug\moc_ClientInterface.o
 ./debug\moc_ClientNetwork.o
 ./debug\moc_ClientSettings.o
+./debug\moc_AboutWindow.o
 );

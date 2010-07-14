@@ -21,6 +21,7 @@ Server::Server(QObject* parent) : QObject(parent)
     m_GMID=0;
     m_map=new MapInformations();
     serverName="Server";
+    motd="Default MOTD";
 }
 
 Server::~Server()
@@ -45,6 +46,8 @@ ServerInformations Server::getServerInformations() const
     si.timeOfDay=timeOfDay;
     si.gameStarted=gameStarted();
     si.serverName=serverName;
+    si.motd=motd;
+    si.narration=narration;
 
     return si;
 }
