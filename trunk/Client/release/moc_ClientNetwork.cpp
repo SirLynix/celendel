@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Meta object code from reading C++ file 'ClientNetwork.h'
 **
-** Created: Sun 11. Jul 11:05:43 2010
+** Created: Wed 14. Jul 18:08:08 2010
 **      by: The Qt Meta Object Compiler version 62 (Qt 4.6.2)
 **
 ** WARNING! All changes made in this file will be lost!
@@ -23,12 +23,12 @@ static const uint qt_meta_data_ClientNetwork[] = {
        4,       // revision
        0,       // classname
        0,    0, // classinfo
-      34,   14, // methods
+      36,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
        0,       // flags
-      17,       // signalCount
+      19,       // signalCount
 
  // signals: signature, parameters, type, tag, flags
       15,   14,   14,   14, 0x05,
@@ -42,31 +42,33 @@ static const uint qt_meta_data_ClientNetwork[] = {
      260,   14,   14,   14, 0x05,
      280,   14,   14,   14, 0x05,
      300,   14,   14,   14, 0x05,
-     315,   14,   14,   14, 0x05,
-     338,   14,   14,   14, 0x05,
-     355,  176,   14,   14, 0x05,
-     383,  380,   14,   14, 0x05,
-     419,   14,   14,   14, 0x05,
-     438,   14,   14,   14, 0x05,
+     321,   14,   14,   14, 0x05,
+     336,   14,   14,   14, 0x05,
+     362,   14,   14,   14, 0x05,
+     385,   14,   14,   14, 0x05,
+     402,  176,   14,   14, 0x05,
+     430,  427,   14,   14, 0x05,
+     466,   14,   14,   14, 0x05,
+     485,   14,   14,   14, 0x05,
 
  // slots: signature, parameters, type, tag, flags
-     473,  455,   14,   14, 0x0a,
-     495,  492,   14,   14, 0x2a,
-     509,  492,   14,   14, 0x0a,
-     533,  523,   14,   14, 0x0a,
-     557,   14,   14,   14, 0x0a,
-     571,   14,  564,   14, 0x0a,
-     589,   14,  581,   14, 0x0a,
-     608,   14,  600,   14, 0x0a,
-     621,   14,   14,   14, 0x0a,
-     629,   14,   14,   14, 0x0a,
-     642,   14,   14,   14, 0x0a,
-     671,  663,  658,   14, 0x0a,
-     698,   14,   14,   14, 0x08,
-     710,   14,   14,   14, 0x08,
-     725,   14,   14,   14, 0x08,
-     740,   14,   14,   14, 0x08,
-     789,  782,   14,   14, 0x08,
+     520,  502,   14,   14, 0x0a,
+     542,  539,   14,   14, 0x2a,
+     556,  539,   14,   14, 0x0a,
+     580,  570,   14,   14, 0x0a,
+     604,   14,   14,   14, 0x0a,
+     618,   14,  611,   14, 0x0a,
+     636,   14,  628,   14, 0x0a,
+     655,   14,  647,   14, 0x0a,
+     668,   14,   14,   14, 0x0a,
+     676,   14,   14,   14, 0x0a,
+     689,   14,   14,   14, 0x0a,
+     718,  710,  705,   14, 0x0a,
+     745,   14,   14,   14, 0x08,
+     757,   14,   14,   14, 0x08,
+     772,   14,   14,   14, 0x08,
+     787,   14,   14,   14, 0x08,
+     836,  829,   14,   14, 0x08,
 
        0        // eod
 };
@@ -80,7 +82,8 @@ static const char qt_meta_stringdata_ClientNetwork[] = {
     "nicknameChanged(CLID,QString)\0"
     "error(ENUM_TYPE,QString)\0f,t\0"
     "clientVoted(CLID,CLID)\0newGameMaster(CLID)\0"
-    "serverName(QString)\0gameLaunched()\0"
+    "serverName(QString)\0motdChanged(QString)\0"
+    "gameLaunched()\0narrationChanged(QString)\0"
     "connectionEtablished()\0connectionLost()\0"
     "diceRolled(CLID,quint16)\0,,\0"
     "sanctionned(CLID,ENUM_TYPE,QString)\0"
@@ -136,37 +139,39 @@ int ClientNetwork::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
         case 7: clientVoted((*reinterpret_cast< CLID(*)>(_a[1])),(*reinterpret_cast< CLID(*)>(_a[2]))); break;
         case 8: newGameMaster((*reinterpret_cast< CLID(*)>(_a[1]))); break;
         case 9: serverName((*reinterpret_cast< QString(*)>(_a[1]))); break;
-        case 10: gameLaunched(); break;
-        case 11: connectionEtablished(); break;
-        case 12: connectionLost(); break;
-        case 13: diceRolled((*reinterpret_cast< CLID(*)>(_a[1])),(*reinterpret_cast< quint16(*)>(_a[2]))); break;
-        case 14: sanctionned((*reinterpret_cast< CLID(*)>(_a[1])),(*reinterpret_cast< ENUM_TYPE(*)>(_a[2])),(*reinterpret_cast< QString(*)>(_a[3]))); break;
-        case 15: clientJoined((*reinterpret_cast< CLID(*)>(_a[1]))); break;
-        case 16: clientLeft((*reinterpret_cast< CLID(*)>(_a[1]))); break;
-        case 17: send((*reinterpret_cast< Packet*(*)>(_a[1])),(*reinterpret_cast< bool(*)>(_a[2]))); break;
-        case 18: send((*reinterpret_cast< Packet*(*)>(_a[1]))); break;
-        case 19: send((*reinterpret_cast< Packet(*)>(_a[1]))); break;
-        case 20: send((*reinterpret_cast< qint32(*)>(_a[1])),(*reinterpret_cast< const QByteArray(*)>(_a[2]))); break;
-        case 21: ping(); break;
-        case 22: { qint32 _r = getPing();
+        case 10: motdChanged((*reinterpret_cast< QString(*)>(_a[1]))); break;
+        case 11: gameLaunched(); break;
+        case 12: narrationChanged((*reinterpret_cast< QString(*)>(_a[1]))); break;
+        case 13: connectionEtablished(); break;
+        case 14: connectionLost(); break;
+        case 15: diceRolled((*reinterpret_cast< CLID(*)>(_a[1])),(*reinterpret_cast< quint16(*)>(_a[2]))); break;
+        case 16: sanctionned((*reinterpret_cast< CLID(*)>(_a[1])),(*reinterpret_cast< ENUM_TYPE(*)>(_a[2])),(*reinterpret_cast< QString(*)>(_a[3]))); break;
+        case 17: clientJoined((*reinterpret_cast< CLID(*)>(_a[1]))); break;
+        case 18: clientLeft((*reinterpret_cast< CLID(*)>(_a[1]))); break;
+        case 19: send((*reinterpret_cast< Packet*(*)>(_a[1])),(*reinterpret_cast< bool(*)>(_a[2]))); break;
+        case 20: send((*reinterpret_cast< Packet*(*)>(_a[1]))); break;
+        case 21: send((*reinterpret_cast< Packet(*)>(_a[1]))); break;
+        case 22: send((*reinterpret_cast< qint32(*)>(_a[1])),(*reinterpret_cast< const QByteArray(*)>(_a[2]))); break;
+        case 23: ping(); break;
+        case 24: { qint32 _r = getPing();
             if (_a[0]) *reinterpret_cast< qint32*>(_a[0]) = _r; }  break;
-        case 23: { QString _r = serverIP();
+        case 25: { QString _r = serverIP();
             if (_a[0]) *reinterpret_cast< QString*>(_a[0]) = _r; }  break;
-        case 24: { quint16 _r = serverPort();
+        case 26: { quint16 _r = serverPort();
             if (_a[0]) *reinterpret_cast< quint16*>(_a[0]) = _r; }  break;
-        case 25: flush(); break;
-        case 26: connection(); break;
-        case 27: disconnection(); break;
-        case 28: { bool _r = setServer((*reinterpret_cast< QString(*)>(_a[1])),(*reinterpret_cast< quint16(*)>(_a[2])));
+        case 27: flush(); break;
+        case 28: connection(); break;
+        case 29: disconnection(); break;
+        case 30: { bool _r = setServer((*reinterpret_cast< QString(*)>(_a[1])),(*reinterpret_cast< quint16(*)>(_a[2])));
             if (_a[0]) *reinterpret_cast< bool*>(_a[0]) = _r; }  break;
-        case 29: connected(); break;
-        case 30: disconnected(); break;
-        case 31: dataReceived(); break;
-        case 32: socketError((*reinterpret_cast< QAbstractSocket::SocketError(*)>(_a[1]))); break;
-        case 33: operatePacket((*reinterpret_cast< Packet*(*)>(_a[1]))); break;
+        case 31: connected(); break;
+        case 32: disconnected(); break;
+        case 33: dataReceived(); break;
+        case 34: socketError((*reinterpret_cast< QAbstractSocket::SocketError(*)>(_a[1]))); break;
+        case 35: operatePacket((*reinterpret_cast< Packet*(*)>(_a[1]))); break;
         default: ;
         }
-        _id -= 34;
+        _id -= 36;
     }
     return _id;
 }
@@ -241,48 +246,62 @@ void ClientNetwork::serverName(QString _t1)
 }
 
 // SIGNAL 10
-void ClientNetwork::gameLaunched()
+void ClientNetwork::motdChanged(QString _t1)
 {
-    QMetaObject::activate(this, &staticMetaObject, 10, 0);
+    void *_a[] = { 0, const_cast<void*>(reinterpret_cast<const void*>(&_t1)) };
+    QMetaObject::activate(this, &staticMetaObject, 10, _a);
 }
 
 // SIGNAL 11
-void ClientNetwork::connectionEtablished()
+void ClientNetwork::gameLaunched()
 {
     QMetaObject::activate(this, &staticMetaObject, 11, 0);
 }
 
 // SIGNAL 12
-void ClientNetwork::connectionLost()
+void ClientNetwork::narrationChanged(QString _t1)
 {
-    QMetaObject::activate(this, &staticMetaObject, 12, 0);
+    void *_a[] = { 0, const_cast<void*>(reinterpret_cast<const void*>(&_t1)) };
+    QMetaObject::activate(this, &staticMetaObject, 12, _a);
 }
 
 // SIGNAL 13
-void ClientNetwork::diceRolled(CLID _t1, quint16 _t2)
+void ClientNetwork::connectionEtablished()
 {
-    void *_a[] = { 0, const_cast<void*>(reinterpret_cast<const void*>(&_t1)), const_cast<void*>(reinterpret_cast<const void*>(&_t2)) };
-    QMetaObject::activate(this, &staticMetaObject, 13, _a);
+    QMetaObject::activate(this, &staticMetaObject, 13, 0);
 }
 
 // SIGNAL 14
-void ClientNetwork::sanctionned(CLID _t1, ENUM_TYPE _t2, QString _t3)
+void ClientNetwork::connectionLost()
 {
-    void *_a[] = { 0, const_cast<void*>(reinterpret_cast<const void*>(&_t1)), const_cast<void*>(reinterpret_cast<const void*>(&_t2)), const_cast<void*>(reinterpret_cast<const void*>(&_t3)) };
-    QMetaObject::activate(this, &staticMetaObject, 14, _a);
+    QMetaObject::activate(this, &staticMetaObject, 14, 0);
 }
 
 // SIGNAL 15
-void ClientNetwork::clientJoined(CLID _t1)
+void ClientNetwork::diceRolled(CLID _t1, quint16 _t2)
 {
-    void *_a[] = { 0, const_cast<void*>(reinterpret_cast<const void*>(&_t1)) };
+    void *_a[] = { 0, const_cast<void*>(reinterpret_cast<const void*>(&_t1)), const_cast<void*>(reinterpret_cast<const void*>(&_t2)) };
     QMetaObject::activate(this, &staticMetaObject, 15, _a);
 }
 
 // SIGNAL 16
+void ClientNetwork::sanctionned(CLID _t1, ENUM_TYPE _t2, QString _t3)
+{
+    void *_a[] = { 0, const_cast<void*>(reinterpret_cast<const void*>(&_t1)), const_cast<void*>(reinterpret_cast<const void*>(&_t2)), const_cast<void*>(reinterpret_cast<const void*>(&_t3)) };
+    QMetaObject::activate(this, &staticMetaObject, 16, _a);
+}
+
+// SIGNAL 17
+void ClientNetwork::clientJoined(CLID _t1)
+{
+    void *_a[] = { 0, const_cast<void*>(reinterpret_cast<const void*>(&_t1)) };
+    QMetaObject::activate(this, &staticMetaObject, 17, _a);
+}
+
+// SIGNAL 18
 void ClientNetwork::clientLeft(CLID _t1)
 {
     void *_a[] = { 0, const_cast<void*>(reinterpret_cast<const void*>(&_t1)) };
-    QMetaObject::activate(this, &staticMetaObject, 16, _a);
+    QMetaObject::activate(this, &staticMetaObject, 18, _a);
 }
 QT_END_MOC_NAMESPACE

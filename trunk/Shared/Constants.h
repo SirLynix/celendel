@@ -45,6 +45,8 @@ struct ServerInformations
     QString timeOfDay;
     quint16 gameStarted;
     QString serverName;
+    QString motd;
+    QString narration;
 };
 
 /* MAP_INFORMATIONS type structure :
@@ -54,14 +56,17 @@ struct ServerInformations
 - QList<MapItem> listMi */
 
 
-enum PACKET_TYPE { ERROR, PING, CHAT, GM_ELECT, NEW_GM, LAUNCH_GAME, GAME_LAUNCHED, VOTED, SET_CLID, NEW_NICK,
-                SET_NICK, GTFO_LYNIX, TOD, LOCATION, SERVER_INFORMATIONS, MAP_INFORMATIONS, MAP_ITEMS_INFORMATIONS,
+enum PACKET_TYPE { ERROR, PING, CHAT, ALL_NARRATION, GM_ELECT, NEW_GM, LAUNCH_GAME, GAME_LAUNCHED, VOTED, SET_CLID, NEW_NICK,
+                SET_NICK, GTFO_LYNIX, TOD, LOCATION, SERVER_INFORMATIONS, MOTD, MAP_INFORMATIONS, MAP_ITEMS_INFORMATIONS,
                 PLAY_SOUND, SCRIPTS_INFOS, ROLL_DICE, SERVER_NAME, CLIENT_LEFT, CLIENT_JOINED, UNBAN};
 
 #define MAX_NICKNAME_LENGHT 15
 
 /* CLIENT_LEFT and CLIENT_JOINED structure :
 - CLID ID */
+
+/* MOTD structure :
+- QString motd - compressed */
 
 /* UNBAN structure :
 - QString IP */
@@ -96,7 +101,7 @@ enum PACKET_TYPE { ERROR, PING, CHAT, GM_ELECT, NEW_GM, LAUNCH_GAME, GAME_LAUNCH
 - CLID From
 - CLID To */
 
-enum CANAL_TYPE { NORMAL, NARRATOR, RP, SELF_NARRATOR };
+enum CANAL_TYPE { NORMAL, RP, SELF_NARRATOR };
 #define MAX_MESSAGE_LENGHT 1000
 /* CHAT type structure :
 - CANAL_TYPE canal
@@ -122,7 +127,5 @@ enum DROP_TYPE { KICK, BAN };
 
 #define ETI(a) static_cast<ENUM_TYPE>(a)
 // ETI means Enum To Integer. Just a cast.
-QString ETS(ENUM_TYPE errorCode, QString txt);
-//ETS means Error To String. Convert error code to a readable translated QString
 
 #endif //Guard

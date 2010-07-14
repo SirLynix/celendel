@@ -59,16 +59,6 @@ void Server::processData(Packet* pa, CLID cID)
                         m_network->sendToAll(ETI(CHAT), serialiseChatData(ETI(NORMAL), text, cID));
                 }
                 break;
-                case ETI(NARRATOR):
-                {
-                    if(ply->isGM())
-                    {
-                        m_network->sendToAll(ETI(CHAT), serialiseChatData(ETI(NARRATOR), text, cID));
-                    }
-                    else
-                        m_network->sendToClient(cID, ETI(ERROR), serialiseErrorData(ETI(NOT_GM)));
-                }
-                break;
                 case ETI(SELF_NARRATOR):
                 {
                     if(gameStarted())
@@ -112,6 +102,17 @@ void Server::processData(Packet* pa, CLID cID)
             if(ply->isGM() && !gameStarted())
             {
                 launchGame();
+            }
+            else
+                m_network->sendToClient(cID, ETI(ERROR), serialiseErrorData(ETI(NOT_GM)));
+        }
+        break;
+        case ALL_NARRATION:
+        {
+            if(ply->isGM())
+            {
+                extractAllNarrationData(pa->data, narration);
+                m_network->sendToAll(ETI(ALL_NARRATION), serialiseAllNarrationData(narration));
             }
             else
                 m_network->sendToClient(cID, ETI(ERROR), serialiseErrorData(ETI(NOT_GM)));
@@ -174,14 +175,17 @@ void Server::processData(Packet* pa, CLID cID)
             {
                 CLID tID;
                 extractNewGMData(pa->data, tID);
-                Player*p=getPlayer(tID);
-                if(p==NULL)
+                if(cID!=tID)
                 {
-                    m_network->sendToClient(cID, ETI(ERROR), serialiseErrorData(ETI(CLIENT_DOES_NOT_EXIST)));
+                    Player*p=getPlayer(tID);
+                    if(p==NULL)
+                    {
+                        m_network->sendToClient(cID, ETI(ERROR), serialiseErrorData(ETI(CLIENT_DOES_NOT_EXIST)));
+                    }
+                    else
+                    {
+                        changeGM(tID);
                 }
-                else
-                {
-                    changeGM(tID);
                 }
             }
             else
@@ -327,6 +331,18 @@ void Server::processData(Packet* pa, CLID cID)
                 n.truncate(50);
                 serverName=n;
                 m_network->sendToAll(ETI(SERVER_NAME), serialiseServerNameData(n));
+            }
+            else
+                m_network->sendToClient(cID, ETI(ERROR), serialiseErrorData(ETI(NOT_GM)));
+
+        }
+        break;
+        case MOTD:
+        {
+            if(ply->isGM())
+            {
+                extractMOTDData(pa->data, motd);
+                m_network->sendToAll(ETI(MOTD), serialiseMOTDData(motd));
             }
             else
                 m_network->sendToClient(cID, ETI(ERROR), serialiseErrorData(ETI(NOT_GM)));

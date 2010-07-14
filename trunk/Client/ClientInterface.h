@@ -37,6 +37,7 @@ class ClientInterface : public QMainWindow
 
         void rollDice();
         void serverName(QString);
+        void motdChanged(QString);
         void gameLaunched();
 
         void setTitle();
@@ -51,6 +52,8 @@ class ClientInterface : public QMainWindow
 
         void switchConnectionState();
         void openSettings();
+        void aboutUs();
+        void aboutServer();
 
         void resetData();
 
@@ -63,8 +66,15 @@ class ClientInterface : public QMainWindow
         void actionVoteGM();
         void actionChangeGM();
 
+        void refresh();
+        void textChanged();
+        void narrationChanged(QString);
 
     private:
+
+        void buildGUI();
+        void buildGMStuff();
+
         ClientNetwork* m_network;
         QString anonym(CLID ID);
         QString anonym2(CLID ID);
@@ -77,6 +87,7 @@ class ClientInterface : public QMainWindow
         QString m_location;
         QString m_TOD;
         QString m_serverName;
+        QString m_motd;
         QMap<CLID, QString> m_nickMap;
 
 
@@ -105,6 +116,11 @@ class ClientInterface : public QMainWindow
         QAction *m_ban;
         QAction *m_voteGM;
         QAction *m_changeGM;
+
+
+        ///GM Menus
+        QTimer *m_refreshTimer;
+        bool m_needRefresh;
 };
 
 #endif

@@ -34,7 +34,6 @@ void ClientInterface::sendMessage()
         lg(tr("<br />Commandes de canal :"), false, true);
         lg("<strong>" + tr("/rp") + "</strong> | <strong>" + tr("/jdr") + "</strong>" + tr("<em>[Texte]</em> : Ecrire du dialogue, au format [Personnage : Blah]."), false, true);
         lg("<strong>" + tr("/me") + "</strong> | <strong>" + tr("/moi") + "</strong>" + tr("<em>[Texte]</em> : Ecrire de la narration, au format [Personnage fait quelque chose]."), false, true);
-        lg("<strong>" + tr("/nar") + "</strong>" + tr("<em>[Texte]</em> : <strong>(MJ)</strong> Ecrire en tant que narrateur."), false, true);
         lg("<strong>" + tr("/1d20") + "</strong>" + tr(" : Lancer 1d20."), false, true);
 
         lg(tr("<br />Commandes locales :"), false, true);
@@ -196,19 +195,6 @@ void ClientInterface::sendMessage()
             }
 
             m_network->send(ETI(CHAT), serialiseChatData(ETI(RP), txt.mid( spl[0].size()).simplified(), 0));
-            show=false;
-        }
-        else if(txt.startsWith(tr("/nar")))
-        {
-            QStringList spl = txt.split(' ', QString::SkipEmptyParts);
-            QString r;
-            if(spl.size()<2)
-            {
-                lg(tr("Erreur : pas assez d'arguments."));
-                return;
-            }
-
-            m_network->send(ETI(CHAT), serialiseChatData(ETI(NARRATOR), txt.mid( spl[0].size()).trimmed(), 0));
             show=false;
         }
         else if(txt.startsWith(tr("/1d20")))

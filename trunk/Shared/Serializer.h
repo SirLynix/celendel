@@ -49,6 +49,9 @@ QByteArray serialiseLocationData(const QString& where);
 void extractServerInformationsData(QByteArray& data, ServerInformations& si);
 QByteArray serialiseServerInformationsData(const ServerInformations& si);
 
+void extractMOTDData(QByteArray& data, QString& motd);
+QByteArray serialiseMOTDData(const QString& motd);
+
 void extractMapInformationsData(QByteArray& data, MapInformations& mi);
 QByteArray serialiseMapInformationsData(const MapInformations& mi);
 
@@ -72,5 +75,8 @@ QByteArray serialiseClientLeftData(const CLID& ID);
 
 void extractUnbanData(QByteArray& data, QString& IP);
 QByteArray serialiseUnbanData(const QString& IP);
+
+void extractAllNarrationData(QByteArray& data, QString& txt);
+QByteArray serialiseAllNarrationData(const QString& txt);
 
 #endif

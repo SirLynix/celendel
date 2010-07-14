@@ -3,14 +3,12 @@
 
 #include <QDebug>
 #include <QDateTime>
+#include <QTextDocument>
 #include "..\Shared\Serializer.h"
 
 QString securise (const QString& in)
 {
-    QString ret=in.simplified();
-    ret.replace('>', "&gt;");
-    ret.replace('<', "&lt;");
-
+    QString ret=Qt::escape(in.simplified());
     return ret;
 }
 

@@ -1,47 +1,53 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
 <CodeBlocks_layout_file>
 	<ActiveTarget name="Release" />
+	<File name="AboutWindow.cpp" open="0" top="0" tabpos="1">
+		<Cursor position="122" topLine="0" />
+	</File>
+	<File name="AboutWindow.h" open="0" top="0" tabpos="2">
+		<Cursor position="72" topLine="0" />
+	</File>
 	<File name="Client.pro" open="0" top="0" tabpos="0">
-		<Cursor position="861" topLine="0" />
+		<Cursor position="446" topLine="0" />
 	</File>
 	<File name="ClientChatCommands.cpp" open="0" top="0" tabpos="1">
-		<Cursor position="3983" topLine="51" />
+		<Cursor position="5940" topLine="95" />
 	</File>
 	<File name="ClientInterface.cpp" open="0" top="0" tabpos="5">
-		<Cursor position="119" topLine="13" />
+		<Cursor position="198" topLine="0" />
 	</File>
 	<File name="ClientInterface.h" open="0" top="0" tabpos="4">
-		<Cursor position="141" topLine="0" />
+		<Cursor position="2142" topLine="58" />
 	</File>
 	<File name="ClientNetwork.cpp" open="0" top="0" tabpos="1">
 		<Cursor position="3082" topLine="138" />
 	</File>
 	<File name="ClientNetwork.h" open="0" top="0" tabpos="2">
-		<Cursor position="941" topLine="3" />
+		<Cursor position="1618" topLine="24" />
 	</File>
 	<File name="ClientNetworkSwitch.cpp" open="0" top="0" tabpos="3">
-		<Cursor position="2902" topLine="74" />
+		<Cursor position="2948" topLine="85" />
 	</File>
 	<File name="ClientSettings.cpp" open="0" top="0" tabpos="2">
-		<Cursor position="5255" topLine="138" />
+		<Cursor position="6465" topLine="181" />
 	</File>
 	<File name="ClientSettings.h" open="0" top="0" tabpos="1">
-		<Cursor position="405" topLine="0" />
+		<Cursor position="146" topLine="0" />
 	</File>
 	<File name="GUI.cpp" open="0" top="0" tabpos="3">
-		<Cursor position="4497" topLine="75" />
+		<Cursor position="229" topLine="0" />
 	</File>
-	<File name="main.cpp" open="0" top="0" tabpos="0">
-		<Cursor position="550" topLine="0" />
+	<File name="main.cpp" open="1" top="1" tabpos="1">
+		<Cursor position="380" topLine="0" />
 	</File>
 	<File name="..\Shared\Constants.h" open="0" top="0" tabpos="0">
-		<Cursor position="751" topLine="40" />
+		<Cursor position="2971" topLine="90" />
 	</File>
 	<File name="..\Shared\MapStructs.h" open="0" top="0" tabpos="0">
 		<Cursor position="573" topLine="0" />
 	</File>
 	<File name="..\Shared\Miscelaneous.cpp" open="0" top="0" tabpos="0">
-		<Cursor position="1537" topLine="0" />
+		<Cursor position="537" topLine="0" />
 	</File>
 	<File name="..\Shared\Packet.cpp" open="0" top="0" tabpos="0">
 		<Cursor position="88" topLine="0" />
@@ -50,9 +56,9 @@
 		<Cursor position="124" topLine="0" />
 	</File>
 	<File name="..\Shared\Serializer.cpp" open="0" top="0" tabpos="0">
-		<Cursor position="6350" topLine="208" />
+		<Cursor position="4413" topLine="220" />
 	</File>
 	<File name="..\Shared\Serializer.h" open="0" top="0" tabpos="0">
-		<Cursor position="2556" topLine="33" />
+		<Cursor position="1951" topLine="33" />
 	</File>
 </CodeBlocks_layout_file>

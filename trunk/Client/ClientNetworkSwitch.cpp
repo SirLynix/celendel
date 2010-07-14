@@ -113,6 +113,20 @@ void ClientNetwork::operatePacket(Packet* packet)
             emit clientLeft(cID);
         }
         break;
+        case MOTD:
+        {
+            QString n;
+            extractMOTDData(packet->data, n);
+            emit motdChanged(n);
+        }
+        break;
+        case ALL_NARRATION:
+        {
+            QString n;
+            extractAllNarrationData(packet->data, n);
+            emit narrationChanged(n);
+        }
+        break;
         default:
         break;
     }

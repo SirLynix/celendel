@@ -46,6 +46,8 @@
 			<Add option="-Wall" />
 			<Add option="-fexceptions" />
 		</Compiler>
+		<Unit filename="AboutWindow.cpp" />
+		<Unit filename="AboutWindow.h" />
 		<Unit filename="Client.pro" />
 		<Unit filename="ClientChatCommands.cpp" />
 		<Unit filename="ClientInterface.cpp" />

@@ -2,10 +2,12 @@
 #include "..\Shared\Serializer.h"
 #include <QTime>
 
+#include "AboutWindow.h"
+#include "ClientSettings.h"
+
 ClientInterface::ClientInterface()
 {
-
-    #include "GUI.cpp"
+    buildGUI();
 
     QSettings* set=allocateSettings();
 
@@ -23,13 +25,17 @@ ClientInterface::ClientInterface()
     connect(m_network, SIGNAL(diceRolled(CLID, quint16)), this, SLOT(diceRolled(CLID, quint16)));
     connect(m_network, SIGNAL(gameLaunched()), this, SLOT(gameLaunched()));
     connect(m_network, SIGNAL(serverName(QString)), this, SLOT(serverName(QString)));
+    connect(m_network, SIGNAL(motdChanged(QString)), this, SLOT(motdChanged(QString)));
     connect(m_network, SIGNAL(clientLeft(CLID)), this, SLOT(clientLeft(CLID)));
     connect(m_network, SIGNAL(clientJoined(CLID)), this, SLOT(clientJoined(CLID)));
+    connect(m_network, SIGNAL(narrationChanged(QString)), this, SLOT(narrationChanged(QString)));
 
     resetData();
 
     setCSS(set->value(PARAM_CSS).toString());
     setInterface(set->value(PARAM_INTERFACE, DEFAULT_INTERFACE).toString());
+
+    buildGMStuff();
 
     delete set;
 }
@@ -64,6 +70,27 @@ void ClientInterface::playerListMenu(const QPoint& pos)
 
     if(!list.isEmpty())
         QMenu::exec(list, mapToGlobal(pos));
+}
+
+void ClientInterface::aboutUs()
+{
+    QString t;
+    t = tr("<center><h2>Celendel</h2></center>(Version du %1 - %2)<br/>L'ensemble du projet est sous la licence LGPL.<br/>Personnes ayant participées au développement du programme :<br/>- Gigotdarnaud<br/>- Chidie<br/>- Shade Master").arg(__DATE__).arg(__TIME__);
+    AboutWindow aw(t, this);
+    aw.setWindowTitle(tr("A propos de Celendel"));
+    aw.exec();
+}
+
+void ClientInterface::aboutServer()
+{
+    if(!isConnected())
+    {
+        QMessageBox::critical(this, tr("Erreur"), tr("Vous n'êtes pas connecté !"));
+        return;
+    }
+    AboutWindow aw(m_motd, this);
+    aw.setWindowTitle(tr("Mot du Jour de %1", "Titre de 'about server'").arg(m_serverName));
+    aw.exec();
 }
 
 void ClientInterface::actionKick()
@@ -185,6 +212,7 @@ void ClientInterface::resetData()
     m_ID=0;
     m_GMID=0;
     m_location.clear();
+    m_motd.clear();
     m_TOD.clear();
     m_serverName.clear();
     m_nickMap.clear();
@@ -232,6 +260,12 @@ void ClientInterface::serverName(QString n)
     m_serverName=n;
     lg(tr("Le serveur s'appelle maintenant \"%1\".").arg(n));
     setTitle();
+}
+
+void ClientInterface::motdChanged(QString n)
+{
+    m_motd=n;
+    lg(tr("Le Mot du Jour du serveur a été changé."));
 }
 
 void ClientInterface::setCSS(const QString& fileName)
@@ -303,18 +337,22 @@ void ClientInterface::updateGMLabel()
     if(!m_network->isConnected())
     {
         m_GMLabel->setText(tr("Vous n'êtes pas connecté."));
+        m_narrator->setReadOnly(true);
     }
     else if(m_GMID==0)
     {
         m_GMLabel->setText(tr("<strong>Il n'y a actuellement pas de Maître du Jeu.</strong>"));
+        m_narrator->setReadOnly(true);
     }
     else if(m_GMID==m_ID)
     {
         m_GMLabel->setText(tr("<strong>Vous êtes actuellement le Maître du Jeu.</strong>"));
+        m_narrator->setReadOnly(false);
     }
     else
     {
         m_GMLabel->setText(tr("Le Maître du jeu est <strong>%1</strong>").arg(anonym2(m_GMID)));
+        m_narrator->setReadOnly(true);
     }
 }
 
@@ -371,7 +409,17 @@ void ClientInterface::clientVoted(CLID f, CLID t)
 void ClientInterface::changeGameMaster(CLID ID)
 {
     m_GMID=ID;
-    lg(tr("<em><strong>%1</strong> est maintenant <strong>Maître du Jeu</strong>.</em>").arg(anonym(ID)), true, true);
+
+    if(m_GMID=m_ID)
+    {
+        lg(tr("<strong>Vous</strong> êtes maintenant le <strong>Maître du Jeu</strong>."));
+        m_narrator->setReadOnly(false);
+    }
+    else
+    {
+        lg(tr("<em><strong>%1</strong> est maintenant <strong>Maître du Jeu</strong>.</em>").arg(anonym(ID)), true, true);
+        m_narrator->setReadOnly(true);
+    }
     updatePlayerList();
     updateGMLabel();
 }
@@ -413,8 +461,18 @@ void ClientInterface::changeServerInformations(ServerInformations si)
     {
         m_GMID=si.gameMasterID;
         lg(tr("<em><strong>%1</strong> est <strong>Maître du Jeu</strong></em>").arg(anonym(m_GMID)), false, true);
+        if(m_GMID==m_ID)
+        {
+            m_narrator->setReadOnly(false);
+        }
+        else
+            m_narrator->setReadOnly(true);
+
         updateGMLabel();
     }
+
+    m_narrator->setHtml(si.narration);
+    m_narrator->moveCursor(QTextCursor::End);
 
     if(si.gameStarted)
     {
@@ -471,11 +529,6 @@ void ClientInterface::chat(CLID sender, QString txt, ENUM_TYPE canal)
     if(canal==NORMAL)
     {
         lg(anonym(sender)+" : "+txt);
-    }
-    else if(canal==NARRATOR)
-    {
-        m_narrator->append(txt);
-        m_RPChat->append(txt);
     }
     else if(canal==RP)
     {

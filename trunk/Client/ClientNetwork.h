@@ -54,7 +54,9 @@ class ClientNetwork : public QObject
         void clientVoted(CLID f, CLID t);
         void newGameMaster(CLID);
         void serverName(QString);
+        void motdChanged(QString);
         void gameLaunched();
+        void narrationChanged(QString);
 
         void connectionEtablished();
         void connectionLost();
