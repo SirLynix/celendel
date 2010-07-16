@@ -8,7 +8,7 @@
 		<Cursor position="148" topLine="5" />
 	</File>
 	<File name="Network.cpp" open="0" top="0" tabpos="2">
-		<Cursor position="1894" topLine="50" />
+		<Cursor position="96" topLine="0" />
 	</File>
 	<File name="Network.h" open="0" top="0" tabpos="3">
 		<Cursor position="1167" topLine="7" />
@@ -20,39 +20,36 @@
 		<Cursor position="487" topLine="0" />
 	</File>
 	<File name="Server.cpp" open="0" top="0" tabpos="3">
-		<Cursor position="746" topLine="12" />
+		<Cursor position="1241" topLine="17" />
 	</File>
 	<File name="Server.h" open="0" top="0" tabpos="0">
-		<Cursor position="689" topLine="14" />
+		<Cursor position="820" topLine="15" />
 	</File>
 	<File name="Server.pro" open="0" top="0" tabpos="0">
 		<Cursor position="141" topLine="0" />
 	</File>
 	<File name="ServerSwitch.cpp" open="0" top="0" tabpos="1">
-		<Cursor position="12225" topLine="70" />
+		<Cursor position="11066" topLine="291" />
 	</File>
 	<File name="main.cpp" open="0" top="0" tabpos="1">
 		<Cursor position="118" topLine="0" />
 	</File>
-	<File name="..\Shared\Constants.h" open="1" top="0" tabpos="0">
-		<Cursor position="1594" topLine="46" />
+	<File name="..\Shared\Constants.h" open="1" top="0" tabpos="1">
+		<Cursor position="2327" topLine="70" />
 	</File>
 	<File name="..\Shared\MapStructs.h" open="0" top="0" tabpos="1">
 		<Cursor position="50" topLine="0" />
 	</File>
-	<File name="..\Shared\Miscelaneous.cpp" open="1" top="0" tabpos="0">
-		<Cursor position="0" topLine="0" />
-	</File>
-	<File name="..\Shared\Packet.cpp" open="0" top="0" tabpos="1">
-		<Cursor position="920" topLine="6" />
+	<File name="..\Shared\Packet.cpp" open="0" top="0" tabpos="2">
+		<Cursor position="132" topLine="0" />
 	</File>
 	<File name="..\Shared\Packet.h" open="0" top="0" tabpos="0">
-		<Cursor position="333" topLine="0" />
+		<Cursor position="743" topLine="0" />
 	</File>
-	<File name="..\Shared\Serializer.cpp" open="1" top="0" tabpos="0">
-		<Cursor position="7744" topLine="384" />
+	<File name="..\Shared\Serializer.cpp" open="0" top="0" tabpos="0">
+		<Cursor position="10612" topLine="556" />
 	</File>
-	<File name="..\Shared\Serializer.h" open="1" top="0" tabpos="0">
-		<Cursor position="2728" topLine="33" />
+	<File name="..\Shared\Serializer.h" open="0" top="0" tabpos="0">
+		<Cursor position="3170" topLine="45" />
 	</File>
 </CodeBlocks_layout_file>

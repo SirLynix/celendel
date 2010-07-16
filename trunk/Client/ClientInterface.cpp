@@ -4,6 +4,8 @@
 
 #include "AboutWindow.h"
 #include "ClientSettings.h"
+#include "SoundManager.h"
+#include "SoundsGUI.h"
 
 ClientInterface::ClientInterface()
 {
@@ -29,11 +31,15 @@ ClientInterface::ClientInterface()
     connect(m_network, SIGNAL(clientLeft(CLID)), this, SLOT(clientLeft(CLID)));
     connect(m_network, SIGNAL(clientJoined(CLID)), this, SLOT(clientJoined(CLID)));
     connect(m_network, SIGNAL(narrationChanged(QString)), this, SLOT(narrationChanged(QString)));
+    connect(m_network, SIGNAL(playSound(QString, RSID)), this, SLOT(playSound(QString, RSID)));
 
     resetData();
 
     setCSS(set->value(PARAM_CSS).toString());
     setInterface(set->value(PARAM_INTERFACE, DEFAULT_INTERFACE).toString());
+    sndMngr.setVolume(set->value(PARAM_SOUND, 100.f).toFloat());
+
+    sndMngr.setLibList(set->value(PARAM_SOUNDLIBS, QStringList()).toStringList());
 
     buildGMStuff();
 
@@ -62,7 +68,7 @@ void ClientInterface::playerListMenu(const QPoint& pos)
     m_voteGM->setData(cID);
     m_changeGM->setData(cID);
 
-    if(isGM())
+    if(isGM()&&cID!=m_ID)
         list << m_kick << m_ban << m_changeGM;
 
     if(m_GMID==0&&!m_voted) //No GM
@@ -79,6 +85,11 @@ void ClientInterface::aboutUs()
     AboutWindow aw(t, this);
     aw.setWindowTitle(tr("A propos de Celendel"));
     aw.exec();
+}
+
+void ClientInterface::playSound(QString lib, RSID rsid)
+{
+    sndMngr.playSound(lib, rsid);
 }
 
 void ClientInterface::aboutServer()
@@ -158,6 +169,7 @@ void ClientInterface::switchConnectionState()
         m_network->disconnection();
     }
 }
+
 void ClientInterface::openSettings()
 {
     ClientSettings cs(this);
@@ -168,6 +180,12 @@ void ClientInterface::openSettings()
     m_network->send(ETI(SET_NICK), serialiseSetNickData(set->value(PARAM_NICK).toString()));
 
     delete set;
+}
+
+void ClientInterface::openSoundsGUI()
+{
+    SoundsGUI cs(this);
+    cs.exec();
 }
 
 void ClientInterface::setTitle()
@@ -410,7 +428,7 @@ void ClientInterface::changeGameMaster(CLID ID)
 {
     m_GMID=ID;
 
-    if(m_GMID=m_ID)
+    if(m_GMID==m_ID)
     {
         lg(tr("<strong>Vous</strong> êtes maintenant le <strong>Maître du Jeu</strong>."));
         m_narrator->setReadOnly(false);

@@ -11,8 +11,14 @@ INPUT(
 ./debug\ClientSettings.o
 ./debug\AboutWindow.o
 ./debug\ClientGMInterface.o
+./debug\SoundManager.o
+./debug\SoundsGUI.o
+./debug\SoundLibThread.o
 ./debug\moc_ClientInterface.o
 ./debug\moc_ClientNetwork.o
 ./debug\moc_ClientSettings.o
 ./debug\moc_AboutWindow.o
+./debug\moc_SoundManager.o
+./debug\moc_SoundsGUI.o
+./debug\moc_SoundLibThread.o
 );

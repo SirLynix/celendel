@@ -10,73 +10,76 @@
 
 #include "Constants.h"
 #include "MapStructs.h"
-#include <QString>
+#include <QStringList>
 #include <QByteArray>
 
-void extractChatData(QByteArray& data, ENUM_TYPE& canal, QString& text, CLID& sender);
+bool extractChatData(QByteArray& data, ENUM_TYPE& canal, QString& text, CLID& sender);
 QByteArray serialiseChatData(ENUM_TYPE canal, const QString& text, CLID sender);
 
-void extractErrorData(QByteArray& data, ENUM_TYPE& error_type, QString& text);
+bool extractErrorData(QByteArray& data, ENUM_TYPE& error_type, QString& text);
 QByteArray serialiseErrorData(ENUM_TYPE error_type, const QString& text="");
 
-void extractGMElectData(QByteArray& data, CLID& ID);
+bool extractGMElectData(QByteArray& data, CLID& ID);
 QByteArray serialiseGMElectData(CLID ID);
 
-void extractSetCLIDData(QByteArray& data, CLID& ID);
+bool extractSetCLIDData(QByteArray& data, CLID& ID);
 QByteArray serialiseSetCLIDData(CLID ID);
 
-void extractNewGMData(QByteArray& data, CLID& ID);
+bool extractNewGMData(QByteArray& data, CLID& ID);
 QByteArray serialiseNewGMData(CLID ID);
 
-void extractVotedData(QByteArray& data, CLID& fID, CLID& tID);
+bool extractVotedData(QByteArray& data, CLID& fID, CLID& tID);
 QByteArray serialiseVotedData(CLID fID, CLID tID);
 
-void extractNewNickData(QByteArray& data, CLID& ID, QString& nick);
+bool extractNewNickData(QByteArray& data, CLID& ID, QString& nick);
 QByteArray serialiseNewNickData(CLID ID, const QString& nick);
 
-void extractSetNickData(QByteArray& data, QString& ID);
+bool extractSetNickData(QByteArray& data, QString& ID);
 QByteArray serialiseSetNickData(const QString& ID);
 
-void extractGTFOLynixData(QByteArray& data, CLID& ID, ENUM_TYPE& dropType, QString& reason);
+bool extractGTFOLynixData(QByteArray& data, CLID& ID, ENUM_TYPE& dropType, QString& reason);
 QByteArray serialiseGTFOLynixData(CLID ID, ENUM_TYPE dropType, const QString& reason="");
 
-void extractTODData(QByteArray& data, QString& when);
+bool extractTODData(QByteArray& data, QString& when);
 QByteArray serialiseTODData(const QString& when);
 
-void extractLocationData(QByteArray& data, QString& where);
+bool extractLocationData(QByteArray& data, QString& where);
 QByteArray serialiseLocationData(const QString& where);
 
-void extractServerInformationsData(QByteArray& data, ServerInformations& si);
+bool extractServerInformationsData(QByteArray& data, ServerInformations& si);
 QByteArray serialiseServerInformationsData(const ServerInformations& si);
 
-void extractMOTDData(QByteArray& data, QString& motd);
+bool extractMOTDData(QByteArray& data, QString& motd);
 QByteArray serialiseMOTDData(const QString& motd);
 
-void extractMapInformationsData(QByteArray& data, MapInformations& mi);
+bool extractMapInformationsData(QByteArray& data, MapInformations& mi);
 QByteArray serialiseMapInformationsData(const MapInformations& mi);
 
-void extractMapItemsInformationsData(QByteArray& data, QList<MapItem>& mi);
+bool extractMapItemsInformationsData(QByteArray& data, QList<MapItem>& mi);
 QByteArray serialiseMapItemsInformationsData(const QList<MapItem>& mi);
 
-void extractDiceRollData(QByteArray& data, CLID& ID, quint16& result);
+bool extractDiceRollData(QByteArray& data, CLID& ID, quint16& result);
 QByteArray serialiseDiceRollData(CLID ID, quint16 result);
 
-void extractPlaySoundData(QByteArray& data, RSID& ID);
-QByteArray serialisePlaySoundData(RSID ID);
+bool extractPlaySoundData(QByteArray& data, QString& lib, RSID& ID);
+QByteArray serialisePlaySoundData(const QString& lib, RSID ID);
 
-void extractServerNameData(QByteArray& data, QString& name);
+bool extractServerNameData(QByteArray& data, QString& name);
 QByteArray serialiseServerNameData(const QString& name);
 
-void extractClientJoinedData(QByteArray& data, CLID& ID);
+bool extractClientJoinedData(QByteArray& data, CLID& ID);
 QByteArray serialiseClientJoinedData(const CLID& ID);
 
-void extractClientLeftData(QByteArray& data, CLID& ID);
+bool extractClientLeftData(QByteArray& data, CLID& ID);
 QByteArray serialiseClientLeftData(const CLID& ID);
 
-void extractUnbanData(QByteArray& data, QString& IP);
+bool extractUnbanData(QByteArray& data, QString& IP);
 QByteArray serialiseUnbanData(const QString& IP);
 
-void extractAllNarrationData(QByteArray& data, QString& txt);
+bool extractAllNarrationData(QByteArray& data, QString& txt);
 QByteArray serialiseAllNarrationData(const QString& txt);
+
+bool extractSyncLibsData(QByteArray& data, QStringList& libs, QList<LVER>& ver);
+QByteArray serialiseSyncLibsData(const QStringList& libs, const QList<LVER>& ver);
 
 #endif

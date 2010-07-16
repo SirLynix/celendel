@@ -4,6 +4,9 @@
 
 #include <QDebug>
 
+#define VD(a) if(a.status()!=QDataStream::Ok) setError();
+#define RVD(a) VD(a); return m_error;
+
 quint32 getTimeStamp(){return QDateTime::currentDateTime().toTime_t()*1000+QTime::currentTime().msec();}
 
 void Packet::show() const //Temporary - only for debug and tests
@@ -17,19 +20,37 @@ Packet::Packet() : ID(0), type(0), dataSize(0), timestamp(-1)
     ID=sID;
     ++sID;
     full=false;
+    m_error=false;
 }
 
-void Packet::setHeader(QDataStream& in)
+bool Packet::setHeader(QDataStream& in)
 {
     in>>ID>>type>>dataSize>>timestamp;
+    RVD(in);
 }
 
+bool Packet::setBody(QDataStream& in)
+{
+    in>>data;
+    full=true;
+    RVD(in);
+}
 
-void Packet::unSerialise(QByteArray& pa)
+void Packet::setError()
+{
+    m_error=true;
+    data.clear();
+    ID=-1;
+    type=-1;
+    dataSize=0;
+    timestamp=-1;
+}
+
+bool Packet::unSerialise(QByteArray& pa)
 {
     QDataStream in(pa);
-    setHeader(in);
-    setBody(in);
+
+    return setHeader(in)||setBody(in);
 }
 
 void Packet::serialise(QByteArray& pa)
@@ -51,10 +72,4 @@ void Packet::serialise(QByteArray& pa)
     dataSize=pa.size()-sizeofheader;
     out << (quint32)dataSize;
 
-}
-
-void Packet::setBody(QDataStream& in)
-{
-    in>>data;
-    full=true;
 }

@@ -42,6 +42,8 @@ class ClientInterface : public QMainWindow
 
         void setTitle();
 
+        void playSound(QString lid, RSID rsid);
+
         void updatePlayerList();
 
         void clientJoined(CLID);
@@ -52,6 +54,7 @@ class ClientInterface : public QMainWindow
 
         void switchConnectionState();
         void openSettings();
+        void openSoundsGUI();
         void aboutUs();
         void aboutServer();
 

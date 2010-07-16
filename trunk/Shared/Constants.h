@@ -12,8 +12,9 @@
 #define SERVER_IP "127.0.0.1"
 #define MAX_CLIENTS 100
 #define SERVER_PORT 5577
-#define CLID quint16 /// Alias for Client ID.
-#define RSID quint16 /// Alias for Ressource ID.
+#define CLID quint16 /// Alias for CLient ID.
+#define RSID qint32 /// Alias for ReSsource ID.
+#define LVER qint32 ///Alias for Lib VERsion.
 
 #define MAX_SEQUENTIALS_PACKETS 15
 #define PACKETS_COUNT_RESET_DELAY 100
@@ -58,9 +59,12 @@ struct ServerInformations
 
 enum PACKET_TYPE { ERROR, PING, CHAT, ALL_NARRATION, GM_ELECT, NEW_GM, LAUNCH_GAME, GAME_LAUNCHED, VOTED, SET_CLID, NEW_NICK,
                 SET_NICK, GTFO_LYNIX, TOD, LOCATION, SERVER_INFORMATIONS, MOTD, MAP_INFORMATIONS, MAP_ITEMS_INFORMATIONS,
-                PLAY_SOUND, SCRIPTS_INFOS, ROLL_DICE, SERVER_NAME, CLIENT_LEFT, CLIENT_JOINED, UNBAN};
+                PLAY_SOUND, SCRIPTS_INFOS, ROLL_DICE, SERVER_NAME, CLIENT_LEFT, CLIENT_JOINED, UNBAN, SYNC_LIBS};
 
 #define MAX_NICKNAME_LENGHT 15
+
+/* SYNC_LIBS structure :
+- QStringList libs */
 
 /* CLIENT_LEFT and CLIENT_JOINED structure :
 - CLID ID */
@@ -79,6 +83,7 @@ enum PACKET_TYPE { ERROR, PING, CHAT, ALL_NARRATION, GM_ELECT, NEW_GM, LAUNCH_GA
 - quint16 result */
 
 /* PLAY_SOUND type structure :
+- QString lib
 - RSID ID */
 
 /* GM_ELECT type structure :

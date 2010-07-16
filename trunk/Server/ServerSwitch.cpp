@@ -2,6 +2,9 @@
 #include "..\Shared\Serializer.h"
 #include "..\Shared\Constants.h"
 
+#define QE(a) if(a) {log("ERROR : packet received corrupted ! (from Client "+QString::number(cID)+") at line "+QString::number(__LINE__)+" in file "__FILE__); m_network->sendToClient(cID, ETI(ERROR), serialiseErrorData(ETI(INVALID_PACKET)));goto end;}
+#define GM_CHECK() if(!ply->isGM()) { m_network->sendToClient(cID, ETI(ERROR), serialiseErrorData(ETI(NOT_GM))); log("POWER ERROR : client "+QString::number(cID)); goto end;}
+
 bool Server::changeGM(CLID cID)
 {
     Player *ne=getPlayer(cID);
@@ -36,59 +39,66 @@ void Server::processData(Packet* pa, CLID cID)
     Player *ply = getPlayer(cID);
     if(ply==NULL)
     {
+        log("ERROR : Packet received, but player is unfindable (cast error). -> trash bin, sorry little orphan packet.");
         delete pa;
         return;
+
     }
-  //  log("Packet received.");
+    QE(pa->error());
+
+    //  log("Packet received, working...");
     switch(pa->type)
     {
         case CHAT:
         {
             ENUM_TYPE canal; QString text;
             CLID garbage;
-            extractChatData(pa->data, canal, text, garbage);
+            QE(extractChatData(pa->data, canal, text, garbage));
             text=securise(text);
-            log("Chat message received : ["+QString::number(ply->isGM())+"]"+ply->nickname+" say on ["+QString::number(canal)+"] : \""+text+"\"");
-            switch(canal)
+            if(!text.isEmpty())
             {
-                case ETI(NORMAL):
+                log("Chat message received : ["+QString::number(ply->isGM())+"]"+ply->nickname+" say on ["+QString::number(canal)+"] : \""+text+"\"");
+                switch(canal)
                 {
-                    text.truncate(MAX_MESSAGE_LENGHT);
-                    text.replace('\n', "");
-                    if(!text.isEmpty())
-                        m_network->sendToAll(ETI(CHAT), serialiseChatData(ETI(NORMAL), text, cID));
-                }
-                break;
-                case ETI(SELF_NARRATOR):
-                {
-                    if(gameStarted())
+                    case ETI(NORMAL):
                     {
-                        m_network->sendToAll(ETI(CHAT), serialiseChatData(ETI(SELF_NARRATOR), text, cID));
+                        text.truncate(MAX_MESSAGE_LENGHT);
+                        text.replace('\n', "");
+                        if(!text.isEmpty())
+                            m_network->sendToAll(ETI(CHAT), serialiseChatData(ETI(NORMAL), text, cID));
                     }
-                    else
+                    break;
+                    case ETI(SELF_NARRATOR):
                     {
-                        m_network->sendToClient(cID, ETI(ERROR), serialiseErrorData(ETI(GAME_NOT_LAUNCHED)));
+                        if(gameStarted())
+                        {
+                            m_network->sendToAll(ETI(CHAT), serialiseChatData(ETI(SELF_NARRATOR), text, cID));
+                        }
+                        else
+                        {
+                            m_network->sendToClient(cID, ETI(ERROR), serialiseErrorData(ETI(GAME_NOT_LAUNCHED)));
+                        }
                     }
-                }
-                break;
-                case ETI(RP):
-                {
-                    if(gameStarted())
+                    break;
+                    case ETI(RP):
                     {
-                        m_network->sendToAll(ETI(CHAT), serialiseChatData(ETI(RP), text, cID));
+                        if(gameStarted())
+                        {
+                            m_network->sendToAll(ETI(CHAT), serialiseChatData(ETI(RP), text, cID));
+                        }
+                        else
+                        {
+                            m_network->sendToClient(cID, ETI(ERROR), serialiseErrorData(ETI(NOT_GM)));
+                        }
                     }
-                    else
+                    break;
+                    default:
                     {
-                        m_network->sendToClient(cID, ETI(ERROR), serialiseErrorData(ETI(NOT_GM)));
+                        log("ERROR : Canal unknown !");
+                        m_network->sendToClient(cID, ETI(ERROR), serialiseErrorData(ETI(INVALID_CANAL)));
                     }
+                    break;
                 }
-                break;
-                default:
-                {
-                    log("ERROR : Canal unknown !");
-                    m_network->sendToClient(cID, ETI(ERROR), serialiseErrorData(ETI(INVALID_CANAL)));
-                }
-                break;
             }
         }
         break;
@@ -99,30 +109,22 @@ void Server::processData(Packet* pa, CLID cID)
         break;
         case LAUNCH_GAME:
         {
-            if(ply->isGM() && !gameStarted())
-            {
-                launchGame();
-            }
-            else
-                m_network->sendToClient(cID, ETI(ERROR), serialiseErrorData(ETI(NOT_GM)));
+            GM_CHECK();
+            launchGame();
         }
         break;
         case ALL_NARRATION:
         {
-            if(ply->isGM())
-            {
-                extractAllNarrationData(pa->data, narration);
-                m_network->sendToAll(ETI(ALL_NARRATION), serialiseAllNarrationData(narration));
-            }
-            else
-                m_network->sendToClient(cID, ETI(ERROR), serialiseErrorData(ETI(NOT_GM)));
+            GM_CHECK();
+            QE(extractAllNarrationData(pa->data, narration));
+            m_network->sendToAll(ETI(ALL_NARRATION), serialiseAllNarrationData(narration));
         }
         break;
         case GM_ELECT:
         {
             log("Client "+QString::number(cID)+" voted !");
             CLID vID;
-            extractGMElectData(pa->data, vID);
+            QE(extractGMElectData(pa->data, vID));
             Player *vp=getPlayer(vID);
             if(vp==NULL)
             {
@@ -171,31 +173,27 @@ void Server::processData(Packet* pa, CLID cID)
         break;
         case NEW_GM:
         {
-            if(ply->isGM())
+            GM_CHECK();
+            CLID tID;
+            QE(extractNewGMData(pa->data, tID));
+            if(cID!=tID)
             {
-                CLID tID;
-                extractNewGMData(pa->data, tID);
-                if(cID!=tID)
+                Player*p=getPlayer(tID);
+                if(p==NULL)
                 {
-                    Player*p=getPlayer(tID);
-                    if(p==NULL)
-                    {
-                        m_network->sendToClient(cID, ETI(ERROR), serialiseErrorData(ETI(CLIENT_DOES_NOT_EXIST)));
-                    }
-                    else
-                    {
-                        changeGM(tID);
+                    m_network->sendToClient(cID, ETI(ERROR), serialiseErrorData(ETI(CLIENT_DOES_NOT_EXIST)));
                 }
-                }
+                else
+                {
+                    changeGM(tID);
             }
-            else
-                m_network->sendToClient(cID, ETI(ERROR), serialiseErrorData(ETI(NOT_GM)));
+            }
         }
         break;
         case SET_NICK:
         {
             QString nick;
-            extractSetNickData(pa->data, nick);
+            QE(extractSetNickData(pa->data, nick));
             nick.replace(QRegExp("[^a-zA-Z0-9_'\\-יטאח]"), "");
             nick.truncate(MAX_NICKNAME_LENGHT);
             if(nick != "" && nickToCLID(nick) == 0)
@@ -208,75 +206,59 @@ void Server::processData(Packet* pa, CLID cID)
         break;
         case GTFO_LYNIX:
         {
-            if(ply->isGM())
-            {
-                CLID tID=0;
-                ENUM_TYPE kob=0;
-                QString reason;
-                extractGTFOLynixData(pa->data, tID, kob, reason);
-                Player *tar = getPlayer(tID);
+            GM_CHECK();
+            CLID tID=0;
+            ENUM_TYPE kob=0;
+            QString reason;
+            QE(extractGTFOLynixData(pa->data, tID, kob, reason));
+            Player *tar = getPlayer(tID);
 
-                if(tar==NULL)
-                {
-                    m_network->sendToClient(cID, ETI(ERROR), serialiseErrorData(ETI(CLIENT_DOES_NOT_EXIST)));
-                }
-                else
-                {
-                    switch(kob)
-                    {
-                        case KICK:
-                            log("["+QString::number(cID)+"]" +ply->nickname+" kicked ["+QString::number(tID)+"]"+tar->nickname+". Reason : \""+reason);
-                            m_network->kick(tID, reason);
-                        break;
-                        case BAN:
-                            log("["+QString::number(cID)+"]"+ply->nickname+" kicked and banned ["+QString::number(tID)+"]"+tar->nickname+". Reason : \""+reason);
-                            m_network->ban(tID, reason);
-                        break;
-                        default:
-                            log("ERROR : Sanction unknown.");
-                            m_network->sendToClient(cID, ETI(ERROR), serialiseErrorData(ETI(SANCTION_UNKNOWN)));
-                        break;
-                    }
-                }
+            if(tar==NULL)
+            {
+                m_network->sendToClient(cID, ETI(ERROR), serialiseErrorData(ETI(CLIENT_DOES_NOT_EXIST)));
             }
             else
-                m_network->sendToClient(cID, ETI(ERROR), serialiseErrorData(ETI(NOT_GM)));
+            {
+                switch(kob)
+                {
+                    case KICK:
+                        log("["+QString::number(cID)+"]" +ply->nickname+" kicked ["+QString::number(tID)+"]"+tar->nickname+". Reason : \""+reason);
+                        m_network->kick(tID, reason);
+                    break;
+                    case BAN:
+                        log("["+QString::number(cID)+"]"+ply->nickname+" kicked and banned ["+QString::number(tID)+"]"+tar->nickname+". Reason : \""+reason);
+                        m_network->ban(tID, reason);
+                    break;
+                    default:
+                        log("ERROR : Sanction unknown.");
+                        m_network->sendToClient(cID, ETI(ERROR), serialiseErrorData(ETI(SANCTION_UNKNOWN)));
+                    break;
+                }
+            }
         }
         break;
         case UNBAN:
         {
-            if(ply->isGM())
-            {
-                QString IP;
-                extractUnbanData(pa->data, IP);
-                m_network->unban(IP);
-            }
-            else
-                m_network->sendToClient(cID, ETI(ERROR), serialiseErrorData(ETI(NOT_GM)));
+            GM_CHECK();
+            QString IP;
+            QE(extractUnbanData(pa->data, IP));
+            m_network->unban(IP);
         }
         break;
         case TOD:
         {
-            if(ply->isGM())
-            {
-                extractTODData(pa->data, timeOfDay);
-                log("Game Master changed Time Of Day to : \""+timeOfDay+"\"");
-                m_network->sendToAll(ETI(TOD), serialiseTODData(timeOfDay));
-            }
-            else
-                m_network->sendToClient(cID, ETI(ERROR), serialiseErrorData(ETI(NOT_GM)));
+            GM_CHECK();
+            QE(extractTODData(pa->data, timeOfDay));
+            log("Game Master changed Time Of Day to : \""+timeOfDay+"\"");
+            m_network->sendToAll(ETI(TOD), serialiseTODData(timeOfDay));
         }
         break;
         case LOCATION:
         {
-            if(ply->isGM())
-            {
-                extractTODData(pa->data, location);
-                log("Game Master changed location to : \""+location+"\"");
-                m_network->sendToAll(ETI(LOCATION), serialiseTODData(location));
-            }
-            else
-                m_network->sendToClient(cID, ETI(ERROR), serialiseErrorData(ETI(NOT_GM)));
+            GM_CHECK();
+            QE(extractTODData(pa->data, location));
+            log("Game Master changed location to : \""+location+"\"");
+            m_network->sendToAll(ETI(LOCATION), serialiseTODData(location));
         }
         break;
         case PING:
@@ -286,34 +268,22 @@ void Server::processData(Packet* pa, CLID cID)
         break;
         case MAP_INFORMATIONS:
         {
-            if(ply->isGM())
-            {
-                extractMapInformationsData(pa->data, *m_map);
-                m_network->sendToAll(ETI(MAP_INFORMATIONS), serialiseMapInformationsData(*m_map));
-            }
-            else
-                m_network->sendToClient(cID, ETI(ERROR), serialiseErrorData(ETI(NOT_GM)));
+            GM_CHECK();
+            QE(extractMapInformationsData(pa->data, *m_map));
+            m_network->sendToAll(ETI(MAP_INFORMATIONS), serialiseMapInformationsData(*m_map));
         }
         break;
         case MAP_ITEMS_INFORMATIONS:
         {
-            if(ply->isGM())
-            {
-                extractMapItemsInformationsData(pa->data, m_map->mapItems);
-                m_network->sendToAll(ETI(MAP_ITEMS_INFORMATIONS), serialiseMapItemsInformationsData(m_map->mapItems));
-            }
-            else
-                m_network->sendToClient(cID, ETI(ERROR), serialiseErrorData(ETI(NOT_GM)));
+            GM_CHECK();
+            QE(extractMapItemsInformationsData(pa->data, m_map->mapItems));
+            m_network->sendToAll(ETI(MAP_ITEMS_INFORMATIONS), serialiseMapItemsInformationsData(m_map->mapItems));
         }
         break;
         case PLAY_SOUND:
         {
-            if(ply->isGM())
-            {
-                m_network->sendToAll(pa, false);
-            }
-            else
-                m_network->sendToClient(cID, ETI(ERROR), serialiseErrorData(ETI(NOT_GM)));
+            GM_CHECK();
+            m_network->sendToAll(pa, false);
         }
         break;
         case ROLL_DICE:
@@ -323,29 +293,32 @@ void Server::processData(Packet* pa, CLID cID)
         break;
         case SERVER_NAME:
         {
-            if(ply->isGM())
-            {
-                QString n;
-                extractServerNameData(pa->data, n);
-                n.replace(QRegExp("[^a-zA-Z0-9_]"), "");
-                n.truncate(50);
-                serverName=n;
-                m_network->sendToAll(ETI(SERVER_NAME), serialiseServerNameData(n));
-            }
-            else
-                m_network->sendToClient(cID, ETI(ERROR), serialiseErrorData(ETI(NOT_GM)));
+            GM_CHECK();
+            QString n;
+            QE(extractServerNameData(pa->data, n));
+            n.replace(QRegExp("[^a-zA-Z0-9_]"), "");
+            n.truncate(50);
+            serverName=n;
+            m_network->sendToAll(ETI(SERVER_NAME), serialiseServerNameData(n));
+        }
+        break;
+        case SYNC_LIBS:
+        {
+            GM_CHECK();
+            QStringList l;
+            QList<LVER> v;
+            QE(extractSyncLibsData(pa->data, l, v));
+            QE(l.size()!=v.size())
+
+            m_network->sendToAll(ETI(SYNC_LIBS), serialiseSyncLibsData(l,v));
 
         }
         break;
         case MOTD:
         {
-            if(ply->isGM())
-            {
-                extractMOTDData(pa->data, motd);
-                m_network->sendToAll(ETI(MOTD), serialiseMOTDData(motd));
-            }
-            else
-                m_network->sendToClient(cID, ETI(ERROR), serialiseErrorData(ETI(NOT_GM)));
+            GM_CHECK();
+            QE(extractMOTDData(pa->data, motd));
+            m_network->sendToAll(ETI(MOTD), serialiseMOTDData(motd));
 
         }
         break;
@@ -357,5 +330,6 @@ void Server::processData(Packet* pa, CLID cID)
         break;
     }
 
+    end:
     delete pa;
 }

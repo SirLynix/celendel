@@ -1,5 +1,6 @@
 #include "ClientInterface.h"
 #include "..\Shared\Serializer.h"
+#include "SoundManager.h"
 
 CLID ClientInterface::CLIDFromString(const QString& str) //Zero on error
 {
@@ -32,8 +33,8 @@ void ClientInterface::sendMessage()
 
 
         lg(tr("<br />Commandes de canal :"), false, true);
-        lg("<strong>" + tr("/rp") + "</strong> | <strong>" + tr("/jdr") + "</strong>" + tr("<em>[Texte]</em> : Ecrire du dialogue, au format [Personnage : Blah]."), false, true);
-        lg("<strong>" + tr("/me") + "</strong> | <strong>" + tr("/moi") + "</strong>" + tr("<em>[Texte]</em> : Ecrire de la narration, au format [Personnage fait quelque chose]."), false, true);
+        lg("<strong>" + tr("/rp") + "</strong> | <strong>" + tr("/jdr") + "</strong>" + tr("<em> [Texte]</em> : Ecrire du dialogue, au format [Personnage : Blah]."), false, true);
+        lg("<strong>" + tr("/me") + "</strong> | <strong>" + tr("/moi") + "</strong>" + tr("<em> [Texte]</em> : Ecrire de la narration, au format [Personnage fait quelque chose]."), false, true);
         lg("<strong>" + tr("/1d20") + "</strong>" + tr(" : Lancer 1d20."), false, true);
 
         lg(tr("<br />Commandes locales :"), false, true);
@@ -50,7 +51,7 @@ void ClientInterface::sendMessage()
         lg("<strong>" + tr("/kick") + "</strong>" + tr(" <em>[Client ID] [Raison]</em> : <strong>(MJ)</strong> Ejecte un client du serveur."), false, true);
         lg("<strong>" + tr("/ban") + "</strong>" + tr(" <em>[Client ID] [Raison]</em> : <strong>(MJ)</strong> Banni un client du serveur (par IP, valable jusqu'au redémarage du serveur)."), false, true);
         lg("<strong>" + tr("/unban") + "</strong>" + tr(" <em>[IP]</em> : <strong>(MJ)</strong> Supprime une IP de la banlist."), false, true);
-        lg("<strong>" + tr("/son") + "</strong>" + tr(" <em>[Ressource ID]</em> : <strong>(MJ)</strong> Joue un son chez tous les clients."), false, true);
+        lg("<strong>" + tr("/son") + "</strong>" + tr(" <em>[Bibliothèque] [Son]</em> : <strong>(MJ)</strong> Joue un son chez tous les clients."), false, true);
         lg("<strong>" + tr("/lancerpartie") + "</strong>" + tr(" : <strong>(MJ)</strong> Lancer la partie."), false, true);
         lg("<strong>" + tr("/changemj") + "</strong>" + tr(" <em>[Client ID]</em> : <strong>(MJ)</strong> Changer le MJ. Attention, vous perdrez vos privilèges."), false, true);
         lg("<strong>" + tr("/nomserveur") + "</strong>" + tr(" <em>[Nom]</em> : <strong>(MJ)</strong> Changer le nom du serveur."), false, true);
@@ -133,13 +134,19 @@ void ClientInterface::sendMessage()
         {
             QStringList spl = txt.split(' ', QString::SkipEmptyParts);
             QString r;
-            if(spl.size()<2)
+            if(spl.size()<3)
             {
                 lg(tr("Erreur : pas assez d'arguments."));
                 return;
             }
-
-            m_network->send(ETI(PLAY_SOUND), serialisePlaySoundData(spl[1].toInt()));
+            QString sound=spl[2];
+            QString lib=spl[1];
+            if(sndMngr.exists(lib, sound))
+            {
+                m_network->send(ETI(PLAY_SOUND), serialisePlaySoundData(lib, sndMngr.soundRSIDFromString(lib, sound)));
+            }
+            else
+                lg(tr("Erreur : son introuvable. La bibliothèque demandée n'est peut-être pas chargée."));
         }
         else if(txt.startsWith(tr("/votemj"), Qt::CaseInsensitive))
         {
@@ -213,6 +220,11 @@ void ClientInterface::sendMessage()
             }
 
             m_network->send(ETI(SERVER_NAME), serialiseServerNameData(txt.mid( spl[0].size()).trimmed()));
+        }
+        else if(txt.startsWith("/stopsounds"));
+        {
+            sndMngr.stopSounds();
+            show=false;
         }
     }
 
