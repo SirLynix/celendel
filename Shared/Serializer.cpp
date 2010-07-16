@@ -2,13 +2,21 @@
 #include <QDataStream>
 #include <QDebug>
 
-void extractChatData(QByteArray& data, ENUM_TYPE& canal, QString& text, CLID& sender)
-{
-    QDataStream in(data);
+#define QV(a) if(a.isEmpty()) return true;
+#define R(a) if(a.status()!=QDataStream::Ok) return true;
 
+bool extractChatData(QByteArray& data, ENUM_TYPE& canal, QString& text, CLID& sender)
+{
+    QV(data);
+    QDataStream in(data);
     in>>canal;
+    R(in);
     in>>text;
+    R(in);
     in>>sender;
+    R(in);
+
+    return false;
 }
 
 QByteArray serialiseChatData(ENUM_TYPE canal, const QString& text, CLID sender)
@@ -22,12 +30,16 @@ QByteArray serialiseChatData(ENUM_TYPE canal, const QString& text, CLID sender)
     return data;
 }
 
-void extractErrorData(QByteArray& data, ENUM_TYPE& error_type, QString& text)
+bool extractErrorData(QByteArray& data, ENUM_TYPE& error_type, QString& text)
 {
+    QV(data);
     QDataStream in(data);
 
     in>>error_type;
+    R(in);
     in>>text;
+    R(in);
+    return false;
 }
 
 QByteArray serialiseErrorData(ENUM_TYPE error_type, const QString& text)
@@ -41,11 +53,14 @@ QByteArray serialiseErrorData(ENUM_TYPE error_type, const QString& text)
     return data;
 }
 
-void extractGMElectData(QByteArray& data, CLID& ID)
+bool extractGMElectData(QByteArray& data, CLID& ID)
 {
+    QV(data);
     QDataStream in(data);
 
     in>>ID;
+    R(in);
+    return false;
 }
 
 QByteArray serialiseGMElectData(CLID ID)
@@ -58,11 +73,14 @@ QByteArray serialiseGMElectData(CLID ID)
     return data;
 }
 
-void extractSetCLIDData(QByteArray& data, CLID& ID)
+bool extractSetCLIDData(QByteArray& data, CLID& ID)
 {
+    QV(data);
     QDataStream in(data);
 
     in>>ID;
+    R(in);
+    return false;
 }
 
 QByteArray serialiseSetCLIDData(CLID ID)
@@ -75,11 +93,14 @@ QByteArray serialiseSetCLIDData(CLID ID)
     return data;
 }
 
-void extractNewGMData(QByteArray& data, CLID& ID)
+bool extractNewGMData(QByteArray& data, CLID& ID)
 {
+    QV(data);
     QDataStream in(data);
 
     in>>ID;
+    R(in);
+    return false;
 }
 
 QByteArray serialiseNewGMData(CLID ID)
@@ -92,12 +113,16 @@ QByteArray serialiseNewGMData(CLID ID)
     return data;
 }
 
-void extractVotedData(QByteArray& data, CLID& fID, CLID& tID)
+bool extractVotedData(QByteArray& data, CLID& fID, CLID& tID)
 {
+    QV(data);
     QDataStream in(data);
 
     in>>fID;
+    R(in);
     in>>tID;
+    R(in);
+    return false;
 }
 
 QByteArray serialiseVotedData(CLID fID, CLID tID)
@@ -111,12 +136,17 @@ QByteArray serialiseVotedData(CLID fID, CLID tID)
     return data;
 }
 
-void extractNewNickData(QByteArray& data, CLID& ID, QString& nick)
+bool extractNewNickData(QByteArray& data, CLID& ID, QString& nick)
 {
+    QV(data);
     QDataStream in(data);
 
     in>>ID;
+    R(in);
     in>>nick;
+    R(in);
+
+    return false;
 }
 
 QByteArray serialiseNewNickData(CLID ID, const QString& nick)
@@ -130,11 +160,14 @@ QByteArray serialiseNewNickData(CLID ID, const QString& nick)
     return data;
 }
 
-void extractSetNickData(QByteArray& data, QString& nick)
+bool extractSetNickData(QByteArray& data, QString& nick)
 {
+    QV(data);
     QDataStream in(data);
 
     in>>nick;
+    R(in);
+    return false;
 }
 
 QByteArray serialiseSetNickData(const QString& nick)
@@ -147,13 +180,19 @@ QByteArray serialiseSetNickData(const QString& nick)
     return data;
 }
 
-void extractGTFOLynixData(QByteArray& data, CLID& ID, ENUM_TYPE& dropType, QString& reason)
+bool extractGTFOLynixData(QByteArray& data, CLID& ID, ENUM_TYPE& dropType, QString& reason)
 {
+    QV(data);
     QDataStream in(data);
 
     in>>ID;
+    R(in);
     in>>dropType;
+    R(in);
     in>>reason;
+    R(in);
+
+    return false;
 }
 
 QByteArray serialiseGTFOLynixData(CLID ID, ENUM_TYPE dropType, const QString& reason)
@@ -168,11 +207,15 @@ QByteArray serialiseGTFOLynixData(CLID ID, ENUM_TYPE dropType, const QString& re
     return data;
 }
 
-void extractTODData(QByteArray& data, QString& when)
+bool extractTODData(QByteArray& data, QString& when)
 {
+    QV(data);
     QDataStream in(data);
 
     in>>when;
+    R(in);
+
+    return false;
 }
 
 QByteArray serialiseTODData(const QString& when)
@@ -185,11 +228,15 @@ QByteArray serialiseTODData(const QString& when)
     return data;
 }
 
-void extractLocationData(QByteArray& data, QString& where)
+bool extractLocationData(QByteArray& data, QString& where)
 {
+    QV(data);
     QDataStream in(data);
 
     in>>where;
+    R(in);
+
+    return false;
 }
 
 QByteArray serialiseLocationData(const QString& where)
@@ -202,19 +249,31 @@ QByteArray serialiseLocationData(const QString& where)
     return data;
 }
 
-void extractServerInformationsData(QByteArray& data, ServerInformations& si)
+bool extractServerInformationsData(QByteArray& data, ServerInformations& si)
 {
     QByteArray t=qUncompress(data);
+    QV(t);
+
     QDataStream in(t);
 
     in>>si.playersName;
+    R(in);
     in>>si.gameMasterID;
+    R(in);
     in>>si.location;
+    R(in);
     in>>si.timeOfDay;
+    R(in);
     in>>si.gameStarted;
+    R(in);
     in>>si.serverName;
+    R(in);
     in>>si.motd;
+    R(in);
     in>>si.narration;
+    R(in);
+
+    return false;
 }
 
 QByteArray serialiseServerInformationsData(const ServerInformations& si)
@@ -234,12 +293,16 @@ QByteArray serialiseServerInformationsData(const ServerInformations& si)
     return qCompress(data);
 }
 
-void extractMOTDData(QByteArray& data, QString& motd)
+bool extractMOTDData(QByteArray& data, QString& motd)
 {
     QByteArray t=qUncompress(data);
+    QV(t);
     QDataStream in(t);
 
     in>>motd;
+    R(in);
+
+    return false;
 }
 
 QByteArray serialiseMOTDData(const QString& motd)
@@ -253,26 +316,32 @@ QByteArray serialiseMOTDData(const QString& motd)
 }
 
 
-void extractMapInformationsData(QByteArray& data, MapInformations& mi)
+bool extractMapInformationsData(QByteArray& data, MapInformations& mi)
 {
     QByteArray d=qUncompress(data);
+    QV(d);
 
     QDataStream in(d);
 
 
     qint32 size;
     in>>size;
+    R(in);
     mi.mapItems.clear();
     for(int i=0; i<size; ++i)
     {
         mi.mapItems.append(MapItem());
         in>>mi.mapItems[i].coords.x;
+        R(in);
         in>>mi.mapItems[i].coords.y;
+        R(in);
         in>>mi.mapItems[i].pixID;
+        R(in);
     }
 
     qint32 mapX, mapY;
     in>>mapX>>mapY;
+    R(in);
 
     mi.map.resize(mapDim(mapX, mapY));
 
@@ -281,9 +350,10 @@ void extractMapInformationsData(QByteArray& data, MapInformations& mi)
         for(int y=0; y<mapY; ++y)
         {
             in>>mi.map[x][y];
+            R(in);
         }
     }
-
+    return false;
 }
 
 QByteArray serialiseMapInformationsData(const MapInformations& mi)
@@ -314,23 +384,29 @@ QByteArray serialiseMapInformationsData(const MapInformations& mi)
         }
     }
 
-    return qCompress(data,1);
+    return qCompress(data);
 }
 
-void extractMapItemsInformationsData(QByteArray& data, QList<MapItem>& mi)
+bool extractMapItemsInformationsData(QByteArray& data, QList<MapItem>& mi)
 {
+    QV(data);
     QDataStream in(data);
 
     qint32 size;
     in>>size;
+    R(in);
     mi.clear();
     for(int i=0; i<size; ++i)
     {
         mi.append(MapItem());
         in>>mi[i].coords.x;
+        R(in);
         in>>mi[i].coords.y;
+        R(in);
         in>>mi[i].pixID;
+        R(in);
     }
+    return false;
 }
 
 QByteArray serialiseMapItemsInformationsData(const QList<MapItem>& mi)
@@ -350,11 +426,16 @@ QByteArray serialiseMapItemsInformationsData(const QList<MapItem>& mi)
     return data;
 }
 
-void extractDiceRollData(QByteArray& data, CLID& ID, quint16& result)
+bool extractDiceRollData(QByteArray& data, CLID& ID, quint16& result)
 {
+    QV(data);
     QDataStream in(data);
     in>>ID;
+    R(in);
     in>>result;
+    R(in);
+
+    return false;
 }
 
 QByteArray serialiseDiceRollData(CLID ID, quint16 result)
@@ -368,26 +449,37 @@ QByteArray serialiseDiceRollData(CLID ID, quint16 result)
     return data;
 }
 
-void extractPlaySoundData(QByteArray& data, RSID& ID)
+bool extractPlaySoundData(QByteArray& data, QString& lib, RSID& ID)
 {
+    QV(data);
     QDataStream in(data);
+    in>>lib;
+    R(in);
     in>>ID;
+    R(in);
+
+    return false;
 }
 
-QByteArray serialisePlaySoundData(RSID ID)
+QByteArray serialisePlaySoundData(const QString& lib, RSID ID)
 {
     QByteArray data;
     QDataStream out(&data, QIODevice::ReadWrite);
 
+    out<<lib;
     out<<(RSID)ID;
 
     return data;
 }
 
-void extractServerNameData(QByteArray& data, QString& name)
+bool extractServerNameData(QByteArray& data, QString& name)
 {
+    QV(data);
     QDataStream in(data);
     in>>name;
+    R(in);
+
+    return false;
 }
 
 QByteArray serialiseServerNameData(const QString& name)
@@ -400,10 +492,14 @@ QByteArray serialiseServerNameData(const QString& name)
     return data;
 }
 
-void extractClientJoinedData(QByteArray& data, CLID& ID)
+bool extractClientJoinedData(QByteArray& data, CLID& ID)
 {
+    QV(data);
     QDataStream in(data);
     in>>ID;
+    R(in);
+
+    return false;
 }
 
 QByteArray serialiseClientJoinedData(const CLID& ID)
@@ -416,10 +512,14 @@ QByteArray serialiseClientJoinedData(const CLID& ID)
     return data;
 }
 
-void extractClientLeftData(QByteArray& data, CLID& ID)
+bool extractClientLeftData(QByteArray& data, CLID& ID)
 {
+    QV(data);
     QDataStream in(data);
     in>>ID;
+    R(in);
+
+    return false;
 }
 
 QByteArray serialiseClientLeftData(const CLID& ID)
@@ -432,10 +532,14 @@ QByteArray serialiseClientLeftData(const CLID& ID)
     return data;
 }
 
-void extractUnbanData(QByteArray& data, QString& IP)
+bool extractUnbanData(QByteArray& data, QString& IP)
 {
+    QV(data);
     QDataStream in(data);
     in>>IP;
+    R(in);
+
+    return false;
 }
 
 QByteArray serialiseUnbanData(const QString& IP)
@@ -448,12 +552,15 @@ QByteArray serialiseUnbanData(const QString& IP)
     return data;
 }
 
-void extractAllNarrationData(QByteArray& data, QString& txt)
+bool extractAllNarrationData(QByteArray& data, QString& txt)
 {
     QByteArray d=qUncompress(data);
-
+    QV(d);
     QDataStream in(d);
     in>>txt;
+    R(in);
+
+    return false;
 }
 
 QByteArray serialiseAllNarrationData(const QString& txt)
@@ -464,4 +571,27 @@ QByteArray serialiseAllNarrationData(const QString& txt)
     out<<txt;
 
     return qCompress(data);
+}
+
+bool extractSyncLibsData(QByteArray& data, QStringList& libs, QList<LVER>& ver)
+{
+    QV(data);
+    QDataStream in(data);
+    in>>libs;
+    R(in);
+    in>>ver;
+    R(in);
+
+    return false;
+}
+
+QByteArray serialiseSyncLibsData(const QStringList& libs, const QList<LVER>& ver)
+{
+    QByteArray data;
+    QDataStream out(&data, QIODevice::ReadWrite);
+
+    out<<libs;
+    out<<ver;
+
+    return data;
 }

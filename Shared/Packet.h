@@ -11,11 +11,13 @@ class Packet : public QObject
 {
     public:
         Packet();
-        void setHeader(QDataStream& in);
-        void setBody(QDataStream& in);
+        bool setHeader(QDataStream& in); //Returns true on error, and set the error flag
+        bool setBody(QDataStream& in); //Idem
 
-        void unSerialise(QByteArray& pa);
+        bool unSerialise(QByteArray& pa); //Idem
         void serialise(QByteArray& pa);
+
+        bool error() const { return m_error;}
 
         ///Header
         qint32 ID;
@@ -32,7 +34,9 @@ class Packet : public QObject
         void show() const;
 
     private:
+        void setError();
         Packet(const Packet&) {} ///Non-copiable
+        bool m_error;
 };
 
 #endif // PACKET_H

@@ -1,9 +1,12 @@
 #include "ClientNetwork.h"
 #include "..\Shared\Serializer.h"
 #include <QDebug>
+#define QE(a) if(a) {emit packetCorrupted(); send(ETI(ERROR), serialiseErrorData(ETI(INVALID_PACKET)));return;}
 
 void ClientNetwork::operatePacket(Packet* packet)
 {
+    QE(packet==NULL);
+    QE(packet->error());
     switch(packet->type)
     {
         case PING:
@@ -20,7 +23,7 @@ void ClientNetwork::operatePacket(Packet* packet)
         case SERVER_INFORMATIONS:
         {
             ServerInformations si;
-            extractServerInformationsData(packet->data, si);
+            QE(extractServerInformationsData(packet->data, si));
 
             emit serverInformationsChanged(si);
         }
@@ -28,14 +31,14 @@ void ClientNetwork::operatePacket(Packet* packet)
         case SET_CLID:
         {
             CLID ID;
-            extractSetCLIDData(packet->data, ID);
+            QE(extractSetCLIDData(packet->data, ID));
             emit clientIDChanged(ID);
         }
         break;
         case NEW_NICK:
         {
             CLID nID; QString nick;
-            extractNewNickData(packet->data, nID, nick);
+            QE(extractNewNickData(packet->data, nID, nick));
             emit nicknameChanged(nID, nick);
         }
         break;
@@ -44,7 +47,7 @@ void ClientNetwork::operatePacket(Packet* packet)
             QString txt;
             ENUM_TYPE can;
             CLID sender;
-            extractChatData(packet->data, can, txt, sender);
+            QE(extractChatData(packet->data, can, txt, sender));
 
             emit chatReceived(sender, txt, can);
         }
@@ -52,14 +55,14 @@ void ClientNetwork::operatePacket(Packet* packet)
         case NEW_GM:
         {
             CLID gm;
-            extractNewGMData(packet->data, gm);
+            QE(extractNewGMData(packet->data, gm));
             emit newGameMaster(gm);
         }
         break;
         case VOTED:
         {
             CLID f, t;
-            extractVotedData(packet->data, f, t);
+            QE(extractVotedData(packet->data, f, t));
             emit clientVoted(f, t);
         }
         break;
@@ -67,7 +70,7 @@ void ClientNetwork::operatePacket(Packet* packet)
         {
             ENUM_TYPE type;
             QString txt;
-            extractErrorData(packet->data, type, txt);
+            QE(extractErrorData(packet->data, type, txt));
             emit error(type, txt);
         }
         break;
@@ -76,7 +79,7 @@ void ClientNetwork::operatePacket(Packet* packet)
             CLID tar=0;
             ENUM_TYPE ty=0;
             QString rea;
-            extractGTFOLynixData(packet->data, tar, ty, rea);
+            QE(extractGTFOLynixData(packet->data, tar, ty, rea));
             emit sanctionned(tar, ty, rea);
         }
         break;
@@ -84,7 +87,7 @@ void ClientNetwork::operatePacket(Packet* packet)
         {
             CLID rID=0;
             quint16 res=0;
-            extractDiceRollData(packet->data, rID, res);
+            QE(extractDiceRollData(packet->data, rID, res));
             emit diceRolled(rID, res);
         }
         break;
@@ -96,35 +99,49 @@ void ClientNetwork::operatePacket(Packet* packet)
         case SERVER_NAME:
         {
             QString n;
-            extractServerNameData(packet->data, n);
+            QE(extractServerNameData(packet->data, n));
             emit serverName(n);
         }
         case CLIENT_JOINED:
         {
             CLID cID;
-            extractClientJoinedData(packet->data, cID);
+            QE(extractClientJoinedData(packet->data, cID));
             emit clientJoined(cID);
         }
         break;
         case CLIENT_LEFT:
         {
             CLID cID;
-            extractClientLeftData(packet->data, cID);
+            QE(extractClientLeftData(packet->data, cID));
             emit clientLeft(cID);
         }
         break;
         case MOTD:
         {
             QString n;
-            extractMOTDData(packet->data, n);
+            QE(extractMOTDData(packet->data, n));
             emit motdChanged(n);
         }
         break;
         case ALL_NARRATION:
         {
             QString n;
-            extractAllNarrationData(packet->data, n);
+            QE(extractAllNarrationData(packet->data, n));
             emit narrationChanged(n);
+        }
+        break;
+        case PLAY_SOUND:
+        {
+            RSID rsid; QString lib;
+            QE(extractPlaySoundData(packet->data, lib, rsid));
+            emit playSound(lib, rsid);
+        }
+        break;
+        case SYNC_LIBS:
+        {
+            QStringList libs; QList<LVER> ver;
+            QE(extractSyncLibsData(packet->data, libs, ver);
+            emit syncLibs(libs, ver);
         }
         break;
         default:

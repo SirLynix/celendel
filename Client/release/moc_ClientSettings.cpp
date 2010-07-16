@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Meta object code from reading C++ file 'ClientSettings.h'
 **
-** Created: Wed 14. Jul 18:28:37 2010
+** Created: Fri 16. Jul 22:12:11 2010
 **      by: The Qt Meta Object Compiler version 62 (Qt 4.6.2)
 **
 ** WARNING! All changes made in this file will be lost!
@@ -23,7 +23,7 @@ static const uint qt_meta_data_ClientSettings[] = {
        4,       // revision
        0,       // classname
        0,    0, // classinfo
-       6,   14, // methods
+      10,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
@@ -37,6 +37,10 @@ static const uint qt_meta_data_ClientSettings[] = {
       43,   15,   15,   15, 0x08,
       59,   15,   15,   15, 0x08,
       77,   15,   15,   15, 0x08,
+      93,   15,   15,   15, 0x08,
+     117,   15,   15,   15, 0x08,
+     145,   15,   15,   15, 0x08,
+     159,   15,   15,   15, 0x08,
 
        0        // eod
 };
@@ -45,6 +49,9 @@ static const char qt_meta_stringdata_ClientSettings[] = {
     "ClientSettings\0\0ok()\0openCSS()\0"
     "selectCSS()\0openInterface()\0"
     "selectInterface()\0saveInterface()\0"
+    "soundSliderChanged(int)\0"
+    "soundSpinBoxChanged(double)\0refreshLibs()\0"
+    "loadLibs()\0"
 };
 
 const QMetaObject ClientSettings::staticMetaObject = {
@@ -82,9 +89,13 @@ int ClientSettings::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
         case 3: openInterface(); break;
         case 4: selectInterface(); break;
         case 5: saveInterface(); break;
+        case 6: soundSliderChanged((*reinterpret_cast< int(*)>(_a[1]))); break;
+        case 7: soundSpinBoxChanged((*reinterpret_cast< double(*)>(_a[1]))); break;
+        case 8: refreshLibs(); break;
+        case 9: loadLibs(); break;
         default: ;
         }
-        _id -= 6;
+        _id -= 10;
     }
     return _id;
 }

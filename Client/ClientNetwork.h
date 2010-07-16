@@ -45,6 +45,7 @@ class ClientNetwork : public QObject
 
     signals:
         void packetReceived();
+        void packetCorrupted();
         void pingUpdated(quint32);
         void chatReceived(CLID sender, QString text, ENUM_TYPE canal);
         void serverInformationsChanged(ServerInformations);
@@ -65,6 +66,9 @@ class ClientNetwork : public QObject
 
         void clientJoined(CLID);
         void clientLeft(CLID);
+
+        void playSound(QString,RSID);
+
 
     private:
         QTcpSocket* m_socket;

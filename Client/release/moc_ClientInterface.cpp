@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Meta object code from reading C++ file 'ClientInterface.h'
 **
-** Created: Wed 14. Jul 18:28:32 2010
+** Created: Fri 16. Jul 22:12:05 2010
 **      by: The Qt Meta Object Compiler version 62 (Qt 4.6.2)
 **
 ** WARNING! All changes made in this file will be lost!
@@ -23,7 +23,7 @@ static const uint qt_meta_data_ClientInterface[] = {
        4,       // revision
        0,       // classname
        0,    0, // classinfo
-      39,   14, // methods
+      41,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
@@ -48,28 +48,30 @@ static const uint qt_meta_data_ClientInterface[] = {
      415,   16,   16,   16, 0x08,
      436,   16,   16,   16, 0x08,
      451,   16,   16,   16, 0x08,
-     462,   16,   16,   16, 0x08,
-     481,   16,   16,   16, 0x08,
-     500,   16,   16,   16, 0x08,
-     517,   16,   16,   16, 0x08,
-     542,  538,  533,   16, 0x08,
-     566,   16,   16,   16, 0x08,
-     590,   16,   16,   16, 0x08,
-     605,   16,   16,   16, 0x08,
-     615,   16,   16,   16, 0x08,
-     629,   16,   16,   16, 0x08,
-     650,  641,   16,   16, 0x08,
-     666,   16,   16,   16, 0x28,
-     680,  675,   16,   16, 0x08,
-     702,   16,   16,   16, 0x28,
-     721,  717,   16,   16, 0x08,
-     744,   16,   16,   16, 0x08,
-     757,   16,   16,   16, 0x08,
-     769,   16,   16,   16, 0x08,
-     784,   16,   16,   16, 0x08,
-     801,   16,   16,   16, 0x08,
-     811,   16,   16,   16, 0x08,
-     825,   16,   16,   16, 0x08,
+     471,  462,   16,   16, 0x08,
+     495,   16,   16,   16, 0x08,
+     514,   16,   16,   16, 0x08,
+     533,   16,   16,   16, 0x08,
+     550,   16,   16,   16, 0x08,
+     575,  571,  566,   16, 0x08,
+     599,   16,   16,   16, 0x08,
+     623,   16,   16,   16, 0x08,
+     638,   16,   16,   16, 0x08,
+     654,   16,   16,   16, 0x08,
+     664,   16,   16,   16, 0x08,
+     678,   16,   16,   16, 0x08,
+     699,  690,   16,   16, 0x08,
+     715,   16,   16,   16, 0x28,
+     729,  724,   16,   16, 0x08,
+     751,   16,   16,   16, 0x28,
+     770,  766,   16,   16, 0x08,
+     793,   16,   16,   16, 0x08,
+     806,   16,   16,   16, 0x08,
+     818,   16,   16,   16, 0x08,
+     833,   16,   16,   16, 0x08,
+     850,   16,   16,   16, 0x08,
+     860,   16,   16,   16, 0x08,
+     874,   16,   16,   16, 0x08,
 
        0        // eod
 };
@@ -87,11 +89,12 @@ static const char qt_meta_stringdata_ClientInterface[] = {
     ",,\0sanctionned(CLID,ENUM_TYPE,QString)\0"
     "rollDice()\0serverName(QString)\0"
     "motdChanged(QString)\0gameLaunched()\0"
-    "setTitle()\0updatePlayerList()\0"
-    "clientJoined(CLID)\0clientLeft(CLID)\0"
-    "updateGMLabel()\0CLID\0str\0"
-    "CLIDFromString(QString)\0switchConnectionState()\0"
-    "openSettings()\0aboutUs()\0aboutServer()\0"
+    "setTitle()\0lid,rsid\0playSound(QString,RSID)\0"
+    "updatePlayerList()\0clientJoined(CLID)\0"
+    "clientLeft(CLID)\0updateGMLabel()\0CLID\0"
+    "str\0CLIDFromString(QString)\0"
+    "switchConnectionState()\0openSettings()\0"
+    "openSoundsGUI()\0aboutUs()\0aboutServer()\0"
     "resetData()\0fileName\0setCSS(QString)\0"
     "setCSS()\0path\0setInterface(QString)\0"
     "setInterface()\0pos\0playerListMenu(QPoint)\0"
@@ -146,32 +149,34 @@ int ClientInterface::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
         case 14: motdChanged((*reinterpret_cast< QString(*)>(_a[1]))); break;
         case 15: gameLaunched(); break;
         case 16: setTitle(); break;
-        case 17: updatePlayerList(); break;
-        case 18: clientJoined((*reinterpret_cast< CLID(*)>(_a[1]))); break;
-        case 19: clientLeft((*reinterpret_cast< CLID(*)>(_a[1]))); break;
-        case 20: updateGMLabel(); break;
-        case 21: { CLID _r = CLIDFromString((*reinterpret_cast< const QString(*)>(_a[1])));
+        case 17: playSound((*reinterpret_cast< QString(*)>(_a[1])),(*reinterpret_cast< RSID(*)>(_a[2]))); break;
+        case 18: updatePlayerList(); break;
+        case 19: clientJoined((*reinterpret_cast< CLID(*)>(_a[1]))); break;
+        case 20: clientLeft((*reinterpret_cast< CLID(*)>(_a[1]))); break;
+        case 21: updateGMLabel(); break;
+        case 22: { CLID _r = CLIDFromString((*reinterpret_cast< const QString(*)>(_a[1])));
             if (_a[0]) *reinterpret_cast< CLID*>(_a[0]) = _r; }  break;
-        case 22: switchConnectionState(); break;
-        case 23: openSettings(); break;
-        case 24: aboutUs(); break;
-        case 25: aboutServer(); break;
-        case 26: resetData(); break;
-        case 27: setCSS((*reinterpret_cast< const QString(*)>(_a[1]))); break;
-        case 28: setCSS(); break;
-        case 29: setInterface((*reinterpret_cast< const QString(*)>(_a[1]))); break;
-        case 30: setInterface(); break;
-        case 31: playerListMenu((*reinterpret_cast< const QPoint(*)>(_a[1]))); break;
-        case 32: actionKick(); break;
-        case 33: actionBan(); break;
-        case 34: actionVoteGM(); break;
-        case 35: actionChangeGM(); break;
-        case 36: refresh(); break;
-        case 37: textChanged(); break;
-        case 38: narrationChanged((*reinterpret_cast< QString(*)>(_a[1]))); break;
+        case 23: switchConnectionState(); break;
+        case 24: openSettings(); break;
+        case 25: openSoundsGUI(); break;
+        case 26: aboutUs(); break;
+        case 27: aboutServer(); break;
+        case 28: resetData(); break;
+        case 29: setCSS((*reinterpret_cast< const QString(*)>(_a[1]))); break;
+        case 30: setCSS(); break;
+        case 31: setInterface((*reinterpret_cast< const QString(*)>(_a[1]))); break;
+        case 32: setInterface(); break;
+        case 33: playerListMenu((*reinterpret_cast< const QPoint(*)>(_a[1]))); break;
+        case 34: actionKick(); break;
+        case 35: actionBan(); break;
+        case 36: actionVoteGM(); break;
+        case 37: actionChangeGM(); break;
+        case 38: refresh(); break;
+        case 39: textChanged(); break;
+        case 40: narrationChanged((*reinterpret_cast< QString(*)>(_a[1]))); break;
         default: ;
         }
-        _id -= 39;
+        _id -= 41;
     }
     return _id;
 }

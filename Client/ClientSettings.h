@@ -14,6 +14,8 @@ QSettings* allocateSettings(QObject* parent=0);
 #define PARAM_NICK "settings/nickname"
 #define PARAM_CSS "settings/css"
 #define PARAM_INTERFACE "settings/interface"
+#define PARAM_SOUND "settings/soundlevel"
+#define PARAM_SOUNDLIBS "settings/soundlibs"
 
 #define IEXT ".itr"
 
@@ -36,6 +38,12 @@ class ClientSettings : public QDialog
         void selectInterface();
         void saveInterface();
 
+        void soundSliderChanged(int);
+        void soundSpinBoxChanged(double);
+
+        void refreshLibs();
+        void loadLibs();
+
     private:
         QSettings* m_settings;
 
@@ -55,6 +63,13 @@ class ClientSettings : public QDialog
         QPushButton* m_openCSS;
         QPushButton* m_selectCSS;
         QLineEdit* m_CSSPath;
+
+        QSlider* m_sound;
+        QDoubleSpinBox* m_soundSpinBox;
+
+        QList<QCheckBox*> m_libsList;
+        QVBoxLayout* m_libs_la;
+        QWidget* gar;
 
         ClientInterface* m_parent;
 };

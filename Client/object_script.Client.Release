@@ -11,8 +11,14 @@ INPUT(
 ./release\ClientSettings.o
 ./release\AboutWindow.o
 ./release\ClientGMInterface.o
+./release\SoundManager.o
+./release\SoundsGUI.o
+./release\SoundLibThread.o
 ./release\moc_ClientInterface.o
 ./release\moc_ClientNetwork.o
 ./release\moc_ClientSettings.o
 ./release\moc_AboutWindow.o
+./release\moc_SoundManager.o
+./release\moc_SoundsGUI.o
+./release\moc_SoundLibThread.o
 );

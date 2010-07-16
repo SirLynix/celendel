@@ -28,6 +28,8 @@ QMenu *settingsMenu = menuBar()->addMenu(tr("&Paramètres"));
 QAction *ac_settings = settingsMenu->addAction(tr("Options"));
 ac_settings->setShortcut(QKeySequence(QKeySequence::Preferences));
 connect(ac_settings, SIGNAL(triggered()), this, SLOT(openSettings()));
+QAction *ac_sounds = settingsMenu->addAction(tr("Parcourir les sons"));
+connect(ac_sounds, SIGNAL(triggered()), this, SLOT(openSoundsGUI()));
 
 // ABOUT MENU
 QMenu *aboutMenu = menuBar()->addMenu(tr("&A propos..."));
@@ -36,6 +38,9 @@ connect(ac_aboutServer, SIGNAL(triggered()), this, SLOT(aboutServer()));
 
 QAction *ac_aboutUs = aboutMenu->addAction(tr("... de Celendel"));
 connect(ac_aboutUs, SIGNAL(triggered()), this, SLOT(aboutUs()));
+
+QAction *ac_aboutQt = aboutMenu->addAction(tr("... de Qt"));
+connect(ac_aboutQt, SIGNAL(triggered()), qApp, SLOT(aboutQt()));
 
 
 // CONTEXTUAL MENUS
