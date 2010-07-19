@@ -41,7 +41,7 @@ void Client::readyRead()
 
         packet = new Packet();
         packet->setHeader(in);
-        if(packet->dataSize > 1024*1024*1024) //A legal packet will NEVER be bigger than 1Mio, else it's an attack.
+        if(packet->dataSize > MAX_PACKET_SIZE) //A legal packet will NEVER be bigger than 1Mio, else it's an attack.
         {
             qDebug() << "Error, packet too big. Client will be kicked.";
             socket->abort(); // ... and guess what we do to crackers...

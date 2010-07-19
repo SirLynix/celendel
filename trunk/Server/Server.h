@@ -50,6 +50,8 @@ class Server : public QObject
         QList<Player*> m_players;
         bool m_gameStarted;
 
+        QList<SoundLibInformations> m_soundLibs;
+
         CLID m_GMID;
 
         MapInformations* m_map;

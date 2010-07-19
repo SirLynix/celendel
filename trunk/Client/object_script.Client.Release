@@ -2,6 +2,7 @@ INPUT(
 ./release\ClientInterface.o
 ./release\ClientNetwork.o
 ./release\GUI.o
+./release\ClientSave.o
 ./release\main.o
 ./release\Packet.o
 ./release\Serializer.o
@@ -14,6 +15,12 @@ INPUT(
 ./release\SoundManager.o
 ./release\SoundsGUI.o
 ./release\SoundLibThread.o
+./release\Recorder.o
+./release\Sound.o
+./release\SoundReceiver.o
+./release\Speex.o
+./release\VOIP.o
+./release\OpenAL.o
 ./release\moc_ClientInterface.o
 ./release\moc_ClientNetwork.o
 ./release\moc_ClientSettings.o
@@ -21,4 +28,9 @@ INPUT(
 ./release\moc_SoundManager.o
 ./release\moc_SoundsGUI.o
 ./release\moc_SoundLibThread.o
+./release\moc_Recorder.o
+./release\moc_Sound.o
+./release\moc_SoundReceiver.o
+./release\moc_Speex.o
+./release\moc_VOIP.o
 );

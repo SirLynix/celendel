@@ -18,13 +18,14 @@
 
 #define MAX_SEQUENTIALS_PACKETS 15
 #define PACKETS_COUNT_RESET_DELAY 100
+#define MAX_PACKET_SIZE 1024*1024 //1Mio
 
 #define qCApp QCoreApplication::instance()
 
 #define ENUM_TYPE qint32
 
 #include "MapStructs.h"
-#include <QString>
+#include <QStringList>
 #include <QMap>
 
 #define QT_USE_FAST_CONCATENATION ///QString concatenate optimisation
@@ -38,6 +39,14 @@ quint32 sizeY(const MapArray& m);
 quint32 sizeX(MapArray* m);
 quint32 sizeY(MapArray* m);
 
+struct SoundLibInformations
+{
+    SoundLibInformations() {version=-1;}
+    LVER version;
+    QString name;
+    QStringList sounds;
+};
+
 struct ServerInformations
 {
     QMap<CLID,QString> playersName;
@@ -48,7 +57,11 @@ struct ServerInformations
     QString serverName;
     QString motd;
     QString narration;
+    QList<SoundLibInformations> libs;
 };
+
+/* SERVER_INFORMATIONS type structure : (compressed)
+- ServerInformations infos */
 
 /* MAP_INFORMATIONS type structure :
 - MapInformations mi */
@@ -64,7 +77,7 @@ enum PACKET_TYPE { ERROR, PING, CHAT, ALL_NARRATION, GM_ELECT, NEW_GM, LAUNCH_GA
 #define MAX_NICKNAME_LENGHT 15
 
 /* SYNC_LIBS structure :
-- QStringList libs */
+- QList<SoundLibInformations> libs */
 
 /* CLIENT_LEFT and CLIENT_JOINED structure :
 - CLID ID */
@@ -84,7 +97,7 @@ enum PACKET_TYPE { ERROR, PING, CHAT, ALL_NARRATION, GM_ELECT, NEW_GM, LAUNCH_GA
 
 /* PLAY_SOUND type structure :
 - QString lib
-- RSID ID */
+- QString sound */
 
 /* GM_ELECT type structure :
 - CLID ID */

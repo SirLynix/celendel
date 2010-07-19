@@ -305,12 +305,11 @@ void Server::processData(Packet* pa, CLID cID)
         case SYNC_LIBS:
         {
             GM_CHECK();
-            QStringList l;
-            QList<LVER> v;
-            QE(extractSyncLibsData(pa->data, l, v));
-            QE(l.size()!=v.size())
+            QList<SoundLibInformations> l;
+            QE(extractSyncLibsData(pa->data, l));
 
-            m_network->sendToAll(ETI(SYNC_LIBS), serialiseSyncLibsData(l,v));
+            m_network->sendToAll(ETI(SYNC_LIBS), serialiseSyncLibsData(l));
+            m_soundLibs=l;
 
         }
         break;

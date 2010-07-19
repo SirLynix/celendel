@@ -225,22 +225,25 @@ void ClientSettings::refreshLibs()
 
     QStringList l(sndMngr.loadedLibs());
 
-    int bigger=0;
+    int biggestw=0; int biggesth=0;
     for(int i=0;i<fileList.size();++i)
     {
         fileList[i]=fileList[i].left(fileList[i].size()-QString(LIB_EXT).size());
         m_libsList.append(new QCheckBox(fileList[i], this));
-        if(fileList[i].size()>bigger)
-            bigger=fileList[i].size();
+        if(m_libsList.last()->sizeHint().width()>biggestw)
+            biggestw=m_libsList.last()->sizeHint().width();
+        if(m_libsList.last()->sizeHint().height()>biggesth)
+            biggesth=m_libsList.last()->sizeHint().height();
 
-        m_libsList.last()->setMinimumSize(9*(fileList[i].size()+1),20);
+        m_libsList.last()->setMinimumSize(m_libsList.last()->sizeHint().width(),m_libsList.last()->sizeHint().height());
 
         m_libs_la->addWidget(m_libsList.last());
 
         if(l.contains(fileList[i]))
             m_libsList.last()->setChecked(true);
     }
-    gar->setMinimumSize((bigger+1)*9,fileList.size()*20);
+  //  gar->setMinimumSize((bigger+1)*9,fileList.size()*20);
+    gar->setMinimumSize(biggestw+10,(biggesth+1)*fileList.size());
 }
 
 void ClientSettings::soundSliderChanged(int value)

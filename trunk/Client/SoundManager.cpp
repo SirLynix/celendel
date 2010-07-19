@@ -2,25 +2,63 @@
 #include <QDebug>
 #include <QFile>
 #include <QTextStream>
-#include <QDir>
 
 Sound::Sound(const QByteArray& d, const QString& n)
 {
     data=d;
     name=n;
+    m_fileCached=false;
     music=new sf::Music;
+
+    if(data.size()>RAM_CACHE_LIMIT)
+    {
+        QFile f(TMP_FOLDER+n);
+        if(f.open(QIODevice::WriteOnly|QIODevice::Truncate))
+        {
+            f.write(data);
+            f.close();
+            if(music->OpenFromFile(QString(TMP_FOLDER+n).toStdString()))
+            {
+                data.clear();
+                qDebug()<< "Sound " << n << " succefully cached on hard drive.";
+                m_fileCached=true;
+                return;
+            }
+            else
+                QFile::remove(TMP_FOLDER+name);
+        }
+        qDebug()<<"WARNING : Failed to cache sound " << n << " in directory " << TMP_FOLDER << ". Loading from memory...";
+    }
+
+
     if(!music->OpenFromMemory(data.constData(), data.size()))
     {
         delete music;
         music=NULL; //Be carefull not to try to play it !
-        qDebug()<<"File \"" << n << "\" can't be loaded. ";
+        qDebug()<<"ERROR : Sound " << n << " cannot be loaded from memory.";
         data.clear();
+    }
+    else
+    {
+        qDebug()<< "Sound " << n << " succefully loaded from memory.";
     }
 }
 
 Sound::~Sound()
 {
     delete music;
+
+    if(isFileCached()&&isValid())
+        if(!QFile::remove(TMP_FOLDER+name))
+            qDebug()<<"ERROR : file "<<TMP_FOLDER+name<<" cannot be removed.";
+}
+
+QStringList SoundLib::getSoundList() const
+{
+    QStringList r;
+    for(int i=0;i<sounds.size();++i)
+        r.append(sounds[i]->name);
+    return r;
 }
 
 bool SoundLib::createSoundLib(const QString& name, const QString& folder, LVER ver)
@@ -45,7 +83,6 @@ bool SoundLib::createSoundLib(const QString& name, const QString& folder, LVER v
 
 bool SoundLib::createSoundLib(const QString& name, const QStringList& fileList, LVER ver)
 {
-    bool err=false;
     if(fileList.isEmpty())
     {
         qDebug() << "Error : no file to pack.";
@@ -65,6 +102,7 @@ bool SoundLib::createSoundLib(const QString& name, const QStringList& fileList, 
 
     in<<(LVER)0;
     in<<fileName;
+    bool err=false;
     for(int i=0; i<fileList.size();++i)
     {
         QFile t(fileList[i]);
@@ -162,11 +200,13 @@ SoundManager& SoundManager::getSoundManager()
 
 SoundManager::SoundManager() : m_volume(100)
 {
+    QDir tmp;
+    tmp.mkpath(TMP_FOLDER);
 }
 
 QStringList SoundManager::getLibsSounds(RSID lib)
 {
-    if(lib<0||lib>m_libs.size())
+    if(!LR(lib))
         return QStringList();
 
     QStringList l;
@@ -196,7 +236,7 @@ RSID SoundManager::libRSIDFromString(const QString& lib) const
 
 RSID SoundManager::soundRSIDFromString(RSID lib, const QString& sound) const
 {
-    if(lib==-1 || lib>=m_libs.size())
+    if(lib==-1 || !LR(lib))
         return -1;
 
     for(int i=0;i<m_libs[lib]->sounds.size();++i)
@@ -211,7 +251,20 @@ RSID SoundManager::soundRSIDFromString(const QString& lib, const QString& sound)
     return soundRSIDFromString(libRSIDFromString(lib), sound);
 }
 
-void SoundManager::setLibList(QStringList list, const QList<LVER>& ver)
+
+
+void SoundManager::setLibList(const QList<SoundLibInformations>& list)
+{
+    if(list.isEmpty())
+    {
+        clearCache();
+        return;
+    }
+
+    buildCache(list);
+}
+
+void SoundManager::setLibList(QStringList list)
 {
     list.removeAll("");
 
@@ -235,7 +288,17 @@ void SoundManager::setLibList(QStringList list, const QList<LVER>& ver)
             if(i+1==list.size())
                 b=false;
         }
-    buildCache(list, ver);
+
+    QList<SoundLibInformations> l;
+    for(int i=0;i<list.size();++i)
+    {
+        SoundLibInformations sl;
+        sl.name=list[i];
+        sl.version=-1;
+        l.append(sl);
+    }
+
+    buildCache(l);
 }
 
 QStringList SoundManager::loadedLibs() const
@@ -281,10 +344,7 @@ bool SoundManager::exists(const QString& lib, const QString& sound) const
 
 bool SoundManager::playSound(RSID lID, RSID ID)
 {
-    if(lID >= m_libs.size())
-        return true;
-
-    if(ID >= m_libs[lID]->sounds.size())
+    if(!SR(lID, ID))
         return true;
     if(m_libs[lID]->sounds[ID]->music==NULL)
         return true;
@@ -308,11 +368,9 @@ bool SoundManager::stopSound(const QString& lib, RSID ID)
 
 bool SoundManager::stopSound(RSID lID, RSID ID)
 {
-    if(lID<0||lID >= m_libs.size())
+    if(!SR(lID, ID))
         return true;
 
-    if(ID<0||ID >= m_libs[lID]->sounds.size())
-        return true;
     if(m_libs[lID]->sounds[ID]->music==NULL)
         return true;
 
@@ -333,21 +391,50 @@ void SoundManager::clearCache()
     m_libs.clear();
 }
 
-bool SoundManager::buildCache(const QStringList& libList, const QList<LVER>& versionLibList)
+SoundLibInformations SoundManager::getLibInfo(const QString& lib) const
+{
+    RSID id=libRSIDFromString(lib);
+
+    return getLibInfo(id);
+}
+
+SoundLibInformations SoundManager::getLibInfo(RSID lib) const
+{
+    if(!LR(lib))
+        return SoundLibInformations();
+    SoundLibInformations li;
+    li.name=m_libs[lib]->name;
+    li.version=m_libs[lib]->version;
+    li.sounds=m_libs[lib]->getSoundList();
+    return li;
+}
+
+QList<SoundLibInformations> SoundManager::getLibsInfo() const
+{
+    QList<SoundLibInformations> l;
+    for(int i=0;i<m_libs.size();++i)
+    {
+        l.append(getLibInfo(i));
+    }
+    return l;
+}
+
+bool SoundManager::buildCache(const QList<SoundLibInformations>& libList)
 {
     bool er=false;
-    bool v=true;
-    if(versionLibList.size()!=libList.size())
-        v=false;
 
     clearCache();
     for(int i=0;i<libList.size();++i)
     {
-        LVER ver=-1;
-        if(v)
-            ver=versionLibList[i];
+        SoundLib* sl=new SoundLib(libList[i].name, libList[i].version);
+        if(sl->error())
+        {
+            er=true;
+            delete sl;
+        }
+        else
+            m_libs.append(sl);
 
-        m_libs.append(new SoundLib(libList[i], ver));
     }
     return er;
 }
