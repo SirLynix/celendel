@@ -61,8 +61,8 @@ QByteArray serialiseMapItemsInformationsData(const QList<MapItem>& mi);
 bool extractDiceRollData(QByteArray& data, CLID& ID, quint16& result);
 QByteArray serialiseDiceRollData(CLID ID, quint16 result);
 
-bool extractPlaySoundData(QByteArray& data, QString& lib, RSID& ID);
-QByteArray serialisePlaySoundData(const QString& lib, RSID ID);
+bool extractPlaySoundData(QByteArray& data, QString& lib, QString& sound);
+QByteArray serialisePlaySoundData(const QString& lib, const QString& sound);
 
 bool extractServerNameData(QByteArray& data, QString& name);
 QByteArray serialiseServerNameData(const QString& name);
@@ -79,7 +79,7 @@ QByteArray serialiseUnbanData(const QString& IP);
 bool extractAllNarrationData(QByteArray& data, QString& txt);
 QByteArray serialiseAllNarrationData(const QString& txt);
 
-bool extractSyncLibsData(QByteArray& data, QStringList& libs, QList<LVER>& ver);
-QByteArray serialiseSyncLibsData(const QStringList& libs, const QList<LVER>& ver);
+bool extractSyncLibsData(QByteArray& data, QList<SoundLibInformations>& libs);
+QByteArray serialiseSyncLibsData(const QList<SoundLibInformations>& libs);
 
 #endif

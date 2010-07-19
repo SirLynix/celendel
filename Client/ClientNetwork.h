@@ -3,6 +3,7 @@
 
 #include <QMap>
 #include <QTcpSocket>
+#include <QStringList>
 #include <QTimer>
 #include "..\Shared\Constants.h"
 #include "..\Shared\Packet.h"
@@ -67,7 +68,9 @@ class ClientNetwork : public QObject
         void clientJoined(CLID);
         void clientLeft(CLID);
 
-        void playSound(QString,RSID);
+        void playSound(QString,QString);
+
+        void syncLibs(QList<SoundLibInformations>);
 
 
     private:

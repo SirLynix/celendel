@@ -3,11 +3,16 @@
 
 #include "..\Shared\Constants.h"
 #include <QStringList>
-#include <QObject>
+#include <QDir>
 #include "SFML\Audio.hpp"
 
 #define LIB_FOLDER "Sounds/"
+#define TMP_FOLDER QDir::tempPath()+QDir::separator()+"CelendelSoundCache"+QDir::separator()
 #define LIB_EXT ".soundlib"
+#define RAM_CACHE_LIMIT 1024*512 //512ko
+
+#define LR(a) (a>=0&&a<m_libs.size())
+#define SR(l,a) (a>=0&&LR(l)&&a<m_libs[l]->sounds.size())
 
 struct Sound
 {
@@ -20,8 +25,11 @@ struct Sound
 
     bool isValid() const { return music!=NULL; }
 
+    bool isFileCached() const { return m_fileCached; }
+
     private:
     Sound(const Sound&);
+    bool m_fileCached;
 };
 
 struct SoundLib
@@ -35,6 +43,8 @@ struct SoundLib
     QList<Sound*> sounds;
 
     bool error() const {return m_error;}
+
+    QStringList getSoundList() const;
 
     static bool createSoundLib(const QString& name, const QStringList& fileList, LVER ver=0);
     static bool createSoundLib(const QString& name, const QString& folder, LVER ver=0);
@@ -51,7 +61,8 @@ class SoundManager : public QObject
         static SoundManager& getSoundManager();
         ~SoundManager();
 
-        void setLibList(QStringList list, const QList<LVER>& ver=QList<LVER>());
+        void setLibList(QStringList list);
+        void setLibList(const QList<SoundLibInformations>& list);
 
         void setVolume(float volume);
 
@@ -59,6 +70,13 @@ class SoundManager : public QObject
 
         QStringList getLibsSounds(RSID lib);
         QStringList getLibsSounds(const QString& lib);
+
+        QList<SoundLibInformations> getLibsInfo() const;
+        SoundLibInformations getLibInfo(const QString& lib) const;
+        SoundLibInformations getLibInfo(RSID lib) const;
+
+        bool isLibLoaded(RSID id) const { if(!LR(id)) return false; return !m_libs[id]->error(); }
+        bool isLibLoaded(const QString& lib) const { return isLibLoaded(libRSIDFromString(lib)); }
 
         RSID libRSIDFromString(const QString& lib) const;
         RSID soundRSIDFromString(RSID lib, const QString& sound) const;
@@ -76,7 +94,7 @@ class SoundManager : public QObject
 
     private:
 
-        bool buildCache(const QStringList& libList, const QList<LVER>& versionLibList=QList<LVER>());
+        bool buildCache(const QList<SoundLibInformations>&);
         void clearCache();
 
         float m_volume;

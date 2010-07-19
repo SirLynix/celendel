@@ -59,6 +59,7 @@
 		<Unit filename="ClientNetwork.cpp" />
 		<Unit filename="ClientNetwork.h" />
 		<Unit filename="ClientNetworkSwitch.cpp" />
+		<Unit filename="ClientSave.cpp" />
 		<Unit filename="ClientSettings.cpp" />
 		<Unit filename="ClientSettings.h" />
 		<Unit filename="GUI.cpp" />
@@ -68,6 +69,19 @@
 		<Unit filename="SoundManager.h" />
 		<Unit filename="SoundsGUI.cpp" />
 		<Unit filename="SoundsGUI.h" />
+		<Unit filename="VOIP\Global.h" />
+		<Unit filename="VOIP\Recorder.cpp" />
+		<Unit filename="VOIP\Recorder.h" />
+		<Unit filename="VOIP\Sound.cpp" />
+		<Unit filename="VOIP\Sound.h" />
+		<Unit filename="VOIP\SoundReceiver.cpp" />
+		<Unit filename="VOIP\SoundReceiver.h" />
+		<Unit filename="VOIP\Speex.cpp" />
+		<Unit filename="VOIP\Speex.h" />
+		<Unit filename="VOIP\VOIP.cpp" />
+		<Unit filename="VOIP\VOIP.h" />
+		<Unit filename="VOIP\openal.cpp" />
+		<Unit filename="VOIP\openal.h" />
 		<Unit filename="main.cpp" />
 		<Unit filename="..\Shared\Constants.h" />
 		<Unit filename="..\Shared\MapStructs.h" />

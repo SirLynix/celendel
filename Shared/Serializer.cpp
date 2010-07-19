@@ -251,7 +251,10 @@ QByteArray serialiseLocationData(const QString& where)
 
 bool extractServerInformationsData(QByteArray& data, ServerInformations& si)
 {
+    qDebug() << "data size : " << data.size();
     QByteArray t=qUncompress(data);
+    qDebug() << "data size uncompressed : " << t.size();
+    qDebug() << __TIME__;
     QV(t);
 
     QDataStream in(t);
@@ -272,8 +275,11 @@ bool extractServerInformationsData(QByteArray& data, ServerInformations& si)
     R(in);
     in>>si.narration;
     R(in);
+    QByteArray l;
+    in>>l;
+    R(in);
 
-    return false;
+    return extractSyncLibsData(l, si.libs);
 }
 
 QByteArray serialiseServerInformationsData(const ServerInformations& si)
@@ -289,6 +295,7 @@ QByteArray serialiseServerInformationsData(const ServerInformations& si)
     out<<si.serverName;
     out<<si.motd;
     out<<si.narration;
+    out<<serialiseSyncLibsData(si.libs);
 
     return qCompress(data);
 }
@@ -389,8 +396,9 @@ QByteArray serialiseMapInformationsData(const MapInformations& mi)
 
 bool extractMapItemsInformationsData(QByteArray& data, QList<MapItem>& mi)
 {
-    QV(data);
-    QDataStream in(data);
+    QByteArray t=qUncompress(data);
+    QV(t);
+    QDataStream in(t);
 
     qint32 size;
     in>>size;
@@ -423,7 +431,7 @@ QByteArray serialiseMapItemsInformationsData(const QList<MapItem>& mi)
         out<<(RSID) mi[i].pixID;
     }
 
-    return data;
+    return qCompress(data);
 }
 
 bool extractDiceRollData(QByteArray& data, CLID& ID, quint16& result)
@@ -449,25 +457,25 @@ QByteArray serialiseDiceRollData(CLID ID, quint16 result)
     return data;
 }
 
-bool extractPlaySoundData(QByteArray& data, QString& lib, RSID& ID)
+bool extractPlaySoundData(QByteArray& data, QString& lib, QString& sound)
 {
     QV(data);
     QDataStream in(data);
     in>>lib;
     R(in);
-    in>>ID;
+    in>>sound;
     R(in);
 
     return false;
 }
 
-QByteArray serialisePlaySoundData(const QString& lib, RSID ID)
+QByteArray serialisePlaySoundData(const QString& lib, const QString& sound)
 {
     QByteArray data;
     QDataStream out(&data, QIODevice::ReadWrite);
 
     out<<lib;
-    out<<(RSID)ID;
+    out<<sound;
 
     return data;
 }
@@ -573,25 +581,43 @@ QByteArray serialiseAllNarrationData(const QString& txt)
     return qCompress(data);
 }
 
-bool extractSyncLibsData(QByteArray& data, QStringList& libs, QList<LVER>& ver)
+bool extractSyncLibsData(QByteArray& data, QList<SoundLibInformations>& libs)
 {
-    QV(data);
-    QDataStream in(data);
-    in>>libs;
+    QByteArray d=qUncompress(data);
+    QV(d);
+    QDataStream in(d);
+    int s=0;
+    libs.clear();
+    in>>s;
     R(in);
-    in>>ver;
-    R(in);
+    for(int i=0;i<s;++i)
+    {
+        SoundLibInformations li;
+        in>>li.name;
+        R(in);
+        in>>li.version;
+        R(in);
+        in>>li.sounds;
+        R(in);
+        libs.append(li);
+    }
 
     return false;
 }
 
-QByteArray serialiseSyncLibsData(const QStringList& libs, const QList<LVER>& ver)
+QByteArray serialiseSyncLibsData(const QList<SoundLibInformations>& libs)
 {
     QByteArray data;
     QDataStream out(&data, QIODevice::ReadWrite);
 
-    out<<libs;
-    out<<ver;
 
-    return data;
+    out<<libs.size();
+    for(int i=0;i<libs.size();++i)
+    {
+        out<<libs[i].name;
+        out<<libs[i].version;
+        out<<libs[i].sounds;
+    }
+
+    return qCompress(data);
 }

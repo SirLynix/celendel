@@ -132,16 +132,16 @@ void ClientNetwork::operatePacket(Packet* packet)
         break;
         case PLAY_SOUND:
         {
-            RSID rsid; QString lib;
-            QE(extractPlaySoundData(packet->data, lib, rsid));
-            emit playSound(lib, rsid);
+            QString sound; QString lib;
+            QE(extractPlaySoundData(packet->data, lib, sound));
+            emit playSound(lib, sound);
         }
         break;
         case SYNC_LIBS:
         {
-            QStringList libs; QList<LVER> ver;
-            QE(extractSyncLibsData(packet->data, libs, ver);
-            emit syncLibs(libs, ver);
+            QList<SoundLibInformations> l;
+            QE(extractSyncLibsData(packet->data, l));
+            emit syncLibs(l);
         }
         break;
         default:

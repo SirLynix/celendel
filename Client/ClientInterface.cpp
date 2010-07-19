@@ -6,10 +6,12 @@
 #include "ClientSettings.h"
 #include "SoundManager.h"
 #include "SoundsGUI.h"
+#include "VOIP/VOIP.h"
 
 ClientInterface::ClientInterface()
 {
     buildGUI();
+
 
     QSettings* set=allocateSettings();
 
@@ -31,7 +33,11 @@ ClientInterface::ClientInterface()
     connect(m_network, SIGNAL(clientLeft(CLID)), this, SLOT(clientLeft(CLID)));
     connect(m_network, SIGNAL(clientJoined(CLID)), this, SLOT(clientJoined(CLID)));
     connect(m_network, SIGNAL(narrationChanged(QString)), this, SLOT(narrationChanged(QString)));
-    connect(m_network, SIGNAL(playSound(QString, RSID)), this, SLOT(playSound(QString, RSID)));
+    connect(m_network, SIGNAL(playSound(QString, QString)), this, SLOT(playSound(QString, QString)));
+    connect(m_network, SIGNAL(syncLibs(QList<SoundLibInformations>)), this, SLOT(syncSoundLibs(QList<SoundLibInformations>)));
+
+    getVOIP();
+    connect(&getVOIP(), SIGNAL(dataPerSecond(int, int)), this, SLOT(dataPerSecond(int, int)));
 
     resetData();
 
@@ -44,6 +50,38 @@ ClientInterface::ClientInterface()
     buildGMStuff();
 
     delete set;
+
+    getVOIP().add("127.0.0.1"); ///DEBUG : loopback
+}
+
+void ClientInterface::dataPerSecond(int d, int u)
+{
+    if(d<1024)
+    {
+        m_dlPerSec->setText(tr("Download : %1 o/s").arg(d,5));
+    }
+    else if(d<1024*1024)
+    {
+        m_dlPerSec->setText(tr("Download : %1 kio/s").arg((double)d/1024,5,'g',2));
+    }
+    else
+    {
+        m_dlPerSec->setText(tr("Download : %1 mio/s").arg((double)d/1024/1024,5,'g',2));
+    }
+
+    if(u<1024)
+    {
+        m_upPerSec->setText(tr("Upload : %1 o/s", "").arg(u,5));
+    }
+    else if(u<1024*1024)
+    {
+        m_upPerSec->setText(tr("Upload : %1 kio/s").arg((double)u/1024,5,'g',2));
+    }
+    else
+    {
+        m_upPerSec->setText(tr("Upload : %1 mio/s").arg((double)u/1024/1024,5,'g',2));
+    }
+
 }
 
 void ClientInterface::setInterface(const QString& path)
@@ -75,7 +113,7 @@ void ClientInterface::playerListMenu(const QPoint& pos)
         list << m_voteGM;
 
     if(!list.isEmpty())
-        QMenu::exec(list, mapToGlobal(pos));
+        QMenu::exec(list, m_v_pl->mapToGlobal(pos));
 }
 
 void ClientInterface::aboutUs()
@@ -87,9 +125,45 @@ void ClientInterface::aboutUs()
     aw.exec();
 }
 
-void ClientInterface::playSound(QString lib, RSID rsid)
+void ClientInterface::playSound(QString lib, QString sound)
 {
-    sndMngr.playSound(lib, rsid);
+    lg(tr("Le Maître du Jeu fait jouer : \"%1 - %2\"").arg(lib, sound));
+    if(sndMngr.playSound(lib, sound))
+        lg(tr("Erreur : son non trouvé."));
+}
+
+void ClientInterface::syncSoundLibs(QList<SoundLibInformations> ref)
+{
+    if(isGM())
+        return;
+
+    lg(tr("Informations des bibliothèques sonores requises par le Maître du Jeu reçues :"));
+    for(int i=0;i<ref.size();++i)
+    {
+        if(sndMngr.isLibLoaded(ref[i].name))
+        {
+            SoundLibInformations sli=sndMngr.getLibInfo(ref[i].name);
+            if(sli.version>ref[i].version)
+            {
+                lg(tr("La bibliothèque <strong>\"%1\"</strong> est chargée, mais votre version est ultérieure à celle du Maître du Jeu.").arg(ref[i].name), false, true);
+            }
+            else if(sli.version<ref[i].version)
+            {
+                lg(tr("La bibliothèque <strong>\"%1\"</strong> est chargée, mais votre version est postérieure à celle du Maître du Jeu.").arg(ref[i].name), false, true);
+            }
+            else
+            {
+                lg(tr("La bibliothèque <strong>\"%1\"</strong> est chargée et à la bonne version.").arg(ref[i].name), false, true);
+            }
+
+            if(sli.sounds!=ref[i].sounds)
+                lg(tr("<strong>Erreur</strong> : les listes des sons diffèrent"), false, true);
+        }
+        else
+        {
+            lg(tr("<strong>Erreur</strong> : bibliothèque <strong>\"%1\"</strong> non chargée. Certains sons ne pourront <strong>pas</strong> être joués.").arg(ref[i].name), false, true);
+        }
+    }
 }
 
 void ClientInterface::aboutServer()
@@ -432,6 +506,7 @@ void ClientInterface::changeGameMaster(CLID ID)
     {
         lg(tr("<strong>Vous</strong> êtes maintenant le <strong>Maître du Jeu</strong>."));
         m_narrator->setReadOnly(false);
+        m_network->send(ETI(SYNC_LIBS), serialiseSyncLibsData(sndMngr.getLibsInfo()));
     }
     else
     {

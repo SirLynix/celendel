@@ -14,43 +14,58 @@ void ClientInterface::buildGUI()
 // FILE MENU
 QMenu *fileMenu = menuBar()->addMenu(tr("&Fichier"));
 QAction *ac_save = fileMenu->addAction(tr("&Sauvegarder la partie"));
+ac_save->setWhatsThis(tr("Sauvegarder les paramètres, le jeu de rôle et les discutions de la partie."));
 ac_save->setShortcut(QKeySequence(QKeySequence::Save));
+connect(ac_save, SIGNAL(triggered()), this, SLOT(saveGame()));
 QAction *ac_load = fileMenu->addAction(tr("Charger une partie"));
+connect(ac_load, SIGNAL(triggered()), this, SLOT(loadGame()));
+ac_load->setWhatsThis(tr("Charger les paramètres, le jeu de rôle et les discutions d'une partie. Évidement, il n'est pas possible de re-connecter les autres clients, ni de réinitialiser le server. Vous serez par ailleurs déconnecté."));
 ac_load->setShortcut(QKeySequence(QKeySequence::Open));
 m_ac_joinOrLeave = fileMenu->addAction(tr("Se connecter au serveur")); //This text will change, depending if the client is connected or not.
 connect(m_ac_joinOrLeave, SIGNAL(triggered()), this, SLOT(switchConnectionState()));
+m_ac_joinOrLeave->setWhatsThis(tr("Se connecter ou se déconnecter du serveur (IP et port indiqués dans les options)."));
 QAction *ac_quit = fileMenu->addAction(tr("&Quitter"));
+ac_quit->setWhatsThis(tr("Quitter honteusement la partie."));
 ac_quit->setShortcut(QKeySequence(QKeySequence::Quit));
 connect(ac_quit, SIGNAL(triggered()), qApp, SLOT(quit()));
 
 // SETTINGS MENU
 QMenu *settingsMenu = menuBar()->addMenu(tr("&Paramètres"));
 QAction *ac_settings = settingsMenu->addAction(tr("Options"));
+ac_settings->setWhatsThis(tr("Adjuster quelques paramètres et diverses options."));
 ac_settings->setShortcut(QKeySequence(QKeySequence::Preferences));
 connect(ac_settings, SIGNAL(triggered()), this, SLOT(openSettings()));
 QAction *ac_sounds = settingsMenu->addAction(tr("Parcourir les sons"));
+ac_sounds->setWhatsThis(tr("Explorer les bibliothèques de sons chargées."));
 connect(ac_sounds, SIGNAL(triggered()), this, SLOT(openSoundsGUI()));
 
 // ABOUT MENU
 QMenu *aboutMenu = menuBar()->addMenu(tr("&A propos..."));
 QAction *ac_aboutServer = aboutMenu->addAction(tr("... du serveur"));
+ac_aboutServer->setWhatsThis(tr("Afficher le Mot du Jour du serveur."));
 connect(ac_aboutServer, SIGNAL(triggered()), this, SLOT(aboutServer()));
 
 QAction *ac_aboutUs = aboutMenu->addAction(tr("... de Celendel"));
+ac_aboutUs->setWhatsThis(tr("Afficher quelques informations à propos de ce merveilleux logiciel et de ses non moins géniaux créateurs."));
 connect(ac_aboutUs, SIGNAL(triggered()), this, SLOT(aboutUs()));
 
 QAction *ac_aboutQt = aboutMenu->addAction(tr("... de Qt"));
+ac_aboutQt->setWhatsThis(tr("Afficher quelques informations à propos du framework C++ open-source multi-licences Qt (© Nokia, tous droits réservés) utilisé massivement pour la création de Celendel."));
 connect(ac_aboutQt, SIGNAL(triggered()), qApp, SLOT(aboutQt()));
 
 
 // CONTEXTUAL MENUS
 m_kick = new QAction(tr("Ejecter le joueur"), this);
+m_kick->setWhatsThis(tr("Déconnecter méchament le joueur du serveur."));
 connect(m_kick, SIGNAL(triggered()), this, SLOT(actionKick()));
 m_ban = new QAction(tr("Bannir le joueur"), this);
+m_ban->setWhatsThis(tr("PARS, ET NE REVIENS JAMAAAAAAIS !")); // What ? I write the eastern eggs I want !
 connect(m_ban, SIGNAL(triggered()), this, SLOT(actionBan()));
-m_voteGM = new QAction(tr("Elire Maître du Jeu"), this);
+m_voteGM = new QAction(tr("Élire Maître du Jeu"), this);
+m_voteGM->setWhatsThis(tr("Votez pour moi !"));
 connect(m_voteGM, SIGNAL(triggered()), this, SLOT(actionVoteGM()));
 m_changeGM = new QAction(tr("Changer de Maître du Jeu"), this);
+m_changeGM->setWhatsThis(tr("Abandonner lâchement ses fonctions et ses pouvoirs surhumains au profit d'un autre."));
 connect(m_changeGM, SIGNAL(triggered()), this, SLOT(actionChangeGM()));
 
   ////////////////////////////
@@ -70,6 +85,7 @@ setDockNestingEnabled(true);
 
 ///MAIN CHAT DOCK
 QDockWidget *chatDock = new QDockWidget(tr("Chat"), this);
+chatDock->setWhatsThis(tr("Le dock du chat (hors jeu)"));
 chatDock->setFeatures(QDockWidget::NoDockWidgetFeatures);
 chatDock->setFeatures(QDockWidget::DockWidgetFloatable|QDockWidget::DockWidgetMovable);
 QWidget *w_chatDock = new QWidget(chatDock);
@@ -85,6 +101,7 @@ addDockWidget(Qt::RightDockWidgetArea, chatDock);
 
 ///NARRATOR DOCK
 QDockWidget *narratorDock = new QDockWidget(tr("Narrateur"), this);
+narratorDock->setWhatsThis(tr("Le dock du narrateur"));
 narratorDock->setFeatures(QDockWidget::NoDockWidgetFeatures);
 narratorDock->setFeatures(QDockWidget::DockWidgetFloatable|QDockWidget::DockWidgetMovable);
 QWidget *w_narratorDock = new QWidget(narratorDock);
@@ -103,6 +120,7 @@ tabifyDockWidget(chatDock, narratorDock);
 
 ///RP CHAT DOCK
 QDockWidget *RPChatDock = new QDockWidget(tr("Jeu de rôle"), this);
+RPChatDock->setWhatsThis(tr("Le dock des dialogues du jeu."));
 RPChatDock->setFeatures(QDockWidget::NoDockWidgetFeatures);
 RPChatDock->setFeatures(QDockWidget::DockWidgetFloatable|QDockWidget::DockWidgetMovable);
 QWidget *w_RPChatDock = new QWidget(RPChatDock);
@@ -120,6 +138,7 @@ tabifyDockWidget(chatDock, RPChatDock);
 
 ///CHAT INPUT DOCK
 QDockWidget *chatInputDock = new QDockWidget(tr("Commandes"), this);
+chatInputDock->setWhatsThis(tr("Le dock des commandes"));
 chatInputDock->setFeatures(QDockWidget::NoDockWidgetFeatures);
 chatInputDock->setFeatures(QDockWidget::DockWidgetFloatable|QDockWidget::DockWidgetMovable);
 QWidget *w_chatInputDock = new QWidget(chatInputDock);
@@ -128,10 +147,12 @@ QVBoxLayout *l_chatInputDock = new QVBoxLayout(w_chatInputDock);
 w_chatInputDock->setLayout(l_chatInputDock);
 
 m_chatInput = new QLineEdit(this);
+m_chatInput->setWhatsThis(tr("Entrez ici commandes et dialogues."));
 l_chatInputDock->addWidget(m_chatInput);
 connect(m_chatInput, SIGNAL(returnPressed()), this, SLOT(sendMessage()));
 
 m_rollTheDice = new QPushButton(tr("Roll 1d20"), this);
+m_rollTheDice->setWhatsThis(tr("Lancer 1d20. Un dé à vingt faces, quoi..."));
 l_chatInputDock->addWidget(m_rollTheDice);
 connect(m_rollTheDice, SIGNAL(pressed()), this, SLOT(rollDice()));
 
@@ -142,6 +163,7 @@ w_chatInputDock->setMaximumHeight(m_chatInput->height()+m_rollTheDice->height()*
 
 ///PLAYER LIST DOCK
 QDockWidget *playerListDock = new QDockWidget(tr("Liste des joueurs"), this);
+playerListDock->setWhatsThis(tr("La liste des joueurs"));
 playerListDock->setFeatures(QDockWidget::NoDockWidgetFeatures);
 playerListDock->setFeatures(QDockWidget::DockWidgetFloatable|QDockWidget::DockWidgetMovable);
 m_playerList = new QStandardItemModel(this);
@@ -169,6 +191,7 @@ addDockWidget(Qt::LeftDockWidgetArea, playerListDock);
 
 ///character LIST DOCK
 QDockWidget *characterListDock = new QDockWidget(tr("Liste des personnages"), this);
+characterListDock->setWhatsThis(tr("La liste des personnages"));
 characterListDock->setFeatures(QDockWidget::NoDockWidgetFeatures);
 characterListDock->setFeatures(QDockWidget::DockWidgetFloatable|QDockWidget::DockWidgetMovable);
 m_characterList = new QStandardItemModel(this);
@@ -192,4 +215,15 @@ characterListDock->setWidget(w_characterListDock);
 addDockWidget(Qt::LeftDockWidgetArea, characterListDock);
 
 m_centralWi->setMaximumSize(1,1);
+
+///Status bar
+QStatusBar *bar = statusBar();
+m_dlPerSec = new QLabel(this);
+m_dlPerSec->setText(tr("Download :     0 o/s"));
+m_dlPerSec->setEnabled(false);
+bar->addWidget(m_dlPerSec);
+m_upPerSec = new QLabel(this);
+m_upPerSec->setText(tr("Upload :     0 o/s"));
+m_upPerSec->setEnabled(false);
+bar->addWidget(m_upPerSec);
 }

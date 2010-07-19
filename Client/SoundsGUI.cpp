@@ -79,7 +79,7 @@ void SoundsGUI::contextMenu(const QPoint& p)
     }
 
     if(!list.isEmpty())
-        QMenu::exec(list, mapToGlobal(p));
+        QMenu::exec(list, m_view->mapToGlobal(p));
 }
 
 void SoundsGUI::play()

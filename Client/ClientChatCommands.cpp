@@ -143,7 +143,7 @@ void ClientInterface::sendMessage()
             QString lib=spl[1];
             if(sndMngr.exists(lib, sound))
             {
-                m_network->send(ETI(PLAY_SOUND), serialisePlaySoundData(lib, sndMngr.soundRSIDFromString(lib, sound)));
+                m_network->send(ETI(PLAY_SOUND), serialisePlaySoundData(lib, sound));
             }
             else
                 lg(tr("Erreur : son introuvable. La bibliothèque demandée n'est peut-être pas chargée."));

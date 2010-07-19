@@ -6,6 +6,9 @@
 #include "ClientSettings.h"
 
 #define DTA_CLID  Qt::UserRole+42
+#define SAVE_EXT ".savegame"
+
+class VOIP;
 
 class ClientInterface : public QMainWindow
 {
@@ -42,7 +45,7 @@ class ClientInterface : public QMainWindow
 
         void setTitle();
 
-        void playSound(QString lid, RSID rsid);
+        void playSound(QString lid, QString rsid);
 
         void updatePlayerList();
 
@@ -72,6 +75,13 @@ class ClientInterface : public QMainWindow
         void refresh();
         void textChanged();
         void narrationChanged(QString);
+
+        void syncSoundLibs(QList<SoundLibInformations>);
+
+        void saveGame();
+        void loadGame();
+
+        void dataPerSecond(int, int);
 
     private:
 
@@ -124,6 +134,11 @@ class ClientInterface : public QMainWindow
         ///GM Menus
         QTimer *m_refreshTimer;
         bool m_needRefresh;
+
+
+        ///Status bar
+        QLabel* m_dlPerSec;
+        QLabel* m_upPerSec;
 };
 
 #endif
