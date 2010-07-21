@@ -36,7 +36,9 @@ ClientInterface::ClientInterface()
     connect(m_network, SIGNAL(playSound(QString, QString)), this, SLOT(playSound(QString, QString)));
     connect(m_network, SIGNAL(syncLibs(QList<SoundLibInformations>)), this, SLOT(syncSoundLibs(QList<SoundLibInformations>)));
 
-    getVOIP();
+    getVOIP().setEnabled(set->value(PARAM_VOIP_ENABLED, true).toBool());
+    getVOIP().setVolume(set->value(PARAM_VOIP_SOUND, 100.f).toFloat());
+    getVOIP().setQuality(set->value(PARAM_VOIP_QUALITY, 4).toFloat());
     connect(&getVOIP(), SIGNAL(dataPerSecond(int, int)), this, SLOT(dataPerSecond(int, int)));
 
     resetData();

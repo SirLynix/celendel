@@ -16,6 +16,9 @@ QSettings* allocateSettings(QObject* parent=0);
 #define PARAM_INTERFACE "settings/interface"
 #define PARAM_SOUND "settings/soundlevel"
 #define PARAM_SOUNDLIBS "settings/soundlibs"
+#define PARAM_VOIP_SOUND "settings/voipsoundlevel"
+#define PARAM_VOIP_ENABLED "settings/voipenabled"
+#define PARAM_VOIP_QUALITY "settings/voipquality"
 
 #define IEXT ".itr"
 
@@ -41,8 +44,13 @@ class ClientSettings : public QDialog
         void soundSliderChanged(int);
         void soundSpinBoxChanged(double);
 
+        void VOIPSoundSliderChanged(int);
+        void VOIPSoundSpinBoxChanged(double);
+
         void refreshLibs();
         void loadLibs();
+
+        void VOIPQualitySliderChanged(int value);
 
     private:
         QSettings* m_settings;
@@ -66,6 +74,12 @@ class ClientSettings : public QDialog
 
         QSlider* m_sound;
         QDoubleSpinBox* m_soundSpinBox;
+
+        QSlider* m_VOIPSound;
+        QDoubleSpinBox* m_VOIPSoundSpinBox;
+        QGroupBox* m_voip;
+
+        QSlider* m_VOIPQuality;
 
         QList<QCheckBox*> m_libsList;
         QVBoxLayout* m_libs_la;

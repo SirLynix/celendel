@@ -23,12 +23,15 @@ class VOIP : public QObject
         bool mute(const QString& cl);
         bool unmute(const QString& cl);
 
-        int quality();
+        float quality() const { return speex.quality(); }
+        bool isEnabled() const { return m_enabled; }
 
         ~VOIP();
 
     public slots:
-        void setQuality(int q);
+        void setQuality(float q);
+        void setVolume(float volume);
+        void setEnabled(bool);
 
     private slots:
         void update();
@@ -45,6 +48,11 @@ class VOIP : public QObject
         QList<VOIPSystem::Sound*> m_sounds;
         VOIPSystem::Recorder *rec;
         int dataUp;
+
+        float m_volume;
+        bool m_enabled;
+
+        int m_floor;
 
 };
 

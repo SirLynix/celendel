@@ -4,6 +4,7 @@
 #include <QByteArray>
 #include <speex/speex.h>
 #include <speex/speex_preprocess.h>
+#include <speex/speex_echo.h>
 
 #include "global.h"
 
@@ -17,10 +18,10 @@ public:
     Speex(int sampleRate);
     ~Speex();
     int frameSize() const { return m_frameSize; }
-    int quality() const { return m_quality; }
+    float quality() const { return m_quality; }
 
 public slots:
-    void setQuality(int q);
+    void setQuality(float q);
     void encode(ALshortVector samples);
     void decode(QByteArray data);
 
@@ -30,7 +31,7 @@ signals:
 
 private:
     int m_sampleRate;
-    int m_quality;
+    float m_quality;
     int m_frameSize;
     QByteArray m_buffer;
     ALshortVector m_samples;
@@ -40,8 +41,9 @@ private:
     SpeexBits dbits;
     void *dec_state;
 
-    SpeexPreprocessState *preprocess_state;
+    SpeexEchoState *echo_state;
 
+    SpeexPreprocessState *preprocess_state;
 
 };
 }

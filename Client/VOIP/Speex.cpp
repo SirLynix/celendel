@@ -1,4 +1,5 @@
 #include "Speex.h"
+
 namespace VOIPSystem
 {
 
@@ -12,17 +13,25 @@ Speex::Speex(int sampleRate)
     speex_encoder_ctl(enc_state,SPEEX_SET_SAMPLING_RATE,&m_sampleRate);
     int t = 1;
     speex_encoder_ctl(enc_state, SPEEX_SET_VBR, &t);
+    speex_encoder_ctl(enc_state, SPEEX_SET_VAD, &t);
     speex_encoder_ctl(enc_state, SPEEX_SET_DTX, &t);
     speex_bits_init(&dbits);
     dec_state = speex_decoder_init(&speex_nb_mode);
 
     speex_decoder_ctl(dec_state, SPEEX_GET_FRAME_SIZE, &m_frameSize);
+    speex_decoder_ctl(dec_state, SPEEX_SET_ENH, &t);
 
     m_buffer.resize(m_frameSize * 2);
     m_samples.resize(m_frameSize);
     preprocess_state = speex_preprocess_state_init(m_frameSize, m_sampleRate);
     speex_preprocess_ctl(preprocess_state, SPEEX_PREPROCESS_SET_VAD, &t);
     speex_preprocess_ctl(preprocess_state, SPEEX_PREPROCESS_SET_AGC, &t);
+    speex_preprocess_ctl(preprocess_state, SPEEX_PREPROCESS_SET_DENOISE, &t);
+    speex_preprocess_ctl(preprocess_state, SPEEX_PREPROCESS_SET_DEREVERB, &t);
+
+    echo_state = speex_echo_state_init(m_frameSize, 1024);
+
+    speex_preprocess_ctl(preprocess_state, SPEEX_PREPROCESS_SET_ECHO_STATE, echo_state);
 }
 
 void Speex::encode(ALshortVector samples)
@@ -43,14 +52,15 @@ void Speex::decode(QByteArray data)
     emit decoded(m_samples);
 }
 
-void Speex::setQuality(int q)
+void Speex::setQuality(float q)
 {
     if(q < 0)
         q = 0;
     if(q > 10)
         q = 10;
     m_quality = q;
-    speex_encoder_ctl(enc_state,SPEEX_SET_QUALITY, &m_quality);
+
+    speex_encoder_ctl(enc_state,SPEEX_SET_VBR_QUALITY, &m_quality);
 }
 
 Speex::~Speex()
@@ -59,5 +69,7 @@ Speex::~Speex()
     speex_decoder_destroy(dec_state);
     speex_bits_destroy(&ebits);
     speex_encoder_destroy(enc_state);
+    speex_echo_state_destroy(echo_state);
+    speex_preprocess_state_destroy(preprocess_state);
 }
 }

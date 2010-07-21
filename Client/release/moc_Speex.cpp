@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Meta object code from reading C++ file 'Speex.h'
 **
-** Created: Mon 19. Jul 13:41:58 2010
+** Created: Wed 21. Jul 11:43:57 2010
 **      by: The Qt Meta Object Compiler version 62 (Qt 4.6.2)
 **
 ** WARNING! All changes made in this file will be lost!
@@ -36,15 +36,15 @@ static const uint qt_meta_data_VOIPSystem__Speex[] = {
 
  // slots: signature, parameters, type, tag, flags
       64,   62,   18,   18, 0x0a,
-      88,   80,   18,   18, 0x0a,
-     115,  110,   18,   18, 0x0a,
+      90,   82,   18,   18, 0x0a,
+     117,  112,   18,   18, 0x0a,
 
        0        // eod
 };
 
 static const char qt_meta_stringdata_VOIPSystem__Speex[] = {
     "VOIPSystem::Speex\0\0encoded(QByteArray)\0"
-    "decoded(ALshortVector)\0q\0setQuality(int)\0"
+    "decoded(ALshortVector)\0q\0setQuality(float)\0"
     "samples\0encode(ALshortVector)\0data\0"
     "decode(QByteArray)\0"
 };
@@ -80,7 +80,7 @@ int VOIPSystem::Speex::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
         switch (_id) {
         case 0: encoded((*reinterpret_cast< const QByteArray(*)>(_a[1]))); break;
         case 1: decoded((*reinterpret_cast< const ALshortVector(*)>(_a[1]))); break;
-        case 2: setQuality((*reinterpret_cast< int(*)>(_a[1]))); break;
+        case 2: setQuality((*reinterpret_cast< float(*)>(_a[1]))); break;
         case 3: encode((*reinterpret_cast< ALshortVector(*)>(_a[1]))); break;
         case 4: decode((*reinterpret_cast< QByteArray(*)>(_a[1]))); break;
         default: ;
