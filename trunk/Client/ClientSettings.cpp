@@ -1,6 +1,7 @@
 #include "ClientSettings.h"
 #include "ClientInterface.h"
 #include "SoundManager.h"
+#include "VOIP\VOIP.h"
 
 QSettings* allocateSettings(QObject* parent)
 {
@@ -146,6 +147,51 @@ ClientSettings::ClientSettings(ClientInterface* parent)
         h_la->addWidget(m_sound);
         h_la->addWidget(m_soundSpinBox);
     }
+
+    {
+        m_voip = new QGroupBox(tr("Paramètres de la VOIP"));
+        m_voip->setCheckable(true);
+        m_voip->setChecked(m_settings->value(PARAM_VOIP_ENABLED, true).toBool());
+        la2->addWidget(m_voip);
+        QVBoxLayout* v_la = new QVBoxLayout;
+        m_voip->setLayout(v_la);
+
+        v_la->addWidget(new QLabel(tr("Volume de la reception :")));
+
+        {
+        QHBoxLayout* h_la = new QHBoxLayout;
+        v_la->addLayout(h_la);
+
+        m_VOIPSound = new QSlider(this);
+        m_VOIPSound->setMaximum(1000);
+        m_VOIPSound->setOrientation(Qt::Horizontal);
+        m_VOIPSound->setValue(static_cast<int>(m_settings->value(PARAM_VOIP_SOUND, 100.f).toFloat()*10));
+        connect(m_VOIPSound, SIGNAL(valueChanged(int)), this, SLOT(VOIPSoundSliderChanged(int)));
+        m_VOIPSoundSpinBox=new QDoubleSpinBox(this);
+        m_VOIPSoundSpinBox->setMaximum(100); m_VOIPSoundSpinBox->setMinimum(0); m_VOIPSoundSpinBox->setDecimals(1);
+        m_VOIPSoundSpinBox->setValue(m_settings->value(PARAM_VOIP_SOUND, 100.f).toFloat());
+        connect(m_VOIPSoundSpinBox, SIGNAL(valueChanged(double)), this, SLOT(VOIPSoundSpinBoxChanged(double)));
+        h_la->addWidget(m_VOIPSound);
+        h_la->addWidget(m_VOIPSoundSpinBox);
+        }
+
+        v_la->addWidget(new QLabel(tr("Qualité de la VOIP (sortant) :")));
+
+        {
+        QHBoxLayout* h_la = new QHBoxLayout;
+        v_la->addLayout(h_la);
+
+        m_VOIPQuality = new QSlider(this);
+        m_VOIPQuality->setMinimum(1); m_VOIPQuality->setMaximum(100);
+        m_VOIPQuality->setOrientation(Qt::Horizontal);
+        m_VOIPQuality->setValue(static_cast<int>(m_settings->value(PARAM_VOIP_QUALITY, 4).toFloat()*10));
+        connect(m_VOIPQuality, SIGNAL(valueChanged(int)), this, SLOT(VOIPQualitySliderChanged(int)));
+        h_la->addWidget(new QLabel(tr("Plus rapide")));
+        h_la->addWidget(m_VOIPQuality);
+        h_la->addWidget(new QLabel(tr("Plus clair")));
+        }
+    }
+
     {
         QGroupBox *gb = new QGroupBox(tr("Bibliothèques de sons"));
         la2->addWidget(gb);
@@ -242,7 +288,7 @@ void ClientSettings::refreshLibs()
         if(l.contains(fileList[i]))
             m_libsList.last()->setChecked(true);
     }
-  //  gar->setMinimumSize((bigger+1)*9,fileList.size()*20);
+
     gar->setMinimumSize(biggestw+10,(biggesth+1)*fileList.size());
 }
 
@@ -257,6 +303,25 @@ void ClientSettings::soundSpinBoxChanged(double value)
 {
     sndMngr.setVolume(value);
     m_sound->setValue(static_cast<int>(value*10));
+}
+
+void ClientSettings::VOIPQualitySliderChanged(int value)
+{
+    getVOIP().setQuality((float)value/10.f);
+    qDebug() << value;
+}
+
+void ClientSettings::VOIPSoundSliderChanged(int value)
+{
+    float v=static_cast<float>(value)/10.f;
+    getVOIP().setVolume(v);
+    m_VOIPSoundSpinBox->setValue(v);
+}
+
+void ClientSettings::VOIPSoundSpinBoxChanged(double value)
+{
+    getVOIP().setVolume(value);
+    m_VOIPSound->setValue(static_cast<int>(value*10));
 }
 
 void ClientSettings::selectCSS()
@@ -332,7 +397,11 @@ void ClientSettings::ok()
     m_settings->setValue(PARAM_CSS, m_CSSPath->text());
     m_settings->setValue(PARAM_INTERFACE, m_interfacePath->text());
     m_settings->setValue(PARAM_SOUND, static_cast<float>(m_sound->value())/10.f);
+    m_settings->setValue(PARAM_VOIP_SOUND, static_cast<float>(m_VOIPSound->value())/10.f);
+    m_settings->setValue(PARAM_VOIP_QUALITY, (float)m_VOIPQuality->value()/10.f);
     m_settings->setValue(PARAM_SOUNDLIBS, sndMngr.loadedLibs());
+    m_settings->setValue(PARAM_VOIP_ENABLED, m_voip->isChecked());
+    getVOIP().setEnabled(m_voip->isChecked());
 
     accept();
 }

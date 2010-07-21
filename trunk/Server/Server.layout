@@ -34,7 +34,7 @@
 	<File name="main.cpp" open="0" top="0" tabpos="1">
 		<Cursor position="118" topLine="0" />
 	</File>
-	<File name="..\Shared\Constants.h" open="1" top="0" tabpos="1">
+	<File name="..\Shared\Constants.h" open="0" top="0" tabpos="1">
 		<Cursor position="1037" topLine="36" />
 	</File>
 	<File name="..\Shared\MapStructs.h" open="0" top="0" tabpos="1">
@@ -43,10 +43,10 @@
 	<File name="..\Shared\Packet.cpp" open="0" top="0" tabpos="2">
 		<Cursor position="132" topLine="0" />
 	</File>
-	<File name="..\Shared\Packet.h" open="1" top="0" tabpos="0">
+	<File name="..\Shared\Packet.h" open="0" top="0" tabpos="0">
 		<Cursor position="743" topLine="0" />
 	</File>
-	<File name="..\Shared\Serializer.cpp" open="1" top="0" tabpos="0">
+	<File name="..\Shared\Serializer.cpp" open="0" top="0" tabpos="0">
 		<Cursor position="10866" topLine="574" />
 	</File>
 	<File name="..\Shared\Serializer.h" open="0" top="0" tabpos="0">

@@ -20,25 +20,81 @@ VOIP::VOIP(QObject* p) : QObject(p), speex(SAMPLE_RATE)
     updateT->start(1000);
     udpSocket = new QUdpSocket(this);
     dataUp = 0;
+    setVolume(50);
+    m_enabled=true;
+    setQuality(4);
 }
 
-void VOIP::setQuality(int q)
+void VOIP::setVolume(float volume)
 {
+    if(volume<0)
+    {
+        m_volume=0;
+    }
+    else if(volume>100)
+    {
+        m_volume=1;
+    }
+    else
+        m_volume=volume/100;
+
+    for(int i=0;i<m_sounds.size();++i)
+        m_sounds[i]->volume(volume);
+}
+
+void VOIP::setEnabled(bool e)
+{
+    m_enabled=e;
+
+    for(int i=0;i<m_sounds.size();++i)
+    {
+        if(!m_enabled)
+        {
+            m_sounds[i]->mute();
+        }
+        else
+            m_sounds[i]->unmute();
+    }
+}
+
+void VOIP::setQuality(float q)
+{
+    if(q>10)
+        q=10;
+    if(q<0)
+        q=0;
+
     speex.setQuality(q);
-}
 
-int VOIP::quality()
-{
-    return speex.quality();
+    if(q>7)
+    {
+        m_floor=20;
+    }
+    else if(q>5)
+    {
+        m_floor=15;
+    }
+    else if(q>3)
+    {
+        m_floor=9;
+    }
+    else if(q>2)
+    {
+        m_floor=6;
+    }
+    else
+    {
+        m_floor=1;
+    }
 }
 
 void VOIP::send(QByteArray b)
 {
-    if(b.size() > 15)
+    if(b.size() > m_floor && m_enabled)
     {
         for(int i = 0; i < m_clients.size(); ++i)
         {
-            qDebug() << "Send" << m_clients.at(i) << "\t" << b.size();
+           // qDebug() << "Send" << m_clients.at(i) << "\t" << b.size();
             udpSocket->writeDatagram(b, b.size(), QHostAddress(m_clients.at(i)), PORT);
             dataUp += b.size();
         }
@@ -73,6 +129,7 @@ void VOIP::add(const QString& cl)
     m_clients.append(cl);
     m_receivers.append(new SoundReceiver(QHostAddress(cl), PORT, SAMPLE_RATE));
     m_sounds.append(new Sound(SAMPLE_RATE));
+    m_sounds.last()->volume(m_volume);
     connect(m_receivers.last(), SIGNAL(dataReceived(const ALshortVector&)), m_sounds.last(), SLOT(queue(const ALshortVector&)));
     m_sounds.last()->play();
 }

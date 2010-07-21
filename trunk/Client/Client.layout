@@ -16,11 +16,11 @@
 	<File name="ClientGMInterface.cpp" open="0" top="0" tabpos="0">
 		<Cursor position="611" topLine="0" />
 	</File>
-	<File name="ClientInterface.cpp" open="1" top="0" tabpos="1">
-		<Cursor position="3329" topLine="44" />
+	<File name="ClientInterface.cpp" open="0" top="0" tabpos="1">
+		<Cursor position="2360" topLine="18" />
 	</File>
-	<File name="ClientInterface.h" open="1" top="0" tabpos="3">
-		<Cursor position="3697" topLine="104" />
+	<File name="ClientInterface.h" open="0" top="0" tabpos="3">
+		<Cursor position="3062" topLine="104" />
 	</File>
 	<File name="ClientNetwork.cpp" open="0" top="0" tabpos="1">
 		<Cursor position="1459" topLine="38" />
@@ -35,13 +35,13 @@
 		<Cursor position="3094" topLine="0" />
 	</File>
 	<File name="ClientSettings.cpp" open="0" top="0" tabpos="1">
-		<Cursor position="9214" topLine="214" />
+		<Cursor position="7743" topLine="154" />
 	</File>
 	<File name="ClientSettings.h" open="0" top="0" tabpos="2">
-		<Cursor position="863" topLine="16" />
+		<Cursor position="1669" topLine="33" />
 	</File>
-	<File name="GUI.cpp" open="1" top="1" tabpos="2">
-		<Cursor position="10034" topLine="189" />
+	<File name="GUI.cpp" open="0" top="0" tabpos="2">
+		<Cursor position="197" topLine="0" />
 	</File>
 	<File name="SoundManager.cpp" open="0" top="0" tabpos="4">
 		<Cursor position="9814" topLine="385" />
@@ -65,10 +65,10 @@
 		<Cursor position="127" topLine="0" />
 	</File>
 	<File name="VOIP\Sound.cpp" open="0" top="0" tabpos="0">
-		<Cursor position="2591" topLine="0" />
+		<Cursor position="182" topLine="0" />
 	</File>
 	<File name="VOIP\Sound.h" open="0" top="0" tabpos="0">
-		<Cursor position="139" topLine="0" />
+		<Cursor position="407" topLine="6" />
 	</File>
 	<File name="VOIP\SoundReceiver.cpp" open="0" top="0" tabpos="0">
 		<Cursor position="50" topLine="0" />
@@ -76,17 +76,17 @@
 	<File name="VOIP\SoundReceiver.h" open="0" top="0" tabpos="0">
 		<Cursor position="161" topLine="0" />
 	</File>
-	<File name="VOIP\Speex.cpp" open="0" top="0" tabpos="0">
-		<Cursor position="985" topLine="14" />
+	<File name="VOIP\Speex.cpp" open="1" top="0" tabpos="1">
+		<Cursor position="1326" topLine="30" />
 	</File>
-	<File name="VOIP\Speex.h" open="0" top="0" tabpos="0">
-		<Cursor position="171" topLine="0" />
+	<File name="VOIP\Speex.h" open="1" top="1" tabpos="2">
+		<Cursor position="157" topLine="0" />
 	</File>
-	<File name="VOIP\VOIP.cpp" open="0" top="0" tabpos="0">
-		<Cursor position="873" topLine="0" />
+	<File name="VOIP\VOIP.cpp" open="0" top="0" tabpos="3">
+		<Cursor position="1810" topLine="67" />
 	</File>
 	<File name="VOIP\VOIP.h" open="0" top="0" tabpos="0">
-		<Cursor position="1029" topLine="11" />
+		<Cursor position="1241" topLine="16" />
 	</File>
 	<File name="VOIP\openal.cpp" open="0" top="0" tabpos="0">
 		<Cursor position="170" topLine="0" />

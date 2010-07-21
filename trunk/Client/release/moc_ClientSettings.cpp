@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Meta object code from reading C++ file 'ClientSettings.h'
 **
-** Created: Mon 19. Jul 11:04:28 2010
+** Created: Wed 21. Jul 10:33:58 2010
 **      by: The Qt Meta Object Compiler version 62 (Qt 4.6.2)
 **
 ** WARNING! All changes made in this file will be lost!
@@ -23,7 +23,7 @@ static const uint qt_meta_data_ClientSettings[] = {
        4,       // revision
        0,       // classname
        0,    0, // classinfo
-      10,   14, // methods
+      13,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
@@ -40,7 +40,10 @@ static const uint qt_meta_data_ClientSettings[] = {
       93,   15,   15,   15, 0x08,
      117,   15,   15,   15, 0x08,
      145,   15,   15,   15, 0x08,
-     159,   15,   15,   15, 0x08,
+     173,   15,   15,   15, 0x08,
+     205,   15,   15,   15, 0x08,
+     219,   15,   15,   15, 0x08,
+     236,  230,   15,   15, 0x08,
 
        0        // eod
 };
@@ -50,8 +53,11 @@ static const char qt_meta_stringdata_ClientSettings[] = {
     "selectCSS()\0openInterface()\0"
     "selectInterface()\0saveInterface()\0"
     "soundSliderChanged(int)\0"
-    "soundSpinBoxChanged(double)\0refreshLibs()\0"
-    "loadLibs()\0"
+    "soundSpinBoxChanged(double)\0"
+    "VOIPSoundSliderChanged(int)\0"
+    "VOIPSoundSpinBoxChanged(double)\0"
+    "refreshLibs()\0loadLibs()\0value\0"
+    "VOIPQualitySliderChanged(int)\0"
 };
 
 const QMetaObject ClientSettings::staticMetaObject = {
@@ -91,11 +97,14 @@ int ClientSettings::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
         case 5: saveInterface(); break;
         case 6: soundSliderChanged((*reinterpret_cast< int(*)>(_a[1]))); break;
         case 7: soundSpinBoxChanged((*reinterpret_cast< double(*)>(_a[1]))); break;
-        case 8: refreshLibs(); break;
-        case 9: loadLibs(); break;
+        case 8: VOIPSoundSliderChanged((*reinterpret_cast< int(*)>(_a[1]))); break;
+        case 9: VOIPSoundSpinBoxChanged((*reinterpret_cast< double(*)>(_a[1]))); break;
+        case 10: refreshLibs(); break;
+        case 11: loadLibs(); break;
+        case 12: VOIPQualitySliderChanged((*reinterpret_cast< int(*)>(_a[1]))); break;
         default: ;
         }
-        _id -= 10;
+        _id -= 13;
     }
     return _id;
 }
