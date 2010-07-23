@@ -251,10 +251,8 @@ QByteArray serialiseLocationData(const QString& where)
 
 bool extractServerInformationsData(QByteArray& data, ServerInformations& si)
 {
-    qDebug() << "data size : " << data.size();
     QByteArray t=qUncompress(data);
-    qDebug() << "data size uncompressed : " << t.size();
-    qDebug() << __TIME__;
+
     QV(t);
 
     QDataStream in(t);

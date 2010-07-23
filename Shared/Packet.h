@@ -3,7 +3,7 @@
 
 #include <QObject>
 
-#define sizeofheader 4*sizeof(qint32)
+#define sizeofheader 5*sizeof(qint32)
 
 quint32 getTimeStamp();
 
@@ -11,6 +11,7 @@ class Packet : public QObject
 {
     public:
         Packet();
+
         bool setHeader(QDataStream& in); //Returns true on error, and set the error flag
         bool setBody(QDataStream& in); //Idem
 

@@ -308,7 +308,6 @@ void ClientSettings::soundSpinBoxChanged(double value)
 void ClientSettings::VOIPQualitySliderChanged(int value)
 {
     getVOIP().setQuality((float)value/10.f);
-    qDebug() << value;
 }
 
 void ClientSettings::VOIPSoundSliderChanged(int value)

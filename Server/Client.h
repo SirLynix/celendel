@@ -31,16 +31,21 @@ class Client : public QObject
 
         void flush();
 
+        bool blame();
+
     private slots:
         void readyRead();
         void slot_disconnected() { emit disconnected(); }
         void resetSecurity();
+        void resetBlames();
 
     private:
         CLID m_ID;
         static CLID cID;
         QTimer* m_securityTimer;
         quint16 m_sequentialsPackets;
+        QTimer* m_blamesTimer;
+        int m_blames;
 };
 
 #endif // CLIENT_H

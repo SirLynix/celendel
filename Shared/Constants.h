@@ -19,6 +19,8 @@
 #define MAX_SEQUENTIALS_PACKETS 15
 #define PACKETS_COUNT_RESET_DELAY 100
 #define MAX_PACKET_SIZE 1024*1024 //1Mio
+#define MAX_BLAMES 1 //TOLERANCE ZERO
+#define BLAMES_RESET_DELAY 4000
 
 #define qCApp QCoreApplication::instance()
 

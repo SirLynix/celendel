@@ -30,6 +30,7 @@
 				<Option type="1" />
 				<Option compiler="gcc" />
 				<Option use_console_runner="0" />
+				<Option parameters="192.168.1.5" />
 				<Compiler>
 					<Add option="-O2" />
 				</Compiler>

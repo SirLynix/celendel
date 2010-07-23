@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Meta object code from reading C++ file 'Recorder.h'
 **
-** Created: Mon 19. Jul 13:41:54 2010
+** Created: Fri 23. Jul 12:00:23 2010
 **      by: The Qt Meta Object Compiler version 62 (Qt 4.6.2)
 **
 ** WARNING! All changes made in this file will be lost!

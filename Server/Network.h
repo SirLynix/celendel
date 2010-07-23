@@ -34,6 +34,8 @@ class ServerNetwork : public QObject
         void kick(CLID ID, const QString& reason);
         void ban(CLID ID, const QString& reason);
 
+        bool blame(CLID ID);
+
         int unban(const QString& IP);
 
     private slots:
