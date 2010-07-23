@@ -3,8 +3,8 @@
 namespace VOIPSystem
 {
 
-Speex::Speex(int sampleRate)
-        : m_sampleRate(sampleRate)
+Speex::Speex(int sampleRate, QObject*p)
+        : QObject(p),m_sampleRate(sampleRate)
         , m_frameSize(0)
 {
     speex_bits_init(&ebits);

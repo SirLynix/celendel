@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Meta object code from reading C++ file 'Client.h'
 **
-** Created: Mon 19. Jul 11:04:52 2010
+** Created: Fri 23. Jul 12:14:31 2010
 **      by: The Qt Meta Object Compiler version 62 (Qt 4.6.2)
 **
 ** WARNING! All changes made in this file will be lost!
@@ -23,7 +23,7 @@ static const uint qt_meta_data_Client[] = {
        4,       // revision
        0,       // classname
        0,    0, // classinfo
-       8,   14, // methods
+      10,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
@@ -38,9 +38,11 @@ static const uint qt_meta_data_Client[] = {
       48,   45,    7,    7, 0x0a,
       62,   45,    7,    7, 0x0a,
       76,    7,    7,    7, 0x0a,
-      84,    7,    7,    7, 0x08,
-      96,    7,    7,    7, 0x08,
-     116,    7,    7,    7, 0x08,
+      89,    7,   84,    7, 0x0a,
+      97,    7,    7,    7, 0x08,
+     109,    7,    7,    7, 0x08,
+     129,    7,    7,    7, 0x08,
+     145,    7,    7,    7, 0x08,
 
        0        // eod
 };
@@ -48,8 +50,9 @@ static const uint qt_meta_data_Client[] = {
 static const char qt_meta_stringdata_Client[] = {
     "Client\0\0dataReceived(Packet*)\0"
     "disconnected()\0pa\0send(Packet*)\0"
-    "send(Packet&)\0flush()\0readyRead()\0"
-    "slot_disconnected()\0resetSecurity()\0"
+    "send(Packet&)\0flush()\0bool\0blame()\0"
+    "readyRead()\0slot_disconnected()\0"
+    "resetSecurity()\0resetBlames()\0"
 };
 
 const QMetaObject Client::staticMetaObject = {
@@ -86,12 +89,15 @@ int Client::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
         case 2: send((*reinterpret_cast< Packet*(*)>(_a[1]))); break;
         case 3: send((*reinterpret_cast< Packet(*)>(_a[1]))); break;
         case 4: flush(); break;
-        case 5: readyRead(); break;
-        case 6: slot_disconnected(); break;
-        case 7: resetSecurity(); break;
+        case 5: { bool _r = blame();
+            if (_a[0]) *reinterpret_cast< bool*>(_a[0]) = _r; }  break;
+        case 6: readyRead(); break;
+        case 7: slot_disconnected(); break;
+        case 8: resetSecurity(); break;
+        case 9: resetBlames(); break;
         default: ;
         }
-        _id -= 8;
+        _id -= 10;
     }
     return _id;
 }

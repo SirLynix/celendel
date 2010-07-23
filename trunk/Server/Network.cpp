@@ -66,6 +66,15 @@ void ServerNetwork::ban(CLID ID, const QString& reason)
     c->socket->disconnectFromHost();
 }
 
+bool ServerNetwork::blame(CLID ID)
+{
+    Client *c = getClient(ID);
+    if(c==NULL)
+        return true;
+
+    return c->blame();
+}
+
 int ServerNetwork::unban(const QString& IP)
 {
     return m_banList.removeAll(IP);
@@ -150,7 +159,8 @@ void ServerNetwork::slot_dataReceived(Packet* packet)
         return;
     }
 
-    emit dataReceived(packet, cl->ID());
+    if(packet!=NULL)
+        emit dataReceived(packet, cl->ID());
 }
 
 bool ServerNetwork::sendToClient(CLID ID, qint32 type, const QByteArray& data, qint32 ts, qint32 pID)

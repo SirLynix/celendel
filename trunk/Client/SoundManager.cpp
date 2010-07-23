@@ -2,6 +2,7 @@
 #include <QDebug>
 #include <QFile>
 #include <QTextStream>
+#include <QCoreApplication>
 
 Sound::Sound(const QByteArray& d, const QString& n)
 {
@@ -435,6 +436,7 @@ bool SoundManager::buildCache(const QList<SoundLibInformations>& libList)
         else
             m_libs.append(sl);
 
+         QCoreApplication::processEvents(QEventLoop::AllEvents,50);
     }
     return er;
 }

@@ -1,11 +1,54 @@
 #include "VOIP.h"
 
 using namespace VOIPSystem;
-
+/*
 VOIP& getVOIP()
 {
     static VOIP voip;
     return voip;
+}*/
+
+VOIPThread& getVOIP()
+{
+    static VOIPThread voip;
+    return voip;
+}
+
+VOIPThread::VOIPThread(QObject* p): QThread(p)
+{
+    t=NULL;
+    m_voip=new VOIP();
+    start();
+    while(t==NULL) { mutex.lock(); msleep(1); mutex.unlock();}
+    mutex.lock();
+    m_voip->moveToThread(t);
+    t=NULL;
+    mutex.unlock();
+}
+
+void VOIPThread::run()
+{
+    mutex.lock();
+    t=this;
+    mutex.unlock();
+    while(t!=NULL) { mutex.lock(); msleep(1); mutex.unlock(); }
+
+    mutex.lock();
+    m_voip->setParent(this);
+
+    connect(m_voip, SIGNAL(dataPerSecond(int, int)), this, SLOT(dtaPS(int,int)),Qt::QueuedConnection);
+    mutex.unlock();
+
+    exec();
+}
+
+VOIPThread::~VOIPThread()
+{
+    quit();
+    mutex.lock();
+    delete m_voip;
+    m_voip=NULL;
+    mutex.unlock();
 }
 
 VOIP::VOIP(QObject* p) : QObject(p), speex(SAMPLE_RATE)
@@ -94,8 +137,7 @@ void VOIP::send(QByteArray b)
     {
         for(int i = 0; i < m_clients.size(); ++i)
         {
-           // qDebug() << "Send" << m_clients.at(i) << "\t" << b.size();
-            udpSocket->writeDatagram(b, b.size(), QHostAddress(m_clients.at(i)), PORT);
+            udpSocket->writeDatagram(b, b.size(), QHostAddress(m_clients.at(i)), VOIP_PORT);
             dataUp += b.size();
         }
     }
@@ -127,7 +169,7 @@ void VOIP::add(const QString& cl)
         remove(cl);
 
     m_clients.append(cl);
-    m_receivers.append(new SoundReceiver(QHostAddress(cl), PORT, SAMPLE_RATE));
+    m_receivers.append(new SoundReceiver(QHostAddress(cl), VOIP_PORT, SAMPLE_RATE));
     m_sounds.append(new Sound(SAMPLE_RATE));
     m_sounds.last()->volume(m_volume);
     connect(m_receivers.last(), SIGNAL(dataReceived(const ALshortVector&)), m_sounds.last(), SLOT(queue(const ALshortVector&)));

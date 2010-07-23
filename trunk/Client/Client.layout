@@ -2,7 +2,7 @@
 <CodeBlocks_layout_file>
 	<ActiveTarget name="Release" />
 	<File name="AboutWindow.cpp" open="0" top="0" tabpos="1">
-		<Cursor position="376" topLine="0" />
+		<Cursor position="272" topLine="0" />
 	</File>
 	<File name="AboutWindow.h" open="0" top="0" tabpos="2">
 		<Cursor position="72" topLine="0" />
@@ -14,28 +14,28 @@
 		<Cursor position="6791" topLine="125" />
 	</File>
 	<File name="ClientGMInterface.cpp" open="0" top="0" tabpos="0">
-		<Cursor position="611" topLine="0" />
+		<Cursor position="456" topLine="0" />
 	</File>
 	<File name="ClientInterface.cpp" open="0" top="0" tabpos="1">
-		<Cursor position="2360" topLine="18" />
+		<Cursor position="495" topLine="0" />
 	</File>
 	<File name="ClientInterface.h" open="0" top="0" tabpos="3">
-		<Cursor position="3062" topLine="104" />
+		<Cursor position="3417" topLine="92" />
 	</File>
 	<File name="ClientNetwork.cpp" open="0" top="0" tabpos="1">
-		<Cursor position="1459" topLine="38" />
+		<Cursor position="2631" topLine="95" />
 	</File>
 	<File name="ClientNetwork.h" open="0" top="0" tabpos="2">
 		<Cursor position="2067" topLine="38" />
 	</File>
 	<File name="ClientNetworkSwitch.cpp" open="0" top="0" tabpos="1">
-		<Cursor position="3742" topLine="110" />
+		<Cursor position="272" topLine="0" />
 	</File>
 	<File name="ClientSave.cpp" open="0" top="0" tabpos="0">
-		<Cursor position="3094" topLine="0" />
+		<Cursor position="67" topLine="0" />
 	</File>
 	<File name="ClientSettings.cpp" open="0" top="0" tabpos="1">
-		<Cursor position="7743" topLine="154" />
+		<Cursor position="4664" topLine="103" />
 	</File>
 	<File name="ClientSettings.h" open="0" top="0" tabpos="2">
 		<Cursor position="1669" topLine="33" />
@@ -43,11 +43,17 @@
 	<File name="GUI.cpp" open="0" top="0" tabpos="2">
 		<Cursor position="197" topLine="0" />
 	</File>
+	<File name="SoundLibThread.cpp" open="0" top="0" tabpos="0">
+		<Cursor position="245" topLine="0" />
+	</File>
+	<File name="SoundLibThread.h" open="0" top="0" tabpos="0">
+		<Cursor position="80" topLine="0" />
+	</File>
 	<File name="SoundManager.cpp" open="0" top="0" tabpos="4">
-		<Cursor position="9814" topLine="385" />
+		<Cursor position="115" topLine="0" />
 	</File>
 	<File name="SoundManager.h" open="0" top="0" tabpos="3">
-		<Cursor position="1647" topLine="57" />
+		<Cursor position="804" topLine="0" />
 	</File>
 	<File name="SoundsGUI.cpp" open="0" top="0" tabpos="0">
 		<Cursor position="2804" topLine="45" />
@@ -76,17 +82,17 @@
 	<File name="VOIP\SoundReceiver.h" open="0" top="0" tabpos="0">
 		<Cursor position="161" topLine="0" />
 	</File>
-	<File name="VOIP\Speex.cpp" open="1" top="0" tabpos="1">
-		<Cursor position="1326" topLine="30" />
+	<File name="VOIP\Speex.cpp" open="0" top="0" tabpos="1">
+		<Cursor position="111" topLine="0" />
 	</File>
-	<File name="VOIP\Speex.h" open="1" top="1" tabpos="2">
-		<Cursor position="157" topLine="0" />
+	<File name="VOIP\Speex.h" open="0" top="0" tabpos="2">
+		<Cursor position="300" topLine="0" />
 	</File>
-	<File name="VOIP\VOIP.cpp" open="0" top="0" tabpos="3">
-		<Cursor position="1810" topLine="67" />
+	<File name="VOIP\VOIP.cpp" open="0" top="0" tabpos="1">
+		<Cursor position="3324" topLine="138" />
 	</File>
-	<File name="VOIP\VOIP.h" open="0" top="0" tabpos="0">
-		<Cursor position="1241" topLine="16" />
+	<File name="VOIP\VOIP.h" open="0" top="0" tabpos="2">
+		<Cursor position="189" topLine="0" />
 	</File>
 	<File name="VOIP\openal.cpp" open="0" top="0" tabpos="0">
 		<Cursor position="170" topLine="0" />
@@ -107,13 +113,13 @@
 		<Cursor position="537" topLine="0" />
 	</File>
 	<File name="..\Shared\Packet.cpp" open="0" top="0" tabpos="0">
-		<Cursor position="1504" topLine="35" />
+		<Cursor position="1071" topLine="15" />
 	</File>
 	<File name="..\Shared\Packet.h" open="0" top="0" tabpos="0">
-		<Cursor position="58" topLine="0" />
+		<Cursor position="194" topLine="0" />
 	</File>
 	<File name="..\Shared\Serializer.cpp" open="0" top="0" tabpos="0">
-		<Cursor position="4566" topLine="234" />
+		<Cursor position="4398" topLine="550" />
 	</File>
 	<File name="..\Shared\Serializer.h" open="0" top="0" tabpos="0">
 		<Cursor position="2605" topLine="45" />

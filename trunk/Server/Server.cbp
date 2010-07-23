@@ -17,7 +17,7 @@
 				</Compiler>
 				<MakeCommands>
 					<Build command="$make -f $makefile $target" />
-					<CompileFile command="$make -f $makefile $file" />
+					<CompileFile command="$make -f $makefile $file -g" />
 					<Clean command="$make -f $makefile $target clean" />
 					<DistClean command="$make -f $makefile $target distclean" />
 				</MakeCommands>

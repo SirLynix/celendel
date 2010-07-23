@@ -1,2 +1,4 @@
-mingw32-make debug --jobs=4
-debug\Server.exe
+mingw32-make debug -j4
+cd debug
+gdb Server.exe
+cd ..

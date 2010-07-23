@@ -13,9 +13,43 @@ ClientInterface::ClientInterface()
     buildGUI();
 
 
-    QSettings* set=allocateSettings();
+    QSettings* set=NULL;
+    set=allocateSettings();
 
-    m_network=new ClientNetwork(set->value(PARAM_IP, SERVER_IP).toString(), set->value(PARAM_PORT, SERVER_PORT).toInt(), this);
+    QStringList args = QCoreApplication::arguments();
+
+    quint16 port=0; port=set->value(PARAM_PORT, SERVER_PORT).toInt();
+    QString IP(set->value(PARAM_IP, SERVER_IP).toString());
+
+    if(args.size()>1)
+    {
+        QStringList spl=args[1].split(':',QString::SkipEmptyParts);
+
+        QRegExp ex("\\b(?:\\d{1,3}\\.){3}\\d{1,3}\\b");
+        if(ex.exactMatch(spl[0]))
+        {
+            IP=spl[0];
+            if(spl.size()>1)
+            {
+                quint16 p=spl[1].toInt();
+                if(p<1024)
+                {
+                    qDebug() << "Error invalid port";
+                }
+                else
+                {
+                    port=p;
+                }
+            }
+        }
+        else
+        {
+            qDebug() << "Error invalid args";
+        }
+    }
+
+
+    m_network=new ClientNetwork(IP, port, this);
     connect(m_network, SIGNAL(chatReceived(CLID, QString, ENUM_TYPE)), this, SLOT(chat(CLID, QString, ENUM_TYPE )));
     connect(m_network, SIGNAL(serverInformationsChanged(ServerInformations)), this, SLOT(changeServerInformations(ServerInformations)));
     connect(m_network, SIGNAL(clientIDChanged(CLID)), this, SLOT(changeClientID(CLID)));
@@ -83,7 +117,6 @@ void ClientInterface::dataPerSecond(int d, int u)
     {
         m_upPerSec->setText(tr("Upload : %1 mio/s").arg((double)u/1024/1024,5,'g',2));
     }
-
 }
 
 void ClientInterface::setInterface(const QString& path)

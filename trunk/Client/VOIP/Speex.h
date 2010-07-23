@@ -15,7 +15,7 @@ class Speex : public QObject
 {
     Q_OBJECT
 public:
-    Speex(int sampleRate);
+    Speex(int sampleRate, QObject*p=NULL);
     ~Speex();
     int frameSize() const { return m_frameSize; }
     float quality() const { return m_quality; }
