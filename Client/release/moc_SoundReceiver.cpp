@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Meta object code from reading C++ file 'SoundReceiver.h'
 **
-** Created: Fri 23. Jul 12:00:25 2010
+** Created: Mon 2. Aug 16:27:15 2010
 **      by: The Qt Meta Object Compiler version 62 (Qt 4.6.2)
 **
 ** WARNING! All changes made in this file will be lost!
@@ -23,7 +23,7 @@ static const uint qt_meta_data_VOIPSystem__SoundReceiver[] = {
        4,       // revision
        0,       // classname
        0,    0, // classinfo
-       4,   14, // methods
+       5,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
@@ -34,18 +34,19 @@ static const uint qt_meta_data_VOIPSystem__SoundReceiver[] = {
       35,   27,   26,   26, 0x05,
 
  // slots: signature, parameters, type, tag, flags
-      63,   26,   26,   26, 0x08,
-      86,   27,   26,   26, 0x08,
-     109,   26,   26,   26, 0x08,
+      68,   63,   26,   26, 0x0a,
+      85,   26,   26,   26, 0x08,
+     108,   27,   26,   26, 0x08,
+     131,   26,   26,   26, 0x08,
 
        0        // eod
 };
 
 static const char qt_meta_stringdata_VOIPSystem__SoundReceiver[] = {
     "VOIPSystem::SoundReceiver\0\0samples\0"
-    "dataReceived(ALshortVector)\0"
-    "readPendingDatagrams()\0decoded(ALshortVector)\0"
-    "update()\0"
+    "dataReceived(ALshortVector)\0port\0"
+    "setPort(quint16)\0readPendingDatagrams()\0"
+    "decoded(ALshortVector)\0update()\0"
 };
 
 const QMetaObject VOIPSystem::SoundReceiver::staticMetaObject = {
@@ -78,12 +79,13 @@ int VOIPSystem::SoundReceiver::qt_metacall(QMetaObject::Call _c, int _id, void *
     if (_c == QMetaObject::InvokeMetaMethod) {
         switch (_id) {
         case 0: dataReceived((*reinterpret_cast< const ALshortVector(*)>(_a[1]))); break;
-        case 1: readPendingDatagrams(); break;
-        case 2: decoded((*reinterpret_cast< const ALshortVector(*)>(_a[1]))); break;
-        case 3: update(); break;
+        case 1: setPort((*reinterpret_cast< quint16(*)>(_a[1]))); break;
+        case 2: readPendingDatagrams(); break;
+        case 3: decoded((*reinterpret_cast< const ALshortVector(*)>(_a[1]))); break;
+        case 4: update(); break;
         default: ;
         }
-        _id -= 4;
+        _id -= 5;
     }
     return _id;
 }

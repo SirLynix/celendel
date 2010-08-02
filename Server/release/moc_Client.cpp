@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Meta object code from reading C++ file 'Client.h'
 **
-** Created: Fri 23. Jul 12:14:31 2010
+** Created: Sun 1. Aug 21:26:59 2010
 **      by: The Qt Meta Object Compiler version 62 (Qt 4.6.2)
 **
 ** WARNING! All changes made in this file will be lost!
@@ -32,27 +32,27 @@ static const uint qt_meta_data_Client[] = {
 
  // signals: signature, parameters, type, tag, flags
        8,    7,    7,    7, 0x05,
-      30,    7,    7,    7, 0x05,
+      44,    7,    7,    7, 0x05,
 
  // slots: signature, parameters, type, tag, flags
-      48,   45,    7,    7, 0x0a,
-      62,   45,    7,    7, 0x0a,
-      76,    7,    7,    7, 0x0a,
-      89,    7,   84,    7, 0x0a,
-      97,    7,    7,    7, 0x08,
-     109,    7,    7,    7, 0x08,
-     129,    7,    7,    7, 0x08,
-     145,    7,    7,    7, 0x08,
+      62,   59,    7,    7, 0x0a,
+      76,   59,    7,    7, 0x0a,
+      90,    7,    7,    7, 0x0a,
+      98,    7,    7,    7, 0x0a,
+     106,    7,    7,    7, 0x08,
+     118,    7,    7,    7, 0x08,
+     138,    7,    7,    7, 0x08,
+     166,  154,    7,    7, 0x08,
 
        0        // eod
 };
 
 static const char qt_meta_stringdata_Client[] = {
-    "Client\0\0dataReceived(Packet*)\0"
+    "Client\0\0dataReceived(std::auto_ptr<Packet>)\0"
     "disconnected()\0pa\0send(Packet*)\0"
-    "send(Packet&)\0flush()\0bool\0blame()\0"
-    "readyRead()\0slot_disconnected()\0"
-    "resetSecurity()\0resetBlames()\0"
+    "send(Packet&)\0flush()\0blame()\0readyRead()\0"
+    "slot_disconnected()\0resetSecurity()\0"
+    "socketError\0error(QAbstractSocket::SocketError)\0"
 };
 
 const QMetaObject Client::staticMetaObject = {
@@ -84,17 +84,16 @@ int Client::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
         switch (_id) {
-        case 0: dataReceived((*reinterpret_cast< Packet*(*)>(_a[1]))); break;
+        case 0: dataReceived((*reinterpret_cast< std::auto_ptr<Packet>(*)>(_a[1]))); break;
         case 1: disconnected(); break;
         case 2: send((*reinterpret_cast< Packet*(*)>(_a[1]))); break;
         case 3: send((*reinterpret_cast< Packet(*)>(_a[1]))); break;
         case 4: flush(); break;
-        case 5: { bool _r = blame();
-            if (_a[0]) *reinterpret_cast< bool*>(_a[0]) = _r; }  break;
+        case 5: blame(); break;
         case 6: readyRead(); break;
         case 7: slot_disconnected(); break;
         case 8: resetSecurity(); break;
-        case 9: resetBlames(); break;
+        case 9: error((*reinterpret_cast< QAbstractSocket::SocketError(*)>(_a[1]))); break;
         default: ;
         }
         _id -= 10;
@@ -103,7 +102,7 @@ int Client::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
 }
 
 // SIGNAL 0
-void Client::dataReceived(Packet * _t1)
+void Client::dataReceived(std::auto_ptr<Packet> _t1)
 {
     void *_a[] = { 0, const_cast<void*>(reinterpret_cast<const void*>(&_t1)) };
     QMetaObject::activate(this, &staticMetaObject, 0, _a);

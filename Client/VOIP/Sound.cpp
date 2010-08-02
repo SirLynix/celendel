@@ -5,7 +5,7 @@
 namespace VOIPSystem
 {
 
-Sound::Sound( ALsizei sampleRate)
+Sound::Sound(ALsizei sampleRate)
         : m_sampleRate(sampleRate)
         , m_volume(1.0f)
         , m_paused(false)
@@ -16,8 +16,10 @@ Sound::Sound( ALsizei sampleRate)
 {
     m_timer->setInterval(20);
     alGenSources(1, &m_source);
-    volume(m_volume);
-    allocateBuffers(100); //100 frames de 20ms dans notre cas, soit 2 secs.
+    setVolume(m_volume);
+    allocateBuffers(100); //100 frames of 20ms each in this case, (2 secs).
+
+    m_muted=false;
 
     connect(m_timer, SIGNAL(timeout()), this, SLOT(testPlaying()));
 }
@@ -45,19 +47,22 @@ void Sound::pause()
     m_paused = true;
 }
 
-void Sound::volume(const ALfloat& v)
+void Sound::setVolume(const ALfloat& v)
 {
     m_volume = v;
-    alSourcef(m_source, AL_GAIN, v);
+    if(!m_muted)
+        alSourcef(m_source, AL_GAIN, v);
 }
 
 void Sound::mute()
 {
+    m_muted=true;
     alSourcef(m_source, AL_GAIN, 0.0f);
 }
 
 void Sound::unmute()
 {
+    m_muted=false;
     alSourcef(m_source, AL_GAIN, m_volume);
 }
 

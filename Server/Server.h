@@ -43,7 +43,7 @@ class Server : public QObject
 
     private slots:
         void cleanUp();
-        void processData(Packet*, CLID);
+        void processData(/*Packet**/std::auto_ptr<Packet>, CLID);
 
     private:
         ServerNetwork *m_network;

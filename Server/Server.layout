@@ -2,40 +2,40 @@
 <CodeBlocks_layout_file>
 	<ActiveTarget name="Release" />
 	<File name="Client.cpp" open="0" top="0" tabpos="0">
-		<Cursor position="2164" topLine="76" />
+		<Cursor position="2749" topLine="90" />
 	</File>
 	<File name="Client.h" open="0" top="0" tabpos="0">
-		<Cursor position="820" topLine="9" />
+		<Cursor position="304" topLine="9" />
 	</File>
 	<File name="Network.cpp" open="0" top="0" tabpos="1">
-		<Cursor position="4349" topLine="189" />
+		<Cursor position="2266" topLine="29" />
 	</File>
 	<File name="Network.h" open="0" top="0" tabpos="2">
-		<Cursor position="461" topLine="0" />
+		<Cursor position="472" topLine="9" />
 	</File>
 	<File name="Player.cpp" open="0" top="0" tabpos="0">
-		<Cursor position="197" topLine="0" />
+		<Cursor position="40" topLine="0" />
 	</File>
 	<File name="Player.h" open="0" top="0" tabpos="0">
-		<Cursor position="487" topLine="0" />
+		<Cursor position="228" topLine="0" />
 	</File>
-	<File name="Server.cpp" open="0" top="0" tabpos="3">
-		<Cursor position="2635" topLine="84" />
+	<File name="Server.cpp" open="0" top="0" tabpos="1">
+		<Cursor position="2489" topLine="50" />
 	</File>
 	<File name="Server.h" open="0" top="0" tabpos="0">
-		<Cursor position="1264" topLine="19" />
+		<Cursor position="907" topLine="10" />
 	</File>
 	<File name="Server.pro" open="0" top="0" tabpos="0">
 		<Cursor position="97" topLine="0" />
 	</File>
 	<File name="ServerSwitch.cpp" open="0" top="0" tabpos="1">
-		<Cursor position="11743" topLine="293" />
+		<Cursor position="685" topLine="6" />
 	</File>
 	<File name="main.cpp" open="0" top="0" tabpos="1">
 		<Cursor position="118" topLine="0" />
 	</File>
-	<File name="..\Shared\Constants.h" open="0" top="0" tabpos="1">
-		<Cursor position="630" topLine="0" />
+	<File name="..\Shared\Constants.h" open="1" top="0" tabpos="1">
+		<Cursor position="3297" topLine="114" />
 	</File>
 	<File name="..\Shared\MapStructs.h" open="0" top="0" tabpos="1">
 		<Cursor position="50" topLine="0" />
@@ -46,7 +46,7 @@
 	<File name="..\Shared\Packet.h" open="0" top="0" tabpos="0">
 		<Cursor position="82" topLine="0" />
 	</File>
-	<File name="..\Shared\Serializer.cpp" open="0" top="0" tabpos="0">
+	<File name="..\Shared\Serializer.cpp" open="1" top="0" tabpos="0">
 		<Cursor position="10866" topLine="574" />
 	</File>
 	<File name="..\Shared\Serializer.h" open="0" top="0" tabpos="0">

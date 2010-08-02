@@ -9,7 +9,13 @@ CLID ClientInterface::CLIDFromString(const QString& str) //Zero on error
     if(ok)
         return ID;
 
-    return m_nickMap.key(str, 0);
+    QMap<CLID, PlayerInformations>::const_iterator i = m_playersMap.constBegin();
+    while (i != m_playersMap.constEnd())
+    {
+        if(i.value().name==str) return i.key();
+        ++i;
+    }
+    return 0;
 }
 
 void ClientInterface::sendMessage()

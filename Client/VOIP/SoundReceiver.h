@@ -16,6 +16,9 @@ class SoundReceiver : public QObject
         SoundReceiver(const QHostAddress& hostAddress, const quint16& port, int sampleRate);
         int dataPerSecond();
 
+    public slots:
+        void setPort(quint16 port);
+
     private slots:
         void readPendingDatagrams();
         void decoded(const ALshortVector& samples);
@@ -29,6 +32,7 @@ class SoundReceiver : public QObject
         int dta;
         int DPS;
         QUdpSocket *udpSocket;
+        QHostAddress m_IP;
 };
 }
 

@@ -25,7 +25,9 @@ public slots:
     void play();
     void pause();
     void queue(const ALshortVector & samples);
-    void volume(const ALfloat& v);
+    void setVolume(const ALfloat& v);
+    ALfloat volume() const { return m_volume; }
+    bool muted() const { return m_muted; }
     void mute();
     void unmute();
 
@@ -45,6 +47,7 @@ private:
     QQueue<ALuint> m_freeBuffers;
     QTimer *m_timer;
     bool m_freeze;
+    bool m_muted;
 
     int getQueuedBuffers();
 

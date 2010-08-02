@@ -104,9 +104,9 @@ void ClientNetwork::operatePacket(Packet* packet)
         }
         case CLIENT_JOINED:
         {
-            CLID cID;
-            QE(extractClientJoinedData(packet->data, cID));
-            emit clientJoined(cID);
+            CLID cID; QString IP;
+            QE(extractClientJoinedData(packet->data, cID, IP));
+            emit clientJoined(cID, IP);
         }
         break;
         case CLIENT_LEFT:

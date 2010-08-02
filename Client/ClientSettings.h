@@ -1,10 +1,9 @@
 #ifndef CLIENTSETTINGS_H
 #define CLIENTSETTINGS_H
 
-#include <QDialog>
-#include <QSettings>
-#include <QtGui>
 #include "..\Shared\Constants.h"
+#include <QtGUI>
+
 class ClientInterface;
 
 QSettings* allocateSettings(QObject* parent=0);

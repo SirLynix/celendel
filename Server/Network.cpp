@@ -72,7 +72,8 @@ bool ServerNetwork::blame(CLID ID)
     if(c==NULL)
         return true;
 
-    return c->blame();
+    c->blame();
+    return false;
 }
 
 int ServerNetwork::unban(const QString& IP)
@@ -108,7 +109,8 @@ void ServerNetwork::newConnection()
         return;
     }
 
-    connect(newCl, SIGNAL(dataReceived(Packet*)), this, SLOT(slot_dataReceived(Packet*)));
+    //connect(newCl, SIGNAL(dataReceived(Packet*)), this, SLOT(slot_dataReceived(Packet*)));
+    connect(newCl, SIGNAL(dataReceived(std::auto_ptr<Packet>)), this, SLOT(slot_dataReceived(std::auto_ptr<Packet>)));
     connect(newCl, SIGNAL(disconnected()), this, SLOT(clientDisconnected()));
 
     for(int i=0; i<m_clients.size(); ++i)
@@ -150,16 +152,16 @@ Client* ServerNetwork::getClient(CLID cID)
     return NULL;
 }
 
-void ServerNetwork::slot_dataReceived(Packet* packet)
+void ServerNetwork::slot_dataReceived(/*Packet* packet*/std::auto_ptr<Packet> packet)
 {
     Client *cl = qobject_cast<Client*>(sender());
     if (cl==NULL) //Wait, what ?
     {
-        delete packet; //We'll say the packet is lost because of network lag... None shall know what happened.
+       // delete packet; //We'll say the packet is lost because of network lag... None shall know what happened.
         return;
     }
 
-    if(packet!=NULL)
+ //   if(packet!=NULL)
         emit dataReceived(packet, cl->ID());
 }
 

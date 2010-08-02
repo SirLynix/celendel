@@ -13,6 +13,10 @@
 #include <QStringList>
 #include <QByteArray>
 
+#include <QDataStream>
+QDataStream &operator<<(QDataStream & ds, const PlayerInformations& p);
+QDataStream &operator>>(QDataStream & q, PlayerInformations& p);
+
 bool extractChatData(QByteArray& data, ENUM_TYPE& canal, QString& text, CLID& sender);
 QByteArray serialiseChatData(ENUM_TYPE canal, const QString& text, CLID sender);
 
@@ -67,8 +71,8 @@ QByteArray serialisePlaySoundData(const QString& lib, const QString& sound);
 bool extractServerNameData(QByteArray& data, QString& name);
 QByteArray serialiseServerNameData(const QString& name);
 
-bool extractClientJoinedData(QByteArray& data, CLID& ID);
-QByteArray serialiseClientJoinedData(const CLID& ID);
+bool extractClientJoinedData(QByteArray& data, CLID& ID, QString& IP);
+QByteArray serialiseClientJoinedData(const CLID& ID, const QString& IP);
 
 bool extractClientLeftData(QByteArray& data, CLID& ID);
 QByteArray serialiseClientLeftData(const CLID& ID);

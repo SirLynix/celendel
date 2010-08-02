@@ -6,6 +6,12 @@
 		<Option makefile_is_custom="1" />
 		<Option pch_mode="2" />
 		<Option compiler="gcc" />
+		<MakeCommands>
+			<Build command="$make -f $makefile $target -j4" />
+			<CompileFile command="$make -f $makefile $file" />
+			<Clean command="$make -f $makefile $target clean" />
+			<DistClean command="$make -f $makefile $target distclean" />
+		</MakeCommands>
 		<Build>
 			<Target title="Debug">
 				<Option output="debug\Client" prefix_auto="1" extension_auto="1" />
@@ -17,7 +23,7 @@
 					<Add option="-g" />
 				</Compiler>
 				<MakeCommands>
-					<Build command="$make -f $makefile $target" />
+					<Build command="$make -f $makefile $target -j4" />
 					<CompileFile command="$make -f $makefile $file" />
 					<Clean command="$make -f $makefile $target clean" />
 					<DistClean command="$make -f $makefile $target distclean" />
@@ -30,7 +36,7 @@
 				<Option type="1" />
 				<Option compiler="gcc" />
 				<Option use_console_runner="0" />
-				<Option parameters="192.168.1.5" />
+				<Option parameters="127.0.0.1" />
 				<Compiler>
 					<Add option="-O2" />
 				</Compiler>
@@ -39,7 +45,7 @@
 					<Add directory="SFML-1.6\lib" />
 				</Linker>
 				<MakeCommands>
-					<Build command="$make -f $makefile $target" />
+					<Build command="$make -f $makefile $target -j4" />
 					<CompileFile command="$make -f $makefile $file" />
 					<Clean command="$make -f $makefile $target clean" />
 					<DistClean command="$make -f $makefile $target distclean" />
@@ -81,8 +87,6 @@
 		<Unit filename="VOIP\Speex.h" />
 		<Unit filename="VOIP\VOIP.cpp" />
 		<Unit filename="VOIP\VOIP.h" />
-		<Unit filename="VOIP\openal.cpp" />
-		<Unit filename="VOIP\openal.h" />
 		<Unit filename="main.cpp" />
 		<Unit filename="..\Shared\Constants.h" />
 		<Unit filename="..\Shared\MapStructs.h" />

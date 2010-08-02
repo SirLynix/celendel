@@ -2,52 +2,52 @@
 <CodeBlocks_layout_file>
 	<ActiveTarget name="Release" />
 	<File name="AboutWindow.cpp" open="0" top="0" tabpos="1">
-		<Cursor position="272" topLine="0" />
+		<Cursor position="459" topLine="0" />
 	</File>
 	<File name="AboutWindow.h" open="0" top="0" tabpos="2">
-		<Cursor position="72" topLine="0" />
+		<Cursor position="68" topLine="0" />
 	</File>
-	<File name="Client.pro" open="0" top="0" tabpos="0">
-		<Cursor position="1116" topLine="0" />
+	<File name="Client.pro" open="1" top="1" tabpos="1">
+		<Cursor position="18" topLine="0" />
 	</File>
 	<File name="ClientChatCommands.cpp" open="0" top="0" tabpos="1">
-		<Cursor position="6791" topLine="125" />
+		<Cursor position="413" topLine="0" />
 	</File>
 	<File name="ClientGMInterface.cpp" open="0" top="0" tabpos="0">
 		<Cursor position="456" topLine="0" />
 	</File>
 	<File name="ClientInterface.cpp" open="0" top="0" tabpos="1">
-		<Cursor position="495" topLine="0" />
+		<Cursor position="12328" topLine="390" />
 	</File>
 	<File name="ClientInterface.h" open="0" top="0" tabpos="3">
-		<Cursor position="3417" topLine="92" />
+		<Cursor position="82" topLine="0" />
 	</File>
 	<File name="ClientNetwork.cpp" open="0" top="0" tabpos="1">
-		<Cursor position="2631" topLine="95" />
+		<Cursor position="2991" topLine="132" />
 	</File>
 	<File name="ClientNetwork.h" open="0" top="0" tabpos="2">
-		<Cursor position="2067" topLine="38" />
+		<Cursor position="202" topLine="0" />
 	</File>
 	<File name="ClientNetworkSwitch.cpp" open="0" top="0" tabpos="1">
-		<Cursor position="272" topLine="0" />
+		<Cursor position="2909" topLine="78" />
 	</File>
 	<File name="ClientSave.cpp" open="0" top="0" tabpos="0">
-		<Cursor position="67" topLine="0" />
+		<Cursor position="3297" topLine="71" />
 	</File>
 	<File name="ClientSettings.cpp" open="0" top="0" tabpos="1">
 		<Cursor position="4664" topLine="103" />
 	</File>
 	<File name="ClientSettings.h" open="0" top="0" tabpos="2">
-		<Cursor position="1669" topLine="33" />
+		<Cursor position="104" topLine="0" />
 	</File>
 	<File name="GUI.cpp" open="0" top="0" tabpos="2">
-		<Cursor position="197" topLine="0" />
+		<Cursor position="5138" topLine="39" />
 	</File>
 	<File name="SoundLibThread.cpp" open="0" top="0" tabpos="0">
 		<Cursor position="245" topLine="0" />
 	</File>
 	<File name="SoundLibThread.h" open="0" top="0" tabpos="0">
-		<Cursor position="80" topLine="0" />
+		<Cursor position="100" topLine="0" />
 	</File>
 	<File name="SoundManager.cpp" open="0" top="0" tabpos="4">
 		<Cursor position="115" topLine="0" />
@@ -59,28 +59,28 @@
 		<Cursor position="2804" topLine="45" />
 	</File>
 	<File name="SoundsGUI.h" open="0" top="0" tabpos="0">
-		<Cursor position="184" topLine="0" />
+		<Cursor position="46" topLine="0" />
 	</File>
 	<File name="VOIP\Global.h" open="0" top="0" tabpos="0">
-		<Cursor position="198" topLine="0" />
+		<Cursor position="164" topLine="0" />
 	</File>
 	<File name="VOIP\Recorder.cpp" open="0" top="0" tabpos="0">
-		<Cursor position="1383" topLine="1" />
+		<Cursor position="1426" topLine="32" />
 	</File>
 	<File name="VOIP\Recorder.h" open="0" top="0" tabpos="0">
 		<Cursor position="127" topLine="0" />
 	</File>
 	<File name="VOIP\Sound.cpp" open="0" top="0" tabpos="0">
-		<Cursor position="182" topLine="0" />
+		<Cursor position="400" topLine="0" />
 	</File>
 	<File name="VOIP\Sound.h" open="0" top="0" tabpos="0">
-		<Cursor position="407" topLine="6" />
+		<Cursor position="406" topLine="3" />
 	</File>
 	<File name="VOIP\SoundReceiver.cpp" open="0" top="0" tabpos="0">
-		<Cursor position="50" topLine="0" />
+		<Cursor position="104" topLine="0" />
 	</File>
 	<File name="VOIP\SoundReceiver.h" open="0" top="0" tabpos="0">
-		<Cursor position="161" topLine="0" />
+		<Cursor position="744" topLine="0" />
 	</File>
 	<File name="VOIP\Speex.cpp" open="0" top="0" tabpos="1">
 		<Cursor position="111" topLine="0" />
@@ -89,22 +89,16 @@
 		<Cursor position="300" topLine="0" />
 	</File>
 	<File name="VOIP\VOIP.cpp" open="0" top="0" tabpos="1">
-		<Cursor position="3324" topLine="138" />
+		<Cursor position="1278" topLine="0" />
 	</File>
 	<File name="VOIP\VOIP.h" open="0" top="0" tabpos="2">
-		<Cursor position="189" topLine="0" />
-	</File>
-	<File name="VOIP\openal.cpp" open="0" top="0" tabpos="0">
-		<Cursor position="170" topLine="0" />
-	</File>
-	<File name="VOIP\openal.h" open="0" top="0" tabpos="0">
-		<Cursor position="147" topLine="0" />
+		<Cursor position="2166" topLine="0" />
 	</File>
 	<File name="main.cpp" open="0" top="0" tabpos="1">
 		<Cursor position="139" topLine="0" />
 	</File>
 	<File name="..\Shared\Constants.h" open="0" top="0" tabpos="0">
-		<Cursor position="1479" topLine="46" />
+		<Cursor position="2308" topLine="43" />
 	</File>
 	<File name="..\Shared\MapStructs.h" open="0" top="0" tabpos="0">
 		<Cursor position="573" topLine="0" />
@@ -119,9 +113,9 @@
 		<Cursor position="194" topLine="0" />
 	</File>
 	<File name="..\Shared\Serializer.cpp" open="0" top="0" tabpos="0">
-		<Cursor position="4398" topLine="550" />
+		<Cursor position="9407" topLine="522" />
 	</File>
 	<File name="..\Shared\Serializer.h" open="0" top="0" tabpos="0">
-		<Cursor position="2605" topLine="45" />
+		<Cursor position="2963" topLine="36" />
 	</File>
 </CodeBlocks_layout_file>

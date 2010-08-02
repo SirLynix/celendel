@@ -12,6 +12,7 @@ ClientInterface::ClientInterface()
 {
     buildGUI();
 
+    //qRegisterMetaType<PlayerInformations>();
 
     QSettings* set=NULL;
     set=allocateSettings();
@@ -65,7 +66,7 @@ ClientInterface::ClientInterface()
     connect(m_network, SIGNAL(serverName(QString)), this, SLOT(serverName(QString)));
     connect(m_network, SIGNAL(motdChanged(QString)), this, SLOT(motdChanged(QString)));
     connect(m_network, SIGNAL(clientLeft(CLID)), this, SLOT(clientLeft(CLID)));
-    connect(m_network, SIGNAL(clientJoined(CLID)), this, SLOT(clientJoined(CLID)));
+    connect(m_network, SIGNAL(clientJoined(CLID, QString)), this, SLOT(clientJoined(CLID, QString)));
     connect(m_network, SIGNAL(narrationChanged(QString)), this, SLOT(narrationChanged(QString)));
     connect(m_network, SIGNAL(playSound(QString, QString)), this, SLOT(playSound(QString, QString)));
     connect(m_network, SIGNAL(syncLibs(QList<SoundLibInformations>)), this, SLOT(syncSoundLibs(QList<SoundLibInformations>)));
@@ -86,8 +87,6 @@ ClientInterface::ClientInterface()
     buildGMStuff();
 
     delete set;
-
-    getVOIP().add("127.0.0.1"); ///DEBUG : loopback
 }
 
 void ClientInterface::dataPerSecond(int d, int u)
@@ -134,12 +133,19 @@ void ClientInterface::playerListMenu(const QPoint& pos)
     if(!mod.isValid())
         return;
     CLID cID=mod.data(DTA_CLID).toInt();
+
+    if(!m_playersMap.contains(cID))
+        return;
+
     QList<QAction*> list;
 
     m_kick->setData(cID);
     m_ban->setData(cID);
     m_voteGM->setData(cID);
     m_changeGM->setData(cID);
+    m_VOIPDisconnect->setData(cID);
+    m_VOIPConnect->setData(cID);
+    m_VOIPVolume->setData(cID);
 
     if(isGM()&&cID!=m_ID)
         list << m_kick << m_ban << m_changeGM;
@@ -147,8 +153,58 @@ void ClientInterface::playerListMenu(const QPoint& pos)
     if(m_GMID==0&&!m_voted) //No GM
         list << m_voteGM;
 
+    if(getVOIP().isEnabled())
+    {
+        if(!list.isEmpty())
+        {
+            list << m_separator;
+        }
+        if(getVOIP().contains(m_playersMap.value(cID).ip))
+        {
+            list << m_VOIPDisconnect;
+        }
+        else
+            list << m_VOIPConnect;
+        list << m_VOIPVolume;
+    }
+
     if(!list.isEmpty())
         QMenu::exec(list, m_v_pl->mapToGlobal(pos));
+}
+
+void ClientInterface::VOIPRemoveClient()
+{
+    CLID cID=m_VOIPDisconnect->data().toInt();
+    if(cID==0)
+        return;
+    getVOIP().remove(m_playersMap.value(cID).ip);
+    updatePlayerList();
+}
+
+void ClientInterface::VOIPAddClient()
+{
+    CLID cID=m_VOIPConnect->data().toInt();
+    if(cID==0)
+        return;
+    getVOIP().add(m_playersMap.value(cID).ip);
+    updatePlayerList();
+}
+
+void ClientInterface::VOIPClientVolume()
+{
+    CLID cID=m_VOIPConnect->data().toInt();
+    if(cID==0)
+        return;
+
+    bool ok=false;
+
+    double v=QInputDialog::getDouble(this,tr("Volume"),tr("Entrez le volume de réception :"),getVOIP().volume(m_playersMap.value(cID).ip),0,100,2,&ok);
+
+    if(ok)
+    {
+        getVOIP().setVolume(v, m_playersMap.value(cID).ip);
+        updatePlayerList();
+    }
 }
 
 void ClientInterface::aboutUs()
@@ -282,13 +338,17 @@ void ClientInterface::switchConnectionState()
 void ClientInterface::openSettings()
 {
     ClientSettings cs(this);
-    cs.exec();
-    QSettings* set=allocateSettings();
+    if(cs.exec()==QDialog::Accepted)
+    {
+        QSettings* set=allocateSettings();
 
-    m_network->setServer(set->value(PARAM_IP).toString(), set->value(PARAM_PORT).toInt());
-    m_network->send(ETI(SET_NICK), serialiseSetNickData(set->value(PARAM_NICK).toString()));
+        m_network->setServer(set->value(PARAM_IP).toString(), set->value(PARAM_PORT).toInt());
+        m_network->send(ETI(SET_NICK), serialiseSetNickData(set->value(PARAM_NICK).toString()));
 
-    delete set;
+        delete set;
+
+        updatePlayerList();
+    }
 }
 
 void ClientInterface::openSoundsGUI()
@@ -319,7 +379,7 @@ void ClientInterface::connectionEtablished()
     lg(tr("Vous êtes maintenant <strong>connecté</strong> à un serveur (%1:%2) !").arg(m_network->serverIP()).arg(m_network->serverPort()), true, true);
     m_network->send(ETI(SET_NICK), serialiseSetNickData(set->value(PARAM_NICK).toString()));
     m_ac_joinOrLeave->setText(tr("&Se déconnecter du serveur"));
-    updateGMLabel();
+    resetData();
 
     delete set;
 }
@@ -334,6 +394,7 @@ void ClientInterface::connectionLost()
 void ClientInterface::resetData()
 {
     setTitle();
+    getVOIP().removeAll();
     m_gameStarted=false;
     m_voted=false;
     m_ID=0;
@@ -342,25 +403,27 @@ void ClientInterface::resetData()
     m_motd.clear();
     m_TOD.clear();
     m_serverName.clear();
-    m_nickMap.clear();
+    m_playersMap.clear();
     updatePlayerList();
     updateGMLabel();
 }
 
-void ClientInterface::clientJoined(CLID cID)
+void ClientInterface::clientJoined(CLID cID, QString IP)
 {
     if(cID==m_ID)
         return;
 
     lg(tr("Un joueur s'est connecté (ID %1).").arg(cID));
-    m_nickMap.insert(cID, "");
+    m_playersMap.insert(cID, PlayerInformations("", IP));
+    getVOIP().add(IP);
     updatePlayerList();
 }
 
 void ClientInterface::clientLeft(CLID cID)
 {
     lg(tr("%1 s'est déconnecté.").arg(anonym(cID)));
-    m_nickMap.remove(cID);
+    getVOIP().remove(m_playersMap[cID].ip);
+    m_playersMap.remove(cID);
     updatePlayerList();
 }
 
@@ -377,7 +440,7 @@ void ClientInterface::rollDice()
 void ClientInterface::changeClientNickname(CLID ID, QString nick)
 {
     QString old(anonym(ID));
-    m_nickMap[ID]=nick;
+    m_playersMap[ID].name=nick;
     lg(tr("%1 s'appelle maintenant %2.").arg(old).arg(nick));
     updatePlayerList();
 }
@@ -392,7 +455,7 @@ void ClientInterface::serverName(QString n)
 void ClientInterface::motdChanged(QString n)
 {
     m_motd=n;
-    lg(tr("Le Mot du Jour du serveur a été changé."));
+    lg(tr("Le Message du Jour du serveur a été changé."));
 }
 
 void ClientInterface::setCSS(const QString& fileName)
@@ -420,8 +483,8 @@ void ClientInterface::updatePlayerList()
     if(!m_network->isConnected())
         return;
 
-    QMap<CLID, QString>::const_iterator i = m_nickMap.constBegin();
-    while (i != m_nickMap.constEnd())
+    QMap<CLID, PlayerInformations>::const_iterator i = m_playersMap.constBegin();
+    while (i != m_playersMap.constEnd())
     {
         QStandardItem *item = new QStandardItem(anonym2(i.key()));
         item->setData(i.key(), DTA_CLID);
@@ -454,6 +517,42 @@ void ClientInterface::updatePlayerList()
             u->setData(i.key(), DTA_CLID);
             it->appendRow(u);
         }
+
+        {
+            QStandardItem *it = new QStandardItem(tr("Addresse IP :"));
+            it->setData(i.key(), DTA_CLID);
+            item->appendRow(it);
+            QStandardItem* u=new QStandardItem(i.value().ip);
+            u->setData(i.key(), DTA_CLID);
+            it->appendRow(u);
+        }
+        if(getVOIP().isEnabled())
+        {
+            QStandardItem *it = new QStandardItem(tr("VOIP :"));
+            it->setData(i.key(), DTA_CLID);
+            item->appendRow(it);
+            bool b=getVOIP().contains(i.value().ip);
+            {
+                QString txt;
+                if(b)
+                {
+                    txt=tr("Connecté");
+                }
+                else
+                    txt=tr("Non connecté");
+
+                QStandardItem* u=new QStandardItem(txt);
+                u->setData(i.key(), DTA_CLID);
+                it->appendRow(u);
+            }
+            if(b)
+            {
+                QStandardItem* u=new QStandardItem(tr("Volume : %1%").arg(getVOIP().volume(i.value().ip)));
+                u->setData(i.key(), DTA_CLID);
+                it->appendRow(u);
+            }
+        }
+
 
         ++i;
     }
@@ -529,7 +628,7 @@ void ClientInterface::clientVoted(CLID f, CLID t)
     }
     else
         lg(tr("%1 a voté pour %2 pour le poste de <strong>Maître de Jeu</strong>.").arg(anonym(f)).arg(anonym(t)), true, true);
-    if(m_nickMap.value(t)=="Lynix")
+    if(m_playersMap.value(t).name=="Lynix")
         lg(tr("Evidement, comme c'est un vote pour Lynix, il ne comptera <strong>pas</strong>. Faut pas rêver !"), false, true);
 }
 
@@ -564,17 +663,19 @@ void ClientInterface::changeServerInformations(ServerInformations si)
         setTitle();
     }
 
-    int nms=si.playersName.size();
+    int nms=si.players.size();
 
-    m_nickMap.clear();
-    QMap<CLID, QString>::const_iterator i = si.playersName.constBegin(); //Manual copy - operator=() seems to be broken for empty values like QString("")... I realy don't know why (Gigotdarnaud, 2 July 2010)
-    while (i != si.playersName.constEnd())
+    m_playersMap.clear();
+    QMap<CLID, PlayerInformations>::const_iterator i = si.players.constBegin(); //Manual copy - operator=() seems to be broken for empty values like QString("")... I realy don't know why (Gigotdarnaud, 2 July 2010)
+    while (i != si.players.constEnd())
     {
-        m_nickMap.insert(i.key(),i.value());
+        m_playersMap.insert(i.key(),i.value());
+        if(!getVOIP().contains(i.value().ip))
+        {
+            getVOIP().add(i.value().ip);
+        }
         ++i;
     }
-
-
 
     if(nms==1)
     {
@@ -625,7 +726,7 @@ void ClientInterface::changeServerInformations(ServerInformations si)
 
 QString ClientInterface::anonym2(CLID ID)
 {
-    QString nick=m_nickMap.value(ID);
+    QString nick=m_playersMap.value(ID).name;
 
     if(nick.isEmpty())
         return tr("Client anonyme %1").arg(ID);
@@ -635,7 +736,7 @@ QString ClientInterface::anonym2(CLID ID)
 
 QString ClientInterface::anonym(CLID ID)
 {
-    QString nick=m_nickMap.value(ID);
+    QString nick=m_playersMap.value(ID).name;
 
     if(nick.isEmpty())
         return tr("Le client anonyme [%1]").arg(ID);
@@ -649,7 +750,7 @@ QString ClientInterface::anonym(CLID ID)
 QString ClientInterface::getRolePlayName(CLID ID)
 {
     ///DEBUG
-    return m_nickMap.value(ID);
+    return m_playersMap.value(ID).name;
 }
 
 void ClientInterface::chat(CLID sender, QString txt, ENUM_TYPE canal)

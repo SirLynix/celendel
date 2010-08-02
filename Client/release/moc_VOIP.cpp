@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Meta object code from reading C++ file 'VOIP.h'
 **
-** Created: Fri 23. Jul 14:49:54 2010
+** Created: Mon 2. Aug 16:27:17 2010
 **      by: The Qt Meta Object Compiler version 62 (Qt 4.6.2)
 **
 ** WARNING! All changes made in this file will be lost!
@@ -23,7 +23,7 @@ static const uint qt_meta_data_VOIP[] = {
        4,       // revision
        0,       // classname
        0,    0, // classinfo
-       6,   14, // methods
+       9,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
@@ -35,18 +35,24 @@ static const uint qt_meta_data_VOIP[] = {
 
  // slots: signature, parameters, type, tag, flags
       33,   31,    5,    5, 0x0a,
-      58,   51,    5,    5, 0x0a,
-      75,    5,    5,    5, 0x0a,
-      92,    5,    5,    5, 0x08,
-     103,  101,    5,    5, 0x08,
+      61,   51,    5,    5, 0x0a,
+      93,   86,    5,    5, 0x2a,
+     110,    5,    5,    5, 0x0a,
+     135,  127,    5,    5, 0x0a,
+     165,  160,    5,    5, 0x2a,
+     182,    5,    5,    5, 0x08,
+     193,  191,    5,    5, 0x08,
 
        0        // eod
 };
 
 static const char qt_meta_stringdata_VOIP[] = {
     "VOIP\0\0,\0dataPerSecond(int,int)\0q\0"
-    "setQuality(float)\0volume\0setVolume(float)\0"
-    "setEnabled(bool)\0update()\0b\0"
+    "setQuality(float)\0volume,ip\0"
+    "setVolume(float,QString)\0volume\0"
+    "setVolume(float)\0setEnabled(bool)\0"
+    "port,ip\0setPort(quint16,QString)\0port\0"
+    "setPort(quint16)\0update()\0b\0"
     "send(QByteArray)\0"
 };
 
@@ -81,13 +87,16 @@ int VOIP::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
         switch (_id) {
         case 0: dataPerSecond((*reinterpret_cast< int(*)>(_a[1])),(*reinterpret_cast< int(*)>(_a[2]))); break;
         case 1: setQuality((*reinterpret_cast< float(*)>(_a[1]))); break;
-        case 2: setVolume((*reinterpret_cast< float(*)>(_a[1]))); break;
-        case 3: setEnabled((*reinterpret_cast< bool(*)>(_a[1]))); break;
-        case 4: update(); break;
-        case 5: send((*reinterpret_cast< QByteArray(*)>(_a[1]))); break;
+        case 2: setVolume((*reinterpret_cast< float(*)>(_a[1])),(*reinterpret_cast< const QString(*)>(_a[2]))); break;
+        case 3: setVolume((*reinterpret_cast< float(*)>(_a[1]))); break;
+        case 4: setEnabled((*reinterpret_cast< bool(*)>(_a[1]))); break;
+        case 5: setPort((*reinterpret_cast< quint16(*)>(_a[1])),(*reinterpret_cast< const QString(*)>(_a[2]))); break;
+        case 6: setPort((*reinterpret_cast< quint16(*)>(_a[1]))); break;
+        case 7: update(); break;
+        case 8: send((*reinterpret_cast< QByteArray(*)>(_a[1]))); break;
         default: ;
         }
-        _id -= 6;
+        _id -= 9;
     }
     return _id;
 }
@@ -104,7 +113,7 @@ static const uint qt_meta_data_VOIPThread[] = {
        4,       // revision
        0,       // classname
        0,    0, // classinfo
-       7,   14, // methods
+      10,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
@@ -116,20 +125,26 @@ static const uint qt_meta_data_VOIPThread[] = {
 
  // slots: signature, parameters, type, tag, flags
       39,   37,   11,   11, 0x0a,
-      64,   57,   11,   11, 0x0a,
-      83,   81,   11,   11, 0x0a,
-     103,  100,   11,   11, 0x0a,
-     116,   11,   11,   11, 0x0a,
-     132,  128,   11,   11, 0x08,
+      67,   57,   11,   11, 0x0a,
+      99,   92,   11,   11, 0x2a,
+     118,  116,   11,   11, 0x0a,
+     138,  135,   11,   11, 0x0a,
+     151,   11,   11,   11, 0x0a,
+     171,  163,   11,   11, 0x0a,
+     201,  196,   11,   11, 0x2a,
+     222,  218,   11,   11, 0x08,
 
        0        // eod
 };
 
 static const char qt_meta_stringdata_VOIPThread[] = {
     "VOIPThread\0\0,\0dataPerSecond(int,int)\0"
-    "q\0setQuality(float)\0volume\0setVolume(float)\0"
-    "b\0setEnabled(bool)\0cl\0add(QString)\0"
-    "removeAll()\0d,u\0dtaPS(int,int)\0"
+    "q\0setQuality(float)\0volume,ip\0"
+    "setVolume(float,QString)\0volume\0"
+    "setVolume(float)\0b\0setEnabled(bool)\0"
+    "cl\0add(QString)\0removeAll()\0port,ip\0"
+    "setPort(quint16,QString)\0port\0"
+    "setPort(quint16)\0d,u\0dtaPS(int,int)\0"
 };
 
 const QMetaObject VOIPThread::staticMetaObject = {
@@ -163,14 +178,17 @@ int VOIPThread::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
         switch (_id) {
         case 0: dataPerSecond((*reinterpret_cast< int(*)>(_a[1])),(*reinterpret_cast< int(*)>(_a[2]))); break;
         case 1: setQuality((*reinterpret_cast< float(*)>(_a[1]))); break;
-        case 2: setVolume((*reinterpret_cast< float(*)>(_a[1]))); break;
-        case 3: setEnabled((*reinterpret_cast< bool(*)>(_a[1]))); break;
-        case 4: add((*reinterpret_cast< const QString(*)>(_a[1]))); break;
-        case 5: removeAll(); break;
-        case 6: dtaPS((*reinterpret_cast< int(*)>(_a[1])),(*reinterpret_cast< int(*)>(_a[2]))); break;
+        case 2: setVolume((*reinterpret_cast< float(*)>(_a[1])),(*reinterpret_cast< const QString(*)>(_a[2]))); break;
+        case 3: setVolume((*reinterpret_cast< float(*)>(_a[1]))); break;
+        case 4: setEnabled((*reinterpret_cast< bool(*)>(_a[1]))); break;
+        case 5: add((*reinterpret_cast< const QString(*)>(_a[1]))); break;
+        case 6: removeAll(); break;
+        case 7: setPort((*reinterpret_cast< quint16(*)>(_a[1])),(*reinterpret_cast< const QString(*)>(_a[2]))); break;
+        case 8: setPort((*reinterpret_cast< quint16(*)>(_a[1]))); break;
+        case 9: dtaPS((*reinterpret_cast< int(*)>(_a[1])),(*reinterpret_cast< int(*)>(_a[2]))); break;
         default: ;
         }
-        _id -= 7;
+        _id -= 10;
     }
     return _id;
 }
