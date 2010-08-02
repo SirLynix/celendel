@@ -49,7 +49,7 @@ class ClientInterface : public QMainWindow
 
         void updatePlayerList();
 
-        void clientJoined(CLID);
+        void clientJoined(CLID, QString IP);
         void clientLeft(CLID);
 
         void updateGMLabel();
@@ -72,6 +72,7 @@ class ClientInterface : public QMainWindow
         void actionVoteGM();
         void actionChangeGM();
 
+
         void refresh();
         void textChanged();
         void narrationChanged(QString);
@@ -80,6 +81,10 @@ class ClientInterface : public QMainWindow
 
         void saveGame();
         void loadGame();
+
+        void VOIPRemoveClient();
+        void VOIPAddClient();
+        void VOIPClientVolume();
 
         void dataPerSecond(int, int);
 
@@ -101,7 +106,7 @@ class ClientInterface : public QMainWindow
         QString m_TOD;
         QString m_serverName;
         QString m_motd;
-        QMap<CLID, QString> m_nickMap;
+        QMap<CLID, PlayerInformations> m_playersMap;
 
 
         ///Chat GUI
@@ -129,6 +134,10 @@ class ClientInterface : public QMainWindow
         QAction *m_ban;
         QAction *m_voteGM;
         QAction *m_changeGM;
+        QAction *m_separator;
+        QAction *m_VOIPConnect;
+        QAction *m_VOIPDisconnect;
+        QAction *m_VOIPVolume;
 
 
         ///GM Menus

@@ -19,8 +19,7 @@
 #define MAX_SEQUENTIALS_PACKETS 15
 #define PACKETS_COUNT_RESET_DELAY 100
 #define MAX_PACKET_SIZE 1024*1024 //1Mio
-#define MAX_BLAMES 1 //TOLERANCE ZERO
-#define BLAMES_RESET_DELAY 4000
+#define SOCKET_BUFFER_SIZE 1024*1024*10 //10Mio
 
 #define qCApp QCoreApplication::instance()
 
@@ -49,9 +48,17 @@ struct SoundLibInformations
     QStringList sounds;
 };
 
+struct PlayerInformations
+{
+    PlayerInformations(QString a_name="", QString a_ip=""):name(a_name),ip(a_ip) {}
+    QString name;
+    QString ip;
+};
+//Q_DECLARE_METATYPE(PlayerInformations);
+
 struct ServerInformations
 {
-    QMap<CLID,QString> playersName;
+    QMap<CLID,PlayerInformations> players;
     CLID gameMasterID;
     QString location;
     QString timeOfDay;
@@ -81,8 +88,12 @@ enum PACKET_TYPE { ERROR, PING, CHAT, ALL_NARRATION, GM_ELECT, NEW_GM, LAUNCH_GA
 /* SYNC_LIBS structure :
 - QList<SoundLibInformations> libs */
 
-/* CLIENT_LEFT and CLIENT_JOINED structure :
+/* CLIENT_LEFT structure :
 - CLID ID */
+
+/* CLIENT_JOIGNED structure :
+- CLID ID
+- QString IP */
 
 /* MOTD structure :
 - QString motd - compressed */

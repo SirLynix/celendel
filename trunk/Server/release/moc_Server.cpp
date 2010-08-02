@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Meta object code from reading C++ file 'Server.h'
 **
-** Created: Fri 23. Jul 12:14:33 2010
+** Created: Mon 2. Aug 11:03:18 2010
 **      by: The Qt Meta Object Compiler version 62 (Qt 4.6.2)
 **
 ** WARNING! All changes made in this file will be lost!
@@ -43,7 +43,7 @@ static const uint qt_meta_data_Server[] = {
 static const char qt_meta_stringdata_Server[] = {
     "Server\0\0cID\0addClient(CLID)\0"
     "removeClient(CLID)\0launchGame()\0"
-    "cleanUp()\0,\0processData(Packet*,CLID)\0"
+    "cleanUp()\0,\0processData(std::auto_ptr<Packet>,CLID)\0"
 };
 
 const QMetaObject Server::staticMetaObject = {
@@ -79,7 +79,7 @@ int Server::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
         case 1: removeClient((*reinterpret_cast< CLID(*)>(_a[1]))); break;
         case 2: launchGame(); break;
         case 3: cleanUp(); break;
-        case 4: processData((*reinterpret_cast< Packet*(*)>(_a[1])),(*reinterpret_cast< CLID(*)>(_a[2]))); break;
+        case 4: processData((*reinterpret_cast< std::auto_ptr<Packet>(*)>(_a[1])),(*reinterpret_cast< CLID(*)>(_a[2]))); break;
         default: ;
         }
         _id -= 5;

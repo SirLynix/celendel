@@ -8,6 +8,7 @@
 #include "..\Shared\Constants.h"
 #include "..\Shared\Packet.h"
 
+
 class ClientNetwork : public QObject
 {
     Q_OBJECT
@@ -65,7 +66,7 @@ class ClientNetwork : public QObject
         void diceRolled(CLID, quint16);
         void sanctionned(CLID, ENUM_TYPE, QString);
 
-        void clientJoined(CLID);
+        void clientJoined(CLID, QString);
         void clientLeft(CLID);
 
         void playSound(QString,QString);

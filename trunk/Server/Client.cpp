@@ -7,17 +7,25 @@ Client::Client(QTcpSocket *s) : socket(s), packet(NULL)
 {
     changeID();
 
+    socket->setReadBufferSize(SOCKET_BUFFER_SIZE);
+
     connect(socket, SIGNAL(readyRead()), this, SLOT(readyRead()));
     connect(socket, SIGNAL(disconnected()), this, SLOT(slot_disconnected()));
+    connect(socket, SIGNAL(error(QAbstractSocket::SocketError)), this, SLOT(error(QAbstractSocket::SocketError)));
+
     m_securityTimer=new QTimer(this);
     m_securityTimer->start(PACKETS_COUNT_RESET_DELAY);
     m_sequentialsPackets=0;
     connect(m_securityTimer, SIGNAL(timeout()), this, SLOT(resetSecurity()));
-    m_blamesTimer=new QTimer(this);
-    m_blamesTimer->start(BLAMES_RESET_DELAY);
-    m_blames=0;
-    connect(m_blamesTimer, SIGNAL(timeout()), this, SLOT(resetBlames()));
+}
 
+void Client::error(QAbstractSocket::SocketError socketError)
+{
+    if(socketError!=QAbstractSocket::RemoteHostClosedError)
+    {
+        qDebug() << "An error happened ! HELP ! " << socket->errorString();
+        socket->abort();
+    }
 }
 
 void Client::changeID()
@@ -29,22 +37,13 @@ void Client::changeID()
     m_ID=cID;
 }
 
-bool Client::blame()
+void Client::blame()
 {
- ++m_blames;
- qDebug() << "Blamed";
- if(m_blames>=MAX_BLAMES)
- {
-     qDebug() << "WARNING : Client reached the blames limit ! Abording connection !"; //What happenned ? Is the client corrupted ? Are the protocols differents ? Is the client attacking the server ?
-     socket->abort();
-     return true;
- }
- return false;
-}
+    qDebug() << "WARNING : Server requested a blame against a client ! Abording connection !";
+    socket->abort();
 
-void Client::resetBlames()
-{
-    m_blames=0;
+    /*delete packet;
+    packet=NULL;*/
 }
 
 void Client::resetSecurity()
@@ -54,7 +53,7 @@ void Client::resetSecurity()
 
 void Client::readyRead()
 {
-    if(socket->state()!=QAbstractSocket::ConnectedState)
+    if(socket->state()!=QAbstractSocket::ConnectedState||!socket->isValid())
     {
         qDebug() << "Data received... but the Client is NOT connected... WTF ?";
         return;
@@ -63,27 +62,25 @@ void Client::readyRead()
     m_securityTimer->start(PACKETS_COUNT_RESET_DELAY);
     QDataStream in(socket);
 
-    if (packet == NULL)//Try to get the header
+    if (/*packet == NULL*/packet.get()==NULL)//Try to get the header
     {
         if (socket->bytesAvailable() < (int)sizeofheader) //The header is not here yet
              return;
 
-        packet = new Packet();
+        packet.reset(new Packet());
+        //packet = new Packet();
         packet->setHeader(in);
         if(packet->dataSize > MAX_PACKET_SIZE) //A legal packet will NEVER be bigger than 1Mio, else it's an attack.
         {
             qDebug() << "ERROR : packet too big. Connection aborded.";
-            socket->abort(); // ... and guess what we do to crackers...
-            delete packet;
-            packet=NULL;
+            blame(); // ... and guess what we do to crackers...
             return;
         }
 
         if(packet->error())
         {
             qDebug() << "HOLY SHIT, packet error in header ! What I am supposed to do ?";
-            delete packet;
-            packet=NULL;
+            blame();
             return;
         }
     }
@@ -96,9 +93,6 @@ void Client::readyRead()
     if(packet->error())
     {
         qDebug() << "Packet error at Client reception level... Signal NOT emited";
-        delete packet;
-        packet=NULL;
-        qDebug() << "Packet deleted... Without segfault !";
         blame();
         return;
     }
@@ -107,13 +101,14 @@ void Client::readyRead()
         emit dataReceived(packet);
     }
 
-    packet=NULL;
+   // packet=NULL;
+    packet.reset();
     ++m_sequentialsPackets;
 
     if(m_sequentialsPackets>=MAX_SEQUENTIALS_PACKETS)//A legal client will NEVER send so much sequentials packet. It's probably an attack.
     {
         qDebug() << "Error, too much packets. Client will be kicked.";
-        socket->abort(); // So, seeya pirate !
+        blame(); // So, seeya pirate !
         return;
     }
 }

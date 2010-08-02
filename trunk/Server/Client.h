@@ -9,6 +9,7 @@
 #include "../Shared/Packet.h"
 
 #include <QTimer>
+#include <memory>
 
 class Client : public QObject
 {
@@ -16,13 +17,14 @@ class Client : public QObject
     public:
     Client(QTcpSocket *s);
     QTcpSocket* socket;
-    Packet *packet;
+    std::auto_ptr<Packet> packet;
+    //Packet *packet;
 
     CLID ID () const {return m_ID;}
     void changeID(); //Dangerous ! Only use at init
 
     signals:
-        void dataReceived(Packet*);
+        void dataReceived(/*Packet**/std::auto_ptr<Packet>);
         void disconnected();
 
     public slots:
@@ -31,21 +33,20 @@ class Client : public QObject
 
         void flush();
 
-        bool blame();
+        void blame();
 
     private slots:
         void readyRead();
         void slot_disconnected() { emit disconnected(); }
         void resetSecurity();
-        void resetBlames();
+
+        void error(QAbstractSocket::SocketError socketError);
 
     private:
         CLID m_ID;
         static CLID cID;
         QTimer* m_securityTimer;
         quint16 m_sequentialsPackets;
-        QTimer* m_blamesTimer;
-        int m_blames;
 };
 
 #endif // CLIENT_H

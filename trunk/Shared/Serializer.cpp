@@ -1,9 +1,20 @@
 #include "Serializer.h"
-#include <QDataStream>
 #include <QDebug>
 
 #define QV(a) if(a.isEmpty()) return true;
 #define R(a) if(a.status()!=QDataStream::Ok) return true;
+
+QDataStream &operator<<(QDataStream & ds, const PlayerInformations& p)
+{
+    ds<<p.name<<p.ip;
+    return ds;
+}
+
+QDataStream &operator>>(QDataStream & ds, PlayerInformations& p)
+{
+    ds>>p.name>>p.ip;
+    return ds;
+}
 
 bool extractChatData(QByteArray& data, ENUM_TYPE& canal, QString& text, CLID& sender)
 {
@@ -257,7 +268,7 @@ bool extractServerInformationsData(QByteArray& data, ServerInformations& si)
 
     QDataStream in(t);
 
-    in>>si.playersName;
+    in>>si.players;
     R(in);
     in>>si.gameMasterID;
     R(in);
@@ -285,7 +296,7 @@ QByteArray serialiseServerInformationsData(const ServerInformations& si)
     QByteArray data;
     QDataStream out(&data, QIODevice::ReadWrite);
 
-    out<<si.playersName;
+    out<<si.players;
     out<<si.gameMasterID;
     out<<si.location;
     out<<si.timeOfDay;
@@ -498,22 +509,25 @@ QByteArray serialiseServerNameData(const QString& name)
     return data;
 }
 
-bool extractClientJoinedData(QByteArray& data, CLID& ID)
+bool extractClientJoinedData(QByteArray& data, CLID& ID, QString& IP)
 {
     QV(data);
     QDataStream in(data);
     in>>ID;
     R(in);
+    in>>IP;
+    R(in);
 
     return false;
 }
 
-QByteArray serialiseClientJoinedData(const CLID& ID)
+QByteArray serialiseClientJoinedData(const CLID& ID, const QString& IP)
 {
     QByteArray data;
     QDataStream out(&data, QIODevice::ReadWrite);
 
     out<<(CLID)ID;
+    out<<IP;
 
     return data;
 }

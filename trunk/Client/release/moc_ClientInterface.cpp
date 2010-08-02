@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Meta object code from reading C++ file 'ClientInterface.h'
 **
-** Created: Fri 23. Jul 12:15:28 2010
+** Created: Mon 2. Aug 16:27:02 2010
 **      by: The Qt Meta Object Compiler version 62 (Qt 4.6.2)
 **
 ** WARNING! All changes made in this file will be lost!
@@ -23,7 +23,7 @@ static const uint qt_meta_data_ClientInterface[] = {
        4,       // revision
        0,       // classname
        0,    0, // classinfo
-      45,   14, // methods
+      48,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
@@ -50,32 +50,35 @@ static const uint qt_meta_data_ClientInterface[] = {
      451,   16,   16,   16, 0x08,
      471,  462,   16,   16, 0x08,
      498,   16,   16,   16, 0x08,
-     517,   16,   16,   16, 0x08,
-     536,   16,   16,   16, 0x08,
-     553,   16,   16,   16, 0x08,
-     578,  574,  569,   16, 0x08,
-     602,   16,   16,   16, 0x08,
-     626,   16,   16,   16, 0x08,
-     641,   16,   16,   16, 0x08,
-     657,   16,   16,   16, 0x08,
-     667,   16,   16,   16, 0x08,
-     681,   16,   16,   16, 0x08,
-     702,  693,   16,   16, 0x08,
-     718,   16,   16,   16, 0x28,
-     732,  727,   16,   16, 0x08,
-     754,   16,   16,   16, 0x28,
-     773,  769,   16,   16, 0x08,
-     796,   16,   16,   16, 0x08,
-     809,   16,   16,   16, 0x08,
+     521,  517,   16,   16, 0x08,
+     548,   16,   16,   16, 0x08,
+     565,   16,   16,   16, 0x08,
+     590,  586,  581,   16, 0x08,
+     614,   16,   16,   16, 0x08,
+     638,   16,   16,   16, 0x08,
+     653,   16,   16,   16, 0x08,
+     669,   16,   16,   16, 0x08,
+     679,   16,   16,   16, 0x08,
+     693,   16,   16,   16, 0x08,
+     714,  705,   16,   16, 0x08,
+     730,   16,   16,   16, 0x28,
+     744,  739,   16,   16, 0x08,
+     766,   16,   16,   16, 0x28,
+     785,  781,   16,   16, 0x08,
+     808,   16,   16,   16, 0x08,
      821,   16,   16,   16, 0x08,
-     836,   16,   16,   16, 0x08,
-     853,   16,   16,   16, 0x08,
-     863,   16,   16,   16, 0x08,
-     877,   16,   16,   16, 0x08,
-     903,   16,   16,   16, 0x08,
-     946,   16,   16,   16, 0x08,
-     957,   16,   16,   16, 0x08,
-     968,  318,   16,   16, 0x08,
+     833,   16,   16,   16, 0x08,
+     848,   16,   16,   16, 0x08,
+     865,   16,   16,   16, 0x08,
+     875,   16,   16,   16, 0x08,
+     889,   16,   16,   16, 0x08,
+     915,   16,   16,   16, 0x08,
+     958,   16,   16,   16, 0x08,
+     969,   16,   16,   16, 0x08,
+     980,   16,   16,   16, 0x08,
+     999,   16,   16,   16, 0x08,
+    1015,   16,   16,   16, 0x08,
+    1034,  318,   16,   16, 0x08,
 
        0        // eod
 };
@@ -94,19 +97,22 @@ static const char qt_meta_stringdata_ClientInterface[] = {
     "rollDice()\0serverName(QString)\0"
     "motdChanged(QString)\0gameLaunched()\0"
     "setTitle()\0lid,rsid\0playSound(QString,QString)\0"
-    "updatePlayerList()\0clientJoined(CLID)\0"
-    "clientLeft(CLID)\0updateGMLabel()\0CLID\0"
-    "str\0CLIDFromString(QString)\0"
-    "switchConnectionState()\0openSettings()\0"
-    "openSoundsGUI()\0aboutUs()\0aboutServer()\0"
-    "resetData()\0fileName\0setCSS(QString)\0"
-    "setCSS()\0path\0setInterface(QString)\0"
-    "setInterface()\0pos\0playerListMenu(QPoint)\0"
-    "actionKick()\0actionBan()\0actionVoteGM()\0"
-    "actionChangeGM()\0refresh()\0textChanged()\0"
+    "updatePlayerList()\0,IP\0"
+    "clientJoined(CLID,QString)\0clientLeft(CLID)\0"
+    "updateGMLabel()\0CLID\0str\0"
+    "CLIDFromString(QString)\0switchConnectionState()\0"
+    "openSettings()\0openSoundsGUI()\0aboutUs()\0"
+    "aboutServer()\0resetData()\0fileName\0"
+    "setCSS(QString)\0setCSS()\0path\0"
+    "setInterface(QString)\0setInterface()\0"
+    "pos\0playerListMenu(QPoint)\0actionKick()\0"
+    "actionBan()\0actionVoteGM()\0actionChangeGM()\0"
+    "refresh()\0textChanged()\0"
     "narrationChanged(QString)\0"
     "syncSoundLibs(QList<SoundLibInformations>)\0"
-    "saveGame()\0loadGame()\0dataPerSecond(int,int)\0"
+    "saveGame()\0loadGame()\0VOIPRemoveClient()\0"
+    "VOIPAddClient()\0VOIPClientVolume()\0"
+    "dataPerSecond(int,int)\0"
 };
 
 const QMetaObject ClientInterface::staticMetaObject = {
@@ -157,7 +163,7 @@ int ClientInterface::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
         case 16: setTitle(); break;
         case 17: playSound((*reinterpret_cast< QString(*)>(_a[1])),(*reinterpret_cast< QString(*)>(_a[2]))); break;
         case 18: updatePlayerList(); break;
-        case 19: clientJoined((*reinterpret_cast< CLID(*)>(_a[1]))); break;
+        case 19: clientJoined((*reinterpret_cast< CLID(*)>(_a[1])),(*reinterpret_cast< QString(*)>(_a[2]))); break;
         case 20: clientLeft((*reinterpret_cast< CLID(*)>(_a[1]))); break;
         case 21: updateGMLabel(); break;
         case 22: { CLID _r = CLIDFromString((*reinterpret_cast< const QString(*)>(_a[1])));
@@ -183,10 +189,13 @@ int ClientInterface::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
         case 41: syncSoundLibs((*reinterpret_cast< QList<SoundLibInformations>(*)>(_a[1]))); break;
         case 42: saveGame(); break;
         case 43: loadGame(); break;
-        case 44: dataPerSecond((*reinterpret_cast< int(*)>(_a[1])),(*reinterpret_cast< int(*)>(_a[2]))); break;
+        case 44: VOIPRemoveClient(); break;
+        case 45: VOIPAddClient(); break;
+        case 46: VOIPClientVolume(); break;
+        case 47: dataPerSecond((*reinterpret_cast< int(*)>(_a[1])),(*reinterpret_cast< int(*)>(_a[2]))); break;
         default: ;
         }
-        _id -= 45;
+        _id -= 48;
     }
     return _id;
 }

@@ -6,8 +6,8 @@ namespace VOIPSystem
 SoundReceiver::SoundReceiver(const QHostAddress& hostAddress, const quint16& port, int sampleRate) : speex(sampleRate)
 {
     udpSocket = new QUdpSocket(this);
-    udpSocket->bind(hostAddress, port);
-
+    m_IP=hostAddress;
+    setPort(port);
     connect(udpSocket, SIGNAL(readyRead()), this, SLOT(readPendingDatagrams()));
     connect(&speex, SIGNAL(decoded(ALshortVector)), this, SLOT(decoded(ALshortVector)), Qt::QueuedConnection);
 
@@ -18,6 +18,11 @@ SoundReceiver::SoundReceiver(const QHostAddress& hostAddress, const quint16& por
 
     dta = 0;
     DPS = 0;
+}
+
+void SoundReceiver::setPort(quint16 port)
+{
+    udpSocket->bind(m_IP, port, QUdpSocket::DontShareAddress);
 }
 
 void SoundReceiver::update()

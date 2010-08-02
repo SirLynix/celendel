@@ -1,8 +1,16 @@
 #include "Player.h"
 
+#include <QDebug>
+
 Player::Player(CLID cID, QObject* parent) : QObject(parent), m_ID(cID)
 {
     reset();
+}
+
+CLID Player::ID() const
+{
+    qDebug() << "Here :" << m_ID;
+    return m_ID;
 }
 
 void Player::promoteGM()

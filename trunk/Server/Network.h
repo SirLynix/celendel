@@ -41,7 +41,7 @@ class ServerNetwork : public QObject
     private slots:
         void newConnection(); //Called when someone ask for connection
         void clientDisconnected(); //Called when someone is disconnected
-        void slot_dataReceived(Packet*); //Called when a client has send a FULL packet
+        void slot_dataReceived(/*Packet**/std::auto_ptr<Packet>); //Called when a client has send a FULL packet
 
         void flush();
 
@@ -49,7 +49,7 @@ class ServerNetwork : public QObject
         void newClient(CLID ID);
         void clientGone(CLID ID);
 
-        void dataReceived(Packet*, CLID who);
+        void dataReceived(/*Packet**/std::auto_ptr<Packet>, CLID who);
 
     private:
         QTcpServer* m_server;

@@ -67,6 +67,16 @@ connect(m_voteGM, SIGNAL(triggered()), this, SLOT(actionVoteGM()));
 m_changeGM = new QAction(tr("Changer de Maître du Jeu"), this);
 m_changeGM->setWhatsThis(tr("Abandonner lâchement ses fonctions et ses pouvoirs surhumains au profit d'un autre."));
 connect(m_changeGM, SIGNAL(triggered()), this, SLOT(actionChangeGM()));
+m_separator = new QAction(this); m_separator->setSeparator(true);
+m_VOIPDisconnect = new QAction(tr("VOIP : Se déconnecter de ce client"), this);
+m_VOIPDisconnect->setWhatsThis(tr("VOIP : Si vous vous déconnectez d'un client, vous ne lui enverez plus de message audio, et vous ne recevrez plus les siens."));
+connect(m_VOIPDisconnect, SIGNAL(triggered()), this, SLOT(VOIPRemoveClient()));
+m_VOIPConnect = new QAction(tr("VOIP : Rajouter ce client au module"), this);
+m_VOIPConnect->setWhatsThis(tr("VOIP : Si vous ajoutez un client au module VOIP, vous recevrez ses messages audio, et vous pourrez lui en envoyer à votre tour."));
+connect(m_VOIPConnect, SIGNAL(triggered()), this, SLOT(VOIPAddClient()));
+m_VOIPVolume = new QAction(tr("VOIP : Régler le volume de réception"), this);
+m_VOIPVolume->setWhatsThis(tr("VOIP : Modifier le volume de réception du client. Cela n'affectera pas les autres clients."));
+connect(m_VOIPVolume, SIGNAL(triggered()), this, SLOT(VOIPClientVolume()));
 
   ////////////////////////////
  /// DOCKS FEATURES BELOW ///

@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Meta object code from reading C++ file 'Sound.h'
 **
-** Created: Fri 23. Jul 12:00:24 2010
+** Created: Mon 2. Aug 16:27:13 2010
 **      by: The Qt Meta Object Compiler version 62 (Qt 4.6.2)
 **
 ** WARNING! All changes made in this file will be lost!
@@ -23,7 +23,7 @@ static const uint qt_meta_data_VOIPSystem__Sound[] = {
        4,       // revision
        0,       // classname
        0,    0, // classinfo
-       8,   14, // methods
+      10,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
@@ -36,9 +36,11 @@ static const uint qt_meta_data_VOIPSystem__Sound[] = {
       33,   18,   18,   18, 0x0a,
       49,   41,   18,   18, 0x0a,
       72,   70,   18,   18, 0x0a,
-      88,   18,   18,   18, 0x0a,
-      95,   18,   18,   18, 0x0a,
-     104,   18,   18,   18, 0x08,
+      99,   18,   91,   18, 0x0a,
+     113,   18,  108,   18, 0x0a,
+     121,   18,   18,   18, 0x0a,
+     128,   18,   18,   18, 0x0a,
+     137,   18,   18,   18, 0x08,
 
        0        // eod
 };
@@ -46,8 +48,8 @@ static const uint qt_meta_data_VOIPSystem__Sound[] = {
 static const char qt_meta_stringdata_VOIPSystem__Sound[] = {
     "VOIPSystem::Sound\0\0stop()\0play()\0"
     "pause()\0samples\0queue(ALshortVector)\0"
-    "v\0volume(ALfloat)\0mute()\0unmute()\0"
-    "testPlaying()\0"
+    "v\0setVolume(ALfloat)\0ALfloat\0volume()\0"
+    "bool\0muted()\0mute()\0unmute()\0testPlaying()\0"
 };
 
 const QMetaObject VOIPSystem::Sound::staticMetaObject = {
@@ -83,13 +85,17 @@ int VOIPSystem::Sound::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
         case 1: play(); break;
         case 2: pause(); break;
         case 3: queue((*reinterpret_cast< const ALshortVector(*)>(_a[1]))); break;
-        case 4: volume((*reinterpret_cast< const ALfloat(*)>(_a[1]))); break;
-        case 5: mute(); break;
-        case 6: unmute(); break;
-        case 7: testPlaying(); break;
+        case 4: setVolume((*reinterpret_cast< const ALfloat(*)>(_a[1]))); break;
+        case 5: { ALfloat _r = volume();
+            if (_a[0]) *reinterpret_cast< ALfloat*>(_a[0]) = _r; }  break;
+        case 6: { bool _r = muted();
+            if (_a[0]) *reinterpret_cast< bool*>(_a[0]) = _r; }  break;
+        case 7: mute(); break;
+        case 8: unmute(); break;
+        case 9: testPlaying(); break;
         default: ;
         }
-        _id -= 8;
+        _id -= 10;
     }
     return _id;
 }

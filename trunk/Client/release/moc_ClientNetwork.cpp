@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Meta object code from reading C++ file 'ClientNetwork.h'
 **
-** Created: Fri 23. Jul 12:15:32 2010
+** Created: Mon 2. Aug 16:27:06 2010
 **      by: The Qt Meta Object Compiler version 62 (Qt 4.6.2)
 **
 ** WARNING! All changes made in this file will be lost!
@@ -49,29 +49,29 @@ static const uint qt_meta_data_ClientNetwork[] = {
      403,   14,   14,   14, 0x05,
      420,  194,   14,   14, 0x05,
      448,  445,   14,   14, 0x05,
-     484,   14,   14,   14, 0x05,
-     503,   14,   14,   14, 0x05,
-     520,  194,   14,   14, 0x05,
-     547,   14,   14,   14, 0x05,
+     484,  194,   14,   14, 0x05,
+     511,   14,   14,   14, 0x05,
+     528,  194,   14,   14, 0x05,
+     555,   14,   14,   14, 0x05,
 
  // slots: signature, parameters, type, tag, flags
-     603,  585,   14,   14, 0x0a,
-     625,  622,   14,   14, 0x2a,
-     639,  622,   14,   14, 0x0a,
-     663,  653,   14,   14, 0x0a,
-     687,   14,   14,   14, 0x0a,
-     701,   14,  694,   14, 0x0a,
-     719,   14,  711,   14, 0x0a,
-     738,   14,  730,   14, 0x0a,
-     751,   14,   14,   14, 0x0a,
+     611,  593,   14,   14, 0x0a,
+     633,  630,   14,   14, 0x2a,
+     647,  630,   14,   14, 0x0a,
+     671,  661,   14,   14, 0x0a,
+     695,   14,   14,   14, 0x0a,
+     709,   14,  702,   14, 0x0a,
+     727,   14,  719,   14, 0x0a,
+     746,   14,  738,   14, 0x0a,
      759,   14,   14,   14, 0x0a,
-     772,   14,   14,   14, 0x0a,
-     801,  793,  788,   14, 0x0a,
-     828,   14,   14,   14, 0x08,
-     840,   14,   14,   14, 0x08,
-     855,   14,   14,   14, 0x08,
-     870,   14,   14,   14, 0x08,
-     919,  912,   14,   14, 0x08,
+     767,   14,   14,   14, 0x0a,
+     780,   14,   14,   14, 0x0a,
+     809,  801,  796,   14, 0x0a,
+     836,   14,   14,   14, 0x08,
+     848,   14,   14,   14, 0x08,
+     863,   14,   14,   14, 0x08,
+     878,   14,   14,   14, 0x08,
+     927,  920,   14,   14, 0x08,
 
        0        // eod
 };
@@ -91,7 +91,7 @@ static const char qt_meta_stringdata_ClientNetwork[] = {
     "connectionEtablished()\0connectionLost()\0"
     "diceRolled(CLID,quint16)\0,,\0"
     "sanctionned(CLID,ENUM_TYPE,QString)\0"
-    "clientJoined(CLID)\0clientLeft(CLID)\0"
+    "clientJoined(CLID,QString)\0clientLeft(CLID)\0"
     "playSound(QString,QString)\0"
     "syncLibs(QList<SoundLibInformations>)\0"
     "pa,delegateDelete\0send(Packet*,bool)\0"
@@ -153,7 +153,7 @@ int ClientNetwork::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
         case 15: connectionLost(); break;
         case 16: diceRolled((*reinterpret_cast< CLID(*)>(_a[1])),(*reinterpret_cast< quint16(*)>(_a[2]))); break;
         case 17: sanctionned((*reinterpret_cast< CLID(*)>(_a[1])),(*reinterpret_cast< ENUM_TYPE(*)>(_a[2])),(*reinterpret_cast< QString(*)>(_a[3]))); break;
-        case 18: clientJoined((*reinterpret_cast< CLID(*)>(_a[1]))); break;
+        case 18: clientJoined((*reinterpret_cast< CLID(*)>(_a[1])),(*reinterpret_cast< QString(*)>(_a[2]))); break;
         case 19: clientLeft((*reinterpret_cast< CLID(*)>(_a[1]))); break;
         case 20: playSound((*reinterpret_cast< QString(*)>(_a[1])),(*reinterpret_cast< QString(*)>(_a[2]))); break;
         case 21: syncLibs((*reinterpret_cast< QList<SoundLibInformations>(*)>(_a[1]))); break;
@@ -307,9 +307,9 @@ void ClientNetwork::sanctionned(CLID _t1, ENUM_TYPE _t2, QString _t3)
 }
 
 // SIGNAL 18
-void ClientNetwork::clientJoined(CLID _t1)
+void ClientNetwork::clientJoined(CLID _t1, QString _t2)
 {
-    void *_a[] = { 0, const_cast<void*>(reinterpret_cast<const void*>(&_t1)) };
+    void *_a[] = { 0, const_cast<void*>(reinterpret_cast<const void*>(&_t1)), const_cast<void*>(reinterpret_cast<const void*>(&_t2)) };
     QMetaObject::activate(this, &staticMetaObject, 18, _a);
 }
 

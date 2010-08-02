@@ -43,6 +43,7 @@ QVector<ALshort> Recorder::readSamples(int nbSamples)
 {
     m_samples.resize(nbSamples);
     alcCaptureSamples(m_captureDevice, &m_samples[0], nbSamples);
+
     return m_samples;
 }
 

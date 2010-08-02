@@ -15,7 +15,7 @@ Server::Server(QObject* parent) : QObject(parent)
 
     connect(m_network, SIGNAL(newClient(CLID)), this, SLOT(addClient(CLID)));
     connect(m_network, SIGNAL(clientGone(CLID)), this, SLOT(removeClient(CLID)));
-    connect(m_network, SIGNAL(dataReceived(Packet*, CLID)), this, SLOT(processData(Packet*, CLID)));
+    connect(m_network, SIGNAL(/*dataReceived(Packet*, CLID)*/dataReceived(std::auto_ptr<Packet>, CLID)), this, SLOT(/*processData(Packet*, CLID)*/processData(std::auto_ptr<Packet>, CLID)));
 
     m_gameStarted=false;
     m_GMID=0;
@@ -39,7 +39,10 @@ ServerInformations Server::getServerInformations() const
 {
     ServerInformations si;
     for(int i=0;i<m_players.size();++i)
-        si.playersName[m_players[i]->ID()]=m_players[i]->nickname;
+    {
+        si.players[m_players[i]->ID()].name=m_players[i]->nickname;
+        si.players[m_players[i]->ID()].ip=m_network->getClient(m_players[i]->ID())->socket->peerAddress().toString();//Holy sh*t !
+    }
 
     si.gameMasterID=m_GMID;
     si.location=location;
@@ -66,7 +69,7 @@ void Server::addClient(CLID cID)
     m_network->sendToClient(cID, ETI(SET_CLID), serialiseSetCLIDData(cID));
     m_network->sendToClient(cID, ETI(SERVER_INFORMATIONS), serialiseServerInformationsData(getServerInformations()));
     m_network->sendToClient(cID, ETI(MAP_INFORMATIONS), serialiseMapInformationsData(*m_map));
-    m_network->sendToAll(ETI(CLIENT_JOINED), serialiseClientJoinedData(cID));
+    m_network->sendToAll(ETI(CLIENT_JOINED), serialiseClientJoinedData(cID, m_network->getClient(cID)->socket->peerAddress().toString()));
 }
 
 Player* Server::getPlayer(CLID cID)
@@ -102,21 +105,22 @@ void Server::removeClient(CLID cID)
         if(m_players[i]->ID()==cID)
         {
             Player* ply=m_players[i];
-            if(m_players[i]!=m_players.last()) //Put the pointer to the end of the list, for avoiding empty cases.
+            /*if(m_players[i]!=m_players.last()) //Put the pointer to the end of the list, for avoiding empty cases.
             {
                 m_players[i]=m_players.last();
             }
-            m_players.removeLast();
+            m_players.removeLast();*/
+            m_players.removeAt(i);
 
             if(ply->isGM()&&m_players.size())
                 changeGM(m_players[0]->ID());
 
-            ply->deleteLater();
-
             if(ply->isGM()&&!m_players.size())
                 cleanUp();
 
-            m_network->sendToAll(ETI(CLIENT_LEFT), serialiseClientJoinedData(cID));
+            ply->deleteLater();
+
+            m_network->sendToAll(ETI(CLIENT_LEFT), serialiseClientLeftData(cID));
             log("Player succefully removed from game.");
             return;
         }

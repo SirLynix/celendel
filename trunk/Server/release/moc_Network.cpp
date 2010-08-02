@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Meta object code from reading C++ file 'Network.h'
 **
-** Created: Fri 23. Jul 12:14:29 2010
+** Created: Sun 1. Aug 21:26:56 2010
 **      by: The Qt Meta Object Compiler version 62 (Qt 4.6.2)
 **
 ** WARNING! All changes made in this file will be lost!
@@ -36,33 +36,34 @@ static const uint qt_meta_data_ServerNetwork[] = {
       56,   51,   14,   14, 0x05,
 
  // slots: signature, parameters, type, tag, flags
-     109,   88,   83,   14, 0x0a,
-     147,  141,   83,   14, 0x2a,
-     192,  174,   14,   14, 0x0a,
-     219,  216,   14,   14, 0x2a,
-     258,  238,   83,   14, 0x0a,
-     325,  309,   83,   14, 0x2a,
-     382,  369,   83,   14, 0x2a,
-     436,  419,   14,   14, 0x0a,
-     492,  479,   14,   14, 0x2a,
-     538,  528,   14,   14, 0x2a,
-     567,  141,   83,   14, 0x0a,
-     594,  216,   14,   14, 0x0a,
-     623,  613,   14,   14, 0x0a,
-     642,  613,   14,   14, 0x0a,
-     660,   15,   83,   14, 0x0a,
-     679,  676,  672,   14, 0x0a,
-     694,   14,   14,   14, 0x08,
-     710,   14,   14,   14, 0x08,
-     731,   14,   14,   14, 0x08,
-     758,   14,   14,   14, 0x08,
+     123,  102,   97,   14, 0x0a,
+     161,  155,   97,   14, 0x2a,
+     206,  188,   14,   14, 0x0a,
+     233,  230,   14,   14, 0x2a,
+     272,  252,   97,   14, 0x0a,
+     339,  323,   97,   14, 0x2a,
+     396,  383,   97,   14, 0x2a,
+     450,  433,   14,   14, 0x0a,
+     506,  493,   14,   14, 0x2a,
+     552,  542,   14,   14, 0x2a,
+     581,  155,   97,   14, 0x0a,
+     608,  230,   14,   14, 0x0a,
+     637,  627,   14,   14, 0x0a,
+     656,  627,   14,   14, 0x0a,
+     674,   15,   97,   14, 0x0a,
+     693,  690,  686,   14, 0x0a,
+     708,   14,   14,   14, 0x08,
+     724,   14,   14,   14, 0x08,
+     745,   14,   14,   14, 0x08,
+     786,   14,   14,   14, 0x08,
 
        0        // eod
 };
 
 static const char qt_meta_stringdata_ServerNetwork[] = {
     "ServerNetwork\0\0ID\0newClient(CLID)\0"
-    "clientGone(CLID)\0,who\0dataReceived(Packet*,CLID)\0"
+    "clientGone(CLID)\0,who\0"
+    "dataReceived(std::auto_ptr<Packet>,CLID)\0"
     "bool\0ID,pa,delegateDelete\0"
     "sendToClient(CLID,Packet*,bool)\0ID,pa\0"
     "sendToClient(CLID,Packet*)\0pa,delegateDelete\0"
@@ -81,7 +82,8 @@ static const char qt_meta_stringdata_ServerNetwork[] = {
     "kick(CLID,QString)\0ban(CLID,QString)\0"
     "blame(CLID)\0int\0IP\0unban(QString)\0"
     "newConnection()\0clientDisconnected()\0"
-    "slot_dataReceived(Packet*)\0flush()\0"
+    "slot_dataReceived(std::auto_ptr<Packet>)\0"
+    "flush()\0"
 };
 
 const QMetaObject ServerNetwork::staticMetaObject = {
@@ -115,7 +117,7 @@ int ServerNetwork::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
         switch (_id) {
         case 0: newClient((*reinterpret_cast< CLID(*)>(_a[1]))); break;
         case 1: clientGone((*reinterpret_cast< CLID(*)>(_a[1]))); break;
-        case 2: dataReceived((*reinterpret_cast< Packet*(*)>(_a[1])),(*reinterpret_cast< CLID(*)>(_a[2]))); break;
+        case 2: dataReceived((*reinterpret_cast< std::auto_ptr<Packet>(*)>(_a[1])),(*reinterpret_cast< CLID(*)>(_a[2]))); break;
         case 3: { bool _r = sendToClient((*reinterpret_cast< CLID(*)>(_a[1])),(*reinterpret_cast< Packet*(*)>(_a[2])),(*reinterpret_cast< bool(*)>(_a[3])));
             if (_a[0]) *reinterpret_cast< bool*>(_a[0]) = _r; }  break;
         case 4: { bool _r = sendToClient((*reinterpret_cast< CLID(*)>(_a[1])),(*reinterpret_cast< Packet*(*)>(_a[2])));
@@ -142,7 +144,7 @@ int ServerNetwork::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
             if (_a[0]) *reinterpret_cast< int*>(_a[0]) = _r; }  break;
         case 19: newConnection(); break;
         case 20: clientDisconnected(); break;
-        case 21: slot_dataReceived((*reinterpret_cast< Packet*(*)>(_a[1]))); break;
+        case 21: slot_dataReceived((*reinterpret_cast< std::auto_ptr<Packet>(*)>(_a[1]))); break;
         case 22: flush(); break;
         default: ;
         }
@@ -166,7 +168,7 @@ void ServerNetwork::clientGone(CLID _t1)
 }
 
 // SIGNAL 2
-void ServerNetwork::dataReceived(Packet * _t1, CLID _t2)
+void ServerNetwork::dataReceived(std::auto_ptr<Packet> _t1, CLID _t2)
 {
     void *_a[] = { 0, const_cast<void*>(reinterpret_cast<const void*>(&_t1)), const_cast<void*>(reinterpret_cast<const void*>(&_t2)) };
     QMetaObject::activate(this, &staticMetaObject, 2, _a);

@@ -9,7 +9,7 @@ class Player : public QObject
     Q_OBJECT
     public:
         Player(CLID cID, QObject* parent=NULL);
-        CLID ID() const { return m_ID;}
+        CLID ID() const;
         quint16 voteCount() const {return m_voteCount;}
         bool isGM() const {return m_GM;}
         bool vote(Player* ply); //Return true if the player already voted.

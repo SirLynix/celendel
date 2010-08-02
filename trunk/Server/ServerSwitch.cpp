@@ -2,8 +2,8 @@
 #include "..\Shared\Serializer.h"
 #include "..\Shared\Constants.h"
 
-#define QE(a) if(a) {log("ERROR : packet received corrupted ! (from Client "+QString::number(cID)+") at line "+QString::number(__LINE__)+" in file "__FILE__); if(!m_network->blame(cID)) {m_network->sendToClient(cID, ETI(ERROR), serialiseErrorData(ETI(INVALID_PACKET))); } delete pa; pa=NULL; return;}
-#define GM_CHECK() if(!ply->isGM()) { m_network->sendToClient(cID, ETI(ERROR), serialiseErrorData(ETI(NOT_GM))); log("POWER ERROR : client "+QString::number(cID)); delete pa; pa=NULL; return;}
+#define QE(a) if(a) {log("ERROR : packet received corrupted ! (from Client "+QString::number(cID)+") at line "+QString::number(__LINE__)+" in file "__FILE__); m_network->sendToClient(cID, ETI(ERROR), serialiseErrorData(ETI(INVALID_PACKET))); m_network->blame(cID); return;}
+#define GM_CHECK() if(!ply->isGM()) { m_network->sendToClient(cID, ETI(ERROR), serialiseErrorData(ETI(NOT_GM))); log("POWER ERROR : client "+QString::number(cID)+" at line "+QString::number(__LINE__)+" in file "__FILE__); /*delete pa; pa=NULL;*/ return;}
 
 bool Server::changeGM(CLID cID)
 {
@@ -34,16 +34,17 @@ CLID Server::nickToCLID(const QString& nick)
     return 0;
 }
 
-void Server::processData(Packet* pa, CLID cID)
+void Server::processData(std::auto_ptr<Packet> pa /*Packet* pa*/, CLID cID)
 {
     Player *ply = getPlayer(cID);
     if(ply==NULL)
     {
         log("ERROR : Packet received, but player is unfindable (cast error). -> trash bin, sorry little orphan packet.");
-        delete pa;
+        //delete pa;
         return;
 
     }
+    QE(pa.get()==NULL);
     QE(pa->error());
 
     //  log("Packet received, working...");
@@ -88,7 +89,7 @@ void Server::processData(Packet* pa, CLID cID)
                         }
                         else
                         {
-                            m_network->sendToClient(cID, ETI(ERROR), serialiseErrorData(ETI(NOT_GM)));
+                            m_network->sendToClient(cID, ETI(ERROR), serialiseErrorData(ETI(GAME_NOT_LAUNCHED)));
                         }
                     }
                     break;
@@ -283,7 +284,7 @@ void Server::processData(Packet* pa, CLID cID)
         case PLAY_SOUND:
         {
             GM_CHECK();
-            m_network->sendToAll(pa, false);
+            m_network->sendToAll(/*pa*/pa.get(), false);
         }
         break;
         case ROLL_DICE:
@@ -329,5 +330,5 @@ void Server::processData(Packet* pa, CLID cID)
         break;
     }
 
-    delete pa;
+   // delete pa;
 }

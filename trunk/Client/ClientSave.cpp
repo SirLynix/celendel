@@ -4,7 +4,7 @@
 #define MAGIC_NUMBER (quint32)0x1337C0D3
 #include <QDateTime>
 #include "SoundManager.h"
-
+#include "..\Shared\Serializer.h"
 
 void ClientInterface::saveGame()
 {
@@ -36,7 +36,7 @@ void ClientInterface::saveGame()
     out << m_TOD;
     out << m_serverName;
     out << m_motd;
-    out << m_nickMap;
+    out << m_playersMap;
     out << m_chat->toHtml();
     out << m_narrator->toHtml();
     out << m_RPChat->toHtml();
@@ -44,7 +44,7 @@ void ClientInterface::saveGame()
 
     file.write(qCompress(dta));
 
-    QMessageBox::information(this, tr("Sauvergade terminée !"), tr("Partie sauvée dans le fichier \"%1\".").arg(fileName));
+    QMessageBox::information(this, tr("Sauvegarde terminée !"), tr("Partie sauvée dans le fichier \"%1\".").arg(fileName));
 }
 
 void ClientInterface::loadGame()
@@ -98,7 +98,7 @@ void ClientInterface::loadGame()
     in >> m_TOD;
     in >> m_serverName;
     in >> m_motd;
-    in >> m_nickMap;
+    in >> m_playersMap;
     QString t;
     in >> t; m_chat->setHtml(t);
     in >> t; m_narrator->setHtml(t);
