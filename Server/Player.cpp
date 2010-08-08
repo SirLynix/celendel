@@ -9,7 +9,6 @@ Player::Player(CLID cID, QObject* parent) : QObject(parent), m_ID(cID)
 
 CLID Player::ID() const
 {
-    qDebug() << "Here :" << m_ID;
     return m_ID;
 }
 

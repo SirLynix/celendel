@@ -14,8 +14,10 @@ class Recorder : public QObject
     public:
         Recorder(size_t sampleRate, QObject* parent = 0);
         ~Recorder();
-        bool error();
+        bool error() const;
         int sampleRate() const;
+
+        bool changeDevice(const QString& name="");
 
     signals:
         void readyRead(ALshortVector);
@@ -24,6 +26,7 @@ class Recorder : public QObject
         void startRecord();
         void stopRecord();
         void setFrameSize(int frameSize);
+
 
     private slots:
         void capture();

@@ -2,6 +2,7 @@
 #define DEF_VOIP
 
 #include <QThread>
+#include <QStringList>
 #include "SoundReceiver.h"
 #include "Sound.h"
 #include "Recorder.h"
@@ -10,6 +11,9 @@
 
 #define VOIP_DEFAULT_PORT 5566
 #define SAMPLE_RATE 8000
+
+QStringList getOALDevices(bool output=true); //If true, list the output devices. If false, list the capture devices.
+QString getOALCurrentDevice(bool output=true); //Same
 
 struct VOIPClient
 {
@@ -42,6 +46,8 @@ class VOIP : public QObject
         float quality() const { return speex.quality(); }
         float volume(const QString& ip="") const;
         bool isEnabled() const { return m_enabled; }
+
+        bool changeCaptureDevice(const QString& name) { return rec->changeDevice(name); }
 
 
         bool contains(const QString& IP) const { return indexOf(IP)!=-1; }
@@ -95,6 +101,8 @@ class VOIPThread : public QThread //Multi-thread interface
         bool contains(const QString& IP) {mutex.lock();bool e=m_voip->contains(IP);mutex.unlock();return e;}
 
         float volume(const QString& ip="") {mutex.lock();float e=m_voip->volume(ip);mutex.unlock();return e;}
+
+        bool changeCaptureDevice(const QString& name) {mutex.lock();bool e=m_voip->changeCaptureDevice(name);mutex.unlock();return e;}
 
     public slots:
         void setQuality(float q) {mutex.lock(); m_voip->setQuality(q); mutex.unlock();}

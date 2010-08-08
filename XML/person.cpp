@@ -42,15 +42,15 @@ bool Person::heal(unsigned int amount)
 
 void Person::baseDoc()
 {
-    QDomElement docElem = dom.createElement("XMLObject");
-    dom.appendChild(docElem);
+    QDomElement docElem = m_dom.createElement("XMLObject");
+    m_dom.appendChild(docElem);
 
-    QDomElement general_elem = dom.createElement("General");
+    QDomElement general_elem = m_dom.createElement("General");
     general_elem.setAttribute("Name", m_name);
     general_elem.setAttribute("Description", m_infos);
     docElem.appendChild(general_elem);
 
-    QDomElement perso_elem = dom.createElement("Person");
+    QDomElement perso_elem = m_dom.createElement("Person");
     perso_elem.setAttribute("Life", m_vie);
     perso_elem.setAttribute("Behavior", m_behavior);
     docElem.appendChild(perso_elem);

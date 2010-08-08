@@ -84,6 +84,11 @@ class ClientSettings : public QDialog
         QVBoxLayout* m_libs_la;
         QWidget* gar;
 
+        QComboBox* m_cb_dvc_out;
+        QCheckBox* m_chb_dvc_out;
+        QComboBox* m_cb_dvc_in;
+        QCheckBox* m_chb_dvc_in;
+
         ClientInterface* m_parent;
 };
 

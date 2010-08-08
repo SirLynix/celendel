@@ -7,7 +7,7 @@
 #include "SFML\Audio.hpp"
 
 #define LIB_FOLDER "Sounds/"
-#define TMP_FOLDER QDir::tempPath()+QDir::separator()+"CelendelSoundCache"+QDir::separator()
+#define TMP_FOLDER QDir::tempPath()+QDir::separator()+"Celendel"+QDir::separator()+"SoundCache"+QDir::separator()
 #define LIB_EXT ".soundlib"
 #define RAM_CACHE_LIMIT 1024*512 //512ko
 

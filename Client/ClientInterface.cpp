@@ -12,8 +12,6 @@ ClientInterface::ClientInterface()
 {
     buildGUI();
 
-    //qRegisterMetaType<PlayerInformations>();
-
     QSettings* set=NULL;
     set=allocateSettings();
 
