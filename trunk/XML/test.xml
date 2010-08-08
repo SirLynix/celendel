@@ -1,4 +1,3 @@
 <XMLObject>
- <Event trigger="on_creation" action="alert_owner" text="I CAN'T BELIEVE IT !" />
- <Event trigger="on_creation" action="alert_owner" text="JE SUIS VIVAAAAANT !"/>
+ <Event trigger="on_destruction" action="alert_special_player" text="JE SUIS VIVAAAAANT !" player_name_regexp="#[^0-9]#" player_class_regexp="paladin"/>
 </XMLObject>

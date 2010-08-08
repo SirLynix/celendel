@@ -8,6 +8,19 @@ XMLObject::XMLObject()
     m_infos = "Créé par XMLObjet";
 }
 
+XMLObject::~XMLObject()
+{
+    QMultiMap<TRIGGER_TYPE, Event>::const_iterator i = m_eventMap.constBegin();
+    while (i != m_eventMap.constEnd())
+    {
+        if(i.value().action==ALERT_SPECIAL_PLAYER)
+        {
+            delete i.value().data.plyPatern; //Must be NULL or allocated, else behavior is undefined.
+        }
+        ++i;
+    }
+}
+
 /*QByteArray XMLObject::serialiseXMLDocument()
 {
 
@@ -50,6 +63,7 @@ bool XMLObject::addAttributeOnTag(const QString& tagName, const QString& attribu
     }
     return false;
 }
+
 void XMLObject::addAttributeWithTag(const QString& NewTagName, const QString& attribute, const QString& value)
 {
     QDomElement docElem = m_dom.documentElement();
@@ -82,14 +96,27 @@ bool XMLObject::save(const QString& filename)
     m_isSynced = true;
 }
 
-bool XMLObject::doAction(ACTION_TYPE act, const QString& txt)
+bool XMLObject::doAction(const Event& e)
 {
-    if(act==NOT_AN_ACTION)
+    if(e.action==NOT_AN_ACTION)
         return false;
 
-    if(act==ALERT_OWNER)
+    if(e.action==ALERT_OWNER)
     {
-        qDebug() << "ALERT OWNER : " << txt;
+        qDebug() << "ALERT OWNER : " << e.text;
+        emit alertOwner(e.text);
+        return true;
+    }
+    else if(e.action==ALERT_ALL_PLAYERS)
+    {
+        qDebug() << "ALERT ALL PLAYERS : " << e.text;
+        emit alertAllPlayers(e.text);
+        return true;
+    }
+    else if(e.action==ALERT_SPECIAL_PLAYER)
+    {
+        qDebug() << "ALERT SPECIAL PLAYER ("<<e.data.plyPatern->nameRegExp << ") : " << e.text;
+        emit alertPlayers(e.text, *e.data.plyPatern);
         return true;
     }
 
@@ -106,7 +133,7 @@ bool XMLObject::onEvent(TRIGGER_TYPE trig)
 
     for(int i=0;i<list.size();++i)
     {
-        doAction(list[i].action, list[i].text);
+        doAction(list[i]);
     }
 
     return ret;
@@ -122,6 +149,7 @@ TRIGGER_TYPE stringToTrigger(const QString& s)
     CAR(ON_DESTRUCTION);
     CAR(ON_THROWN);
     CAR(ON_EQUIPPED);
+    CAR(ON_OWNER_CHANGE);
 
     return NOT_A_TRIGGER;
 }
@@ -135,6 +163,7 @@ ACTION_TYPE stringToAction(const QString& s)
     CAR(ALERT_GM);
     CAR(ALERT_ALL_PLAYERS);
     CAR(ALERT_OWNER);
+    CAR(ALERT_SPECIAL_PLAYER);
 
     return NOT_AN_ACTION;
 }
@@ -195,12 +224,55 @@ void XMLObject::loadEvents()
                                 }
                                 else
                                 {
-                                    ev.action=at;
+                                    if(ev.data.ptr==NULL&&ev.action==NOT_AN_ACTION)
+                                    {
+                                        ev.action=at;
+                                    }
+                                    else
+                                    {
+                                        qDebug() << "Error : multiple 'action' attribute in a single event. Keeping the first one...";
+                                    }
                                 }
                             }
                             else if(name=="TEXT")
                             {
                                 ev.text=attr.value();
+                            }
+                            else if(name=="PLAYER_NAME_REGEXP")
+                            {
+                                if(ev.action==ALERT_SPECIAL_PLAYER)
+                                {
+                                    if(ev.data.plyPatern==NULL)
+                                    {
+                                        ev.data.plyPatern=new PlayerPatern;
+                                    }
+                                    ev.data.plyPatern->nameRegExp=attr.value();
+
+                                }
+                                else
+                                {
+                                    qDebug() << "Error : attribute " << name << " does not match with action type.";
+                                }
+                            }
+                            else if(name=="PLAYER_CLASS_REGEXP")
+                            {
+                                if(ev.action==ALERT_SPECIAL_PLAYER)
+                                {
+                                    if(ev.data.ptr==NULL)
+                                    {
+                                        ev.data.plyPatern=new PlayerPatern;
+                                    }
+                                    ev.data.plyPatern->classRegExp=attr.value();
+
+                                }
+                                else
+                                {
+                                    qDebug() << "Error : attribute " << name << " does not match with action type.";
+                                }
+                            }
+                            else if(name=="PLAYER_NAME")
+                            {
+
                             }
                             else
                             {
