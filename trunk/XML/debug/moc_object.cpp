@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Meta object code from reading C++ file 'object.h'
 **
-** Created: Mon 28. Jun 10:27:14 2010
+** Created: Sat 7. Aug 20:38:13 2010
 **      by: The Qt Meta Object Compiler version 62 (Qt 4.6.2)
 **
 ** WARNING! All changes made in this file will be lost!
@@ -32,13 +32,14 @@ static const uint qt_meta_data_Object[] = {
 
  // slots: signature, parameters, type, tag, flags
       13,    7,    8,    7, 0x0a,
-      23,    7,    8,    7, 0x0a,
+      30,   23,    8,    7, 0x0a,
 
        0        // eod
 };
 
 static const char qt_meta_stringdata_Object[] = {
-    "Object\0\0bool\0throwUp()\0give()\0"
+    "Object\0\0bool\0throwUp()\0target\0"
+    "give(Person*)\0"
 };
 
 const QMetaObject Object::staticMetaObject = {
@@ -72,7 +73,7 @@ int Object::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
         switch (_id) {
         case 0: { bool _r = throwUp();
             if (_a[0]) *reinterpret_cast< bool*>(_a[0]) = _r; }  break;
-        case 1: { bool _r = give();
+        case 1: { bool _r = give((*reinterpret_cast< Person*(*)>(_a[1])));
             if (_a[0]) *reinterpret_cast< bool*>(_a[0]) = _r; }  break;
         default: ;
         }

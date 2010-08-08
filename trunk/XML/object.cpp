@@ -31,15 +31,15 @@ bool Object::give(Person *target)
 
 void Object::baseDoc()
 {
-    QDomElement docElem = dom.createElement("XMLObject");
-    dom.appendChild(docElem);
+    QDomElement docElem = m_dom.createElement("XMLObject");
+    m_dom.appendChild(docElem);
 
-    QDomElement general_elem = dom.createElement("General");
+    QDomElement general_elem = m_dom.createElement("General");
     general_elem.setAttribute("Name", m_name);
     general_elem.setAttribute("Description", m_infos);
     docElem.appendChild(general_elem);
 
-    QDomElement object_elem = dom.createElement("Object");
+    QDomElement object_elem = m_dom.createElement("Object");
     object_elem.setAttribute("Weight", m_weight);
     if(m_owner != NULL)
     {

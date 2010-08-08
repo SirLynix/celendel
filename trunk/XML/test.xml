@@ -1,4 +1,4 @@
 <XMLObject>
- <General Description="Ce personnage est cree par defaut" Name="Personnage"/>
- <Person Life="10" Behavior="3"/>
+ <Event trigger="on_creation" action="alert_owner" text="I CAN'T BELIEVE IT !" />
+ <Event trigger="on_creation" action="alert_owner" text="JE SUIS VIVAAAAANT !"/>
 </XMLObject>

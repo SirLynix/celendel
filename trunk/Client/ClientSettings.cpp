@@ -132,6 +132,7 @@ ClientSettings::ClientSettings(ClientInterface* parent)
 
         v_la->addWidget(new QLabel(tr("Volume des sons d'ambiance :")));
 
+        {
         QHBoxLayout* h_la = new QHBoxLayout;
         v_la->addLayout(h_la);
 
@@ -146,6 +147,42 @@ ClientSettings::ClientSettings(ClientInterface* parent)
         connect(m_soundSpinBox, SIGNAL(valueChanged(double)), this, SLOT(soundSpinBoxChanged(double)));
         h_la->addWidget(m_sound);
         h_la->addWidget(m_soundSpinBox);
+        }
+        {
+        QHBoxLayout* h_la = new QHBoxLayout;
+        v_la->addLayout(h_la);
+
+        h_la->addWidget(new QLabel(tr("Périphériques sonore :")));
+        m_chb_dvc_out=new QCheckBox(tr("Utiliser le périphérique par défaut"), this);
+        v_la->addWidget(m_chb_dvc_out);
+        m_cb_dvc_out=new QComboBox(this);
+        m_cb_dvc_out->addItems(getOALDevices(true));
+        m_cb_dvc_out->setCurrentIndex(m_cb_dvc_out->findText(getOALCurrentDevice(true)));
+        h_la->addWidget(m_cb_dvc_out);
+
+        }
+        {
+        QHBoxLayout* h_la = new QHBoxLayout;
+        v_la->addLayout(h_la);
+
+        h_la->addWidget(new QLabel(tr("Périphériques de capture :")));
+        m_chb_dvc_in=new QCheckBox(tr("Utiliser le périphérique par défaut"), this);
+        v_la->addWidget(m_chb_dvc_in);
+        m_cb_dvc_in=new QComboBox(this);
+        m_cb_dvc_in->addItems(getOALDevices(false));
+        int ind=m_cb_dvc_in->findText(getOALCurrentDevice(false));
+        if(ind==-1)
+        {
+            QString d=getOALCurrentDevice(false);
+            m_cb_dvc_in->addItem(d);
+            m_cb_dvc_in->setCurrentIndex(m_cb_dvc_in->findText(d));
+        }
+        else
+            m_cb_dvc_in->setCurrentIndex(ind);
+
+        h_la->addWidget(m_cb_dvc_in);
+        }
+
     }
 
     {
@@ -401,6 +438,19 @@ void ClientSettings::ok()
     m_settings->setValue(PARAM_SOUNDLIBS, sndMngr.loadedLibs());
     m_settings->setValue(PARAM_VOIP_ENABLED, m_voip->isChecked());
     getVOIP().setEnabled(m_voip->isChecked());
+
+    if(m_chb_dvc_in->isChecked())
+    {
+        getVOIP().changeCaptureDevice("");
+    }
+    else
+    {
+        QString t=m_cb_dvc_in->currentText();
+        if(getOALCurrentDevice(false)!=t)
+        {
+            getVOIP().changeCaptureDevice(t);
+        }
+    }
 
     accept();
 }

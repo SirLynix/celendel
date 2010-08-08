@@ -27,6 +27,29 @@ void Recorder::startRecord()
     }
 }
 
+bool Recorder::changeDevice(const QString& name)
+{
+    ALCdevice *tmp;
+    if(name.isEmpty())
+    {
+        tmp=alcCaptureOpenDevice(NULL, m_sampleRate, AL_FORMAT_MONO16, m_sampleRate);
+    }
+    else
+        tmp=alcCaptureOpenDevice(name.toLatin1(), m_sampleRate, AL_FORMAT_MONO16, m_sampleRate);
+    if(tmp==NULL)
+        return true;
+
+    stopRecord();
+
+    ALCdevice* tr=m_captureDevice;
+    m_captureDevice=tmp;
+    alcCaptureCloseDevice(tr);
+
+    startRecord();
+
+    return false;
+}
+
 int Recorder::sampleRate() const
 {
     return m_sampleRate;
@@ -63,7 +86,7 @@ void Recorder::stopRecord()
     m_timer->stop();
 }
 
-bool Recorder::error()
+bool Recorder::error() const
 {
     return m_error;
 }

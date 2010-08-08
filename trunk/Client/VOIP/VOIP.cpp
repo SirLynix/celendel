@@ -1,5 +1,66 @@
 #include "VOIP.h"
 
+QStringList getOALDevices(bool output)
+{
+    if(alcIsExtensionPresent(NULL, "ALC_ENUMERATION_EXT")==AL_FALSE)
+        return QStringList();
+
+    QStringList list;
+    ALenum p=ALC_DEVICE_SPECIFIER;
+    if(!output)
+        p=ALC_CAPTURE_DEVICE_SPECIFIER;
+
+    const ALCchar *str=alcGetString(NULL, p);
+
+    int size=0;
+    for(;str[size]!='\0'&&str[size+1]!='\0';++size);
+    size+=2;
+
+
+
+    int c=0;
+    for(int i=0; i<size;++i)
+    {
+        if(str[i]=='\0')
+        {
+            QString s; s.resize(i-c);
+            for(int j=c; j<i; ++j)
+            {
+                s[j-c]=str[j];
+            }
+            list<<s;
+            c=i+1;
+        }
+    }
+
+    return list;
+}
+
+QString getOALCurrentDevice(bool output)
+{
+    ALCcontext *ctxt=alcGetCurrentContext();
+    if(ctxt==NULL)
+        return QString();
+
+    ALCdevice *cdvc = alcGetContextsDevice(ctxt);
+    if(cdvc==NULL)
+        return QString();
+
+    ALenum p=ALC_DEVICE_SPECIFIER;
+    if(!output)
+        p=ALC_CAPTURE_DEVICE_SPECIFIER;
+
+    const ALCchar *a = alcGetString(cdvc, p);
+    int size=0;
+    for(;a[size]!='\0';++size);
+    QString s; s.resize(size);
+    for(int i=0;i<size;++i)
+    {
+        s[i]=a[i];
+    }
+    return s;
+}
+
 using namespace VOIPSystem;
 
 VOIPThread& getVOIP()
