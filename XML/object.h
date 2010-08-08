@@ -6,7 +6,8 @@ class Object : public XMLObject
 {
 Q_OBJECT
 public:
-    Object(QString filename = "",QString name = "", int weight = 1, QString infos = "");
+    Object(const QString& filename);
+    Object(int weight=1, const QString& name="", const QString& infos = "");
 
 public slots:
     bool throwUp();
@@ -15,7 +16,7 @@ public slots:
 private:
     unsigned int m_weight;
     Person *m_owner;
-    void baseDoc();
+    //void baseDoc();
 
 
 };

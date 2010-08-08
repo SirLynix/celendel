@@ -1,34 +1,33 @@
 #include "object.h"
 
-
-Object::Object(QString filename, QString name, int weight, QString infos)
+Object::Object(const QString& filename)
 {
-    if(filename != "")
-    {
-        XMLObject::load(filename);
-    }
-    else
-    {
-        m_name = name;
-        m_infos = infos;
-        m_weight = weight;
-        m_owner = NULL;
-        baseDoc();
-    }
+    XMLObject::load(filename);
+}
+
+Object::Object(int weight, const QString& name, const QString& infos)
+{
+    m_name = name;
+    m_infos = infos;
+    m_weight = weight;
+    m_owner = NULL;
+   // baseDoc();
 }
 
 bool Object::throwUp()
 {
     m_owner = NULL;
+    onEvent(ON_DESTRUCTION);
     return false;
 }
 
 bool Object::give(Person *target)
 {
     m_owner = target;
+    onEvent(ON_OWNER_CHANGE);
     return false;
 }
-
+/*
 void Object::baseDoc()
 {
     QDomElement docElem = m_dom.createElement("XMLObject");
@@ -48,5 +47,5 @@ void Object::baseDoc()
     else { object_elem.setAttribute("Owner", "None"); }
     docElem.appendChild(object_elem);
 }
-
+*/
 
