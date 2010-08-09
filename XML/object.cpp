@@ -2,6 +2,7 @@
 
 Object::Object(const QString& filename)
 {
+    m_typePrefix = "Object";
     XMLObject::load(filename);
 }
 
@@ -12,6 +13,43 @@ Object::Object(int weight, const QString& name, const QString& infos)
     m_weight = weight;
     m_owner = NULL;
    // baseDoc();
+}
+
+bool Object::onEvent(TRIGGER_TYPE tt)
+{
+    return XMLObject::onEvent(tt);
+}
+
+#define IE(x) {QString n; if(!(n=atrmap.value(QString(#x).toUpper())).isEmpty()) {m_##x=n;}}
+#define IEI(x) {QString n; if(!(n=atrmap.value(QString(#x).toUpper())).isEmpty()) {m_##x=n.toUInt();}}
+bool Object::loadCustomData()
+{
+    QDomElement docElem = m_dom.documentElement();
+    QDomNode n = docElem.firstChild();
+    while(!n.isNull())
+    {
+        QDomElement e = n.toElement();
+
+        if(e.tagName()=="Characteristics")
+        {
+            QMultiMap<QString,QString> atrmap=extractElementAttributes(e);
+            IEI(weight);
+            IE(name);
+        }
+
+        n = n.nextSibling();
+    }
+    return false;
+}
+#undef IE
+#undef IEI
+
+void Object::synchroniseCustomData(QString& s)
+{
+    s+="<Characteristics weight=\""+QString::number(m_weight)+"\" ";
+    if(!m_name.isEmpty())
+        s+="name=\""+m_name+"\" ";
+    s+=">\n";
 }
 
 bool Object::throwUp()
@@ -27,25 +65,3 @@ bool Object::give(Person *target)
     onEvent(ON_OWNER_CHANGE);
     return false;
 }
-/*
-void Object::baseDoc()
-{
-    QDomElement docElem = m_dom.createElement("XMLObject");
-    m_dom.appendChild(docElem);
-
-    QDomElement general_elem = m_dom.createElement("General");
-    general_elem.setAttribute("Name", m_name);
-    general_elem.setAttribute("Description", m_infos);
-    docElem.appendChild(general_elem);
-
-    QDomElement object_elem = m_dom.createElement("Object");
-    object_elem.setAttribute("Weight", m_weight);
-    if(m_owner != NULL)
-    {
-        object_elem.setAttribute("Owner", m_owner->getName());
-    }
-    else { object_elem.setAttribute("Owner", "None"); }
-    docElem.appendChild(object_elem);
-}
-*/
-

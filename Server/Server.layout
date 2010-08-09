@@ -37,7 +37,7 @@
 	<File name="..\Shared\Constants.h" open="0" top="0" tabpos="1">
 		<Cursor position="3139" topLine="114" />
 	</File>
-	<File name="..\Shared\MapStructs.h" open="0" top="0" tabpos="1">
+	<File name="..\Shared\MapStructs.h" open="1" top="0" tabpos="1">
 		<Cursor position="50" topLine="0" />
 	</File>
 	<File name="..\Shared\Packet.cpp" open="0" top="0" tabpos="2">

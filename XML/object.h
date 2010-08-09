@@ -4,19 +4,26 @@
 
 class Object : public XMLObject
 {
-Q_OBJECT
-public:
-    Object(const QString& filename);
-    Object(int weight=1, const QString& name="", const QString& infos = "");
+    Q_OBJECT
+    public:
+        Object(const QString& filename);
+        Object(int weight=1, const QString& name="", const QString& infos = "");
 
-public slots:
-    bool throwUp();
-    bool give(Person *target);
+    public slots:
+        bool throwUp();
+        bool give(Person *target);
 
-private:
-    unsigned int m_weight;
-    Person *m_owner;
-    //void baseDoc();
+    protected:
+
+        bool loadCustomData();
+        void synchroniseCustomData(QString&);
+
+        bool onEvent(TRIGGER_TYPE);
+
+    private:
+        unsigned int m_weight;
+        Person *m_owner;
+        //void baseDoc();
 
 
 };
