@@ -1,14 +1,17 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
 <CodeBlocks_layout_file>
 	<ActiveTarget name="Release" />
-	<File name="XMLObject.h" open="1" top="0" tabpos="2">
-		<Cursor position="313" topLine="0" />
+	<File name="XMLObject.h" open="1" top="1" tabpos="2">
+		<Cursor position="507" topLine="43" />
 	</File>
-	<File name="main.cpp" open="1" top="0" tabpos="3">
-		<Cursor position="203" topLine="0" />
+	<File name="main.cpp" open="1" top="0" tabpos="5">
+		<Cursor position="156" topLine="0" />
 	</File>
-	<File name="object.cpp" open="0" top="0" tabpos="0">
-		<Cursor position="851" topLine="12" />
+	<File name="object.cpp" open="1" top="0" tabpos="4">
+		<Cursor position="834" topLine="15" />
+	</File>
+	<File name="object.h" open="1" top="0" tabpos="3">
+		<Cursor position="512" topLine="0" />
 	</File>
 	<File name="person.cpp" open="0" top="0" tabpos="0">
 		<Cursor position="1109" topLine="18" />
@@ -16,7 +19,7 @@
 	<File name="xml.pro" open="0" top="0" tabpos="0">
 		<Cursor position="37" topLine="0" />
 	</File>
-	<File name="xmlobject.cpp" open="1" top="1" tabpos="1">
-		<Cursor position="2281" topLine="83" />
+	<File name="xmlobject.cpp" open="1" top="0" tabpos="1">
+		<Cursor position="3583" topLine="143" />
 	</File>
 </CodeBlocks_layout_file>

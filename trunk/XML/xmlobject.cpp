@@ -4,96 +4,92 @@
 
 XMLObject::XMLObject()
 {
+    m_typePrefix = "XMLObject";
     m_name = "Objet XML";
     m_infos = "Créé par XMLObjet";
+
+    m_error=false;
 }
 
 XMLObject::~XMLObject()
 {
-    QMultiMap<TRIGGER_TYPE, Event>::const_iterator i = m_eventMap.constBegin();
-    while (i != m_eventMap.constEnd())
+    QMultiMap<TRIGGER_TYPE, Event>::const_iterator i=m_eventMap.constBegin();while(i!=m_eventMap.constEnd())
     {
         if(i.value().action==ALERT_SPECIAL_PLAYER)
-        {
             delete i.value().data.plyPatern; //Must be NULL or allocated, else behavior is undefined.
-        }
         ++i;
     }
 }
 
-/*QByteArray XMLObject::serialiseXMLDocument()
+bool XMLObject::unserialiseXMLDocument(const QByteArray& b)
 {
-
-
-
-}*/
-
-QString XMLObject::findAttribute(const QString& attribute)
-{
-    QDomElement docElem = m_dom.documentElement();
-    QDomNode n = docElem.firstChild();
-    while(!n.isNull())
+    QByteArray dta=qUncompress(b);
+    if(dta.isEmpty())
     {
-        QDomElement e = n.toElement();
-        if(e.attribute(attribute,"") != "")
-        {
-            return e.attribute(attribute);
-        }
-        n = n.nextSibling();
+        qDebug() << tr("Error : invalid format");
+        return true;
     }
-    return QString();
+
+    return loadFromMemory(dta, true);
 }
 
-bool XMLObject::addAttributeOnTag(const QString& tagName, const QString& attribute, const QString& value)
+QByteArray XMLObject::serialiseXMLDocument()
 {
-    QDomElement docElem = m_dom.documentElement();
-    QDomNode n = docElem.firstChild();
-    while(!n.isNull())
-    {
-        QDomElement e = n.toElement();
-        if(e.tagName() == tagName)
-        {
-            e.setAttribute(attribute, value);
-
-            n.replaceChild(e,n.toElement());
-            m_isSynced = false;
-            return true;
-        }
-        n = n.nextSibling();
-    }
-    return false;
+    return qCompress(synchronise().toLatin1());
 }
 
-void XMLObject::addAttributeWithTag(const QString& NewTagName, const QString& attribute, const QString& value)
+QString XMLObject::synchronise()
 {
-    QDomElement docElem = m_dom.documentElement();
+    if(m_error)
+        return QString();
 
-    QDomElement newElement = m_dom.createElement(NewTagName);
-    newElement.setAttribute(attribute,value);
-    docElem.appendChild(newElement);
+    QString s;
+    s.reserve(150);
+    s='<'+m_typePrefix+">\n";
+    QMultiMap<TRIGGER_TYPE, Event>::const_iterator i=m_eventMap.constBegin();while(i!=m_eventMap.constEnd())
+    {
+        s+=" <Event trigger=\""+triggerToString(i.key())+"\" action=\""+actionToString(i.value().action)+"\" text=\""+i.value().text+"\" ";
+        if(!i.value().name.isEmpty())
+            s+="name=\""+i.value().name+"\" ";
 
-    m_isSynced = false;
+        if(i.value().action==ALERT_SPECIAL_PLAYER)
+        {
+           if(!i.value().data.plyPatern->nameRegExp.isEmpty())
+            s+="player_name_regexp=\""+i.value().data.plyPatern->nameRegExp+"\" ";
+
+           if(!i.value().data.plyPatern->classRegExp.isEmpty())
+            s+="player_class_regexp=\""+i.value().data.plyPatern->classRegExp+"\" ";
+        }
+
+        s+=">\n";
+        ++i;
+    }
+
+    synchroniseCustomData(s);
+
+    s+="</"+m_typePrefix+">\n";
+    m_dom.setContent(s);
+
+    return s;
 }
 
 bool XMLObject::save(const QString& filename)
 {
+    if(error())
+        return true;
 
     QFile file(filename);
     if(!file.open(QIODevice::WriteOnly))
     {
-        file.close();
         qDebug() << tr("Impossible to write file ") << filename;
-        return false;
+        return true;
     }
 
-    QTextStream stream(&file);
+    file.write(synchronise().toLatin1());
 
-    stream << m_dom.toString();
-
-    file.close();
-    qDebug() << tr("File successfuly written ");
-    return true;
+    qDebug() << tr("File successfuly written.");
     m_isSynced = true;
+    return false;
 }
 
 bool XMLObject::doAction(const Event& e)
@@ -140,7 +136,6 @@ bool XMLObject::onEvent(TRIGGER_TYPE trig)
 }
 
 #define CAR(x) if(t==#x) return x; //Check&return
-
 TRIGGER_TYPE stringToTrigger(const QString& s)
 {
     QString t=s.toUpper();
@@ -154,8 +149,6 @@ TRIGGER_TYPE stringToTrigger(const QString& s)
     return NOT_A_TRIGGER;
 }
 
-
-
 ACTION_TYPE stringToAction(const QString& s)
 {
     QString t=s.toUpper();
@@ -167,8 +160,40 @@ ACTION_TYPE stringToAction(const QString& s)
 
     return NOT_AN_ACTION;
 }
-
 #undef CAR
+#define CAR(x) if(s==x) return #x; //Check&return
+QString triggerToString(TRIGGER_TYPE s)
+{
+    CAR(ON_CREATION);
+    CAR(ON_DESTRUCTION);
+    CAR(ON_THROWN);
+    CAR(ON_EQUIPPED);
+    CAR(ON_OWNER_CHANGE);
+
+    return QString();
+}
+
+QString actionToString(ACTION_TYPE s)
+{
+    CAR(ALERT_GM);
+    CAR(ALERT_ALL_PLAYERS);
+    CAR(ALERT_OWNER);
+    CAR(ALERT_SPECIAL_PLAYER);
+
+    return QString();
+}
+
+QMultiMap<QString,QString> extractElementAttributes(const QDomElement& e)
+{
+    QMultiMap<QString, QString> map;
+    QDomNamedNodeMap d=e.attributes();
+    for(int i=0;i<d.size();++i)
+    {
+        QDomAttr attr=d.item(i).toAttr();
+        map.insert(attr.name().toUpper(), attr.value());
+    }
+    return map;
+}
 
 void XMLObject::loadEvents()
 {
@@ -182,144 +207,116 @@ void XMLObject::loadEvents()
 
         if(e.tagName()=="Event")
         {
-            QDomNamedNodeMap d=e.attributes();
-
-            QDomNode dn;
-            if(!(dn=d.namedItem("trigger")).isNull())
+            QMultiMap<QString,QString> atrmap=extractElementAttributes(e);
+            TRIGGER_TYPE tt=NOT_A_TRIGGER;
+            if((tt=stringToTrigger(atrmap.value("TRIGGER")))==NOT_A_TRIGGER)
             {
-                QDomAttr ta=dn.toAttr();
-                if(ta.isNull())
-                {
-                    qDebug() << "Error casting to attribute...";
-                }
-                else
-                {
-                    TRIGGER_TYPE tt=stringToTrigger(ta.value().toUpper());
-
-                    if(tt==NOT_A_TRIGGER)
-                    {
-                        qDebug() << "Error : unknown trigger type";
-                    }
-                    else
-                    {
-                        Event ev;
-
-                        for(int i=0;i<d.size();++i)
-                        {
-                            QDomAttr attr=d.item(i).toAttr();
-                            QString name=attr.name().toUpper();
-
-
-                            if(name=="TRIGGER"){/* Do nothing */}
-                            else if(name=="NAME")
-                            {
-                                ev.name=attr.value();
-                            }
-                            else if(name=="ACTION")
-                            {
-                                ACTION_TYPE at=stringToAction(attr.value());
-                                if(at==NOT_AN_ACTION)
-                                {
-                                    qDebug() << "Error : unknow action.";
-                                }
-                                else
-                                {
-                                    if(ev.data.ptr==NULL&&ev.action==NOT_AN_ACTION)
-                                    {
-                                        ev.action=at;
-                                    }
-                                    else
-                                    {
-                                        qDebug() << "Error : multiple 'action' attribute in a single event. Keeping the first one...";
-                                    }
-                                }
-                            }
-                            else if(name=="TEXT")
-                            {
-                                ev.text=attr.value();
-                            }
-                            else if(name=="PLAYER_NAME_REGEXP")
-                            {
-                                if(ev.action==ALERT_SPECIAL_PLAYER)
-                                {
-                                    if(ev.data.plyPatern==NULL)
-                                    {
-                                        ev.data.plyPatern=new PlayerPatern;
-                                    }
-                                    ev.data.plyPatern->nameRegExp=attr.value();
-
-                                }
-                                else
-                                {
-                                    qDebug() << "Error : attribute " << name << " does not match with action type.";
-                                }
-                            }
-                            else if(name=="PLAYER_CLASS_REGEXP")
-                            {
-                                if(ev.action==ALERT_SPECIAL_PLAYER)
-                                {
-                                    if(ev.data.ptr==NULL)
-                                    {
-                                        ev.data.plyPatern=new PlayerPatern;
-                                    }
-                                    ev.data.plyPatern->classRegExp=attr.value();
-
-                                }
-                                else
-                                {
-                                    qDebug() << "Error : attribute " << name << " does not match with action type.";
-                                }
-                            }
-                            else if(name=="PLAYER_NAME")
-                            {
-
-                            }
-                            else
-                            {
-                                qDebug() << "Error : unknow attribute.";
-                            }
-                        }
-
-                        if(ev.isValid())
-                            m_eventMap.insert(tt,ev);
-                    }
-                }
+                qDebug() << "Error : invalid trigger";
             }
             else
             {
-                qDebug() << "Error : event without trigger";
+                Event ev;
+
+                QMultiMap<QString, QString>::const_iterator i=atrmap.constBegin();while(i!=atrmap.constEnd())
+                {
+                    if(i.key()=="ACTION")
+                    {
+                        ACTION_TYPE at=stringToAction(i.value());
+                        if(at!=NOT_AN_ACTION)
+                        {
+                            if(ev.data.ptr==NULL&&ev.action==NOT_AN_ACTION)
+                            {
+                                ev.action=at;
+                            }
+                            else
+                                qDebug() << "Error : multiple 'action' attribute in a single event. Keeping the first one...";
+                        }
+                        else
+                            qDebug() << "Error : unknow action.";
+                    }
+                    else if(i.key()=="NAME")
+                    {
+                        ev.name=i.value();
+                    }
+                    else if(i.key()=="TEXT")
+                    {
+                        ev.text=i.value();
+                    }
+                    else if(i.key()=="PLAYER_NAME_REGEXP")
+                    {
+                        if(ev.action==ALERT_SPECIAL_PLAYER)
+                        {
+                            if(ev.data.plyPatern==NULL)
+                            {
+                                ev.data.plyPatern=new PlayerPatern;
+                            }
+                            ev.data.plyPatern->nameRegExp=i.value();
+
+                        }
+                        else
+                            qDebug() << "Error : attribute " << i.key() << " does not match with action type.";
+                    }
+                    else if(i.key()=="PLAYER_CLASS_REGEXP")
+                    {
+                        if(ev.action==ALERT_SPECIAL_PLAYER)
+                        {
+                            if(ev.data.ptr==NULL)
+                                ev.data.plyPatern=new PlayerPatern;
+                            ev.data.plyPatern->classRegExp=i.value();
+                        }
+                        else
+                            qDebug() << "Error : attribute " << i.key() << " does not match with action type.";
+                    }
+                    ++i;
+                }
+
+                if(ev.isValid())
+                    m_eventMap.insert(tt,ev);
             }
         }
-
         n = n.nextSibling();
     }
 }
 
-bool XMLObject::load(const QString& filename)
+#define ER(x) {qDebug() << x; m_error=true; return true;}
+
+bool XMLObject::loadFromMemory(const QString& data, bool forceLoading)
 {
-    if(!m_isSynced)
-    {
-        qDebug() << tr("RAM document is modified, please save before");
-        return false;
-    }
+    if(!m_isSynced&&!forceLoading)
+        ER(tr("RAM document is modified, please save before loading"));
 
     m_dom.clear();
+    QString error;
+    if(!m_dom.setContent(data, &error))
+        ER(tr("An error occured during XML association in RAM : \"%1\"").arg(error));
+
+
+    if(m_dom.documentElement().nodeName()!=m_typePrefix)
+        ER(tr("Error : invalid format (\"%1\", requested \"%2\")").arg(m_dom.documentElement().nodeName(),m_typePrefix));
+
+    loadEvents();
+
+    if(!loadCustomData())
+    {
+        qDebug() << "Here :" << synchronise();
+        onEvent(ON_CREATION);
+        return false;
+    }
+    else
+    {
+        return true;
+    }
+}
+
+bool XMLObject::load(const QString& filename, bool forceLoading)
+{
     QFile file(filename);
     if(!file.open(QIODevice::ReadOnly))
     {
         file.close();
-        qDebug() << tr("Impossible to open file ") << filename;
-        return false;
-    }
-    if(!m_dom.setContent(&file))
-    {
-        qDebug() << tr("An error occured during XML association in RAM");
-        return false;
+        ER(tr("Cannot open file \"%1\"").arg(filename));
     }
 
-    loadEvents();
-
-    onEvent(ON_CREATION);
-
-    return true;
+    return loadFromMemory(file.readAll());
 }
+#undef ER

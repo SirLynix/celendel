@@ -6,8 +6,7 @@ int main(int argc, char *argv[])
 {
     QCoreApplication a(argc, argv);
 
-    Object obj;
-    obj.load("test.xml");
+    Object obj("test.xml");
     obj.throwUp();
     return a.exec();
 }

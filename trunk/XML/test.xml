@@ -1,3 +1,4 @@
-<XMLObject>
+<Object>
+ <Characteristics name="Lambda" weight="10"/>
  <Event trigger="on_destruction" action="alert_special_player" text="JE SUIS VIVAAAAANT !" player_name_regexp="#[^0-9]#" player_class_regexp="paladin"/>
-</XMLObject>
+</Object>
