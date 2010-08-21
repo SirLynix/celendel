@@ -2,12 +2,16 @@
 #include <QtXml>
 #include <QString>
 
+int alea(int min,int max){static bool first=true;if(first){srand(time(NULL));first=false;alea(0,150);}return (int)(min+((float)rand()/RAND_MAX*(max-min+1)));}
+
 XMLObject::XMLObject()
 {
     m_typePrefix = "XMLObject";
-    m_name = "Objet XML";
-    m_infos = "Créé par XMLObjet";
+    m_name = "Default XML Object";
 
+    m_isSynced=true;
+    m_life=0;
+    m_destroyable=false;
     m_error=false;
 }
 
@@ -17,7 +21,28 @@ XMLObject::~XMLObject()
     {
         if(i.value().action==ALERT_SPECIAL_PLAYER)
             delete i.value().data.plyPatern; //Must be NULL or allocated, else behavior is undefined.
+        if(i.value().action==USE_OBJECT)
+            delete i.value().data.objPatern;
+        if(i.value().action==DAMAGE)
+            delete i.value().data.amount;
+
         ++i;
+    }
+}
+
+void XMLObject::damage(uint dmg)
+{
+    if(m_destroyable)
+    {
+        if(dmg>=m_life)
+        {
+            m_life=0;
+            emit destroyed(dmg);
+        }
+        else
+            m_life-=dmg;
+
+        emit damaged(dmg);
     }
 }
 
@@ -29,20 +54,18 @@ bool XMLObject::unserialiseXMLDocument(const QByteArray& b)
         qDebug() << tr("Error : invalid format");
         return true;
     }
-
     return loadFromMemory(dta, true);
 }
 
 QByteArray XMLObject::serialiseXMLDocument()
 {
-    return qCompress(synchronise().toLatin1());
+    return qCompress(synchronise().toUtf8());
 }
 
 QString XMLObject::synchronise()
 {
     if(m_error)
         return QString();
-
     QString s;
     s.reserve(150);
     s='<'+m_typePrefix+">\n";
@@ -52,7 +75,7 @@ QString XMLObject::synchronise()
         if(!i.value().name.isEmpty())
             s+="name=\""+i.value().name+"\" ";
 
-        if(i.value().action==ALERT_SPECIAL_PLAYER)
+        if(i.value().action==ALERT_SPECIAL_PLAYER&&i.value().data.ptr!=NULL)
         {
            if(!i.value().data.plyPatern->nameRegExp.isEmpty())
             s+="player_name_regexp=\""+i.value().data.plyPatern->nameRegExp+"\" ";
@@ -60,15 +83,30 @@ QString XMLObject::synchronise()
            if(!i.value().data.plyPatern->classRegExp.isEmpty())
             s+="player_class_regexp=\""+i.value().data.plyPatern->classRegExp+"\" ";
         }
+        else if(i.value().action==USE_OBJECT&&i.value().data.ptr!=NULL)
+        {
+            if(!i.value().data.objPatern->nameRegExp.isEmpty())
+             s+="target_object_name_regexp=\""+i.value().data.objPatern->nameRegExp+"\" ";
+        }
+        else if(i.value().action==DAMAGE&&i.value().data.ptr!=NULL)
+        {
+            s+="amount=\""+QString::number(i.value().data.amount->a)+";"+QString::number(i.value().data.amount->b)+";"+QString::number(i.value().data.amount->c);
+            int size=i.value().data.amount->array.size();
+            for(int k=0;k<size;++k)
+                s+=";"+QString::number(i.value().data.amount->array[k]);
+            s+="\" ";
+        }
 
-        s+=">\n";
+        s+="/>\n";
         ++i;
     }
 
     synchroniseCustomData(s);
 
     s+="</"+m_typePrefix+">\n";
+
     m_dom.setContent(s);
+    m_isSynced=false;
 
     return s;
 }
@@ -97,6 +135,12 @@ bool XMLObject::doAction(const Event& e)
     if(e.action==NOT_AN_ACTION)
         return false;
 
+    if(e.randomFactor>0)
+    {
+        if(alea(0,e.randomFactor))
+            return false;
+    }
+
     if(e.action==ALERT_OWNER)
     {
         qDebug() << "ALERT OWNER : " << e.text;
@@ -115,8 +159,36 @@ bool XMLObject::doAction(const Event& e)
         emit alertPlayers(e.text, *e.data.plyPatern);
         return true;
     }
+    else if(e.action==DAMAGE)
+    {
+        if(e.data.ptr==NULL)
+        {
+            qDebug() << "Error : invalid damage event.";
+            return false;
+        }
+
+        damage(e.data.amount->a);
+        return true;
+    }
+    else if(e.action==USE_OBJECT)
+    {
+        if(e.data.ptr==NULL)
+        {
+            this->use(true);
+        }
+        else
+        {
+            emit useObject(*e.data.objPatern);
+        }
+    }
 
     return false;
+}
+
+bool XMLObject::use(bool isScript)
+{
+    emit used(isScript);
+    return onEvent(ON_USE);
 }
 
 bool XMLObject::onEvent(TRIGGER_TYPE trig)
@@ -129,59 +201,24 @@ bool XMLObject::onEvent(TRIGGER_TYPE trig)
 
     for(int i=0;i<list.size();++i)
     {
-        doAction(list[i]);
+        ret=doAction(list[i])?true:ret;
     }
 
     return ret;
 }
 
-#define CAR(x) if(t==#x) return x; //Check&return
-TRIGGER_TYPE stringToTrigger(const QString& s)
-{
-    QString t=s.toUpper();
-
-    CAR(ON_CREATION);
-    CAR(ON_DESTRUCTION);
-    CAR(ON_THROWN);
-    CAR(ON_EQUIPPED);
-    CAR(ON_OWNER_CHANGE);
-
-    return NOT_A_TRIGGER;
-}
-
-ACTION_TYPE stringToAction(const QString& s)
-{
-    QString t=s.toUpper();
-
-    CAR(ALERT_GM);
-    CAR(ALERT_ALL_PLAYERS);
-    CAR(ALERT_OWNER);
-    CAR(ALERT_SPECIAL_PLAYER);
-
-    return NOT_AN_ACTION;
-}
+#define CAR(x) if(t==#x) return x;
+#define CI CAR(ON_CREATION)CAR(ON_DESTRUCTION)CAR(ON_THROWN)CAR(ON_EQUIPPED)CAR(ON_OWNER_CHANGE)CAR(ON_USE)CAR(REGULAR)
+TRIGGER_TYPE stringToTrigger(const QString& s){QString t=s.toUpper();CI return NOT_A_TRIGGER;}
+#define CM CAR(ALERT_GM)CAR(ALERT_ALL_PLAYERS)CAR(ALERT_OWNER)CAR(ALERT_SPECIAL_PLAYER)CAR(FEED)CAR(DAMAGE)CAR(DESTROY)CAR(USE_OBJECT)
+ACTION_TYPE stringToAction(const QString& s){QString t=s.toUpper();CM return NOT_AN_ACTION;}
 #undef CAR
-#define CAR(x) if(s==x) return #x; //Check&return
-QString triggerToString(TRIGGER_TYPE s)
-{
-    CAR(ON_CREATION);
-    CAR(ON_DESTRUCTION);
-    CAR(ON_THROWN);
-    CAR(ON_EQUIPPED);
-    CAR(ON_OWNER_CHANGE);
-
-    return QString();
-}
-
-QString actionToString(ACTION_TYPE s)
-{
-    CAR(ALERT_GM);
-    CAR(ALERT_ALL_PLAYERS);
-    CAR(ALERT_OWNER);
-    CAR(ALERT_SPECIAL_PLAYER);
-
-    return QString();
-}
+#define CAR(x) if(s==x) return #x;
+QString triggerToString(TRIGGER_TYPE s){CI return QString();}
+QString actionToString(ACTION_TYPE s){CM return QString();}
+#undef CAR
+#undef CI
+#undef CM
 
 QMultiMap<QString,QString> extractElementAttributes(const QDomElement& e)
 {
@@ -238,9 +275,38 @@ void XMLObject::loadEvents()
                     {
                         ev.name=i.value();
                     }
+                    else if(i.key()=="RANDOM")
+                    {
+                        ev.randomFactor=i.value().toUInt();
+                    }
                     else if(i.key()=="TEXT")
                     {
                         ev.text=i.value();
+                    }
+                    else if(i.key()=="AMOUNT")
+                    {
+                        if(ev.action==DAMAGE)
+                        {
+                            if(ev.data.ptr==NULL)
+                            {
+                                ev.data.amount=new Amount;
+                            }
+                            QStringList spl=i.value().split(';', QString::SkipEmptyParts);
+                            if(spl.size()==0)
+                                qDebug() << "Error : empty argument";
+                            else
+                            {
+                                if(spl.size()>=1)
+                                    ev.data.amount->a=spl[0].toInt();
+                                if(spl.size()>=2)
+                                    ev.data.amount->b=spl[1].toInt();
+                                if(spl.size()>=3)
+                                    ev.data.amount->c=spl[2].toInt();
+                                if(spl.size()>=4)
+                                    for(int i=3; i<spl.size(); ++i)
+                                        ev.data.amount->array.append(spl[i].toInt());
+                            }
+                        }
                     }
                     else if(i.key()=="PLAYER_NAME_REGEXP")
                     {
@@ -267,11 +333,34 @@ void XMLObject::loadEvents()
                         else
                             qDebug() << "Error : attribute " << i.key() << " does not match with action type.";
                     }
+                    else if(i.key()=="TARGET_OBJECT_NAME_REGEXP")
+                    {
+                        if(ev.action==USE_OBJECT)
+                        {
+                            if(ev.data.ptr==NULL)
+                                ev.data.objPatern=new ObjectPatern;
+                            ev.data.objPatern->nameRegExp=i.value();
+                        }
+                        else
+                            qDebug() << "Error : attribute " << i.key() << " does not match with action type.";
+                    }
+
                     ++i;
                 }
 
                 if(ev.isValid())
-                    m_eventMap.insert(tt,ev);
+                {
+                    if(tt==ON_USE&&ev.action==USE_OBJECT&&ev.data.ptr==NULL)
+                    {
+                        qDebug() << "Error : circular event detected : skipping...";
+                    }
+                    else if(ev.action==ALERT_SPECIAL_PLAYER&&ev.data.ptr==NULL)
+                    {
+                        qDebug() << "Error : special player undefined. Skipping...";
+                    }
+                    else
+                        m_eventMap.insert(tt,ev);
+                }
             }
         }
         n = n.nextSibling();
@@ -280,7 +369,7 @@ void XMLObject::loadEvents()
 
 #define ER(x) {qDebug() << x; m_error=true; return true;}
 
-bool XMLObject::loadFromMemory(const QString& data, bool forceLoading)
+bool XMLObject::loadFromMemory(const QByteArray& data, bool forceLoading)
 {
     if(!m_isSynced&&!forceLoading)
         ER(tr("RAM document is modified, please save before loading"));
@@ -298,7 +387,7 @@ bool XMLObject::loadFromMemory(const QString& data, bool forceLoading)
 
     if(!loadCustomData())
     {
-        qDebug() << "Here :" << synchronise();
+        m_isSynced=true;
         onEvent(ON_CREATION);
         return false;
     }

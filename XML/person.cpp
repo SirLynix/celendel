@@ -1,58 +1,46 @@
 #include "person.h"
-#define VIE_MAX 10
+#include <QRegExp>
 
-
-Person::Person(QString filename,QString name, BEHAVIOR_TYPE bh, QString infos)
+Person::Person(const QString& filename, const QString& name, BEHAVIOR_TYPE bh, const QString& infos)
 {
-        if(filename != "")
-        {
-            XMLObject::load(filename);
-        }
-        else
-        {
-            m_name = name;
-            m_vie = VIE_MAX;
-            m_behavior = bh;
-            m_infos = infos;
-            baseDoc();
-        }
-}
-
-bool Person::damage(unsigned int damage)
-{
-    m_vie -= damage;
-    if(m_vie <= 0)
+    if(filename != "")
     {
-        m_vie = 0;
-        return true;
+        XMLObject::load(filename);
     }
-    return false;
-}
-
-bool Person::heal(unsigned int amount)
-{
-    m_vie += amount;
-    if(m_vie >= VIE_MAX)
+    else
     {
-        m_vie = VIE_MAX;
-        return true;
+        m_name = name;
+        m_behavior = bh;
+        m_infos = infos;
     }
-    return false;
 }
 
-void Person::baseDoc()
+bool Person::loadCustomData()
 {
-    QDomElement docElem = m_dom.createElement("XMLObject");
-    m_dom.appendChild(docElem);
 
-    QDomElement general_elem = m_dom.createElement("General");
-    general_elem.setAttribute("Name", m_name);
-    general_elem.setAttribute("Description", m_infos);
-    docElem.appendChild(general_elem);
-
-    QDomElement perso_elem = m_dom.createElement("Person");
-    perso_elem.setAttribute("Life", m_vie);
-    perso_elem.setAttribute("Behavior", m_behavior);
-    docElem.appendChild(perso_elem);
 }
 
+void Person::synchroniseCustomData(QString&)
+{
+
+}
+
+
+bool Person::matchPatern(const PlayerPatern& patern)
+{
+    if(patern.human==true&&m_behavior!=BH_PLAYER)
+        return false;
+
+    if(!patern.nameRegExp.isEmpty())
+    {
+        if(!QRegExp(patern.nameRegExp).exactMatch(m_name))
+            return false;
+    }
+    if(!patern.classRegExp.isEmpty())
+    {
+        if(!QRegExp(patern.classRegExp).exactMatch(m_class))
+            return false;
+    }
+
+    return true;
+}

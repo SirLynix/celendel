@@ -2,20 +2,24 @@
 #define PERSON_H
 #include "XMLObject.h"
 
-enum BEHAVIOR_TYPE {BH_PLAYER, BH_ENNEMY, BH_AGGRESSIVE, BH_UNKNOWN };
+enum BEHAVIOR_TYPE {BH_PLAYER, BH_ENNEMY, BH_AGGRESSIVE, BH_UNKNOWN};
 
 class Person : public XMLObject
 {
-public:
-    Person(QString filename = "",QString name = "", BEHAVIOR_TYPE bh = BH_UNKNOWN, QString infos = "");
+    Q_OBJECT
+    public:
+        Person(const QString& filename = "", const QString& name = "", BEHAVIOR_TYPE bh = BH_UNKNOWN, const QString& infos = "");
 
-private:
-   bool damage(unsigned int damage);
-   bool heal(unsigned int amount = 0);
-   void baseDoc();
+        bool matchPatern(const PlayerPatern& patern);
 
-   int m_vie;
-   BEHAVIOR_TYPE m_behavior;
+    protected:
+        bool loadCustomData();
+        void synchroniseCustomData(QString&);
+
+    private:
+
+       BEHAVIOR_TYPE m_behavior;
+       QString m_class;
 };
 
 #endif // PERSON_H

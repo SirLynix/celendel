@@ -7,6 +7,8 @@ int main(int argc, char *argv[])
     QCoreApplication a(argc, argv);
 
     Object obj("test.xml");
-    obj.throwUp();
+    Object to;
+    to.unserialiseXMLDocument(obj.serialiseXMLDocument());
+    to.throwUp();
     return a.exec();
 }
