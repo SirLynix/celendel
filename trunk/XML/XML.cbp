@@ -51,6 +51,7 @@
 		<Unit filename="object.h" />
 		<Unit filename="person.cpp" />
 		<Unit filename="person.h" />
+		<Unit filename="test.xml" />
 		<Unit filename="xml.pro" />
 		<Unit filename="xmlobject.cpp" />
 		<Extensions>

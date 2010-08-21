@@ -5,8 +5,8 @@
 #include <QMultiMap>
 #include <QtXml/QtXml>
 
-enum TRIGGER_TYPE {NOT_A_TRIGGER, ON_CREATION, ON_DESTRUCTION, ON_THROWN, ON_EQUIPPED, ON_OWNER_CHANGE};
-enum ACTION_TYPE {NOT_AN_ACTION, ALERT_GM, ALERT_ALL_PLAYERS, ALERT_OWNER, ALERT_SPECIAL_PLAYER};
+enum TRIGGER_TYPE {NOT_A_TRIGGER, ON_CREATION, ON_DESTRUCTION, ON_THROWN, ON_EQUIPPED, ON_OWNER_CHANGE, ON_USE, REGULAR};
+enum ACTION_TYPE {NOT_AN_ACTION, ALERT_GM, ALERT_ALL_PLAYERS, ALERT_OWNER, ALERT_SPECIAL_PLAYER, FEED, DAMAGE, DESTROY, USE_OBJECT};
 
 TRIGGER_TYPE stringToTrigger(const QString& s);
 ACTION_TYPE stringToAction(const QString& s);
@@ -22,15 +22,30 @@ struct PlayerPatern
     bool human;
 };
 
+struct ObjectPatern
+{
+    PlayerPatern owner;
+    QString nameRegExp;
+};
+
+struct Amount
+{
+    Amount(int _a=0,int _b=0, int _c=0):a(_a), b(_b), c(_c) {}
+    int a;
+    int b;
+    int c;
+    QList<int> array;
+};
+
 struct Event
 {
-    Event(ACTION_TYPE act=NOT_AN_ACTION) : action(act) { data.plyPatern=NULL; }
+    Event(ACTION_TYPE act=NOT_AN_ACTION) : randomFactor(0), action(act) { data.ptr=NULL; }
     bool isValid() const { return action!=NOT_AN_ACTION; }
     QString name;
+    unsigned int randomFactor;
     ACTION_TYPE action;
     QString text;
-    union {void* ptr; PlayerPatern* plyPatern; } data;
-   // void* data;
+    union {void* ptr; PlayerPatern* plyPatern; Amount* amount; ObjectPatern* objPatern;} data;
 };
 
 class XMLObject : public QObject
@@ -47,11 +62,17 @@ public:
 
    bool save(const QString& filename); //True on error
    bool load(const QString& filename, bool forceLoading=false); //True on error
-   bool loadFromMemory(const QString& data, bool forceLoading=false); //True on error
+   bool loadFromMemory(const QByteArray& data, bool forceLoading=false); //True on error
 
-   bool error() const { return m_error; }
+   bool error() const {return m_error;}
 
+   uint life() const {return m_life;}
+   bool isDestroyable() const {return m_destroyable;}
+   bool isDestroyed() const {return m_life==0;}
 
+   void damage(uint dmg);
+
+   bool use(bool isScript=false);
 
 signals:
     void alertGM(QString message);
@@ -59,7 +80,14 @@ signals:
     void alertPlayers(QString message, PlayerPatern patern);
     void alertAllPlayers(QString message);
 
-private :
+    void useObject(ObjectPatern patern);
+
+    void destroyed(int damage);
+    void damaged(int damage);
+
+    void used(bool isScript);
+
+private:
     void loadEvents();
 
 protected:
@@ -79,6 +107,9 @@ protected:
     QString m_infos;
     QDomDocument m_dom;
     bool m_isSynced;
+
+    uint m_life;
+    bool m_destroyable;
 
     QMultiMap<TRIGGER_TYPE, Event> m_eventMap;
 };

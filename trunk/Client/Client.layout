@@ -34,7 +34,7 @@
 	<File name="ClientSave.cpp" open="0" top="0" tabpos="0">
 		<Cursor position="3297" topLine="71" />
 	</File>
-	<File name="ClientSettings.cpp" open="1" top="0" tabpos="1">
+	<File name="ClientSettings.cpp" open="0" top="0" tabpos="1">
 		<Cursor position="7070" topLine="144" />
 	</File>
 	<File name="ClientSettings.h" open="0" top="0" tabpos="5">
@@ -64,8 +64,8 @@
 	<File name="VOIP\Global.h" open="0" top="0" tabpos="0">
 		<Cursor position="35" topLine="0" />
 	</File>
-	<File name="VOIP\Recorder.cpp" open="1" top="1" tabpos="2">
-		<Cursor position="1173" topLine="18" />
+	<File name="VOIP\Recorder.cpp" open="0" top="0" tabpos="2">
+		<Cursor position="1115" topLine="18" />
 	</File>
 	<File name="VOIP\Recorder.h" open="0" top="0" tabpos="0">
 		<Cursor position="387" topLine="3" />
