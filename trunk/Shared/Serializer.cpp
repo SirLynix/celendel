@@ -16,7 +16,7 @@ QDataStream &operator>>(QDataStream & ds, PlayerInformations& p)
     return ds;
 }
 
-bool extractChatData(QByteArray& data, ENUM_TYPE& canal, QString& text, CLID& sender)
+bool extractChatData(QByteArray& data, ENUM_TYPE& canal, QString& language, QString& text, CLID& sender)
 {
     QV(data);
     QDataStream in(data);
@@ -30,7 +30,7 @@ bool extractChatData(QByteArray& data, ENUM_TYPE& canal, QString& text, CLID& se
     return false;
 }
 
-QByteArray serialiseChatData(ENUM_TYPE canal, const QString& text, CLID sender)
+QByteArray serialiseChatData(ENUM_TYPE canal, const QString& language, const QString& text, CLID sender)
 {
     QByteArray data;
     QDataStream out(&data, QIODevice::ReadWrite);

@@ -49,7 +49,7 @@ class ClientNetwork : public QObject
         void packetReceived();
         void packetCorrupted();
         void pingUpdated(quint32);
-        void chatReceived(CLID sender, QString text, ENUM_TYPE canal);
+        void chatReceived(CLID sender, QString lang, QString text, ENUM_TYPE canal);
         void serverInformationsChanged(ServerInformations);
         void clientIDChanged(CLID);
         void nicknameChanged(CLID, QString);

@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Meta object code from reading C++ file 'VOIP.h'
 **
-** Created: Thu 5. Aug 12:36:32 2010
+** Created: Wed 1. Dec 14:20:47 2010
 **      by: The Qt Meta Object Compiler version 62 (Qt 4.6.2)
 **
 ** WARNING! All changes made in this file will be lost!

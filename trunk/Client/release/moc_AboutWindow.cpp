@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Meta object code from reading C++ file 'AboutWindow.h'
 **
-** Created: Thu 5. Aug 09:39:16 2010
+** Created: Wed 1. Dec 14:20:48 2010
 **      by: The Qt Meta Object Compiler version 62 (Qt 4.6.2)
 **
 ** WARNING! All changes made in this file will be lost!

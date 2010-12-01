@@ -17,8 +17,8 @@
 QDataStream &operator<<(QDataStream & ds, const PlayerInformations& p);
 QDataStream &operator>>(QDataStream & q, PlayerInformations& p);
 
-bool extractChatData(QByteArray& data, ENUM_TYPE& canal, QString& text, CLID& sender);
-QByteArray serialiseChatData(ENUM_TYPE canal, const QString& text, CLID sender);
+bool extractChatData(QByteArray& data, ENUM_TYPE& canal, QString& language, QString& text, CLID& sender); // The language string will be IGNORED if the canal is not RP chat.
+QByteArray serialiseChatData(ENUM_TYPE canal, const QString& language, const QString& text, CLID sender); // An empty language string will make the message fully understandable to everyone.
 
 bool extractErrorData(QByteArray& data, ENUM_TYPE& error_type, QString& text);
 QByteArray serialiseErrorData(ENUM_TYPE error_type, const QString& text="");

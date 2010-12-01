@@ -44,12 +44,12 @@ void ClientNetwork::operatePacket(Packet* packet)
         break;
         case CHAT:
         {
-            QString txt;
+            QString txt; QString lang;
             ENUM_TYPE can;
             CLID sender;
-            QE(extractChatData(packet->data, can, txt, sender));
+            QE(extractChatData(packet->data, can, lang, txt, sender));
 
-            emit chatReceived(sender, txt, can);
+            emit chatReceived(sender, lang, txt, can);
         }
         break;
         case NEW_GM:
