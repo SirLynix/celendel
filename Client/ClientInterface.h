@@ -16,8 +16,8 @@ class ClientInterface : public QMainWindow
     public:
         ClientInterface();
 
-        void ClientInterface::lg(const QString txt, bool time=true, bool html=true);
-        QString ClientInterface::getRolePlayName(CLID ID);
+        void lg(const QString txt, bool time=true, bool html=true);
+        QString getRolePlayName(CLID ID);
         bool isConnected() const { return m_network->isConnected(); }
 
         bool isGM() const {return m_ID==m_GMID&&isConnected();}
@@ -114,6 +114,7 @@ class ClientInterface : public QMainWindow
         QTextEdit* m_narrator;
         QTextEdit* m_RPChat;
         QLineEdit* m_chatInput;
+        QComboBox* m_RPLanguage;
         QPushButton* m_rollTheDice;
 
         QWidget* m_mapWi;

@@ -156,6 +156,10 @@ chatInputDock->setWidget(w_chatInputDock);
 QVBoxLayout *l_chatInputDock = new QVBoxLayout(w_chatInputDock);
 w_chatInputDock->setLayout(l_chatInputDock);
 
+m_RPLanguage = new QComboBox(this);
+m_RPLanguage->setWhatsThis(tr("Selectionnez le langage de la réplique du personnage."));
+l_chatInputDock->addWidget(m_RPLanguage);
+
 m_chatInput = new QLineEdit(this);
 m_chatInput->setWhatsThis(tr("Entrez ici commandes et dialogues."));
 l_chatInputDock->addWidget(m_chatInput);

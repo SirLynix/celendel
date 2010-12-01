@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Meta object code from reading C++ file 'ClientNetwork.h'
 **
-** Created: Thu 5. Aug 09:39:06 2010
+** Created: Wed 1. Dec 14:45:30 2010
 **      by: The Qt Meta Object Compiler version 62 (Qt 4.6.2)
 **
 ** WARNING! All changes made in this file will be lost!
@@ -34,44 +34,44 @@ static const uint qt_meta_data_ClientNetwork[] = {
       15,   14,   14,   14, 0x05,
       32,   14,   14,   14, 0x05,
       50,   14,   14,   14, 0x05,
-      89,   71,   14,   14, 0x05,
-     126,   14,   14,   14, 0x05,
-     172,   14,   14,   14, 0x05,
-     196,  194,   14,   14, 0x05,
-     226,  194,   14,   14, 0x05,
-     255,  251,   14,   14, 0x05,
-     278,   14,   14,   14, 0x05,
-     298,   14,   14,   14, 0x05,
-     318,   14,   14,   14, 0x05,
-     339,   14,   14,   14, 0x05,
-     354,   14,   14,   14, 0x05,
-     380,   14,   14,   14, 0x05,
-     403,   14,   14,   14, 0x05,
-     420,  194,   14,   14, 0x05,
-     448,  445,   14,   14, 0x05,
-     484,  194,   14,   14, 0x05,
-     511,   14,   14,   14, 0x05,
-     528,  194,   14,   14, 0x05,
-     555,   14,   14,   14, 0x05,
+      94,   71,   14,   14, 0x05,
+     139,   14,   14,   14, 0x05,
+     185,   14,   14,   14, 0x05,
+     209,  207,   14,   14, 0x05,
+     239,  207,   14,   14, 0x05,
+     268,  264,   14,   14, 0x05,
+     291,   14,   14,   14, 0x05,
+     311,   14,   14,   14, 0x05,
+     331,   14,   14,   14, 0x05,
+     352,   14,   14,   14, 0x05,
+     367,   14,   14,   14, 0x05,
+     393,   14,   14,   14, 0x05,
+     416,   14,   14,   14, 0x05,
+     433,  207,   14,   14, 0x05,
+     461,  458,   14,   14, 0x05,
+     497,  207,   14,   14, 0x05,
+     524,   14,   14,   14, 0x05,
+     541,  207,   14,   14, 0x05,
+     568,   14,   14,   14, 0x05,
 
  // slots: signature, parameters, type, tag, flags
-     611,  593,   14,   14, 0x0a,
-     633,  630,   14,   14, 0x2a,
-     647,  630,   14,   14, 0x0a,
-     671,  661,   14,   14, 0x0a,
-     695,   14,   14,   14, 0x0a,
-     709,   14,  702,   14, 0x0a,
-     727,   14,  719,   14, 0x0a,
-     746,   14,  738,   14, 0x0a,
-     759,   14,   14,   14, 0x0a,
-     767,   14,   14,   14, 0x0a,
+     624,  606,   14,   14, 0x0a,
+     646,  643,   14,   14, 0x2a,
+     660,  643,   14,   14, 0x0a,
+     684,  674,   14,   14, 0x0a,
+     708,   14,   14,   14, 0x0a,
+     722,   14,  715,   14, 0x0a,
+     740,   14,  732,   14, 0x0a,
+     759,   14,  751,   14, 0x0a,
+     772,   14,   14,   14, 0x0a,
      780,   14,   14,   14, 0x0a,
-     809,  801,  796,   14, 0x0a,
-     836,   14,   14,   14, 0x08,
-     848,   14,   14,   14, 0x08,
-     863,   14,   14,   14, 0x08,
-     878,   14,   14,   14, 0x08,
-     927,  920,   14,   14, 0x08,
+     793,   14,   14,   14, 0x0a,
+     822,  814,  809,   14, 0x0a,
+     849,   14,   14,   14, 0x08,
+     861,   14,   14,   14, 0x08,
+     876,   14,   14,   14, 0x08,
+     891,   14,   14,   14, 0x08,
+     940,  933,   14,   14, 0x08,
 
        0        // eod
 };
@@ -79,8 +79,8 @@ static const uint qt_meta_data_ClientNetwork[] = {
 static const char qt_meta_stringdata_ClientNetwork[] = {
     "ClientNetwork\0\0packetReceived()\0"
     "packetCorrupted()\0pingUpdated(quint32)\0"
-    "sender,text,canal\0"
-    "chatReceived(CLID,QString,ENUM_TYPE)\0"
+    "sender,lang,text,canal\0"
+    "chatReceived(CLID,QString,QString,ENUM_TYPE)\0"
     "serverInformationsChanged(ServerInformations)\0"
     "clientIDChanged(CLID)\0,\0"
     "nicknameChanged(CLID,QString)\0"
@@ -138,7 +138,7 @@ int ClientNetwork::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
         case 0: packetReceived(); break;
         case 1: packetCorrupted(); break;
         case 2: pingUpdated((*reinterpret_cast< quint32(*)>(_a[1]))); break;
-        case 3: chatReceived((*reinterpret_cast< CLID(*)>(_a[1])),(*reinterpret_cast< QString(*)>(_a[2])),(*reinterpret_cast< ENUM_TYPE(*)>(_a[3]))); break;
+        case 3: chatReceived((*reinterpret_cast< CLID(*)>(_a[1])),(*reinterpret_cast< QString(*)>(_a[2])),(*reinterpret_cast< QString(*)>(_a[3])),(*reinterpret_cast< ENUM_TYPE(*)>(_a[4]))); break;
         case 4: serverInformationsChanged((*reinterpret_cast< ServerInformations(*)>(_a[1]))); break;
         case 5: clientIDChanged((*reinterpret_cast< CLID(*)>(_a[1]))); break;
         case 6: nicknameChanged((*reinterpret_cast< CLID(*)>(_a[1])),(*reinterpret_cast< QString(*)>(_a[2]))); break;
@@ -205,9 +205,9 @@ void ClientNetwork::pingUpdated(quint32 _t1)
 }
 
 // SIGNAL 3
-void ClientNetwork::chatReceived(CLID _t1, QString _t2, ENUM_TYPE _t3)
+void ClientNetwork::chatReceived(CLID _t1, QString _t2, QString _t3, ENUM_TYPE _t4)
 {
-    void *_a[] = { 0, const_cast<void*>(reinterpret_cast<const void*>(&_t1)), const_cast<void*>(reinterpret_cast<const void*>(&_t2)), const_cast<void*>(reinterpret_cast<const void*>(&_t3)) };
+    void *_a[] = { 0, const_cast<void*>(reinterpret_cast<const void*>(&_t1)), const_cast<void*>(reinterpret_cast<const void*>(&_t2)), const_cast<void*>(reinterpret_cast<const void*>(&_t3)), const_cast<void*>(reinterpret_cast<const void*>(&_t4)) };
     QMetaObject::activate(this, &staticMetaObject, 3, _a);
 }
 

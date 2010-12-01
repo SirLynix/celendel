@@ -194,7 +194,7 @@ void ClientInterface::sendMessage()
                 return;
             }
 
-            m_network->send(ETI(CHAT), serialiseChatData(ETI(SELF_NARRATOR), txt.mid( spl[0].size()).simplified(), 0));
+            m_network->send(ETI(CHAT), serialiseChatData(ETI(SELF_NARRATOR), m_RPLanguage->currentText(), txt.mid( spl[0].size()).simplified(), 0));
             show=false;
         }
         else if(txt.startsWith(tr("/rp"))||txt.startsWith(tr("/jdr")))
@@ -207,7 +207,7 @@ void ClientInterface::sendMessage()
                 return;
             }
 
-            m_network->send(ETI(CHAT), serialiseChatData(ETI(RP), txt.mid( spl[0].size()).simplified(), 0));
+            m_network->send(ETI(CHAT), serialiseChatData(ETI(RP), m_RPLanguage->currentText(), txt.mid( spl[0].size()).simplified(), 0));
             show=false;
         }
         else if(txt.startsWith(tr("/1d20")))
@@ -235,7 +235,7 @@ void ClientInterface::sendMessage()
     }
 
     if(show)
-        m_network->send(ETI(CHAT), serialiseChatData(ETI(NORMAL), txt, 0));
+        m_network->send(ETI(CHAT), serialiseChatData(ETI(NORMAL), m_RPLanguage->currentText(), txt, 0));
 
 }
 
