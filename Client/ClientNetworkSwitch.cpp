@@ -144,6 +144,13 @@ void ClientNetwork::operatePacket(Packet* packet)
             emit syncLibs(l);
         }
         break;
+        case LANGUAGES_LIST:
+        {
+            QStringList l;
+            QE(extractLanguagesData(packet->data, l));
+            emit syncLanguagesList(l);
+        }
+        break;
         default:
         break;
     }

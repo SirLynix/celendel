@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Meta object code from reading C++ file 'ClientInterface.h'
 **
-** Created: Wed 1. Dec 14:45:27 2010
+** Created: Wed 1. Dec 15:43:35 2010
 **      by: The Qt Meta Object Compiler version 62 (Qt 4.6.2)
 **
 ** WARNING! All changes made in this file will be lost!
@@ -23,7 +23,7 @@ static const uint qt_meta_data_ClientInterface[] = {
        4,       // revision
        0,       // classname
        0,    0, // classinfo
-      48,   14, // methods
+      49,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
@@ -32,60 +32,62 @@ static const uint qt_meta_data_ClientInterface[] = {
 
  // slots: signature, parameters, type, tag, flags
       17,   16,   16,   16, 0x08,
-      49,   31,   16,   16, 0x08,
-      81,   78,   16,   16, 0x08,
-     129,  126,   16,   16, 0x08,
-     158,  150,   16,   16, 0x08,
-     199,  193,   16,   16, 0x08,
-     228,  126,   16,   16, 0x08,
-     255,  251,   16,   16, 0x08,
-     278,   16,   16,   16, 0x08,
-     301,   16,   16,   16, 0x08,
-     320,  318,   16,   16, 0x08,
-     348,  345,   16,   16, 0x08,
-     384,   16,   16,   16, 0x08,
-     395,   16,   16,   16, 0x08,
-     415,   16,   16,   16, 0x08,
-     436,   16,   16,   16, 0x08,
-     451,   16,   16,   16, 0x08,
-     471,  462,   16,   16, 0x08,
-     498,   16,   16,   16, 0x08,
-     521,  517,   16,   16, 0x08,
-     548,   16,   16,   16, 0x08,
-     565,   16,   16,   16, 0x08,
-     590,  586,  581,   16, 0x08,
-     614,   16,   16,   16, 0x08,
-     638,   16,   16,   16, 0x08,
-     653,   16,   16,   16, 0x08,
-     669,   16,   16,   16, 0x08,
-     679,   16,   16,   16, 0x08,
-     693,   16,   16,   16, 0x08,
-     714,  705,   16,   16, 0x08,
-     730,   16,   16,   16, 0x28,
-     744,  739,   16,   16, 0x08,
-     766,   16,   16,   16, 0x28,
-     785,  781,   16,   16, 0x08,
-     808,   16,   16,   16, 0x08,
+      54,   31,   16,   16, 0x08,
+      94,   91,   16,   16, 0x08,
+     142,  139,   16,   16, 0x08,
+     171,  163,   16,   16, 0x08,
+     212,  206,   16,   16, 0x08,
+     241,  139,   16,   16, 0x08,
+     268,  264,   16,   16, 0x08,
+     291,   16,   16,   16, 0x08,
+     314,   16,   16,   16, 0x08,
+     333,  331,   16,   16, 0x08,
+     361,  358,   16,   16, 0x08,
+     397,   16,   16,   16, 0x08,
+     408,   16,   16,   16, 0x08,
+     428,   16,   16,   16, 0x08,
+     449,   16,   16,   16, 0x08,
+     464,   16,   16,   16, 0x08,
+     484,  475,   16,   16, 0x08,
+     511,   16,   16,   16, 0x08,
+     534,  530,   16,   16, 0x08,
+     561,   16,   16,   16, 0x08,
+     578,   16,   16,   16, 0x08,
+     603,  599,  594,   16, 0x08,
+     627,   16,   16,   16, 0x08,
+     651,   16,   16,   16, 0x08,
+     666,   16,   16,   16, 0x08,
+     682,   16,   16,   16, 0x08,
+     692,   16,   16,   16, 0x08,
+     706,   16,   16,   16, 0x08,
+     727,  718,   16,   16, 0x08,
+     743,   16,   16,   16, 0x28,
+     757,  752,   16,   16, 0x08,
+     779,   16,   16,   16, 0x28,
+     798,  794,   16,   16, 0x08,
      821,   16,   16,   16, 0x08,
-     833,   16,   16,   16, 0x08,
-     848,   16,   16,   16, 0x08,
-     865,   16,   16,   16, 0x08,
-     875,   16,   16,   16, 0x08,
-     889,   16,   16,   16, 0x08,
-     915,   16,   16,   16, 0x08,
-     958,   16,   16,   16, 0x08,
-     969,   16,   16,   16, 0x08,
-     980,   16,   16,   16, 0x08,
-     999,   16,   16,   16, 0x08,
-    1015,   16,   16,   16, 0x08,
-    1034,  318,   16,   16, 0x08,
+     834,   16,   16,   16, 0x08,
+     846,   16,   16,   16, 0x08,
+     861,   16,   16,   16, 0x08,
+     878,   16,   16,   16, 0x08,
+     888,   16,   16,   16, 0x08,
+     902,   16,   16,   16, 0x08,
+     928,   16,   16,   16, 0x08,
+     971,   16,   16,   16, 0x08,
+    1002,   16,   16,   16, 0x08,
+    1013,   16,   16,   16, 0x08,
+    1024,   16,   16,   16, 0x08,
+    1043,   16,   16,   16, 0x08,
+    1059,   16,   16,   16, 0x08,
+    1078,  331,   16,   16, 0x08,
 
        0        // eod
 };
 
 static const char qt_meta_stringdata_ClientInterface[] = {
     "ClientInterface\0\0sendMessage()\0"
-    "sender,text,canal\0chat(CLID,QString,ENUM_TYPE)\0"
+    "sender,lang,text,canal\0"
+    "chat(CLID,QString,QString,ENUM_TYPE)\0"
     "si\0changeServerInformations(ServerInformations)\0"
     "ID\0changeClientID(CLID)\0ID,nick\0"
     "changeClientNickname(CLID,QString)\0"
@@ -110,6 +112,7 @@ static const char qt_meta_stringdata_ClientInterface[] = {
     "refresh()\0textChanged()\0"
     "narrationChanged(QString)\0"
     "syncSoundLibs(QList<SoundLibInformations>)\0"
+    "syncLanguagesList(QStringList)\0"
     "saveGame()\0loadGame()\0VOIPRemoveClient()\0"
     "VOIPAddClient()\0VOIPClientVolume()\0"
     "dataPerSecond(int,int)\0"
@@ -145,7 +148,7 @@ int ClientInterface::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_c == QMetaObject::InvokeMetaMethod) {
         switch (_id) {
         case 0: sendMessage(); break;
-        case 1: chat((*reinterpret_cast< CLID(*)>(_a[1])),(*reinterpret_cast< QString(*)>(_a[2])),(*reinterpret_cast< ENUM_TYPE(*)>(_a[3]))); break;
+        case 1: chat((*reinterpret_cast< CLID(*)>(_a[1])),(*reinterpret_cast< QString(*)>(_a[2])),(*reinterpret_cast< QString(*)>(_a[3])),(*reinterpret_cast< ENUM_TYPE(*)>(_a[4]))); break;
         case 2: changeServerInformations((*reinterpret_cast< ServerInformations(*)>(_a[1]))); break;
         case 3: changeClientID((*reinterpret_cast< CLID(*)>(_a[1]))); break;
         case 4: changeClientNickname((*reinterpret_cast< CLID(*)>(_a[1])),(*reinterpret_cast< QString(*)>(_a[2]))); break;
@@ -187,15 +190,16 @@ int ClientInterface::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
         case 39: textChanged(); break;
         case 40: narrationChanged((*reinterpret_cast< QString(*)>(_a[1]))); break;
         case 41: syncSoundLibs((*reinterpret_cast< QList<SoundLibInformations>(*)>(_a[1]))); break;
-        case 42: saveGame(); break;
-        case 43: loadGame(); break;
-        case 44: VOIPRemoveClient(); break;
-        case 45: VOIPAddClient(); break;
-        case 46: VOIPClientVolume(); break;
-        case 47: dataPerSecond((*reinterpret_cast< int(*)>(_a[1])),(*reinterpret_cast< int(*)>(_a[2]))); break;
+        case 42: syncLanguagesList((*reinterpret_cast< QStringList(*)>(_a[1]))); break;
+        case 43: saveGame(); break;
+        case 44: loadGame(); break;
+        case 45: VOIPRemoveClient(); break;
+        case 46: VOIPAddClient(); break;
+        case 47: VOIPClientVolume(); break;
+        case 48: dataPerSecond((*reinterpret_cast< int(*)>(_a[1])),(*reinterpret_cast< int(*)>(_a[2]))); break;
         default: ;
         }
-        _id -= 48;
+        _id -= 49;
     }
     return _id;
 }

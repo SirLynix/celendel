@@ -172,7 +172,7 @@ connect(m_rollTheDice, SIGNAL(pressed()), this, SLOT(rollDice()));
 
 addDockWidget(Qt::RightDockWidgetArea, chatInputDock);
 
-w_chatInputDock->setMaximumHeight(m_chatInput->height()+m_rollTheDice->height()*3/2);
+w_chatInputDock->setMaximumHeight(m_RPLanguage->height() + m_chatInput->height()+m_rollTheDice->height());
 
 
 ///PLAYER LIST DOCK

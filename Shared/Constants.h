@@ -9,9 +9,9 @@
     - Gigotdarnaud
 */
 
-#define SERVER_IP "127.0.0.1"
-#define MAX_CLIENTS 100
-#define SERVER_PORT 5577
+#define SERVER_IP "127.0.0.1" /// The default server IP - kinda useless
+#define MAX_CLIENTS 100 /// An hard-coded client limit
+#define SERVER_PORT 5577 /// The default server port, far less useless than the default IP
 #define CLID quint16 /// Alias for CLient ID.
 #define RSID qint32 /// Alias for ReSsource ID.
 #define LVER qint32 ///Alias for Lib VERsion.
@@ -67,6 +67,7 @@ struct ServerInformations
     QString motd;
     QString narration;
     QList<SoundLibInformations> libs;
+    QStringList languages;
 };
 
 /* SERVER_INFORMATIONS type structure : (compressed)
@@ -81,9 +82,11 @@ struct ServerInformations
 
 enum PACKET_TYPE { ERROR, PING, CHAT, ALL_NARRATION, GM_ELECT, NEW_GM, LAUNCH_GAME, GAME_LAUNCHED, VOTED, SET_CLID, NEW_NICK,
                 SET_NICK, GTFO_LYNIX, TOD, LOCATION, SERVER_INFORMATIONS, MOTD, MAP_INFORMATIONS, MAP_ITEMS_INFORMATIONS,
-                PLAY_SOUND, SCRIPTS_INFOS, ROLL_DICE, SERVER_NAME, CLIENT_LEFT, CLIENT_JOINED, UNBAN, SYNC_LIBS};
+                PLAY_SOUND, SCRIPTS_INFOS, ROLL_DICE, SERVER_NAME, CLIENT_LEFT, CLIENT_JOINED, UNBAN, SYNC_LIBS, LANGUAGES_LIST};
 
 #define MAX_NICKNAME_LENGHT 15
+/* LANGUAGES_LIST structure :
+- QStringList languages */
 
 /* SYNC_LIBS structure :
 - QList<SoundLibInformations> libs */
@@ -146,6 +149,9 @@ enum ERROR_TYPE { ALREADY_VOTED, GAME_NOT_LAUNCHED, NOT_GM, INVALID_PACKET, INVA
 
 enum DROP_TYPE { KICK, BAN };
 
+
+///Gigotdarnaud : Yes, the "GTFO_LYNIX" constant kick or ban the targeted client.
+///Lynix : What's wrong with you ?
 /* GTFO_LYNIX type structure :
 - CLID ID
 - DROP_TYPE dtype

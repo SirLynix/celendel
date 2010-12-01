@@ -56,6 +56,8 @@ class Server : public QObject
 
         MapInformations* m_map;
 
+        QStringList m_languages;
+
 };
 
 #endif // SERVER_H
