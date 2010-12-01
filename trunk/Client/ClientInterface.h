@@ -24,7 +24,7 @@ class ClientInterface : public QMainWindow
 
     private slots:
         void sendMessage(); // In ClientChatCommands.cpp
-        void chat(CLID sender, QString text, ENUM_TYPE canal);
+        void chat(CLID sender, QString lang, QString text, ENUM_TYPE canal);
         void changeServerInformations(ServerInformations si);
         void changeClientID(CLID ID);
         void changeClientNickname(CLID ID, QString nick);
@@ -78,6 +78,7 @@ class ClientInterface : public QMainWindow
         void narrationChanged(QString);
 
         void syncSoundLibs(QList<SoundLibInformations>);
+        void syncLanguagesList(QStringList);
 
         void saveGame();
         void loadGame();

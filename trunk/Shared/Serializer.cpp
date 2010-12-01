@@ -287,6 +287,8 @@ bool extractServerInformationsData(QByteArray& data, ServerInformations& si)
     QByteArray l;
     in>>l;
     R(in);
+    in>>si.languages;
+    R(in);
 
     return extractSyncLibsData(l, si.libs);
 }
@@ -305,6 +307,7 @@ QByteArray serialiseServerInformationsData(const ServerInformations& si)
     out<<si.motd;
     out<<si.narration;
     out<<serialiseSyncLibsData(si.libs);
+    out<<si.languages;
 
     return qCompress(data);
 }
@@ -630,6 +633,30 @@ QByteArray serialiseSyncLibsData(const QList<SoundLibInformations>& libs)
         out<<libs[i].version;
         out<<libs[i].sounds;
     }
+
+    return qCompress(data);
+}
+
+bool extractLanguagesData(QByteArray& data, QStringList& languages)
+{
+    QByteArray d=qUncompress(data);
+    QV(d);
+    QDataStream in(d);
+
+    languages.clear();
+    in>>languages;
+    R(in);
+
+    return false;
+}
+
+QByteArray serialiseLanguagesData(const QStringList& languages)
+{
+    QByteArray data;
+    QDataStream out(&data, QIODevice::ReadWrite);
+
+
+    out<<languages;
 
     return qCompress(data);
 }

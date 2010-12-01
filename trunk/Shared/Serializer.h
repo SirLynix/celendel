@@ -86,4 +86,7 @@ QByteArray serialiseAllNarrationData(const QString& txt);
 bool extractSyncLibsData(QByteArray& data, QList<SoundLibInformations>& libs);
 QByteArray serialiseSyncLibsData(const QList<SoundLibInformations>& libs);
 
+bool extractLanguagesData(QByteArray& data, QStringList& languages);
+QByteArray serialiseLanguagesData(const QStringList& languages);
+
 #endif

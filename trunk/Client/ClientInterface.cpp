@@ -49,7 +49,7 @@ ClientInterface::ClientInterface()
 
 
     m_network=new ClientNetwork(IP, port, this);
-    connect(m_network, SIGNAL(chatReceived(CLID, QString, ENUM_TYPE)), this, SLOT(chat(CLID, QString, ENUM_TYPE )));
+    connect(m_network, SIGNAL(chatReceived(CLID, QString, QString, ENUM_TYPE)), this, SLOT(chat(CLID, QString, QString, ENUM_TYPE )));
     connect(m_network, SIGNAL(serverInformationsChanged(ServerInformations)), this, SLOT(changeServerInformations(ServerInformations)));
     connect(m_network, SIGNAL(clientIDChanged(CLID)), this, SLOT(changeClientID(CLID)));
     connect(m_network, SIGNAL(nicknameChanged(CLID, QString)), this, SLOT(changeClientNickname(CLID, QString)));
@@ -68,6 +68,7 @@ ClientInterface::ClientInterface()
     connect(m_network, SIGNAL(narrationChanged(QString)), this, SLOT(narrationChanged(QString)));
     connect(m_network, SIGNAL(playSound(QString, QString)), this, SLOT(playSound(QString, QString)));
     connect(m_network, SIGNAL(syncLibs(QList<SoundLibInformations>)), this, SLOT(syncSoundLibs(QList<SoundLibInformations>)));
+    connect(m_network, SIGNAL(syncLanguagesList(QStringList)), this, SLOT(syncLanguagesList(QStringList)));
 
     getVOIP().setEnabled(set->value(PARAM_VOIP_ENABLED, true).toBool());
     getVOIP().setVolume(set->value(PARAM_VOIP_SOUND, 100.f).toFloat());
@@ -745,13 +746,22 @@ QString ClientInterface::anonym(CLID ID)
     return tr("%1[%2]").arg(nick).arg(ID);
 }
 
+void ClientInterface::syncLanguagesList(QStringList languages)
+{
+    QString current=m_RPLanguage->currentText();
+    m_RPLanguage->clear();
+    m_RPLanguage->addItems(languages);
+    int a=m_RPLanguage->findText(current);
+    m_RPLanguage->setCurrentIndex(a==-1?0:a);
+}
+
 QString ClientInterface::getRolePlayName(CLID ID)
 {
     ///DEBUG
     return m_playersMap.value(ID).name;
 }
 
-void ClientInterface::chat(CLID sender, QString txt, ENUM_TYPE canal)
+void ClientInterface::chat(CLID sender, QString lang, QString txt, ENUM_TYPE canal)
 {
     if(canal==NORMAL)
     {
@@ -759,7 +769,9 @@ void ClientInterface::chat(CLID sender, QString txt, ENUM_TYPE canal)
     }
     else if(canal==RP)
     {
-        m_RPChat->append(getRolePlayName(sender) + " : " + txt);
+        if(!lang.isEmpty())
+            lang="["+lang+"] ";
+        m_RPChat->append(getRolePlayName(sender) + " : " + lang + txt);
     }
     else if(canal==SELF_NARRATOR)
     {

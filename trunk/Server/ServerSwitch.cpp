@@ -52,9 +52,9 @@ void Server::processData(std::auto_ptr<Packet> pa /*Packet* pa*/, CLID cID)
     {
         case CHAT:
         {
-            ENUM_TYPE canal; QString text;
+            ENUM_TYPE canal; QString text; QString lang;
             CLID garbage;
-            QE(extractChatData(pa->data, canal, text, garbage));
+            QE(extractChatData(pa->data, canal, lang, text, garbage));
             text=securise(text);
             if(!text.isEmpty())
             {
@@ -66,14 +66,14 @@ void Server::processData(std::auto_ptr<Packet> pa /*Packet* pa*/, CLID cID)
                         text.truncate(MAX_MESSAGE_LENGHT);
                         text.replace('\n', "");
                         if(!text.isEmpty())
-                            m_network->sendToAll(ETI(CHAT), serialiseChatData(ETI(NORMAL), text, cID));
+                            m_network->sendToAll(ETI(CHAT), serialiseChatData(ETI(NORMAL), "", text, cID));
                     }
                     break;
                     case ETI(SELF_NARRATOR):
                     {
                         if(gameStarted())
                         {
-                            m_network->sendToAll(ETI(CHAT), serialiseChatData(ETI(SELF_NARRATOR), text, cID));
+                            m_network->sendToAll(ETI(CHAT), serialiseChatData(ETI(SELF_NARRATOR), "", text, cID));
                         }
                         else
                         {
@@ -85,7 +85,7 @@ void Server::processData(std::auto_ptr<Packet> pa /*Packet* pa*/, CLID cID)
                     {
                         if(gameStarted())
                         {
-                            m_network->sendToAll(ETI(CHAT), serialiseChatData(ETI(RP), text, cID));
+                            m_network->sendToAll(ETI(CHAT), serialiseChatData(ETI(RP), lang, text, cID));
                         }
                         else
                         {
@@ -319,6 +319,20 @@ void Server::processData(std::auto_ptr<Packet> pa /*Packet* pa*/, CLID cID)
             GM_CHECK();
             QE(extractMOTDData(pa->data, motd));
             m_network->sendToAll(ETI(MOTD), serialiseMOTDData(motd));
+
+        }
+        break;
+        case LANGUAGES_LIST:
+        {
+            GM_CHECK();
+            QStringList l;
+            QE(extractLanguagesData(pa->data, l));
+            for(int i=0;i<l.size();++i)
+            {
+                if(!m_languages.contains(l[i]))
+                    m_languages.push_back(l[i]);
+            }
+            m_network->sendToAll(ETI(MOTD), serialiseLanguagesData(m_languages));
 
         }
         break;

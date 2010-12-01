@@ -11,25 +11,25 @@
 		<Cursor position="793" topLine="0" />
 	</File>
 	<File name="ClientChatCommands.cpp" open="0" top="0" tabpos="1">
-		<Cursor position="413" topLine="0" />
+		<Cursor position="9504" topLine="201" />
 	</File>
 	<File name="ClientGMInterface.cpp" open="0" top="0" tabpos="0">
-		<Cursor position="456" topLine="0" />
+		<Cursor position="473" topLine="0" />
 	</File>
 	<File name="ClientInterface.cpp" open="0" top="0" tabpos="1">
-		<Cursor position="273" topLine="0" />
+		<Cursor position="22108" topLine="734" />
 	</File>
 	<File name="ClientInterface.h" open="0" top="0" tabpos="3">
-		<Cursor position="82" topLine="0" />
+		<Cursor position="2449" topLine="51" />
 	</File>
 	<File name="ClientNetwork.cpp" open="0" top="0" tabpos="1">
-		<Cursor position="2991" topLine="132" />
+		<Cursor position="2953" topLine="24" />
 	</File>
 	<File name="ClientNetwork.h" open="0" top="0" tabpos="2">
-		<Cursor position="202" topLine="0" />
+		<Cursor position="2176" topLine="39" />
 	</File>
 	<File name="ClientNetworkSwitch.cpp" open="0" top="0" tabpos="1">
-		<Cursor position="2909" topLine="78" />
+		<Cursor position="4106" topLine="112" />
 	</File>
 	<File name="ClientSave.cpp" open="0" top="0" tabpos="0">
 		<Cursor position="3297" topLine="71" />
@@ -41,7 +41,7 @@
 		<Cursor position="2274" topLine="51" />
 	</File>
 	<File name="GUI.cpp" open="0" top="0" tabpos="2">
-		<Cursor position="5138" topLine="39" />
+		<Cursor position="8854" topLine="138" />
 	</File>
 	<File name="SoundLibThread.cpp" open="0" top="0" tabpos="0">
 		<Cursor position="245" topLine="0" />
@@ -98,7 +98,7 @@
 		<Cursor position="139" topLine="0" />
 	</File>
 	<File name="..\Shared\Constants.h" open="0" top="0" tabpos="0">
-		<Cursor position="1518" topLine="0" />
+		<Cursor position="3862" topLine="126" />
 	</File>
 	<File name="..\Shared\MapStructs.h" open="0" top="0" tabpos="0">
 		<Cursor position="450" topLine="0" />
@@ -110,12 +110,12 @@
 		<Cursor position="1071" topLine="15" />
 	</File>
 	<File name="..\Shared\Packet.h" open="0" top="0" tabpos="0">
-		<Cursor position="194" topLine="0" />
+		<Cursor position="157" topLine="0" />
 	</File>
 	<File name="..\Shared\Serializer.cpp" open="0" top="0" tabpos="0">
-		<Cursor position="9407" topLine="522" />
+		<Cursor position="11722" topLine="618" />
 	</File>
 	<File name="..\Shared\Serializer.h" open="0" top="0" tabpos="0">
-		<Cursor position="2963" topLine="36" />
+		<Cursor position="3808" topLine="52" />
 	</File>
 </CodeBlocks_layout_file>
