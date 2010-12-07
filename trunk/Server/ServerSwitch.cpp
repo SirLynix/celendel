@@ -325,14 +325,13 @@ void Server::processData(std::auto_ptr<Packet> pa /*Packet* pa*/, CLID cID)
         case LANGUAGES_LIST:
         {
             GM_CHECK();
-            QStringList l;
+            QList<QPair<QString,QString> > l;
             QE(extractLanguagesData(pa->data, l));
             for(int i=0;i<l.size();++i)
             {
-                if(!m_languages.contains(l[i]))
-                    m_languages.push_back(l[i]);
+                m_translator.loadLanguage(l[i].first, l[i].second);
             }
-            m_network->sendToAll(ETI(MOTD), serialiseLanguagesData(m_languages));
+            m_network->sendToAll(ETI(MOTD), serialiseLanguagesData(m_translator.getLanguages()));
 
         }
         break;

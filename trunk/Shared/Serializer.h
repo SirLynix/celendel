@@ -12,6 +12,7 @@
 #include "MapStructs.h"
 #include <QStringList>
 #include <QByteArray>
+#include <QPair>
 
 #include <QDataStream>
 QDataStream &operator<<(QDataStream & ds, const PlayerInformations& p);
@@ -86,7 +87,13 @@ QByteArray serialiseAllNarrationData(const QString& txt);
 bool extractSyncLibsData(QByteArray& data, QList<SoundLibInformations>& libs);
 QByteArray serialiseSyncLibsData(const QList<SoundLibInformations>& libs);
 
-bool extractLanguagesData(QByteArray& data, QStringList& languages);
-QByteArray serialiseLanguagesData(const QStringList& languages);
+bool extractLanguagesData(QByteArray& data, QList<QPair<QString, QString> >& languages);
+QByteArray serialiseLanguagesData(const QList<QPair<QString, QString> >& languages);
+
+bool extractScriptsListData(QByteArray& data, QList<QPair<QString, QString> >& list);
+QByteArray serialiseScriptsListData(const QList<QPair<QString, QString> >& list);
+
+bool extractScriptsUpdateData(QByteArray& data, QList<QPair<QString, QString> >& list);
+QByteArray serialiseScriptsUpdateData(const QList<QPair<QString, QString> >& list);
 
 #endif

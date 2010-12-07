@@ -126,6 +126,7 @@ class ClientInterface : public QMainWindow
         QLabel *m_GMLabel;
 
         ///Character list
+        QTreeView *m_v_cl;
         QStandardItemModel *m_characterList;
 
         ///Menus

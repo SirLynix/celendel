@@ -637,7 +637,7 @@ QByteArray serialiseSyncLibsData(const QList<SoundLibInformations>& libs)
     return qCompress(data);
 }
 
-bool extractLanguagesData(QByteArray& data, QStringList& languages)
+bool extractLanguagesData(QByteArray& data, QList<QPair<QString, QString> >& languages)
 {
     QByteArray d=qUncompress(data);
     QV(d);
@@ -650,7 +650,7 @@ bool extractLanguagesData(QByteArray& data, QStringList& languages)
     return false;
 }
 
-QByteArray serialiseLanguagesData(const QStringList& languages)
+QByteArray serialiseLanguagesData(const QList<QPair<QString, QString> >& languages)
 {
     QByteArray data;
     QDataStream out(&data, QIODevice::ReadWrite);
@@ -660,3 +660,50 @@ QByteArray serialiseLanguagesData(const QStringList& languages)
 
     return qCompress(data);
 }
+
+bool extractScriptsListData(QByteArray& data, QList<QPair<QString, QString> >& list)
+{
+    QByteArray d=qUncompress(data);
+    QV(d);
+    QDataStream in(d);
+
+    list.clear();
+    in>>list;
+    R(in);
+
+    return false;
+}
+
+QByteArray serialiseScriptsListData(const QList<QPair<QString, QString> >& list)
+{
+    QByteArray data;
+    QDataStream out(&data, QIODevice::ReadWrite);
+
+    out<<list;
+
+    return qCompress(data);
+}
+
+bool extractScriptsUpdateData(QByteArray& data, QList<QPair<QString, QString> >& list)
+{
+    QByteArray d=qUncompress(data);
+    QV(d);
+    QDataStream in(d);
+
+    list.clear();
+    in>>list;
+    R(in);
+
+    return false;
+}
+
+QByteArray serialiseScriptsUpdateData(const QList<QPair<QString, QString> >& list)
+{
+    QByteArray data;
+    QDataStream out(&data, QIODevice::ReadWrite);
+
+    out<<list;
+
+    return qCompress(data);
+}
+

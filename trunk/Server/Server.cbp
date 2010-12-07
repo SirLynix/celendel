@@ -55,6 +55,8 @@
 		<Unit filename="Server.h" />
 		<Unit filename="Server.pro" />
 		<Unit filename="ServerSwitch.cpp" />
+		<Unit filename="Translator.cpp" />
+		<Unit filename="Translator.h" />
 		<Unit filename="main.cpp" />
 		<Unit filename="..\Shared\Constants.h" />
 		<Unit filename="..\Shared\MapStructs.h" />
@@ -63,6 +65,14 @@
 		<Unit filename="..\Shared\Packet.h" />
 		<Unit filename="..\Shared\Serializer.cpp" />
 		<Unit filename="..\Shared\Serializer.h" />
+		<Unit filename="..\Shared\XML\MaterialThing.cpp" />
+		<Unit filename="..\Shared\XML\MaterialThing.h" />
+		<Unit filename="..\Shared\XML\XMLObject.h" />
+		<Unit filename="..\Shared\XML\object.cpp" />
+		<Unit filename="..\Shared\XML\object.h" />
+		<Unit filename="..\Shared\XML\person.cpp" />
+		<Unit filename="..\Shared\XML\person.h" />
+		<Unit filename="..\Shared\XML\xmlobject.cpp" />
 		<Extensions>
 			<code_completion />
 			<debugger />
