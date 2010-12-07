@@ -28,12 +28,38 @@
 #include "MapStructs.h"
 #include <QStringList>
 #include <QMap>
+#include <QPair>
+#include <QCryptographicHash>
 
 #define QT_USE_FAST_CONCATENATION ///QString concatenate optimisation
 #define QT_USE_FAST_OPERATOR_PLUS
 
-
+QString hashFile(const QString& filename, QCryptographicHash::Algorithm al=QCryptographicHash::Sha1);
 int alea(int min,int max);
+
+template < typename T>
+bool resize(QList<T>& l, int size, const T& def=T())
+{
+    if(size<0)
+        return true;
+
+
+    int m=l.size();
+
+    if(size>m)
+    {
+        for(int i=m;i<size;++i)
+            l.append(def);
+    }
+    else if(size<m)
+    {
+        for(int i=m-size;i>0;--i)
+            l.removeLast();
+    }
+
+
+    return false;
+}
 
 quint32 sizeX(const MapArray& m);
 quint32 sizeY(const MapArray& m);
@@ -67,7 +93,7 @@ struct ServerInformations
     QString motd;
     QString narration;
     QList<SoundLibInformations> libs;
-    QStringList languages;
+    QList<QPair<QString, QString> > languages;
 };
 
 /* SERVER_INFORMATIONS type structure : (compressed)
@@ -82,11 +108,17 @@ struct ServerInformations
 
 enum PACKET_TYPE { ERROR, PING, CHAT, ALL_NARRATION, GM_ELECT, NEW_GM, LAUNCH_GAME, GAME_LAUNCHED, VOTED, SET_CLID, NEW_NICK,
                 SET_NICK, GTFO_LYNIX, TOD, LOCATION, SERVER_INFORMATIONS, MOTD, MAP_INFORMATIONS, MAP_ITEMS_INFORMATIONS,
-                PLAY_SOUND, SCRIPTS_INFOS, ROLL_DICE, SERVER_NAME, CLIENT_LEFT, CLIENT_JOINED, UNBAN, SYNC_LIBS, LANGUAGES_LIST};
+                PLAY_SOUND, SCRIPTS_LIST, SCRIPTS_UPDATE, ROLL_DICE, SERVER_NAME, CLIENT_LEFT, CLIENT_JOINED, UNBAN, SYNC_LIBS, LANGUAGES_LIST};
 
 #define MAX_NICKNAME_LENGHT 15
+/* SCRIPT_LIST structure - compressed :
+- QList<QPair<QString, QString> > list : first QString is the script filename, second is SHA-1 hash */
+
+/* SCRIPT_UPDATE structure - compressed :
+- QList<QPair<QString, QString> > list : first QString is the script filename, second is the script file data */
+
 /* LANGUAGES_LIST structure :
-- QStringList languages */
+- QList<QPair<QString, QString> > languages */
 
 /* SYNC_LIBS structure :
 - QList<SoundLibInformations> libs */
@@ -98,8 +130,8 @@ enum PACKET_TYPE { ERROR, PING, CHAT, ALL_NARRATION, GM_ELECT, NEW_GM, LAUNCH_GA
 - CLID ID
 - QString IP */
 
-/* MOTD structure :
-- QString motd - compressed */
+/* MOTD structure - compressed :
+- QString motd */
 
 /* UNBAN structure :
 - QString IP */

@@ -203,30 +203,44 @@ playerListDock->setWidget(w_playerListDock);
 addDockWidget(Qt::LeftDockWidgetArea, playerListDock);
 
 
-///character LIST DOCK
+///CHARACTER LIST DOCK
 QDockWidget *characterListDock = new QDockWidget(tr("Liste des personnages"), this);
 characterListDock->setWhatsThis(tr("La liste des personnages"));
 characterListDock->setFeatures(QDockWidget::NoDockWidgetFeatures);
 characterListDock->setFeatures(QDockWidget::DockWidgetFloatable|QDockWidget::DockWidgetMovable);
 m_characterList = new QStandardItemModel(this);
 
+
 QWidget *w_characterListDock = new QWidget(characterListDock);
 characterListDock->setWidget(w_characterListDock);
 QVBoxLayout *l_characterListDock = new QVBoxLayout(w_characterListDock);
 w_characterListDock->setLayout(l_characterListDock);
 
-{
-QTreeView *v = new QTreeView(this);
-v->setModel(m_characterList);
-v->header()->hide();
-v->setEditTriggers(QAbstractItemView::NoEditTriggers);
-l_characterListDock->addWidget(v);
-}
 
-
-characterListDock->setWidget(w_characterListDock);
+m_v_cl = new QTreeView(this);
+m_v_cl->setModel(m_characterList);
+m_v_cl->header()->hide();
+m_v_cl->setEditTriggers(QAbstractItemView::NoEditTriggers);
+m_v_cl->setContextMenuPolicy(Qt::CustomContextMenu);
+connect(m_v_cl, SIGNAL(customContextMenuRequested(const QPoint&)), this, SLOT(characterListMenu(const QPoint&)));
+l_characterListDock->addWidget(m_v_cl);
 
 addDockWidget(Qt::LeftDockWidgetArea, characterListDock);
+
+
+///GM PANEL LIST DOCK
+QDockWidget *GMPanelDock = new QDockWidget(tr("Panneau d'administration"), this);
+GMPanelDock->setWhatsThis(tr("Le panneau d'administration"));
+GMPanelDock->setFeatures(QDockWidget::NoDockWidgetFeatures);
+GMPanelDock->setFeatures(QDockWidget::DockWidgetFloatable|QDockWidget::DockWidgetMovable);
+
+QWidget *w_GMPanelDock = new QWidget(GMPanelDock);
+GMPanelDock->setWidget(w_GMPanelDock);
+QVBoxLayout *l_GMPanelDock = new QVBoxLayout(w_GMPanelDock);
+w_GMPanelDock->setLayout(l_GMPanelDock);
+
+addDockWidget(Qt::LeftDockWidgetArea, GMPanelDock);
+
 
 m_centralWi->setMaximumSize(1,1);
 

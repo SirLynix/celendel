@@ -13,6 +13,8 @@
 #include <QList>
 #include "Player.h"
 #include "..\Shared\MapStructs.h"
+#include "..\Shared\XML\person.h"
+#include "Translator.h"
 
 class Server : public QObject
 {
@@ -48,15 +50,17 @@ class Server : public QObject
     private:
         ServerNetwork *m_network;
         QList<Player*> m_players;
+        QList<QPair<Person*,Player*> > m_characters; //The first element is a character; the second is the player that control it.
+
         bool m_gameStarted;
+
+        Translator m_translator;
 
         QList<SoundLibInformations> m_soundLibs;
 
         CLID m_GMID;
 
         MapInformations* m_map;
-
-        QStringList m_languages;
 
 };
 

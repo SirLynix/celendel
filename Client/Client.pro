@@ -4,7 +4,7 @@ LIBS += -lsfml-graphics -lsfml-audio -lsfml-window -lsfml-system -lALut -lOpenAL
 
 CONFIG += console
 QT += network
-
+QT += xml
 
 HEADERS += ClientInterface.h \
            ClientNetwork.h \
@@ -24,6 +24,17 @@ SOURCES += ClientInterface.cpp \
            VOIP/Recorder.cpp VOIP/Sound.cpp VOIP/SoundReceiver.cpp VOIP/Speex.cpp VOIP/VOIP.cpp VOIP/OpenAL.cpp \
            SoundManager.cpp SoundsGUI.cpp SoundLibThread.cpp
 
+SOURCES += \
+    ../Shared/XML/xmlobject.cpp \
+    ../Shared/XML/object.cpp \
+    ../Shared/XML/person.cpp \
+    ../Shared/XML/MaterialThing.cpp
+
+HEADERS += \
+    ../Shared/XML/xmlobject.h \
+    ../Shared/XML/object.h \
+    ../Shared/XML/person.h \
+    ../Shared/XML/MaterialThing.h
 
 
 TRANSLATIONS = Client_en.ts

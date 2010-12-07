@@ -8,8 +8,17 @@ INPUT(
 ./debug\Serializer.o
 ./debug\ServerSwitch.o
 ./debug\Miscelaneous.o
+./debug\Translator.o
+./debug\xmlobject.o
+./debug\object.o
+./debug\person.o
+./debug\MaterialThing.o
 ./debug\moc_Network.o
 ./debug\moc_Client.o
 ./debug\moc_Server.o
 ./debug\moc_Player.o
+./debug\moc_xmlobject.o
+./debug\moc_object.o
+./debug\moc_person.o
+./debug\moc_MaterialThing.o
 );

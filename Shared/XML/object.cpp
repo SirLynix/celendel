@@ -1,5 +1,6 @@
 #include "object.h"
 #include <QRegExp>
+#include "person.h"
 
 Object::Object(const QString& filename)
 {
@@ -7,19 +8,24 @@ Object::Object(const QString& filename)
     m_typePrefix = "Object";
     m_name = "Default Object";
     m_infos = "A default constructed object";
-    m_weight = 1;
     m_owner = NULL;
-    XMLObject::load(filename);
+    MaterialThing::load(filename);
 }
 
-Object::Object(int weight, const QString& name, const QString& infos)
+Object::Object(int mass, const QString& name, const QString& infos)
 {
     m_class = SIMPLE_OBJECT;
     m_typePrefix = "Object";
     m_name = name;
     m_infos = infos;
-    m_weight = weight;
+    m_mass = mass;
     m_owner = NULL;
+}
+
+Object::~Object()
+{
+    if(m_owner!=NULL)
+        m_owner->removeObject(this);
 }
 
 #define C(x) if(c==x) return #x; //I'm not sure I can do shorter...
@@ -30,14 +36,6 @@ QString objectClassToString(OBJECT_CLASS c){CA return "OTHER";}
 OBJECT_CLASS stringToObjectClass(QString c){c=c.toUpper(); CA return OTHER;}
 #undef C
 #undef CA
-
-bool Object::onEvent(TRIGGER_TYPE tt)
-{
-    return XMLObject::onEvent(tt);
-}
-
-#define IE(x) {QString n; if(!(n=atrmap.value(QString(#x).toUpper())).isEmpty()) {m_##x=n;}}
-#define IEI(x) {QString n; if(!(n=atrmap.value(QString(#x).toUpper())).isEmpty()) {m_##x=n.toUInt();}}
 
 bool Object::loadCustomData()
 {
@@ -50,8 +48,7 @@ bool Object::loadCustomData()
         if(tn=="CHARACTERISTICS")
         {
             QMultiMap<QString,QString> atrmap=extractElementAttributes(e);
-            IEI(weight);
-            IE(name);
+
             {QString n; if(!(n=atrmap.value("OBJECT_CLASS")).isEmpty()) { m_class=stringToObjectClass(n); if(m_class==OTHER) {m_customType=n;} } }
         }
 
@@ -59,8 +56,7 @@ bool Object::loadCustomData()
     }
     return false;
 }
-#undef IE
-#undef IEI
+
 
 bool Object::matchPatern(const ObjectPatern& patern)
 {
@@ -77,9 +73,9 @@ bool Object::matchPatern(const ObjectPatern& patern)
 
 void Object::synchroniseCustomData(QString& s)
 {
-    s+="<Characteristics weight=\""+QString::number(m_weight)+"\" ";
-    if(!m_name.isEmpty())
-        s+="name=\""+m_name+"\" ";
+    MaterialThing::synchroniseCustomData(s);
+
+    s+="<Characteristics  ";
 
     if(m_class==OTHER)
         s+="object_class=\""+m_customType+"\" ";
@@ -89,16 +85,14 @@ void Object::synchroniseCustomData(QString& s)
     s+="/>\n";
 }
 
-bool Object::throwUp()
+void Object::changeOwner(Person *owner)
 {
-    m_owner = NULL;
-    onEvent(ON_DESTRUCTION);
-    return false;
+    onEvent(ON_OWNER_CHANGE);
+    m_owner=owner;
 }
 
-bool Object::give(Person *target)
+void Object::throwUp()
 {
-    m_owner = target;
-    onEvent(ON_OWNER_CHANGE);
-    return false;
+    onEvent(ON_DESTRUCTION);
 }
+

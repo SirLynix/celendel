@@ -51,7 +51,7 @@ ServerInformations Server::getServerInformations() const
     si.serverName=serverName;
     si.motd=motd;
     si.narration=narration;
-    si.languages=m_languages;
+    si.languages=m_translator.getLanguages();
 
     return si;
 }

@@ -66,13 +66,9 @@ public:
 
    bool error() const {return m_error;}
 
-   uint life() const {return m_life;}
-   bool isDestroyable() const {return m_destroyable;}
-   bool isDestroyed() const {return m_life==0;}
-
-   void damage(uint dmg);
-
    bool use(bool isScript=false);
+
+   quint64 getID() const {return m_ID;}
 
 signals:
     void alertGM(QString message);
@@ -88,17 +84,22 @@ signals:
     void used(bool isScript);
 
 private:
+
+    quint64 m_ID;
+
     void loadEvents();
+
+    XMLObject(const XMLObject&); //Non-copiable. Please serialise/unserialise if you want to duplicate the object
 
 protected:
 
     QString synchronise(); //Rebuild the XML document in RAM, from the others RAM data
 
-    virtual bool loadCustomData() = 0; //Overload this function for custom data loading from file - it will be called BEFORE the 'ON_CREATION' trigger
+    virtual bool loadCustomData() = 0; //Overload this function for custom data loading from file - it will be called BEFORE the 'ON_CREATION' trigger - should return 'true' on error
     virtual void synchroniseCustomData(QString&) = 0;
 
     bool onEvent(TRIGGER_TYPE);
-    bool doAction(const Event& e);
+    bool doAction(const Event& e, bool randomFactor=true);
 
     bool m_error;
 
@@ -108,10 +109,9 @@ protected:
     QDomDocument m_dom;
     bool m_isSynced;
 
-    uint m_life;
-    bool m_destroyable;
-
     QMultiMap<TRIGGER_TYPE, Event> m_eventMap;
+
+    static quint64 _globalID;
 };
 
 #endif // XMLOBJECT_H

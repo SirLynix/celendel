@@ -1,17 +1,19 @@
 #include "xmlobject.h"
 #include <QtXml>
 #include <QString>
+#include "..\Constants.h"
 
-int alea(int min,int max){static bool first=true;if(first){srand(time(NULL));first=false;alea(0,150);}return (int)(min+((float)rand()/RAND_MAX*(max-min+1)));}
+quint64 XMLObject::_globalID=0;
 
 XMLObject::XMLObject()
 {
+    m_ID=_globalID;
+    ++_globalID;
+
     m_typePrefix = "XMLObject";
     m_name = "Default XML Object";
 
     m_isSynced=true;
-    m_life=0;
-    m_destroyable=false;
     m_error=false;
 }
 
@@ -27,22 +29,6 @@ XMLObject::~XMLObject()
             delete i.value().data.amount;
 
         ++i;
-    }
-}
-
-void XMLObject::damage(uint dmg)
-{
-    if(m_destroyable)
-    {
-        if(dmg>=m_life)
-        {
-            m_life=0;
-            emit destroyed(dmg);
-        }
-        else
-            m_life-=dmg;
-
-        emit damaged(dmg);
     }
 }
 
@@ -130,12 +116,12 @@ bool XMLObject::save(const QString& filename)
     return false;
 }
 
-bool XMLObject::doAction(const Event& e)
+bool XMLObject::doAction(const Event& e, bool randomFactor)
 {
     if(e.action==NOT_AN_ACTION)
         return false;
 
-    if(e.randomFactor>0)
+    if(e.randomFactor>0&&randomFactor)
     {
         if(alea(0,e.randomFactor))
             return false;
@@ -157,17 +143,6 @@ bool XMLObject::doAction(const Event& e)
     {
         qDebug() << "ALERT SPECIAL PLAYER ("<<e.data.plyPatern->nameRegExp << ") : " << e.text;
         emit alertPlayers(e.text, *e.data.plyPatern);
-        return true;
-    }
-    else if(e.action==DAMAGE)
-    {
-        if(e.data.ptr==NULL)
-        {
-            qDebug() << "Error : invalid damage event.";
-            return false;
-        }
-
-        damage(e.data.amount->a);
         return true;
     }
     else if(e.action==USE_OBJECT)
