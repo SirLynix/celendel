@@ -229,17 +229,38 @@ addDockWidget(Qt::LeftDockWidgetArea, characterListDock);
 
 
 ///GM PANEL LIST DOCK
-QDockWidget *GMPanelDock = new QDockWidget(tr("Panneau d'administration"), this);
-GMPanelDock->setWhatsThis(tr("Le panneau d'administration"));
-GMPanelDock->setFeatures(QDockWidget::NoDockWidgetFeatures);
-GMPanelDock->setFeatures(QDockWidget::DockWidgetFloatable|QDockWidget::DockWidgetMovable);
+m_GMPanelDock = new QDockWidget(tr("Panneau d'administration"), this);
+m_GMPanelDock->setWhatsThis(tr("Le panneau d'administration"));
+m_GMPanelDock->setFeatures(QDockWidget::NoDockWidgetFeatures);
+m_GMPanelDock->setFeatures(QDockWidget::DockWidgetFloatable|QDockWidget::DockWidgetMovable);
 
-QWidget *w_GMPanelDock = new QWidget(GMPanelDock);
-GMPanelDock->setWidget(w_GMPanelDock);
+QWidget *w_GMPanelDock = new QWidget(m_GMPanelDock);
+m_GMPanelDock->setWidget(w_GMPanelDock);
 QVBoxLayout *l_GMPanelDock = new QVBoxLayout(w_GMPanelDock);
 w_GMPanelDock->setLayout(l_GMPanelDock);
 
-addDockWidget(Qt::LeftDockWidgetArea, GMPanelDock);
+{
+QGroupBox* gb=new QGroupBox(tr("Langages"),this);
+l_GMPanelDock->addWidget(gb);
+QVBoxLayout* layout=new QVBoxLayout(gb);
+m_languageManagement = new QTableWidget(0,2,this);
+{QStringList _tmp; _tmp<<tr("Langage")<<tr("Dictionnaire", "For the multi-language system"); m_languageManagement->setHorizontalHeaderLabels(_tmp); }
+m_languageManagement->setEditTriggers(QAbstractItemView::NoEditTriggers);
+m_languageManagement->setSelectionMode(QAbstractItemView::SingleSelection);
+layout->addWidget(m_languageManagement);
+
+m_addLanguage = new QPushButton(tr("Ajouter un langage"), this);
+connect(m_addLanguage, SIGNAL(pressed()), this, SLOT(addLanguage()));
+layout->addWidget(m_addLanguage);
+
+m_importLanguages = new QPushButton(tr("Importer une liste de langages"), this);
+connect(m_importLanguages, SIGNAL(pressed()), this, SLOT(importLanguageList()));
+layout->addWidget(m_importLanguages);
+}
+
+
+
+addDockWidget(Qt::LeftDockWidgetArea, m_GMPanelDock);
 
 
 m_centralWi->setMaximumSize(1,1);

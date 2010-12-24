@@ -53,6 +53,9 @@ class ClientInterface : public QMainWindow
         void clientLeft(CLID);
 
         void updateGMLabel();
+        void updateGMPanel(); //In ClientGMInterface.cpp
+        void addLanguage();
+        void importLanguageList();
         CLID CLIDFromString(const QString& str); // In ClientChatCommands.cpp
 
         void switchConnectionState();
@@ -78,7 +81,7 @@ class ClientInterface : public QMainWindow
         void narrationChanged(QString);
 
         void syncSoundLibs(QList<SoundLibInformations>);
-        void syncLanguagesList(QStringList);
+        void syncLanguagesList(QList<QPair<QString, QString> >);
 
         void saveGame();
         void loadGame();
@@ -119,6 +122,12 @@ class ClientInterface : public QMainWindow
         QPushButton* m_rollTheDice;
 
         QWidget* m_mapWi;
+
+        ///GM Panel
+        QDockWidget *m_GMPanelDock;
+        QTableWidget *m_languageManagement;
+        QPushButton *m_addLanguage;
+        QPushButton *m_importLanguages;
 
         ///Player list
         QTreeView *m_v_pl;

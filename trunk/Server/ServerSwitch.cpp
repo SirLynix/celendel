@@ -34,6 +34,22 @@ CLID Server::nickToCLID(const QString& nick)
     return 0;
 }
 
+
+
+QString Server::translateText(const QString& text, const QString& language, CLID cID)
+{
+    Player* ply=getPlayer(cID);
+
+    int prct=0;
+
+    if(ply->currentCharacter!=NULL)
+    {
+        prct=ply->currentCharacter->abilityInLanguage(language);
+    }
+
+    return m_translator.translate(text, language, prct);
+}
+
 void Server::processData(std::auto_ptr<Packet> pa /*Packet* pa*/, CLID cID)
 {
     Player *ply = getPlayer(cID);
@@ -85,7 +101,17 @@ void Server::processData(std::auto_ptr<Packet> pa /*Packet* pa*/, CLID cID)
                     {
                         if(gameStarted())
                         {
-                            m_network->sendToAll(ETI(CHAT), serialiseChatData(ETI(RP), lang, text, cID));
+                            if(lang!="")
+                            {
+                                for(int i=0,m=m_players.size();i<m;++i)
+                                {
+                                    m_network->sendToClient(m_players[i]->ID(), ETI(CHAT), serialiseChatData(ETI(RP), lang, translateText(text, lang, m_players[i]->ID()), cID));
+                                }
+                            }
+                            else
+                            {
+                                m_network->sendToAll(ETI(CHAT), serialiseChatData(ETI(RP), lang, text, cID));
+                            }
                         }
                         else
                         {

@@ -72,7 +72,7 @@ class ClientNetwork : public QObject
         void playSound(QString,QString);
 
         void syncLibs(QList<SoundLibInformations>);
-        void syncLanguagesList(QStringList);
+        void syncLanguagesList(QList<QPair<QString, QString> >);
 
 
     private:

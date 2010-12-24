@@ -22,6 +22,8 @@ class Person : public MaterialThing
         ObjectPtr removeObject(const ObjectPtr&);
 
         const QList<ObjectPtr>& getInventoryList() const { return m_inventory; } //Return a copy (or a constant version) of the internal array of Object pointers.
+        
+        int abilityInLanguage(int
 
     protected:
         bool loadCustomData();
@@ -31,8 +33,8 @@ class Person : public MaterialThing
         void objectDestroyed();
 
     private:
-    
-        ObjectPtr Personn::getObjectSmartPtr(const Object* o):
+
+       ObjectPtr getObjectSmartPtr(const Object* o) const;
 
        void removeObject(const Object*const); //Warning : the ressource is NOT deleted. Shall never be call unless by ~Object().
        friend Object::~Object();
