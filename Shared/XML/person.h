@@ -23,6 +23,8 @@ class Person : public MaterialThing
 
         const QList<ObjectPtr>& getInventoryList() const { return m_inventory; } //Return a copy (or a constant version) of the internal array of Object pointers.
 
+        int abilityInLanguage(const QString& language) { return m_languages.value(language, 0); }
+
     protected:
         bool loadCustomData();
         void synchroniseCustomData(QString&);

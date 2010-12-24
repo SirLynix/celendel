@@ -209,6 +209,7 @@ void ClientInterface::sendMessage()
 
             m_network->send(ETI(CHAT), serialiseChatData(ETI(RP), m_RPLanguage->currentText(), txt.mid( spl[0].size()).simplified(), 0));
             show=false;
+            m_chatInput->setText(spl[0]+' ');
         }
         else if(txt.startsWith(tr("/1d20")))
         {

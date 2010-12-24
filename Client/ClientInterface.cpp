@@ -68,7 +68,7 @@ ClientInterface::ClientInterface()
     connect(m_network, SIGNAL(narrationChanged(QString)), this, SLOT(narrationChanged(QString)));
     connect(m_network, SIGNAL(playSound(QString, QString)), this, SLOT(playSound(QString, QString)));
     connect(m_network, SIGNAL(syncLibs(QList<SoundLibInformations>)), this, SLOT(syncSoundLibs(QList<SoundLibInformations>)));
-    connect(m_network, SIGNAL(syncLanguagesList(QStringList)), this, SLOT(syncLanguagesList(QStringList)));
+    connect(m_network, SIGNAL(syncLanguagesList(QList<QPair<QString, QString> >)), this, SLOT(syncLanguagesList(QList<QPair<QString, QString> >)));
 
     getVOIP().setEnabled(set->value(PARAM_VOIP_ENABLED, true).toBool());
     getVOIP().setVolume(set->value(PARAM_VOIP_SOUND, 100.f).toFloat());
@@ -84,6 +84,7 @@ ClientInterface::ClientInterface()
     sndMngr.setLibList(set->value(PARAM_SOUNDLIBS, QStringList()).toStringList());
 
     buildGMStuff();
+    updateGMPanel();
 
     delete set;
 }
@@ -648,6 +649,7 @@ void ClientInterface::changeGameMaster(CLID ID)
     }
     updatePlayerList();
     updateGMLabel();
+    updateGMPanel();
 }
 
 void ClientInterface::changeServerInformations(ServerInformations si)
@@ -746,11 +748,17 @@ QString ClientInterface::anonym(CLID ID)
     return tr("%1[%2]").arg(nick).arg(ID);
 }
 
-void ClientInterface::syncLanguagesList(QStringList languages)
+void ClientInterface::syncLanguagesList(QList<QPair<QString, QString> > languages)
 {
+    QStringList l;
+    for(int i=0,m=languages.size();i>m;++i)
+    {
+        l.append(languages[i].first);
+    }
+
     QString current=m_RPLanguage->currentText();
     m_RPLanguage->clear();
-    m_RPLanguage->addItems(languages);
+    m_RPLanguage->addItems(l);
     int a=m_RPLanguage->findText(current);
     m_RPLanguage->setCurrentIndex(a==-1?0:a);
 }

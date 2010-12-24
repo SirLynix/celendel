@@ -146,7 +146,7 @@ void ClientNetwork::operatePacket(Packet* packet)
         break;
         case LANGUAGES_LIST:
         {
-            QStringList l;
+            QList<QPair<QString, QString> > l;
             QE(extractLanguagesData(packet->data, l));
             emit syncLanguagesList(l);
         }

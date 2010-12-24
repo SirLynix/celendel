@@ -11,25 +11,25 @@
 		<Cursor position="166" topLine="0" />
 	</File>
 	<File name="ClientChatCommands.cpp" open="0" top="0" tabpos="1">
-		<Cursor position="9504" topLine="201" />
+		<Cursor position="8771" topLine="202" />
 	</File>
-	<File name="ClientGMInterface.cpp" open="0" top="0" tabpos="0">
-		<Cursor position="473" topLine="0" />
+	<File name="ClientGMInterface.cpp" open="1" top="1" tabpos="2">
+		<Cursor position="2177" topLine="63" />
 	</File>
 	<File name="ClientInterface.cpp" open="0" top="0" tabpos="1">
-		<Cursor position="22108" topLine="734" />
+		<Cursor position="4004" topLine="63" />
 	</File>
-	<File name="ClientInterface.h" open="0" top="0" tabpos="2">
-		<Cursor position="3530" topLine="115" />
+	<File name="ClientInterface.h" open="1" top="0" tabpos="1">
+		<Cursor position="3426" topLine="102" />
 	</File>
 	<File name="ClientNetwork.cpp" open="0" top="0" tabpos="1">
-		<Cursor position="2953" topLine="24" />
+		<Cursor position="1231" topLine="3" />
 	</File>
 	<File name="ClientNetwork.h" open="0" top="0" tabpos="2">
-		<Cursor position="2176" topLine="39" />
+		<Cursor position="2194" topLine="39" />
 	</File>
 	<File name="ClientNetworkSwitch.cpp" open="0" top="0" tabpos="1">
-		<Cursor position="4106" topLine="112" />
+		<Cursor position="4130" topLine="115" />
 	</File>
 	<File name="ClientSave.cpp" open="0" top="0" tabpos="0">
 		<Cursor position="917" topLine="0" />
@@ -38,10 +38,10 @@
 		<Cursor position="7070" topLine="144" />
 	</File>
 	<File name="ClientSettings.h" open="0" top="0" tabpos="5">
-		<Cursor position="2274" topLine="51" />
+		<Cursor position="1821" topLine="6" />
 	</File>
-	<File name="GUI.cpp" open="0" top="0" tabpos="1">
-		<Cursor position="10993" topLine="199" />
+	<File name="GUI.cpp" open="1" top="0" tabpos="3">
+		<Cursor position="12280" topLine="221" />
 	</File>
 	<File name="SoundLibThread.cpp" open="0" top="0" tabpos="0">
 		<Cursor position="245" topLine="0" />
@@ -116,6 +116,6 @@
 		<Cursor position="11722" topLine="618" />
 	</File>
 	<File name="..\Shared\Serializer.h" open="0" top="0" tabpos="0">
-		<Cursor position="3808" topLine="52" />
+		<Cursor position="3951" topLine="59" />
 	</File>
 </CodeBlocks_layout_file>

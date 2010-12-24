@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Meta object code from reading C++ file 'ClientNetwork.h'
 **
-** Created: Mon 6. Dec 19:10:45 2010
+** Created: Wed 8. Dec 15:33:32 2010
 **      by: The Qt Meta Object Compiler version 62 (Qt 4.6.2)
 **
 ** WARNING! All changes made in this file will be lost!
@@ -56,23 +56,23 @@ static const uint qt_meta_data_ClientNetwork[] = {
      606,   14,   14,   14, 0x05,
 
  // slots: signature, parameters, type, tag, flags
-     655,  637,   14,   14, 0x0a,
-     677,  674,   14,   14, 0x2a,
-     691,  674,   14,   14, 0x0a,
-     715,  705,   14,   14, 0x0a,
-     739,   14,   14,   14, 0x0a,
-     753,   14,  746,   14, 0x0a,
-     771,   14,  763,   14, 0x0a,
+     674,  656,   14,   14, 0x0a,
+     696,  693,   14,   14, 0x2a,
+     710,  693,   14,   14, 0x0a,
+     734,  724,   14,   14, 0x0a,
+     758,   14,   14,   14, 0x0a,
+     772,   14,  765,   14, 0x0a,
      790,   14,  782,   14, 0x0a,
-     803,   14,   14,   14, 0x0a,
-     811,   14,   14,   14, 0x0a,
-     824,   14,   14,   14, 0x0a,
-     853,  845,  840,   14, 0x0a,
-     880,   14,   14,   14, 0x08,
-     892,   14,   14,   14, 0x08,
-     907,   14,   14,   14, 0x08,
-     922,   14,   14,   14, 0x08,
-     971,  964,   14,   14, 0x08,
+     809,   14,  801,   14, 0x0a,
+     822,   14,   14,   14, 0x0a,
+     830,   14,   14,   14, 0x0a,
+     843,   14,   14,   14, 0x0a,
+     872,  864,  859,   14, 0x0a,
+     899,   14,   14,   14, 0x08,
+     911,   14,   14,   14, 0x08,
+     926,   14,   14,   14, 0x08,
+     941,   14,   14,   14, 0x08,
+     990,  983,   14,   14, 0x08,
 
        0        // eod
 };
@@ -95,7 +95,7 @@ static const char qt_meta_stringdata_ClientNetwork[] = {
     "clientJoined(CLID,QString)\0clientLeft(CLID)\0"
     "playSound(QString,QString)\0"
     "syncLibs(QList<SoundLibInformations>)\0"
-    "syncLanguagesList(QStringList)\0"
+    "syncLanguagesList(QList<QPair<QString,QString> >)\0"
     "pa,delegateDelete\0send(Packet*,bool)\0"
     "pa\0send(Packet*)\0send(Packet&)\0type,data\0"
     "send(qint32,QByteArray)\0ping()\0qint32\0"
@@ -159,7 +159,7 @@ int ClientNetwork::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
         case 19: clientLeft((*reinterpret_cast< CLID(*)>(_a[1]))); break;
         case 20: playSound((*reinterpret_cast< QString(*)>(_a[1])),(*reinterpret_cast< QString(*)>(_a[2]))); break;
         case 21: syncLibs((*reinterpret_cast< QList<SoundLibInformations>(*)>(_a[1]))); break;
-        case 22: syncLanguagesList((*reinterpret_cast< QStringList(*)>(_a[1]))); break;
+        case 22: syncLanguagesList((*reinterpret_cast< QList<QPair<QString,QString> >(*)>(_a[1]))); break;
         case 23: send((*reinterpret_cast< Packet*(*)>(_a[1])),(*reinterpret_cast< bool(*)>(_a[2]))); break;
         case 24: send((*reinterpret_cast< Packet*(*)>(_a[1]))); break;
         case 25: send((*reinterpret_cast< Packet(*)>(_a[1]))); break;
@@ -338,7 +338,7 @@ void ClientNetwork::syncLibs(QList<SoundLibInformations> _t1)
 }
 
 // SIGNAL 22
-void ClientNetwork::syncLanguagesList(QStringList _t1)
+void ClientNetwork::syncLanguagesList(QList<QPair<QString,QString> > _t1)
 {
     void *_a[] = { 0, const_cast<void*>(reinterpret_cast<const void*>(&_t1)) };
     QMetaObject::activate(this, &staticMetaObject, 22, _a);

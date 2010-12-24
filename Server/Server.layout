@@ -14,31 +14,31 @@
 		<Cursor position="1010" topLine="18" />
 	</File>
 	<File name="Player.cpp" open="0" top="0" tabpos="0">
-		<Cursor position="343" topLine="0" />
+		<Cursor position="117" topLine="0" />
 	</File>
 	<File name="Player.h" open="0" top="0" tabpos="0">
-		<Cursor position="228" topLine="0" />
+		<Cursor position="188" topLine="0" />
 	</File>
-	<File name="Server.cpp" open="0" top="0" tabpos="1">
-		<Cursor position="1637" topLine="21" />
+	<File name="Server.cpp" open="0" top="0" tabpos="6">
+		<Cursor position="2599" topLine="51" />
 	</File>
-	<File name="Server.h" open="0" top="0" tabpos="0">
-		<Cursor position="418" topLine="0" />
+	<File name="Server.h" open="0" top="0" tabpos="5">
+		<Cursor position="1521" topLine="26" />
 	</File>
 	<File name="Server.pro" open="0" top="0" tabpos="0">
 		<Cursor position="405" topLine="0" />
 	</File>
-	<File name="ServerSwitch.cpp" open="0" top="0" tabpos="1">
-		<Cursor position="12011" topLine="301" />
+	<File name="ServerSwitch.cpp" open="0" top="0" tabpos="4">
+		<Cursor position="3892" topLine="77" />
 	</File>
-	<File name="Translator.cpp" open="1" top="0" tabpos="2">
+	<File name="Translator.cpp" open="0" top="0" tabpos="2">
 		<Cursor position="1078" topLine="39" />
 	</File>
-	<File name="Translator.h" open="1" top="0" tabpos="1">
+	<File name="Translator.h" open="0" top="0" tabpos="1">
 		<Cursor position="277" topLine="0" />
 	</File>
-	<File name="main.cpp" open="1" top="1" tabpos="3">
-		<Cursor position="260" topLine="0" />
+	<File name="main.cpp" open="0" top="0" tabpos="3">
+		<Cursor position="178" topLine="0" />
 	</File>
 	<File name="..\Shared\Constants.h" open="0" top="0" tabpos="1">
 		<Cursor position="1575" topLine="31" />
@@ -59,7 +59,7 @@
 		<Cursor position="12012" topLine="633" />
 	</File>
 	<File name="..\Shared\Serializer.h" open="0" top="0" tabpos="0">
-		<Cursor position="3857" topLine="59" />
+		<Cursor position="3857" topLine="58" />
 	</File>
 	<File name="..\Shared\XML\MaterialThing.cpp" open="0" top="0" tabpos="0">
 		<Cursor position="55" topLine="0" />
@@ -80,7 +80,7 @@
 		<Cursor position="3377" topLine="107" />
 	</File>
 	<File name="..\Shared\XML\person.h" open="0" top="0" tabpos="1">
-		<Cursor position="1331" topLine="8" />
+		<Cursor position="1201" topLine="7" />
 	</File>
 	<File name="..\Shared\XML\xmlobject.cpp" open="0" top="0" tabpos="0">
 		<Cursor position="1107" topLine="48" />

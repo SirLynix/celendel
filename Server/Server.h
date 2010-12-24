@@ -38,6 +38,8 @@ class Server : public QObject
         ServerInformations getServerInformations() const;
         CLID nickToCLID(const QString& nick);
 
+        QString translateText(const QString& text, const QString& language, CLID cID);
+
     public slots:
         void addClient(CLID cID);
         void removeClient(CLID cID);
