@@ -73,6 +73,7 @@ class ClientNetwork : public QObject
 
         void syncLibs(QList<SoundLibInformations>);
         void syncLanguagesList(QList<QPair<QString, QString> >);
+        void syncDictionariesList(QStringList list);
 
 
     private:

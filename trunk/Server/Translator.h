@@ -15,6 +15,12 @@ class Translator
     QString translate(const QString& text, const QString& language, int prct);
 
     QList<QPair<QString, QString> > getLanguages() const;
+    QStringList getDictionariesList() const;
+
+    bool removeDictionary(const QString& name);
+
+    bool loadDictionary(const QString& name, const QString& content);
+    bool openDictionary(const QString& name);
 
     private:
 

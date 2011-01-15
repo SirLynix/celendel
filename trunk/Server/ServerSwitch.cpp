@@ -353,12 +353,43 @@ void Server::processData(std::auto_ptr<Packet> pa /*Packet* pa*/, CLID cID)
             GM_CHECK();
             QList<QPair<QString,QString> > l;
             QE(extractLanguagesData(pa->data, l));
-            for(int i=0;i<l.size();++i)
-            {
-                m_translator.loadLanguage(l[i].first, l[i].second);
-            }
-            m_network->sendToAll(ETI(MOTD), serialiseLanguagesData(m_translator.getLanguages()));
 
+            for(int i=0,size=l.size();i<size;++i)
+            {
+                if(m_translator.loadLanguage(l[i].first, l[i].second))
+                {
+                    m_network->sendToClient(cID, ETI(ERROR), serialiseErrorData(ETI(CANNOT_LOAD_LANGUAGE), l[i].first));
+                }
+            }
+            m_network->sendToAll(ETI(LANGUAGES_LIST), serialiseLanguagesData(m_translator.getLanguages()));
+        }
+        break;
+        case ADD_DICO:
+        {
+            GM_CHECK();
+            QString name, content;
+            QE(extractAddDicoData(pa->data, name, content));
+
+            if(m_translator.loadDictionary(name, content))
+            {
+                m_network->sendToClient(cID, ETI(ERROR), serialiseErrorData(ETI(CANNOT_LOAD_DICTIONARY), name));
+            }
+            else
+                m_network->sendToAll(ETI(DICO_LIST), serialiseDicoListData(m_translator.getDictionariesList()));
+        }
+        break;
+        case REMOVE_DICO:
+        {
+            GM_CHECK();
+            QString name;
+            QE(extractRemoveDicoData(pa->data, name));
+
+            if(m_translator.removeDictionary(name))
+            {
+                m_network->sendToClient(cID, ETI(ERROR), serialiseErrorData(ETI(CANNOT_REMOVE_DICTIONARY), name));
+            }
+            else
+                m_network->sendToAll(ETI(DICO_LIST), serialiseDicoListData(m_translator.getDictionariesList()));
         }
         break;
         default:

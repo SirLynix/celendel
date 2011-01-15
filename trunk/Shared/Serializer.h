@@ -96,4 +96,13 @@ QByteArray serialiseScriptsListData(const QList<QPair<QString, QString> >& list)
 bool extractScriptsUpdateData(QByteArray& data, QList<QPair<QString, QString> >& list);
 QByteArray serialiseScriptsUpdateData(const QList<QPair<QString, QString> >& list);
 
+bool extractAddDicoData(QByteArray& data, QString& name, QString& content);
+QByteArray serialiseAddDicoData(const QString& name, const QString& content);
+
+bool extractDicoListData(QByteArray& data, QStringList& names);
+QByteArray serialiseDicoListData(const QStringList& names);
+
+bool extractRemoveDicoData(QByteArray& data, QString& name);
+QByteArray serialiseRemoveDicoData(const QString& name);
+
 #endif

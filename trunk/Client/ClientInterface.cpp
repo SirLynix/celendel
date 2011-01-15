@@ -69,6 +69,7 @@ ClientInterface::ClientInterface()
     connect(m_network, SIGNAL(playSound(QString, QString)), this, SLOT(playSound(QString, QString)));
     connect(m_network, SIGNAL(syncLibs(QList<SoundLibInformations>)), this, SLOT(syncSoundLibs(QList<SoundLibInformations>)));
     connect(m_network, SIGNAL(syncLanguagesList(QList<QPair<QString, QString> >)), this, SLOT(syncLanguagesList(QList<QPair<QString, QString> >)));
+    connect(m_network, SIGNAL(syncDictionariesList(QStringList)), this, SLOT(syncDictionariesList(QStringList)));
 
     getVOIP().setEnabled(set->value(PARAM_VOIP_ENABLED, true).toBool());
     getVOIP().setVolume(set->value(PARAM_VOIP_SOUND, 100.f).toFloat());
@@ -210,7 +211,7 @@ void ClientInterface::VOIPClientVolume()
 void ClientInterface::aboutUs()
 {
     QString t;
-    t = tr("<center><h2>Celendel</h2></center>(Version du %1 - %2)<br/>L'ensemble du projet est sous la licence LGPL.<br/>Personnes ayant participées au développement du programme :<br/>- Gigotdarnaud<br/>- Chidie<br/>- Shade Master").arg(__DATE__).arg(__TIME__);
+    t = tr("<center><h2>Celendel</h2></center>(Version du %1 - %2)<br/>L'ensemble du projet est sous la licence LGPL.<br/>Personnes ayant participées au développement du programme :<br/>- Gigotdarnaud<br/>- Chidie (Un peu)<br/>- Shade Master (Presque)").arg(__DATE__).arg(__TIME__);
     AboutWindow aw(t, this);
     aw.setWindowTitle(tr("A propos de Celendel"));
     aw.exec();
@@ -404,8 +405,11 @@ void ClientInterface::resetData()
     m_TOD.clear();
     m_serverName.clear();
     m_playersMap.clear();
+    m_dictionnariesList->clear();
+    m_languageManagement->clear();
     updatePlayerList();
     updateGMLabel();
+    updateGMPanel();
 }
 
 void ClientInterface::clientJoined(CLID cID, QString IP)
@@ -664,6 +668,8 @@ void ClientInterface::changeServerInformations(ServerInformations si)
         setTitle();
     }
 
+    m_motd=si.motd;
+
     int nms=si.players.size();
 
     m_playersMap.clear();
@@ -703,6 +709,8 @@ void ClientInterface::changeServerInformations(ServerInformations si)
 
     m_narrator->setHtml(si.narration);
     m_narrator->moveCursor(QTextCursor::End);
+
+    syncDictionariesList(si.dictionaries);
 
     if(si.gameStarted)
     {
@@ -751,16 +759,22 @@ QString ClientInterface::anonym(CLID ID)
 void ClientInterface::syncLanguagesList(QList<QPair<QString, QString> > languages)
 {
     QStringList l;
-    for(int i=0,m=languages.size();i>m;++i)
+    for(int i=0,m=languages.size();i<m;++i)
     {
         l.append(languages[i].first);
     }
 
     QString current=m_RPLanguage->currentText();
     m_RPLanguage->clear();
+
     m_RPLanguage->addItems(l);
     int a=m_RPLanguage->findText(current);
     m_RPLanguage->setCurrentIndex(a==-1?0:a);
+}
+
+void ClientInterface::characterListMenu(const QPoint& pos)
+{
+
 }
 
 QString ClientInterface::getRolePlayName(CLID ID)

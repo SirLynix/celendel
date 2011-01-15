@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Meta object code from reading C++ file 'ClientInterface.h'
 **
-** Created: Sat 25. Dec 00:13:13 2010
+** Created: Sat 15. Jan 20:33:24 2011
 **      by: The Qt Meta Object Compiler version 62 (Qt 4.6.2)
 **
 ** WARNING! All changes made in this file will be lost!
@@ -23,7 +23,7 @@ static const uint qt_meta_data_ClientInterface[] = {
        4,       // revision
        0,       // classname
        0,    0, // classinfo
-      52,   14, // methods
+      60,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
@@ -54,35 +54,43 @@ static const uint qt_meta_data_ClientInterface[] = {
      561,   16,   16,   16, 0x08,
      578,   16,   16,   16, 0x08,
      594,   16,   16,   16, 0x08,
-     610,   16,   16,   16, 0x08,
-     624,   16,   16,   16, 0x08,
-     654,  650,  645,   16, 0x08,
-     678,   16,   16,   16, 0x08,
-     702,   16,   16,   16, 0x08,
-     717,   16,   16,   16, 0x08,
-     733,   16,   16,   16, 0x08,
-     743,   16,   16,   16, 0x08,
-     757,   16,   16,   16, 0x08,
-     778,  769,   16,   16, 0x08,
-     794,   16,   16,   16, 0x28,
-     808,  803,   16,   16, 0x08,
-     830,   16,   16,   16, 0x28,
-     849,  845,   16,   16, 0x08,
-     872,   16,   16,   16, 0x08,
-     885,   16,   16,   16, 0x08,
-     897,   16,   16,   16, 0x08,
-     912,   16,   16,   16, 0x08,
-     929,   16,   16,   16, 0x08,
-     939,   16,   16,   16, 0x08,
-     953,   16,   16,   16, 0x08,
-     979,   16,   16,   16, 0x08,
-    1022,   16,   16,   16, 0x08,
-    1072,   16,   16,   16, 0x08,
-    1083,   16,   16,   16, 0x08,
-    1094,   16,   16,   16, 0x08,
-    1113,   16,   16,   16, 0x08,
-    1129,   16,   16,   16, 0x08,
-    1148,  331,   16,   16, 0x08,
+     615,   16,  610,   16, 0x08,
+     638,  629,  610,   16, 0x08,
+     671,  667,   16,   16, 0x08,
+     701,  696,  610,   16, 0x08,
+     725,   16,   16,   16, 0x08,
+     746,   16,   16,   16, 0x08,
+     767,   16,   16,   16, 0x08,
+     795,  791,  786,   16, 0x08,
+     819,   16,   16,   16, 0x08,
+     843,   16,   16,   16, 0x08,
+     858,   16,   16,   16, 0x08,
+     874,   16,   16,   16, 0x08,
+     884,   16,   16,   16, 0x08,
+     898,   16,   16,   16, 0x08,
+     919,  910,   16,   16, 0x08,
+     935,   16,   16,   16, 0x28,
+     949,  944,   16,   16, 0x08,
+     971,   16,   16,   16, 0x28,
+     986,  667,   16,   16, 0x08,
+    1012,  667,   16,   16, 0x08,
+    1035,   16,   16,   16, 0x08,
+    1048,   16,   16,   16, 0x08,
+    1060,   16,   16,   16, 0x08,
+    1075,   16,   16,   16, 0x08,
+    1092,   16,   16,   16, 0x08,
+    1102,   16,   16,   16, 0x08,
+    1116,   16,   16,   16, 0x08,
+    1142,   16,   16,   16, 0x08,
+    1185,   16,   16,   16, 0x08,
+    1240, 1235,   16,   16, 0x08,
+    1274,   16,   16,   16, 0x08,
+    1291,   16,   16,   16, 0x08,
+    1302,   16,   16,   16, 0x08,
+    1313,   16,   16,   16, 0x08,
+    1332,   16,   16,   16, 0x08,
+    1348,   16,   16,   16, 0x08,
+    1367,  331,   16,   16, 0x08,
 
        0        // eod
 };
@@ -104,22 +112,28 @@ static const char qt_meta_stringdata_ClientInterface[] = {
     "setTitle()\0lid,rsid\0playSound(QString,QString)\0"
     "updatePlayerList()\0,IP\0"
     "clientJoined(CLID,QString)\0clientLeft(CLID)\0"
-    "updateGMLabel()\0updateGMPanel()\0"
-    "addLanguage()\0importLanguageList()\0"
+    "updateGMLabel()\0updateGMPanel()\0bool\0"
+    "addLanguage()\0lang,dic\0"
+    "addLanguage(QString,QString)\0pos\0"
+    "languageListMenu(QPoint)\0lang\0"
+    "removeLanguage(QString)\0removeLanguageMenu()\0"
+    "importLanguageList()\0sendLanguageList()\0"
     "CLID\0str\0CLIDFromString(QString)\0"
     "switchConnectionState()\0openSettings()\0"
     "openSoundsGUI()\0aboutUs()\0aboutServer()\0"
     "resetData()\0fileName\0setCSS(QString)\0"
     "setCSS()\0path\0setInterface(QString)\0"
-    "setInterface()\0pos\0playerListMenu(QPoint)\0"
-    "actionKick()\0actionBan()\0actionVoteGM()\0"
-    "actionChangeGM()\0refresh()\0textChanged()\0"
+    "setInterface()\0characterListMenu(QPoint)\0"
+    "playerListMenu(QPoint)\0actionKick()\0"
+    "actionBan()\0actionVoteGM()\0actionChangeGM()\0"
+    "refresh()\0textChanged()\0"
     "narrationChanged(QString)\0"
     "syncSoundLibs(QList<SoundLibInformations>)\0"
     "syncLanguagesList(QList<QPair<QString,QString> >)\0"
-    "saveGame()\0loadGame()\0VOIPRemoveClient()\0"
-    "VOIPAddClient()\0VOIPClientVolume()\0"
-    "dataPerSecond(int,int)\0"
+    "list\0syncDictionariesList(QStringList)\0"
+    "addDictionnary()\0saveGame()\0loadGame()\0"
+    "VOIPRemoveClient()\0VOIPAddClient()\0"
+    "VOIPClientVolume()\0dataPerSecond(int,int)\0"
 };
 
 const QMetaObject ClientInterface::staticMetaObject = {
@@ -174,39 +188,50 @@ int ClientInterface::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
         case 20: clientLeft((*reinterpret_cast< CLID(*)>(_a[1]))); break;
         case 21: updateGMLabel(); break;
         case 22: updateGMPanel(); break;
-        case 23: addLanguage(); break;
-        case 24: importLanguageList(); break;
-        case 25: { CLID _r = CLIDFromString((*reinterpret_cast< const QString(*)>(_a[1])));
+        case 23: { bool _r = addLanguage();
+            if (_a[0]) *reinterpret_cast< bool*>(_a[0]) = _r; }  break;
+        case 24: { bool _r = addLanguage((*reinterpret_cast< const QString(*)>(_a[1])),(*reinterpret_cast< const QString(*)>(_a[2])));
+            if (_a[0]) *reinterpret_cast< bool*>(_a[0]) = _r; }  break;
+        case 25: languageListMenu((*reinterpret_cast< const QPoint(*)>(_a[1]))); break;
+        case 26: { bool _r = removeLanguage((*reinterpret_cast< const QString(*)>(_a[1])));
+            if (_a[0]) *reinterpret_cast< bool*>(_a[0]) = _r; }  break;
+        case 27: removeLanguageMenu(); break;
+        case 28: importLanguageList(); break;
+        case 29: sendLanguageList(); break;
+        case 30: { CLID _r = CLIDFromString((*reinterpret_cast< const QString(*)>(_a[1])));
             if (_a[0]) *reinterpret_cast< CLID*>(_a[0]) = _r; }  break;
-        case 26: switchConnectionState(); break;
-        case 27: openSettings(); break;
-        case 28: openSoundsGUI(); break;
-        case 29: aboutUs(); break;
-        case 30: aboutServer(); break;
-        case 31: resetData(); break;
-        case 32: setCSS((*reinterpret_cast< const QString(*)>(_a[1]))); break;
-        case 33: setCSS(); break;
-        case 34: setInterface((*reinterpret_cast< const QString(*)>(_a[1]))); break;
-        case 35: setInterface(); break;
-        case 36: playerListMenu((*reinterpret_cast< const QPoint(*)>(_a[1]))); break;
-        case 37: actionKick(); break;
-        case 38: actionBan(); break;
-        case 39: actionVoteGM(); break;
-        case 40: actionChangeGM(); break;
-        case 41: refresh(); break;
-        case 42: textChanged(); break;
-        case 43: narrationChanged((*reinterpret_cast< QString(*)>(_a[1]))); break;
-        case 44: syncSoundLibs((*reinterpret_cast< QList<SoundLibInformations>(*)>(_a[1]))); break;
-        case 45: syncLanguagesList((*reinterpret_cast< QList<QPair<QString,QString> >(*)>(_a[1]))); break;
-        case 46: saveGame(); break;
-        case 47: loadGame(); break;
-        case 48: VOIPRemoveClient(); break;
-        case 49: VOIPAddClient(); break;
-        case 50: VOIPClientVolume(); break;
-        case 51: dataPerSecond((*reinterpret_cast< int(*)>(_a[1])),(*reinterpret_cast< int(*)>(_a[2]))); break;
+        case 31: switchConnectionState(); break;
+        case 32: openSettings(); break;
+        case 33: openSoundsGUI(); break;
+        case 34: aboutUs(); break;
+        case 35: aboutServer(); break;
+        case 36: resetData(); break;
+        case 37: setCSS((*reinterpret_cast< const QString(*)>(_a[1]))); break;
+        case 38: setCSS(); break;
+        case 39: setInterface((*reinterpret_cast< const QString(*)>(_a[1]))); break;
+        case 40: setInterface(); break;
+        case 41: characterListMenu((*reinterpret_cast< const QPoint(*)>(_a[1]))); break;
+        case 42: playerListMenu((*reinterpret_cast< const QPoint(*)>(_a[1]))); break;
+        case 43: actionKick(); break;
+        case 44: actionBan(); break;
+        case 45: actionVoteGM(); break;
+        case 46: actionChangeGM(); break;
+        case 47: refresh(); break;
+        case 48: textChanged(); break;
+        case 49: narrationChanged((*reinterpret_cast< QString(*)>(_a[1]))); break;
+        case 50: syncSoundLibs((*reinterpret_cast< QList<SoundLibInformations>(*)>(_a[1]))); break;
+        case 51: syncLanguagesList((*reinterpret_cast< QList<QPair<QString,QString> >(*)>(_a[1]))); break;
+        case 52: syncDictionariesList((*reinterpret_cast< QStringList(*)>(_a[1]))); break;
+        case 53: addDictionnary(); break;
+        case 54: saveGame(); break;
+        case 55: loadGame(); break;
+        case 56: VOIPRemoveClient(); break;
+        case 57: VOIPAddClient(); break;
+        case 58: VOIPClientVolume(); break;
+        case 59: dataPerSecond((*reinterpret_cast< int(*)>(_a[1])),(*reinterpret_cast< int(*)>(_a[2]))); break;
         default: ;
         }
-        _id -= 52;
+        _id -= 60;
     }
     return _id;
 }

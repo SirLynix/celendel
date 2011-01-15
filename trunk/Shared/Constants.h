@@ -21,6 +21,9 @@
 #define MAX_PACKET_SIZE 1024*1024 //1Mio
 #define SOCKET_BUFFER_SIZE 1024*1024*10 //10Mio
 
+#define DICTIONARIES_FOLDER_PATH QString("dictionaries/")
+#define DICTIONARIES_EXTENSION QString(".dic")
+
 #define qCApp QCoreApplication::instance()
 
 #define ENUM_TYPE qint32
@@ -94,6 +97,7 @@ struct ServerInformations
     QString narration;
     QList<SoundLibInformations> libs;
     QList<QPair<QString, QString> > languages;
+    QStringList dictionaries;
 };
 
 /* SERVER_INFORMATIONS type structure : (compressed)
@@ -108,9 +112,20 @@ struct ServerInformations
 
 enum PACKET_TYPE { ERROR, PING, CHAT, ALL_NARRATION, GM_ELECT, NEW_GM, LAUNCH_GAME, GAME_LAUNCHED, VOTED, SET_CLID, NEW_NICK,
                 SET_NICK, GTFO_LYNIX, TOD, LOCATION, SERVER_INFORMATIONS, MOTD, MAP_INFORMATIONS, MAP_ITEMS_INFORMATIONS,
-                PLAY_SOUND, SCRIPTS_LIST, SCRIPTS_UPDATE, ROLL_DICE, SERVER_NAME, CLIENT_LEFT, CLIENT_JOINED, UNBAN, SYNC_LIBS, LANGUAGES_LIST};
+                PLAY_SOUND, SCRIPTS_LIST, SCRIPTS_UPDATE, ROLL_DICE, SERVER_NAME, CLIENT_LEFT, CLIENT_JOINED, UNBAN, SYNC_LIBS,
+                LANGUAGES_LIST, DICO_LIST, ADD_DICO, REMOVE_DICO };
 
 #define MAX_NICKNAME_LENGHT 15
+/* DICO_LIST structure - compressed :
+- QStringList names */
+
+/* ADD_DICO structure - compressed :
+- QString name
+- QString content */
+
+/* REMOVE_DICO structure - compressed :
+- QString name */
+
 /* SCRIPT_LIST structure - compressed :
 - QList<QPair<QString, QString> > list : first QString is the script filename, second is SHA-1 hash */
 
@@ -174,7 +189,8 @@ enum CANAL_TYPE { NORMAL, RP, SELF_NARRATOR };
 - QString text
 - CLID sender */
 
-enum ERROR_TYPE { ALREADY_VOTED, GAME_NOT_LAUNCHED, NOT_GM, INVALID_PACKET, INVALID_CANAL, CLIENT_DOES_NOT_EXIST, CLIENTS_LIMIT_REACHED, SANCTION_UNKNOWN, CONNECTION_FAILED };
+enum ERROR_TYPE { ALREADY_VOTED, GAME_NOT_LAUNCHED, NOT_GM, INVALID_PACKET, INVALID_CANAL, CLIENT_DOES_NOT_EXIST,
+            CLIENTS_LIMIT_REACHED, SANCTION_UNKNOWN, CONNECTION_FAILED, CANNOT_LOAD_LANGUAGE, CANNOT_LOAD_DICTIONARY, CANNOT_REMOVE_DICTIONARY};
 /* ERROR type structure :
 - ERROR_TYPE error
 - QString text */

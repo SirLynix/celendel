@@ -455,6 +455,14 @@ void ClientSettings::ok()
     accept();
 }
 
+QString repArg(const QString& str, const QString& a)
+{
+    if(str.contains("%1"))
+        return str.arg(a);
+
+    return str;
+}
+
 QString ClientSettings::ETS(ENUM_TYPE errorCode, const QString& txt)
 {
     static QMap<ENUM_TYPE, QString> stringMap;
@@ -469,9 +477,13 @@ QString ClientSettings::ETS(ENUM_TYPE errorCode, const QString& txt)
         stringMap[CLIENT_DOES_NOT_EXIST]=tr("Ce client n'existe pas !");
         stringMap[CLIENTS_LIMIT_REACHED]=tr("La limite forte du nombre de clients connectés silmutanément a été atteinte. Désolé.");
         stringMap[SANCTION_UNKNOWN]=tr("La sanction demandée est inconnue.");
+        stringMap[CONNECTION_FAILED]=tr("La connexion a échoué.");
+        stringMap[CANNOT_LOAD_DICTIONARY]=tr("Le dictionnaire \"%1\" n'a pas pu être chargé par le serveur.");
+        stringMap[CANNOT_LOAD_LANGUAGE]=tr("Le langage \"%1\" n'a pas pu être chargé par le serveur.");
+        stringMap[CANNOT_REMOVE_DICTIONARY]=tr("Le dictionnaire \"%1\" n'a pas pu être chargé par le serveur. Pensez à supprimer d'abord tous les langages l'utilisant.");
         first=false;
     }
 
-    return stringMap.contains(errorCode) ? stringMap.value(errorCode).arg(txt) : tr("Une erreur inconnue est arrivée.");
+    return stringMap.contains(errorCode) ? repArg(stringMap.value(errorCode), txt) : tr("Une erreur inconnue est arrivée.");
 }
 
