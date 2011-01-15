@@ -2,9 +2,14 @@
 #include "..\Shared\Serializer.h"
 
 #include <QCoreApplication>
+#include <QSettings>
 
 Server::Server(QObject* parent) : QObject(parent)
 {
+    QCoreApplication::setOrganizationName("Celendel Project");
+    QCoreApplication::setOrganizationDomain("http://code.google.com/p/celendel/");
+    QCoreApplication::setApplicationName("Celendel");
+
     QStringList args = QCoreApplication::arguments();
     quint16 port=SERVER_PORT;
 
@@ -15,13 +20,20 @@ Server::Server(QObject* parent) : QObject(parent)
 
     connect(m_network, SIGNAL(newClient(CLID)), this, SLOT(addClient(CLID)));
     connect(m_network, SIGNAL(clientGone(CLID)), this, SLOT(removeClient(CLID)));
-    connect(m_network, SIGNAL(/*dataReceived(Packet*, CLID)*/dataReceived(std::auto_ptr<Packet>, CLID)), this, SLOT(/*processData(Packet*, CLID)*/processData(std::auto_ptr<Packet>, CLID)));
+    connect(m_network, SIGNAL(dataReceived(std::auto_ptr<Packet>, CLID)), this, SLOT(processData(std::auto_ptr<Packet>, CLID)));
 
     m_gameStarted=false;
     m_GMID=0;
     m_map=new MapInformations();
     serverName="Server";
     motd="Default MOTD";
+
+    {
+    QSettings set;
+    QFile file(set.value("MOTD_PATH", MOTD_DEFAULT_PATH).toString(), this);
+    if(file.open(QIODevice::ReadOnly | QIODevice::Text))
+        motd=file.readAll();
+    }
 }
 
 Server::~Server()
@@ -52,6 +64,7 @@ ServerInformations Server::getServerInformations() const
     si.motd=motd;
     si.narration=narration;
     si.languages=m_translator.getLanguages();
+    si.dictionaries=m_translator.getDictionariesList();
 
     return si;
 }

@@ -289,6 +289,8 @@ bool extractServerInformationsData(QByteArray& data, ServerInformations& si)
     R(in);
     in>>si.languages;
     R(in);
+    in>>si.dictionaries;
+    R(in);
 
     return extractSyncLibsData(l, si.libs);
 }
@@ -308,6 +310,7 @@ QByteArray serialiseServerInformationsData(const ServerInformations& si)
     out<<si.narration;
     out<<serialiseSyncLibsData(si.libs);
     out<<si.languages;
+    out<<si.dictionaries;
 
     return qCompress(data);
 }
@@ -707,3 +710,73 @@ QByteArray serialiseScriptsUpdateData(const QList<QPair<QString, QString> >& lis
     return qCompress(data);
 }
 
+bool extractAddDicoData(QByteArray& data, QString& name, QString& content)
+{
+    QByteArray d=qUncompress(data);
+    QV(d);
+    QDataStream in(d);
+
+    in>>name;
+    R(in);
+    in>>content;
+    R(in);
+
+    return false;
+}
+
+QByteArray serialiseAddDicoData(const QString& name, const QString& content)
+{
+    QByteArray data;
+    QDataStream out(&data, QIODevice::ReadWrite);
+
+    out<<name;
+    out<<content;
+
+    return qCompress(data);
+}
+
+bool extractDicoListData(QByteArray& data, QStringList& names)
+{
+    QByteArray d=qUncompress(data);
+    QV(d);
+    QDataStream in(d);
+
+    names.clear();
+    in>>names;
+    R(in);
+
+    return false;
+}
+
+QByteArray serialiseDicoListData(const QStringList& names)
+{
+    QByteArray data;
+    QDataStream out(&data, QIODevice::ReadWrite);
+
+    out<<names;
+
+    return qCompress(data);
+}
+
+bool extractRemoveDicoData(QByteArray& data, QString& name)
+{
+    QByteArray d=qUncompress(data);
+    QV(d);
+    QDataStream in(d);
+
+    in>>name;
+    R(in);
+
+
+    return false;
+}
+
+QByteArray serialiseRemoveDicoData(const QString& name)
+{
+    QByteArray data;
+    QDataStream out(&data, QIODevice::ReadWrite);
+
+    out<<name;
+
+    return qCompress(data);
+}

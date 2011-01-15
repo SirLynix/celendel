@@ -2,8 +2,8 @@
 #define SERVER_H
 
                     /// The main server class ///
- /* It rules the game. It receive data from the network class, */
-/* Work on it, then answer with the network class once again. */
+ /*  It rules the game. It receive data from the network class, */
+/* Works on it, then answer with the network class once again. */
 
 /* Workers :
     - Gigotdarnaud
@@ -15,6 +15,8 @@
 #include "..\Shared\MapStructs.h"
 #include "..\Shared\XML\person.h"
 #include "Translator.h"
+
+#define MOTD_DEFAULT_PATH "MOTD.html"
 
 class Server : public QObject
 {
@@ -33,7 +35,7 @@ class Server : public QObject
         QString timeOfDay;
         QString motd;
 
-        bool changeGM(CLID cID); // Returns true if error
+        bool changeGM(CLID cID); // Returns true on error
 
         ServerInformations getServerInformations() const;
         CLID nickToCLID(const QString& nick);
@@ -47,7 +49,7 @@ class Server : public QObject
 
     private slots:
         void cleanUp();
-        void processData(/*Packet**/std::auto_ptr<Packet>, CLID);
+        void processData(std::auto_ptr<Packet>, CLID);
 
     private:
         ServerNetwork *m_network;

@@ -218,6 +218,7 @@ w_characterListDock->setLayout(l_characterListDock);
 
 
 m_v_cl = new QTreeView(this);
+m_v_cl->setContextMenuPolicy(Qt::CustomContextMenu);
 m_v_cl->setModel(m_characterList);
 m_v_cl->header()->hide();
 m_v_cl->setEditTriggers(QAbstractItemView::NoEditTriggers);
@@ -234,16 +235,16 @@ m_GMPanelDock->setWhatsThis(tr("Le panneau d'administration"));
 m_GMPanelDock->setFeatures(QDockWidget::NoDockWidgetFeatures);
 m_GMPanelDock->setFeatures(QDockWidget::DockWidgetFloatable|QDockWidget::DockWidgetMovable);
 
-QWidget *w_GMPanelDock = new QWidget(m_GMPanelDock);
-m_GMPanelDock->setWidget(w_GMPanelDock);
-QVBoxLayout *l_GMPanelDock = new QVBoxLayout(w_GMPanelDock);
-w_GMPanelDock->setLayout(l_GMPanelDock);
+QTabWidget *GMPanelTab = new QTabWidget(m_GMPanelDock);
+m_GMPanelDock->setWidget(GMPanelTab);
+
 
 {
 QGroupBox* gb=new QGroupBox(tr("Langages"),this);
-l_GMPanelDock->addWidget(gb);
+GMPanelTab->addTab(gb, tr("Langages"));
 QVBoxLayout* layout=new QVBoxLayout(gb);
 m_languageManagement = new QTableWidget(0,2,this);
+m_languageManagement->setContextMenuPolicy(Qt::CustomContextMenu);
 {QStringList _tmp; _tmp<<tr("Langage")<<tr("Dictionnaire", "For the multi-language system"); m_languageManagement->setHorizontalHeaderLabels(_tmp); }
 m_languageManagement->setEditTriggers(QAbstractItemView::NoEditTriggers);
 m_languageManagement->setSelectionMode(QAbstractItemView::SingleSelection);
@@ -256,7 +257,30 @@ layout->addWidget(m_addLanguage);
 m_importLanguages = new QPushButton(tr("Importer une liste de langages"), this);
 connect(m_importLanguages, SIGNAL(pressed()), this, SLOT(importLanguageList()));
 layout->addWidget(m_importLanguages);
+
+m_syncroniseLanguages = new QPushButton(tr("Synchroniser la liste des langages"), this);
+connect(m_syncroniseLanguages, SIGNAL(pressed()), this, SLOT(sendLanguageList()));
+layout->addWidget(m_syncroniseLanguages);
 }
+
+{
+QGroupBox* gb=new QGroupBox(tr("Dictionnaires"),this);
+GMPanelTab->addTab(gb, tr("Dictionnaires"));
+
+QVBoxLayout* layout=new QVBoxLayout(gb);
+m_dictionnariesList = new QListWidget(this);
+layout->addWidget(m_dictionnariesList);
+
+m_addDictionnary = new QPushButton(tr("Ajouter un dictionnaire"), this);
+layout->addWidget(m_addDictionnary);
+connect(m_addDictionnary, SIGNAL(pressed()), this, SLOT(addDictionnary()));
+}
+
+connect(m_languageManagement, SIGNAL(customContextMenuRequested(const QPoint&)), this, SLOT(languageListMenu(const QPoint&)));
+m_removeLanguage = new QAction(tr("Supprimer le langage"), this);
+connect(m_removeLanguage, SIGNAL(triggered()), this, SLOT(removeLanguageMenu()));
+m_addLanguageAct = new QAction(tr("Ajouter un langage"), this);
+connect(m_addLanguageAct, SIGNAL(triggered()), this, SLOT(addLanguage()));
 
 
 

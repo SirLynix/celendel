@@ -54,8 +54,13 @@ class ClientInterface : public QMainWindow
 
         void updateGMLabel();
         void updateGMPanel(); //In ClientGMInterface.cpp
-        void addLanguage();
+        bool addLanguage(); //In ClientGMInterface.cpp
+        bool addLanguage(const QString& lang, const QString& dic); //In ClientGMInterface.cpp
+        void languageListMenu(const QPoint& pos); //In ClientGMInterface.cpp
+        bool removeLanguage(const QString& lang);
+        void removeLanguageMenu();
         void importLanguageList();
+        void sendLanguageList();
         CLID CLIDFromString(const QString& str); // In ClientChatCommands.cpp
 
         void switchConnectionState();
@@ -68,6 +73,8 @@ class ClientInterface : public QMainWindow
 
         void setCSS(const QString& fileName = ""); // If fileName is empty, the defaut theme (OS dependent) will be loaded
         void setInterface(const QString& path = DEFAULT_INTERFACE);  // If path is empty, the defaut interface will be loaded
+
+        void characterListMenu(const QPoint& pos);
 
         void playerListMenu(const QPoint& pos);
         void actionKick();
@@ -82,6 +89,9 @@ class ClientInterface : public QMainWindow
 
         void syncSoundLibs(QList<SoundLibInformations>);
         void syncLanguagesList(QList<QPair<QString, QString> >);
+        void syncDictionariesList(QStringList list);
+
+        void addDictionnary();
 
         void saveGame();
         void loadGame();
@@ -128,6 +138,9 @@ class ClientInterface : public QMainWindow
         QTableWidget *m_languageManagement;
         QPushButton *m_addLanguage;
         QPushButton *m_importLanguages;
+        QPushButton *m_syncroniseLanguages;
+        QListWidget *m_dictionnariesList;
+        QPushButton *m_addDictionnary;
 
         ///Player list
         QTreeView *m_v_pl;
@@ -151,6 +164,8 @@ class ClientInterface : public QMainWindow
         QAction *m_VOIPDisconnect;
         QAction *m_VOIPVolume;
 
+        QAction *m_removeLanguage;
+        QAction *m_addLanguageAct;
 
         ///GM Menus
         QTimer *m_refreshTimer;

@@ -151,6 +151,13 @@ void ClientNetwork::operatePacket(Packet* packet)
             emit syncLanguagesList(l);
         }
         break;
+        case DICO_LIST:
+        {
+            QStringList l;
+            QE(extractDicoListData(packet->data, l));
+            emit syncDictionariesList(l);
+        }
+        break;
         default:
         break;
     }

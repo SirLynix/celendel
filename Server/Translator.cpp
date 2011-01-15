@@ -11,7 +11,6 @@ QList<QPair<QString, QString> > Translator::getLanguages() const
     QMap<QString, QString>::const_iterator i = m_languages.constBegin();
     while (i != m_languages.constEnd())
     {
-
         l.append(qMakePair(i.key(),i.value()));
         ++i;
     }
@@ -83,6 +82,60 @@ QString Translator::getWord(const QString& language, int size, int sum)
     return d[size][sum%ms];
 }
 
+QStringList Translator::getDictionariesList() const
+{
+    return m_dictionaries.uniqueKeys();
+}
+
+bool Translator::removeDictionary(const QString& name)
+{
+    if(!m_languages.keys(name).isEmpty())
+        return true;
+
+    if(!m_dictionaries.remove(name))
+        return true;
+
+    return false;
+}
+
+bool Translator::openDictionary(const QString& name)
+{
+    QString fileName=DICTIONARIES_FOLDER_PATH + name + DICTIONARIES_EXTENSION;
+    QFile file(fileName);
+    if(!file.open(QIODevice::ReadOnly|QIODevice::Text))
+    {
+        qDebug() << "Dictionary not found : " << fileName;
+        return true;
+    }
+
+    return loadDictionary(name, file.readAll());
+}
+
+bool Translator::loadDictionary(const QString& name, const QString& content)
+{
+    if(m_dictionaries.contains(name))
+        return true;
+
+    QStringList list = content.split('\n', QString::SkipEmptyParts);
+    for(int i=0, m=list.size();i<m;++i)
+    {
+        QString line=list[i].simplified(); line.remove(' ');
+
+        int size=line.size()+1;
+
+        if(size>1)
+        {
+            QList<QStringList>& d=m_dictionaries[name];
+
+            if(size>=d.size())
+                resize(d, size+1);
+
+            d[size].append(line);
+        }
+    }
+
+    return false;
+}
 
 bool Translator::loadLanguage(const QString& name, const QString& dico)
 {
@@ -91,9 +144,13 @@ bool Translator::loadLanguage(const QString& name, const QString& dico)
 
     if(!m_dictionaries.contains(dico))
     {
-        QFile file(dico);
+        QString fileName=DICTIONARIES_FOLDER_PATH + dico + DICTIONARIES_EXTENSION;
+        QFile file(fileName);
         if(!file.open(QIODevice::ReadOnly|QIODevice::Text))
+        {
+            qDebug() << "FAILLURE : " << fileName;
             return true;
+        }
 
         while(!file.atEnd()) //Althought this method is dangerous with STL-files, Qt's one is saffer.
         {

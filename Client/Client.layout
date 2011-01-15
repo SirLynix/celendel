@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
 <CodeBlocks_layout_file>
 	<ActiveTarget name="Release" />
-	<File name="AboutWindow.cpp" open="0" top="0" tabpos="1">
-		<Cursor position="459" topLine="0" />
+	<File name="AboutWindow.cpp" open="1" top="1" tabpos="1">
+		<Cursor position="413" topLine="0" />
 	</File>
 	<File name="AboutWindow.h" open="0" top="0" tabpos="2">
 		<Cursor position="68" topLine="0" />
@@ -11,37 +11,37 @@
 		<Cursor position="166" topLine="0" />
 	</File>
 	<File name="ClientChatCommands.cpp" open="0" top="0" tabpos="1">
-		<Cursor position="8771" topLine="202" />
+		<Cursor position="8771" topLine="200" />
 	</File>
-	<File name="ClientGMInterface.cpp" open="1" top="1" tabpos="2">
-		<Cursor position="2177" topLine="63" />
+	<File name="ClientGMInterface.cpp" open="0" top="0" tabpos="2">
+		<Cursor position="4279" topLine="57" />
 	</File>
-	<File name="ClientInterface.cpp" open="0" top="0" tabpos="1">
-		<Cursor position="4004" topLine="63" />
+	<File name="ClientInterface.cpp" open="0" top="0" tabpos="4">
+		<Cursor position="12576" topLine="377" />
 	</File>
-	<File name="ClientInterface.h" open="1" top="0" tabpos="1">
-		<Cursor position="3426" topLine="102" />
+	<File name="ClientInterface.h" open="0" top="0" tabpos="1">
+		<Cursor position="2977" topLine="77" />
 	</File>
 	<File name="ClientNetwork.cpp" open="0" top="0" tabpos="1">
-		<Cursor position="1231" topLine="3" />
+		<Cursor position="538" topLine="12" />
 	</File>
 	<File name="ClientNetwork.h" open="0" top="0" tabpos="2">
-		<Cursor position="2194" topLine="39" />
+		<Cursor position="2250" topLine="35" />
 	</File>
 	<File name="ClientNetworkSwitch.cpp" open="0" top="0" tabpos="1">
-		<Cursor position="4130" topLine="115" />
+		<Cursor position="4120" topLine="122" />
 	</File>
 	<File name="ClientSave.cpp" open="0" top="0" tabpos="0">
 		<Cursor position="917" topLine="0" />
 	</File>
 	<File name="ClientSettings.cpp" open="0" top="0" tabpos="1">
-		<Cursor position="7070" topLine="144" />
+		<Cursor position="17567" topLine="447" />
 	</File>
 	<File name="ClientSettings.h" open="0" top="0" tabpos="5">
-		<Cursor position="1821" topLine="6" />
+		<Cursor position="841" topLine="22" />
 	</File>
-	<File name="GUI.cpp" open="1" top="0" tabpos="3">
-		<Cursor position="12280" topLine="221" />
+	<File name="GUI.cpp" open="0" top="0" tabpos="3">
+		<Cursor position="2638" topLine="33" />
 	</File>
 	<File name="SoundLibThread.cpp" open="0" top="0" tabpos="0">
 		<Cursor position="245" topLine="0" />
@@ -98,7 +98,7 @@
 		<Cursor position="139" topLine="0" />
 	</File>
 	<File name="..\Shared\Constants.h" open="0" top="0" tabpos="0">
-		<Cursor position="3862" topLine="126" />
+		<Cursor position="4921" topLine="172" />
 	</File>
 	<File name="..\Shared\MapStructs.h" open="0" top="0" tabpos="0">
 		<Cursor position="450" topLine="0" />
@@ -113,9 +113,9 @@
 		<Cursor position="157" topLine="0" />
 	</File>
 	<File name="..\Shared\Serializer.cpp" open="0" top="0" tabpos="0">
-		<Cursor position="11722" topLine="618" />
+		<Cursor position="13889" topLine="729" />
 	</File>
 	<File name="..\Shared\Serializer.h" open="0" top="0" tabpos="0">
-		<Cursor position="3951" topLine="59" />
+		<Cursor position="995" topLine="15" />
 	</File>
 </CodeBlocks_layout_file>
