@@ -63,6 +63,7 @@
 		<Unit filename="ClientGMInterface.cpp" />
 		<Unit filename="ClientInterface.cpp" />
 		<Unit filename="ClientInterface.h" />
+		<Unit filename="ClientMapInterface.cpp" />
 		<Unit filename="ClientNetwork.cpp" />
 		<Unit filename="ClientNetwork.h" />
 		<Unit filename="ClientNetworkSwitch.cpp" />

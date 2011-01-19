@@ -47,7 +47,7 @@
 		<Cursor position="82" topLine="0" />
 	</File>
 	<File name="..\Shared\Miscelaneous.cpp" open="0" top="0" tabpos="0">
-		<Cursor position="567" topLine="0" />
+		<Cursor position="756" topLine="0" />
 	</File>
 	<File name="..\Shared\Packet.cpp" open="0" top="0" tabpos="2">
 		<Cursor position="41" topLine="0" />
@@ -58,7 +58,7 @@
 	<File name="..\Shared\Serializer.cpp" open="1" top="0" tabpos="0">
 		<Cursor position="5121" topLine="273" />
 	</File>
-	<File name="..\Shared\Serializer.h" open="1" top="0" tabpos="0">
+	<File name="..\Shared\Serializer.h" open="0" top="0" tabpos="0">
 		<Cursor position="3815" topLine="66" />
 	</File>
 	<File name="..\Shared\XML\MaterialThing.cpp" open="0" top="0" tabpos="0">
