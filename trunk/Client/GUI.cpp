@@ -1,9 +1,10 @@
-  /*         buildGui() : build the client GUI          */
- /* This function in ClientInterface constructor only. */
-/*         Workers :
-                - Gigotdarnaud                        */
+  /*           buildGui() : build the client GUI            */
+ /* Use this function in ClientInterface constructor only. */
+/*            Workers :
+                   - Gigotdarnaud                        */
 
 #include "ClientInterface.h"
+#include "MapWidget.h"
 
 void ClientInterface::buildGUI()
 {
@@ -38,6 +39,18 @@ connect(ac_settings, SIGNAL(triggered()), this, SLOT(openSettings()));
 QAction *ac_sounds = settingsMenu->addAction(tr("Parcourir les sons"));
 ac_sounds->setWhatsThis(tr("Explorer les bibliothèques de sons chargées."));
 connect(ac_sounds, SIGNAL(triggered()), this, SLOT(openSoundsGUI()));
+
+// RENDERING MENU
+QMenu *renderingMenu = menuBar()->addMenu(tr("&Module de rendu"));
+QAction *ac_mapInformations = renderingMenu->addAction(tr("Informations sur la carte"));
+ac_mapInformations->setWhatsThis(tr("Affiche quelques informations très interessantes sur la carte. Vraiment."));
+connect(ac_mapInformations, SIGNAL(triggered()), m_mapWi, SLOT(openMapInfoDialog()));
+QAction *ac_loadRessources = renderingMenu->addAction(tr("Charger un set d'image"));
+ac_loadRessources->setWhatsThis(tr("Charge un set d'image."));
+connect(ac_loadRessources, SIGNAL(triggered()), this, SLOT(loadRessourcesListGUI()));
+QAction *ac_renderMap = renderingMenu->addAction(tr("Charger carte dans une nouvelle fenêtre"));
+ac_renderMap->setWhatsThis(tr("Charge une carte dans une nouvelle fenêtre"));
+connect(ac_renderMap, SIGNAL(triggered()), this, SLOT(openRenderWindow()));
 
 // ABOUT MENU
 QMenu *aboutMenu = menuBar()->addMenu(tr("&A propos..."));

@@ -70,6 +70,10 @@
 		<Unit filename="ClientSettings.cpp" />
 		<Unit filename="ClientSettings.h" />
 		<Unit filename="GUI.cpp" />
+		<Unit filename="MapWidget.cpp" />
+		<Unit filename="MapWidget.h" />
+		<Unit filename="QSFMLCanvas.cpp" />
+		<Unit filename="QSFMLCanvas.hpp" />
 		<Unit filename="SoundLibThread.cpp" />
 		<Unit filename="SoundLibThread.h" />
 		<Unit filename="SoundManager.cpp" />

@@ -11,7 +11,7 @@ HEADERS += ClientInterface.h \
            ../Shared/Constants.h ../Shared/Packet.h ../Shared/Serializer.h ../Shared/MapStructs.h \
            ClientSettings.h \
            VOIP/Recorder.h VOIP/Sound.h VOIP/SoundReceiver.h VOIP/Speex.h VOIP/VOIP.h VOIP/Global.h VOIP/OpenAL.h \
-           AboutWindow.h SoundManager.h SoundsGUI.h SoundLibThread.h
+           AboutWindow.h SoundManager.h SoundsGUI.h SoundLibThread.h QSFMLCanvas.hpp MapWidget.h
 
 SOURCES += ClientInterface.cpp \
            ClientNetwork.cpp \
@@ -22,7 +22,7 @@ SOURCES += ClientInterface.cpp \
            ClientChatCommands.cpp ClientSettings.cpp \
            AboutWindow.cpp ClientGMInterface.cpp \
            VOIP/Recorder.cpp VOIP/Sound.cpp VOIP/SoundReceiver.cpp VOIP/Speex.cpp VOIP/VOIP.cpp VOIP/OpenAL.cpp \
-           SoundManager.cpp SoundsGUI.cpp SoundLibThread.cpp
+           SoundManager.cpp SoundsGUI.cpp SoundLibThread.cpp QSFMLCanvas.cpp MapWidget.cpp ClientMapInterface.cpp
 
 SOURCES += \
     ../Shared/XML/xmlobject.cpp \

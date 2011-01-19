@@ -3,13 +3,24 @@
 #include <QTime>
 
 #include "AboutWindow.h"
-#include "ClientSettings.h"
 #include "SoundManager.h"
 #include "SoundsGUI.h"
 #include "VOIP/VOIP.h"
+#include "MapWidget.h"
+
 
 ClientInterface::ClientInterface()
 {
+
+    MapWidgetScroll* mapWiScroll = new MapWidgetScroll(this);
+    m_mapWi=mapWiScroll->getMapWidget();
+    QDockWidget *mapDock = new QDockWidget(tr("Carte"), this);
+    mapDock->setWhatsThis(tr("Le dock de la carte"));
+    mapDock->setFeatures(QDockWidget::NoDockWidgetFeatures);
+    mapDock->setFeatures(QDockWidget::DockWidgetFloatable|QDockWidget::DockWidgetMovable);
+    mapDock->setWidget(mapWiScroll);
+    addDockWidget(Qt::TopDockWidgetArea, mapDock);
+
     buildGUI();
 
     QSettings* set=NULL;
@@ -86,6 +97,7 @@ ClientInterface::ClientInterface()
 
     buildGMStuff();
     updateGMPanel();
+
 
     delete set;
 }

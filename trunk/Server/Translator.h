@@ -22,6 +22,8 @@ class Translator
     bool loadDictionary(const QString& name, const QString& content);
     bool openDictionary(const QString& name);
 
+    void reset();
+
     private:
 
     QString getWord(const QString& language, int size, int sum=-1);

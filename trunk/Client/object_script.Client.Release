@@ -21,6 +21,9 @@ INPUT(
 ./release\SoundManager.o
 ./release\SoundsGUI.o
 ./release\SoundLibThread.o
+./release\QSFMLCanvas.o
+./release\MapWidget.o
+./release\ClientMapInterface.o
 ./release\xmlobject.o
 ./release\object.o
 ./release\person.o
@@ -37,6 +40,7 @@ INPUT(
 ./release\moc_SoundManager.o
 ./release\moc_SoundsGUI.o
 ./release\moc_SoundLibThread.o
+./release\moc_MapWidget.o
 ./release\moc_xmlobject.o
 ./release\moc_object.o
 ./release\moc_person.o

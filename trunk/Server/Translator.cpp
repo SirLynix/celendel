@@ -34,6 +34,12 @@ bool isSpecialChar(const QString& str)
     return !str[0].isLetterOrNumber();
 }
 
+void Translator::reset()
+{
+    m_languages->clear();
+    m_dictionaries->clear();
+}
+
 QString Translator::translate(const QString& text, const QString& language, int prct)
 {
     if(prct<0)

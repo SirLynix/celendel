@@ -3,6 +3,7 @@
 
 #include <Boost/multi_array.hpp>
 #include <QVector>
+#include <QString>
 
 #define CELEM quint32
 
@@ -28,6 +29,11 @@ struct MapInformations
     MapInformations() : map(mapDim(0,0)) {}
     QList<MapItem> mapItems;
     MapArray map;
+    QString name;
+
+    quint32 mapSizeX() const { return map.shape()[0]; }
+    quint32 mapSizeY() const { return map.shape()[1]; }
+    Coords mapSize() const { return Coords(mapSizeX(),mapSizeY()); }
 
     private:
         MapInformations(const MapInformations&); ///Non copiable

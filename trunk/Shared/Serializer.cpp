@@ -345,6 +345,8 @@ bool extractMapInformationsData(QByteArray& data, MapInformations& mi)
 
     QDataStream in(d);
 
+    in>>mi.name;
+    R(in);
 
     qint32 size;
     in>>size;
@@ -382,6 +384,8 @@ QByteArray serialiseMapInformationsData(const MapInformations& mi)
 {
     QByteArray data;
     QDataStream out(&data, QIODevice::ReadWrite);
+
+    out<<mi.name;
 
     out<<(qint32)mi.mapItems.size();
 
