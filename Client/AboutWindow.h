@@ -9,7 +9,7 @@ class AboutWindow : public QDialog
     public:
         AboutWindow(const QString& text, QWidget* parent=0);
 
-    private:
+        static int open(const QString& text, QWidget* parent=0);
 };
 
 #endif // DEF_ABOUTWINDOW

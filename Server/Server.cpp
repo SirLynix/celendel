@@ -26,14 +26,8 @@ Server::Server(QObject* parent) : QObject(parent)
     m_GMID=0;
     m_map=new MapInformations();
     serverName="Server";
-    motd="Default MOTD";
 
-    {
-    QSettings set;
-    QFile file(set.value("MOTD_PATH", MOTD_DEFAULT_PATH).toString(), this);
-    if(file.open(QIODevice::ReadOnly | QIODevice::Text))
-        motd=file.readAll();
-    }
+    reset();
 }
 
 Server::~Server()
@@ -68,6 +62,22 @@ ServerInformations Server::getServerInformations() const
 
     return si;
 }
+/*
+void Server::reset()
+{
+    m_gameStarted=false;
+    serverName="Server";
+    motd="Default MOTD";
+
+    {
+    QSettings set;
+    QFile file(set.value("MOTD_PATH", MOTD_DEFAULT_PATH).toString(), this);
+    if(file.open(QIODevice::ReadOnly | QIODevice::Text))
+        motd=file.readAll();
+    }
+    m_translator.reset();
+
+}*/
 
 void Server::launchGame()
 {

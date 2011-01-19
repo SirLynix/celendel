@@ -17,4 +17,8 @@ AboutWindow::AboutWindow(const QString& text, QWidget* parent) : QDialog(parent)
     la->addWidget(ok);
 }
 
-
+int AboutWindow::open(const QString& text, QWidget* parent)
+{
+    AboutWindow win(text, parent);
+    return win.exec();
+}

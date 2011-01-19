@@ -21,6 +21,9 @@ INPUT(
 ./debug\SoundManager.o
 ./debug\SoundsGUI.o
 ./debug\SoundLibThread.o
+./debug\QSFMLCanvas.o
+./debug\MapWidget.o
+./debug\ClientMapInterface.o
 ./debug\xmlobject.o
 ./debug\object.o
 ./debug\person.o
@@ -37,6 +40,7 @@ INPUT(
 ./debug\moc_SoundManager.o
 ./debug\moc_SoundsGUI.o
 ./debug\moc_SoundLibThread.o
+./debug\moc_MapWidget.o
 ./debug\moc_xmlobject.o
 ./debug\moc_object.o
 ./debug\moc_person.o

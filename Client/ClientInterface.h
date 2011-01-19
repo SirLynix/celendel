@@ -1,12 +1,18 @@
 #ifndef DEF_CLIENTINTERFACE
 #define DEF_CLIENTINTERFACE
 
+/* Main client class */
+
 #include <QMainWindow>
+#include "..\Shared\Constants.h"
 #include "ClientNetwork.h"
 #include "ClientSettings.h"
 
 #define DTA_CLID  Qt::UserRole+42
 #define SAVE_EXT ".savegame"
+
+class MapWidget;
+class MapWidgetScroll;
 
 class VOIP;
 
@@ -68,6 +74,9 @@ class ClientInterface : public QMainWindow
         void openSoundsGUI();
         void aboutUs();
         void aboutServer();
+
+        bool loadRessourcesListGUI();//In ClientMapInterface.cpp
+        bool openRenderWindow(QString mapName="", QString ressList="");
 
         void resetData();
 
@@ -131,7 +140,7 @@ class ClientInterface : public QMainWindow
         QComboBox* m_RPLanguage;
         QPushButton* m_rollTheDice;
 
-        QWidget* m_mapWi;
+        MapWidget* m_mapWi;
 
         ///GM Panel
         QDockWidget *m_GMPanelDock;

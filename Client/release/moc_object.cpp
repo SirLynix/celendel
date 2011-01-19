@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Meta object code from reading C++ file 'object.h'
 **
-** Created: Mon 6. Dec 18:49:51 2010
+** Created: Sun 16. Jan 23:05:11 2011
 **      by: The Qt Meta Object Compiler version 62 (Qt 4.6.2)
 **
 ** WARNING! All changes made in this file will be lost!
