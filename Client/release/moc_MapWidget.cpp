@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Meta object code from reading C++ file 'MapWidget.h'
 **
-** Created: Wed 19. Jan 18:02:31 2011
+** Created: Sat 29. Jan 11:04:38 2011
 **      by: The Qt Meta Object Compiler version 62 (Qt 4.6.2)
 **
 ** WARNING! All changes made in this file will be lost!
@@ -23,23 +23,28 @@ static const uint qt_meta_data_MapWidget[] = {
        4,       // revision
        0,       // classname
        0,    0, // classinfo
-       2,   14, // methods
+       4,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
        0,       // flags
-       0,       // signalCount
+       1,       // signalCount
+
+ // signals: signature, parameters, type, tag, flags
+      23,   11,   10,   10, 0x05,
 
  // slots: signature, parameters, type, tag, flags
-      11,   10,   10,   10, 0x0a,
-      39,   31,   10,   10, 0x0a,
+      43,   10,   10,   10, 0x0a,
+      63,   10,   10,   10, 0x0a,
+      86,   78,   10,   10, 0x0a,
 
        0        // eod
 };
 
 static const char qt_meta_stringdata_MapWidget[] = {
-    "MapWidget\0\0openMapInfoDialog()\0x,y,w,h\0"
-    "setView(int,int,int,int)\0"
+    "MapWidget\0\0caseX,caseY\0mapClicked(int,int)\0"
+    "openMapInfoDialog()\0setMap(MapPtr)\0"
+    "x,y,w,h\0setView(int,int,int,int)\0"
 };
 
 const QMetaObject MapWidget::staticMetaObject = {
@@ -71,13 +76,22 @@ int MapWidget::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
         switch (_id) {
-        case 0: openMapInfoDialog(); break;
-        case 1: setView((*reinterpret_cast< int(*)>(_a[1])),(*reinterpret_cast< int(*)>(_a[2])),(*reinterpret_cast< int(*)>(_a[3])),(*reinterpret_cast< int(*)>(_a[4]))); break;
+        case 0: mapClicked((*reinterpret_cast< int(*)>(_a[1])),(*reinterpret_cast< int(*)>(_a[2]))); break;
+        case 1: openMapInfoDialog(); break;
+        case 2: setMap((*reinterpret_cast< MapPtr(*)>(_a[1]))); break;
+        case 3: setView((*reinterpret_cast< int(*)>(_a[1])),(*reinterpret_cast< int(*)>(_a[2])),(*reinterpret_cast< int(*)>(_a[3])),(*reinterpret_cast< int(*)>(_a[4]))); break;
         default: ;
         }
-        _id -= 2;
+        _id -= 4;
     }
     return _id;
+}
+
+// SIGNAL 0
+void MapWidget::mapClicked(int _t1, int _t2)
+{
+    void *_a[] = { 0, const_cast<void*>(reinterpret_cast<const void*>(&_t1)), const_cast<void*>(reinterpret_cast<const void*>(&_t2)) };
+    QMetaObject::activate(this, &staticMetaObject, 0, _a);
 }
 static const uint qt_meta_data_MapWidgetScroll[] = {
 

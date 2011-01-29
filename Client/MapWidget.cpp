@@ -5,6 +5,7 @@
 #include "AboutWindow.h"
 #include <QEvent>
 #include <QTimer>
+#include <QMouseEvent>
 #define BLOC_SIZE 24
 
 using std::auto_ptr;
@@ -23,6 +24,7 @@ MapWidget::MapWidget(QWidget* Parent, const QPoint& Position, const QSize& Size)
     m_x=m_y=0;
     m_w=Size.width();
     m_h=Size.height();
+    setHighlight(false);
 }
 
 MapWidget::~MapWidget()
@@ -248,6 +250,49 @@ auto_ptr<MapInformations> MapWidget::loadMap(QString fileName)
     return map;
 }
 
+QMap<RSID, RSID> MapWidget::concatenateRessources(const QMap<RSID, QString>& other)
+{
+    QMap<RSID, RSID> ret;
+
+    QMap<RSID, QString>::const_iterator i = other.constBegin();
+    while (i != other.constEnd())
+    {
+        ret[i.key()]=loadRessource(i.value());
+        ++i;
+    }
+
+    return ret;
+}
+
+void MapWidget::setMap(MapPtr map)
+{
+    m_map=map;
+
+    if(m_map.get() != NULL && !m_map->isValid())
+        m_map.reset(NULL);
+
+    if(m_map.get() != NULL)
+    {
+        if(!m_map->ressources.isEmpty())
+        {
+            QMap<RSID, RSID> cor = concatenateRessources(m_map->ressources);
+
+            qint32 mapX = sizeX(m_map->map);
+            qint32 mapY = sizeY(m_map->map);
+
+            for(int x=0; x<mapX; ++x)
+            {
+                for(int y=0; y<mapY; ++y)
+                {
+                    m_map->map[x][y] = cor.value(m_map->map[x][y], m_map->map[x][y]);
+                }
+            }
+        }
+    }
+
+    adjustSize();
+}
+
 void MapWidget::OnUpdate()
 {
     if(m_map.get() != 0)
@@ -255,15 +300,23 @@ void MapWidget::OnUpdate()
         qint32 mapX = sizeX(m_map->map);
         qint32 mapY = sizeY(m_map->map);
 
-        if(mapX>(m_x+m_w)/BLOC_SIZE+1)
-            mapX=(m_x+m_w)/BLOC_SIZE+1;
+        if(mapX>(m_x+m_w)/BLOC_SIZE+2)
+            mapX=(m_x+m_w)/BLOC_SIZE+2;
 
-        if(mapY>(m_y+m_h)/BLOC_SIZE+1)
-            mapY=(m_y+m_h)/BLOC_SIZE+1;
+        if(mapY>(m_y+m_h)/BLOC_SIZE+2)
+            mapY=(m_y+m_h)/BLOC_SIZE+2;
 
-        for(int x=m_x/BLOC_SIZE; x<mapX; ++x)
+        int xi=m_x/BLOC_SIZE-2;
+        if(xi<0)
+            xi=0;
+
+        int yi=m_y/BLOC_SIZE-2;
+        if(yi<0)
+            yi=0;
+
+        for(int x=xi; x<mapX; ++x)
         {
-            for(int y=m_y/BLOC_SIZE; y<mapY; ++y)
+            for(int y=yi; y<mapY; ++y)
             {
                 sf::Image* im = m_ressources.value(m_map->map[x][y],NULL);
                 if(im==NULL)
@@ -272,12 +325,75 @@ void MapWidget::OnUpdate()
                 sf::Sprite spr;
                 spr.SetImage(*im);
                 spr.Resize(BLOC_SIZE, BLOC_SIZE);
-                spr.SetPosition(x*BLOC_SIZE, y*BLOC_SIZE);
+                spr.SetPosition(x*BLOC_SIZE-1, y*BLOC_SIZE-1);
                 Draw(spr);
 
             }
         }
+
+        if(m_highlightEnabled&&m_highlightedCase.x()>=xi&&m_highlightedCase.x()<mapX&&m_highlightedCase.y()>=yi&&m_highlightedCase.y()<mapY)
+        {
+            sf::Shape rect=sf::Shape::Rectangle(m_highlightedCase.x()*BLOC_SIZE+2, m_highlightedCase.y()*BLOC_SIZE+2, (m_highlightedCase.x()+1)*BLOC_SIZE-1, (m_highlightedCase.y()+1)*BLOC_SIZE-1,
+                                                sf::Color(0, 0, 0, 0), 2.0f, sf::Color(239,228,176,255));
+            Draw(rect);
+        }
     }
 }
 
+bool MapWidget::isMapValid() const
+{
+    return ((m_map.get() != NULL) && m_map->isValid());
+}
+
+QPoint MapWidget::posToMap(QPoint pos)
+{
+    if(!isMapValid())
+        return QPoint();
+
+    int mx=m_map->mapSizeX();
+    int my=m_map->mapSizeY();
+
+    int x = pos.x()/BLOC_SIZE;
+    if(x<0)
+        x=0;
+    if(x>mx)
+        x=mx;
+
+    int y = pos.y()/BLOC_SIZE;
+    if(y<0)
+        y=0;
+    if(y>my)
+        y=my;
+
+    return QPoint(x,y);
+}
+
+void MapWidget::mouseMoveEvent (QMouseEvent *event)
+{
+    if(m_highlightEnabled&&isMapValid())
+    {
+        m_highlightedCase=posToMap(event->pos());
+    }
+    QSFMLCanvas::mouseMoveEvent(event);
+}
+
+void MapWidget::setHighlight(bool highlight)
+{
+    m_highlightEnabled=highlight;
+    setMouseTracking(highlight);
+}
+
+void MapWidget::mouseReleaseEvent(QMouseEvent* event)
+{
+    if(event->button() == Qt::LeftButton)
+    {
+        if(isMapValid())
+        {
+            QPoint p = posToMap(event->pos());
+            emit mapClicked(p.x(), p.y());
+        }
+    }
+
+    QSFMLCanvas::mouseReleaseEvent(event);
+}
 

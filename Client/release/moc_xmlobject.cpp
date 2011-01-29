@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Meta object code from reading C++ file 'xmlobject.h'
 **
-** Created: Sun 16. Jan 23:05:09 2011
+** Created: Tue 25. Jan 18:45:47 2011
 **      by: The Qt Meta Object Compiler version 62 (Qt 4.6.2)
 **
 ** WARNING! All changes made in this file will be lost!

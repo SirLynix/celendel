@@ -35,7 +35,7 @@ class ClientNetwork : public QObject
         void connection();
         void disconnection();
 
-        bool setServer(QString IP, quint16 port); //True on error (connection already etablish - disconnect first)
+        bool setServer(QString IP, quint16 port); //True on error (connection already etablished - disconnect first)
 
     private slots:
         void connected();
@@ -60,6 +60,7 @@ class ClientNetwork : public QObject
         void motdChanged(QString);
         void gameLaunched();
         void narrationChanged(QString);
+        void mapChanged(MapPtr);
 
         void connectionEtablished();
         void connectionLost();

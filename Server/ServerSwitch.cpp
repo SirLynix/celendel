@@ -298,6 +298,7 @@ void Server::processData(std::auto_ptr<Packet> pa /*Packet* pa*/, CLID cID)
             GM_CHECK();
             QE(extractMapInformationsData(pa->data, *m_map));
             m_network->sendToAll(ETI(MAP_INFORMATIONS), serialiseMapInformationsData(*m_map));
+            log("Game Master changed the map.");
         }
         break;
         case MAP_ITEMS_INFORMATIONS:

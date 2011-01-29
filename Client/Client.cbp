@@ -71,6 +71,8 @@
 		<Unit filename="ClientSettings.cpp" />
 		<Unit filename="ClientSettings.h" />
 		<Unit filename="GUI.cpp" />
+		<Unit filename="MapEditor.cpp" />
+		<Unit filename="MapEditor.h" />
 		<Unit filename="MapWidget.cpp" />
 		<Unit filename="MapWidget.h" />
 		<Unit filename="QSFMLCanvas.cpp" />

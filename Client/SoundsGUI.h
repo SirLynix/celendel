@@ -6,6 +6,7 @@
 
 class dial:public QDialog
 {
+    Q_OBJECT
     public:
         dial(QWidget *parent=NULL);
 };

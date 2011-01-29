@@ -48,9 +48,12 @@ connect(ac_mapInformations, SIGNAL(triggered()), m_mapWi, SLOT(openMapInfoDialog
 QAction *ac_loadRessources = renderingMenu->addAction(tr("Charger un set d'image"));
 ac_loadRessources->setWhatsThis(tr("Charge un set d'image."));
 connect(ac_loadRessources, SIGNAL(triggered()), this, SLOT(loadRessourcesListGUI()));
-QAction *ac_renderMap = renderingMenu->addAction(tr("Charger carte dans une nouvelle fenêtre"));
+QAction *ac_renderMap = renderingMenu->addAction(tr("Charger une carte dans une nouvelle fenêtre"));
 ac_renderMap->setWhatsThis(tr("Charge une carte dans une nouvelle fenêtre"));
 connect(ac_renderMap, SIGNAL(triggered()), this, SLOT(openRenderWindow()));
+QAction *ac_mapEditor = renderingMenu->addAction(tr("Ouvrir l'éditeur de cartes"));
+ac_mapEditor->setWhatsThis(tr("Ouvre l'éditeur de carte."));
+connect(ac_mapEditor, SIGNAL(triggered()), this, SLOT(openMapEditor()));
 
 // ABOUT MENU
 QMenu *aboutMenu = menuBar()->addMenu(tr("&A propos..."));

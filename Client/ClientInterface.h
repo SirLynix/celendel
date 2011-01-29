@@ -13,6 +13,7 @@
 
 class MapWidget;
 class MapWidgetScroll;
+class MapEditor;
 
 class VOIP;
 
@@ -77,6 +78,7 @@ class ClientInterface : public QMainWindow
 
         bool loadRessourcesListGUI();//In ClientMapInterface.cpp
         bool openRenderWindow(QString mapName="", QString ressList="");
+        void openMapEditor();
 
         void resetData();
 
@@ -99,6 +101,8 @@ class ClientInterface : public QMainWindow
         void syncSoundLibs(QList<SoundLibInformations>);
         void syncLanguagesList(QList<QPair<QString, QString> >);
         void syncDictionariesList(QStringList list);
+
+        void sendMapToServer();
 
         void addDictionnary();
 
@@ -180,6 +184,9 @@ class ClientInterface : public QMainWindow
         QTimer *m_refreshTimer;
         bool m_needRefresh;
 
+        ///Map rendering
+        const MapInformations *m_renderedMap;
+        MapEditor* m_mapEditor;
 
         ///Status bar
         QLabel* m_dlPerSec;

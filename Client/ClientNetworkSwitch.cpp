@@ -17,7 +17,15 @@ void ClientNetwork::operatePacket(Packet* packet)
         break;
         case MAP_INFORMATIONS:
         {
-            qDebug() << "Map informations received.";
+            MapPtr map (new MapInformations());
+
+            QE(extractMapInformationsData(packet->data, *map));
+
+            if(!map->isValid())
+                map.reset(NULL);
+
+            qDebug() << "Map changed !";
+            emit mapChanged(map);
         }
         break;
         case SERVER_INFORMATIONS:

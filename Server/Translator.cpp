@@ -36,8 +36,8 @@ bool isSpecialChar(const QString& str)
 
 void Translator::reset()
 {
-    m_languages->clear();
-    m_dictionaries->clear();
+    m_languages.clear();
+    m_dictionaries.clear();
 }
 
 QString Translator::translate(const QString& text, const QString& language, int prct)
