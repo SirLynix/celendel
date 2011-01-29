@@ -377,6 +377,10 @@ bool extractMapInformationsData(QByteArray& data, MapInformations& mi)
             R(in);
         }
     }
+
+    in>>mi.ressources;
+    R(in);
+
     return false;
 }
 
@@ -409,6 +413,8 @@ QByteArray serialiseMapInformationsData(const MapInformations& mi)
             out<<mi.map[x][y];
         }
     }
+
+    out<<mi.ressources;
 
     return qCompress(data);
 }

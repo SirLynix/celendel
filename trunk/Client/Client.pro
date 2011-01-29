@@ -2,16 +2,19 @@ TEMPLATE = app
 
 LIBS += -lsfml-graphics -lsfml-audio -lsfml-window -lsfml-system -lALut -lOpenAL32 -lspeex -lspeexdsp
 
+QMAKE_CXXFLAGS +=  -O3 -Wall -Wmain -s
+
 CONFIG += console
 QT += network
 QT += xml
+
 
 HEADERS += ClientInterface.h \
            ClientNetwork.h \
            ../Shared/Constants.h ../Shared/Packet.h ../Shared/Serializer.h ../Shared/MapStructs.h \
            ClientSettings.h \
            VOIP/Recorder.h VOIP/Sound.h VOIP/SoundReceiver.h VOIP/Speex.h VOIP/VOIP.h VOIP/Global.h VOIP/OpenAL.h \
-           AboutWindow.h SoundManager.h SoundsGUI.h SoundLibThread.h QSFMLCanvas.hpp MapWidget.h
+           AboutWindow.h SoundManager.h SoundsGUI.h SoundLibThread.h QSFMLCanvas.hpp MapWidget.h MapEditor.h
 
 SOURCES += ClientInterface.cpp \
            ClientNetwork.cpp \
@@ -22,7 +25,7 @@ SOURCES += ClientInterface.cpp \
            ClientChatCommands.cpp ClientSettings.cpp \
            AboutWindow.cpp ClientGMInterface.cpp \
            VOIP/Recorder.cpp VOIP/Sound.cpp VOIP/SoundReceiver.cpp VOIP/Speex.cpp VOIP/VOIP.cpp VOIP/OpenAL.cpp \
-           SoundManager.cpp SoundsGUI.cpp SoundLibThread.cpp QSFMLCanvas.cpp MapWidget.cpp ClientMapInterface.cpp
+           SoundManager.cpp SoundsGUI.cpp SoundLibThread.cpp QSFMLCanvas.cpp MapWidget.cpp ClientMapInterface.cpp MapEditor.cpp
 
 SOURCES += \
     ../Shared/XML/xmlobject.cpp \

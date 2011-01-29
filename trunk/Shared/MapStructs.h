@@ -4,6 +4,8 @@
 #include <Boost/multi_array.hpp>
 #include <QVector>
 #include <QString>
+#include <QMap>
+#include <memory>
 
 #define CELEM quint32
 
@@ -28,6 +30,7 @@ struct MapInformations
 {
     MapInformations() : map(mapDim(0,0)) {}
     QList<MapItem> mapItems;
+    QMap<RSID, QString> ressources;
     MapArray map;
     QString name;
 
@@ -35,9 +38,13 @@ struct MapInformations
     quint32 mapSizeY() const { return map.shape()[1]; }
     Coords mapSize() const { return Coords(mapSizeX(),mapSizeY()); }
 
+    bool isValid() const { return mapSizeX()!=0 && mapSizeY()!=0; }
+
     private:
         MapInformations(const MapInformations&); ///Non copiable
 };
+
+typedef std::auto_ptr<MapInformations> MapPtr;
 
 
 #endif

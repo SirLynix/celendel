@@ -20,19 +20,19 @@
 		<Cursor position="188" topLine="0" />
 	</File>
 	<File name="Server.cpp" open="0" top="0" tabpos="6">
-		<Cursor position="2243" topLine="51" />
+		<Cursor position="1860" topLine="42" />
 	</File>
 	<File name="Server.h" open="0" top="0" tabpos="5">
-		<Cursor position="1524" topLine="29" />
+		<Cursor position="883" topLine="17" />
 	</File>
 	<File name="Server.pro" open="0" top="0" tabpos="0">
 		<Cursor position="405" topLine="0" />
 	</File>
 	<File name="ServerSwitch.cpp" open="0" top="0" tabpos="4">
-		<Cursor position="13302" topLine="357" />
+		<Cursor position="10829" topLine="282" />
 	</File>
 	<File name="Translator.cpp" open="0" top="0" tabpos="2">
-		<Cursor position="826" topLine="6" />
+		<Cursor position="816" topLine="12" />
 	</File>
 	<File name="Translator.h" open="0" top="0" tabpos="1">
 		<Cursor position="698" topLine="0" />
@@ -40,10 +40,10 @@
 	<File name="main.cpp" open="0" top="0" tabpos="3">
 		<Cursor position="178" topLine="0" />
 	</File>
-	<File name="..\Shared\Constants.h" open="1" top="0" tabpos="1">
-		<Cursor position="3741" topLine="104" />
+	<File name="..\Shared\Constants.h" open="0" top="0" tabpos="1">
+		<Cursor position="779" topLine="0" />
 	</File>
-	<File name="..\Shared\MapStructs.h" open="1" top="0" tabpos="1">
+	<File name="..\Shared\MapStructs.h" open="0" top="0" tabpos="1">
 		<Cursor position="82" topLine="0" />
 	</File>
 	<File name="..\Shared\Miscelaneous.cpp" open="0" top="0" tabpos="0">
@@ -52,10 +52,10 @@
 	<File name="..\Shared\Packet.cpp" open="0" top="0" tabpos="2">
 		<Cursor position="41" topLine="0" />
 	</File>
-	<File name="..\Shared\Packet.h" open="1" top="0" tabpos="0">
+	<File name="..\Shared\Packet.h" open="0" top="0" tabpos="0">
 		<Cursor position="82" topLine="0" />
 	</File>
-	<File name="..\Shared\Serializer.cpp" open="1" top="0" tabpos="0">
+	<File name="..\Shared\Serializer.cpp" open="0" top="0" tabpos="0">
 		<Cursor position="5121" topLine="273" />
 	</File>
 	<File name="..\Shared\Serializer.h" open="0" top="0" tabpos="0">
