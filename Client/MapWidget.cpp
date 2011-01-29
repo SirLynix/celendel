@@ -6,7 +6,6 @@
 #include <QEvent>
 #include <QTimer>
 #include <QMouseEvent>
-#define BLOC_SIZE 24
 
 using std::auto_ptr;
 
@@ -25,11 +24,25 @@ MapWidget::MapWidget(QWidget* Parent, const QPoint& Position, const QSize& Size)
     m_w=Size.width();
     m_h=Size.height();
     setHighlight(false);
+    m_mouseInside=false;
 }
 
 MapWidget::~MapWidget()
 {
     clearRessources();
+}
+
+void MapWidgetScroll::sizeUpdate()
+{
+    if(widget() != NULL)
+    {
+        if(map.isMapValid())
+        {
+            widget()->resize(map.m_map->mapSizeX()*BLOC_SIZE, map.m_map->mapSizeY()*BLOC_SIZE);
+            viewport()->resize(map.m_map->mapSizeX()*BLOC_SIZE, map.m_map->mapSizeY()*BLOC_SIZE);
+            ref();
+        }
+    }
 }
 
 void MapWidgetScroll::ref()
@@ -203,6 +216,40 @@ QList<RSID> MapWidget::loadRessourcesPack(QString fileName, bool exclusive)
     return ret;
 }
 
+bool MapWidget::saveMap(const QString& fileName) const
+{
+    if(!isMapValid())
+        return true;
+
+    return MapWidget::saveMap(m_map.get(), fileName);
+}
+
+bool MapWidget::saveMap(const MapInformations* map, QString fileName) //Static
+{
+    if(QDir::isRelativePath(fileName)&&!fileName.startsWith(MAP_FOLDER))
+        fileName.prepend(MAP_FOLDER);
+
+    QFile file(fileName);
+    if(!file.open(QIODevice::WriteOnly|QIODevice::Text))
+        return true;
+
+    QTextStream out(&file);
+
+    qint32 mapX = sizeX(map->map);
+    qint32 mapY = sizeY(map->map);
+
+    for(int y=0; y<mapY; ++y)
+    {
+        for(int x=0; x<mapX; ++x)
+        {
+            out << map->map[x][y] << ' ';
+        }
+        out << '\n';
+    }
+
+    return false;
+}
+
 auto_ptr<MapInformations> MapWidget::loadMap(QString fileName)
 {
     auto_ptr<MapInformations> map;
@@ -314,6 +361,9 @@ void MapWidget::OnUpdate()
         if(yi<0)
             yi=0;
 
+
+        Clear(sf::Color(200, 200, 200)); //Usefull on resize...
+
         for(int x=xi; x<mapX; ++x)
         {
             for(int y=yi; y<mapY; ++y)
@@ -331,11 +381,17 @@ void MapWidget::OnUpdate()
             }
         }
 
-        if(m_highlightEnabled&&m_highlightedCase.x()>=xi&&m_highlightedCase.x()<mapX&&m_highlightedCase.y()>=yi&&m_highlightedCase.y()<mapY)
+        if(m_highlightEnabled&&m_mouseInside&&m_highlightedCase.x()>=xi&&m_highlightedCase.x()<mapX&&m_highlightedCase.y()>=yi&&m_highlightedCase.y()<mapY)
         {
             sf::Shape rect=sf::Shape::Rectangle(m_highlightedCase.x()*BLOC_SIZE+2, m_highlightedCase.y()*BLOC_SIZE+2, (m_highlightedCase.x()+1)*BLOC_SIZE-1, (m_highlightedCase.y()+1)*BLOC_SIZE-1,
                                                 sf::Color(0, 0, 0, 0), 2.0f, sf::Color(239,228,176,255));
             Draw(rect);
+        }
+
+        {
+        sf::Shape rect=sf::Shape::Rectangle(m_selectedCase.x()*BLOC_SIZE+2, m_selectedCase.y()*BLOC_SIZE+2, (m_selectedCase.x()+1)*BLOC_SIZE-1, (m_selectedCase.y()+1)*BLOC_SIZE-1,
+                                            sf::Color(0, 0, 0, 0), 2.0f, sf::Color(255,201,14,200));
+        Draw(rect);
         }
     }
 }
@@ -372,7 +428,12 @@ void MapWidget::mouseMoveEvent (QMouseEvent *event)
 {
     if(m_highlightEnabled&&isMapValid())
     {
-        m_highlightedCase=posToMap(event->pos());
+        QPoint p=posToMap(event->pos());
+        if(p!=m_highlightedCase)
+        {
+            m_highlightedCase=p;
+            emit highlightedCaseChanged(p);
+        }
     }
     QSFMLCanvas::mouseMoveEvent(event);
 }
@@ -389,11 +450,20 @@ void MapWidget::mouseReleaseEvent(QMouseEvent* event)
     {
         if(isMapValid())
         {
-            QPoint p = posToMap(event->pos());
-            emit mapClicked(p.x(), p.y());
+            m_selectedCase = posToMap(event->pos());
+            emit mapClicked(m_selectedCase);
         }
     }
 
     QSFMLCanvas::mouseReleaseEvent(event);
 }
 
+void MapWidget::leaveEvent (QEvent *event)
+{
+    m_mouseInside=false;
+}
+
+void MapWidget::enterEvent (QEvent *event)
+{
+    m_mouseInside=true;
+}

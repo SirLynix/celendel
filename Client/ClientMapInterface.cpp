@@ -20,7 +20,7 @@ bool ClientInterface::loadRessourcesListGUI()
         goto prev; // Why are you starring at me ? Is it THAT bad ? I don't care, I love spaghetti anyway.
     }
 
-    qDebug() << m_mapWi->loadRessourcesPack(file, but==QMessageBox::Yes);
+    m_mapWi->loadRessourcesPack(file, but==QMessageBox::Yes);
 
     return 0;//m_mapWi->loadRessourcesPack(file, but==QMessageBox::Yes).isEmpty();
 }
@@ -29,7 +29,6 @@ void ClientInterface::openMapEditor()
 {
     delete m_mapEditor;
     m_mapEditor = new MapEditor(this);
-    m_mapEditor->setWindowModality(Qt::WindowModal);
     m_mapEditor->show();
 }
 

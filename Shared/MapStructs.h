@@ -26,6 +26,8 @@ struct MapItem
 typedef boost::multi_array<RSID, 2> MapArray;
 #define mapDim(x,y) boost::extents[x][y]
 
+#define MAP_MAX_SIZE 1024
+
 struct MapInformations
 {
     MapInformations() : map(mapDim(0,0)) {}

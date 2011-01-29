@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Meta object code from reading C++ file 'SoundsGUI.h'
 **
-** Created: Sat 29. Jan 11:32:38 2011
+** Created: Sat 29. Jan 16:23:25 2011
 **      by: The Qt Meta Object Compiler version 62 (Qt 4.6.2)
 **
 ** WARNING! All changes made in this file will be lost!

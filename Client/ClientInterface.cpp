@@ -6,7 +6,7 @@
 #include "SoundManager.h"
 #include "SoundsGUI.h"
 #include "VOIP/VOIP.h"
-#include "MapWidget.h"
+#include "MapEditor.h"
 
 
 ClientInterface::ClientInterface()
@@ -49,15 +49,11 @@ ClientInterface::ClientInterface()
                     qDebug() << "Error invalid port";
                 }
                 else
-                {
                     port=p;
-                }
             }
         }
         else
-        {
             qDebug() << "Error invalid args";
-        }
     }
 
 
