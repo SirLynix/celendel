@@ -74,6 +74,32 @@ void MapWidget::openMapInfoDialog()
     AboutWindow::open(txt, this);
 }
 
+bool MapWidget::loadRessource(QString fileName, RSID id)
+{
+    if(id == 0 || m_loadedRessourcesName.contains(fileName))
+        return true;
+
+    if(QDir::isRelativePath(fileName)&&!fileName.startsWith(RESSOURCES_FOLDER))
+        fileName.prepend(RESSOURCES_FOLDER);
+
+    sf::Image* img = new sf::Image;
+    if(!img->LoadFromFile(fileName.toStdString()))
+    {
+        delete img;
+        return true;
+    }
+
+    delete m_ressources.value(id, NULL);
+    m_loadedRessourcesName.remove(m_loadedRessourcesName.key(id));
+    m_ressources[id]=img;
+    m_loadedRessourcesName[fileName]=id;
+    return false;
+}
+
+RSID MapWidget::ressourceRSID(const QString& fileName) const
+{
+    return m_loadedRessourcesName.value(fileName,0);
+}
 
 RSID MapWidget::loadRessource(QString fileName)
 {

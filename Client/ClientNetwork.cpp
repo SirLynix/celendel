@@ -91,10 +91,10 @@ ClientNetwork::~ClientNetwork()
     m_socket->disconnectFromHost();
 }
 
-void ClientNetwork::flush()
+void ClientNetwork::flush() //Depreciated
 {
-    m_socket->flush();
-    dataReceived();
+    /*m_socket->flush();
+    dataReceived();*/
 }
 
 void ClientNetwork::connected()
@@ -145,6 +145,8 @@ void ClientNetwork::ping()
 
 void ClientNetwork::dataReceived()
 {
+    forever
+    {
     QDataStream in(m_socket);
 
     if (packet == NULL)//Try to get the header
@@ -169,6 +171,7 @@ void ClientNetwork::dataReceived()
     delete packet;
 
     packet=NULL;
+    }
 }
 
 void ClientNetwork::socketError(QAbstractSocket::SocketError)

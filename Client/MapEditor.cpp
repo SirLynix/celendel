@@ -8,8 +8,82 @@
 #include <QLayout>
 #include <QDebug>
 #include <QSpinBox>
+#include <QLineEdit>
+#include <QDialog>
 #include <QLabel>
 #include <QTableWidget>
+#include <QHeaderView>
+#include <QPushButton>
+
+class RSIDDialog : public QDialog
+{
+    public:
+
+    RSIDDialog() : m_used(false)
+    {
+        m_spinBox=new QSpinBox(this);
+        m_lineEdit=new QLineEdit(this);
+        QHBoxLayout* l=new QHBoxLayout();
+        l->addWidget(m_spinBox);
+        m_spinBox->setMaximum(MAX_LOADED_RESSOURCES);
+        m_spinBox->setPrefix(tr("RSID :"));
+        l->addWidget(m_lineEdit);
+
+        QVBoxLayout* vl=new QVBoxLayout();
+        vl->addLayout(l);
+
+        m_accept = new QPushButton(tr("Valider"), this);
+        connect(m_accept, SIGNAL(pressed()), this, SLOT(accept()));
+        m_cancel = new QPushButton(tr("Retour"), this);
+        connect(m_cancel, SIGNAL(pressed()), this, SLOT(reject()));
+
+        QHBoxLayout* h=new QHBoxLayout();
+        h->addWidget(m_accept);
+        h->addWidget(m_cancel);
+        vl->addLayout(h);
+
+        setLayout(vl);
+
+    }
+
+    int newLine()
+    {
+        if(m_used)
+            return 0;
+
+        m_used=true;
+
+        return exec();
+    }
+
+    int changeLine(RSID id, const QString& name = QString())
+    {
+        if(m_used)
+            return 0;
+
+        m_used=true;
+
+        m_spinBox->setValue(id);
+        m_spinBox->setEnabled(false);
+        m_lineEdit->setText(name);
+
+        return exec();
+    }
+
+
+    RSID getRSID() const { return m_spinBox->value(); }
+    QString getName() const {  return m_lineEdit->text(); }
+
+    private:
+
+    bool m_used;
+
+    QSpinBox* m_spinBox;
+    QLineEdit* m_lineEdit;
+    QPushButton* m_accept;
+    QPushButton* m_cancel;
+
+};
 
 MapEditor::MapEditor(QWidget* parent, const QString& map):QMainWindow(parent)
 {
@@ -29,7 +103,7 @@ MapEditor::MapEditor(QWidget* parent, const QString& map):QMainWindow(parent)
     QWidget *w_mapProperties = new QWidget(dw_mapProperties);
     dw_mapProperties->setWidget(w_mapProperties);
 
-    addDockWidget(Qt::RightDockWidgetArea, dw_mapProperties);
+    addDockWidget(Qt::TopDockWidgetArea, dw_mapProperties);
 
     QVBoxLayout *l_mapProperties = new QVBoxLayout(w_mapProperties);
     w_mapProperties->setLayout(l_mapProperties);
@@ -55,6 +129,10 @@ MapEditor::MapEditor(QWidget* parent, const QString& map):QMainWindow(parent)
     {
         m_mapNameLabel=new QLabel(this);
         l_mapProperties->addWidget(m_mapNameLabel);
+        m_sendingBtn=new QPushButton(tr("(MJ) Envoyer la carte au serveur"), this);
+        l_mapProperties->addWidget(m_sendingBtn);
+        setSendingButtonEnabled(false);
+        connect(m_sendingBtn, SIGNAL(pressed()), this, SLOT(btnMapSend()));
     }
     }
 
@@ -98,7 +176,24 @@ MapEditor::MapEditor(QWidget* parent, const QString& map):QMainWindow(parent)
     w_rssMngrProperties->setLayout(l_rssMngrProperties);
     {
         m_rsMngrWidget = new QTableWidget(0,2, this);
+        m_rsMngrWidget->setEditTriggers(QAbstractItemView::NoEditTriggers);
+        m_rsMngrWidget->setSelectionMode(QAbstractItemView::SingleSelection);
+        m_rsMngrWidget->setSelectionBehavior(QAbstractItemView::SelectRows);
+        m_rsMngrWidget->setSortingEnabled(true);
+        m_rsMngrWidget->verticalHeader()->hide();
         l_rssMngrProperties->addWidget(m_rsMngrWidget);
+
+        m_rsMngrEdit = new QPushButton(tr("Modifier..."), this);
+        m_rsMngrEdit->setEnabled(false);
+        l_rssMngrProperties->addWidget(m_rsMngrEdit);
+
+        connect(m_rsMngrEdit, SIGNAL(pressed()), this, SLOT(modifyRssMngr()));
+
+        m_rsMngrAdd = new QPushButton(tr("Ajouter..."), this);
+        m_rsMngrAdd->setEnabled(false);
+        l_rssMngrProperties->addWidget(m_rsMngrAdd);
+
+        connect(m_rsMngrAdd, SIGNAL(pressed()), this, SLOT(addRssMngr()));
     }
     }
 
@@ -124,6 +219,9 @@ MapEditor::MapEditor(QWidget* parent, const QString& map):QMainWindow(parent)
         loadMap(map);
     }
 }
+
+void MapEditor::setSendingButtonEnabled(bool b) {m_sendingBtn->setEnabled(b);}
+bool MapEditor::isSendingButtonEnabled() {return m_sendingBtn->isEnabled();}
 
 void MapEditor::closeEvent (QCloseEvent *event)
 {
@@ -200,6 +298,13 @@ void MapEditor::changeMapSizeY(int y)
     m_mapWidgetScroll->viewport()->setMaximumHeight(y*BLOC_SIZE);*/
 }
 
+void MapEditor::btnMapSend()
+{
+    if(isMapValid())
+        emit mapSendingRequested(m_mapWidgetScroll->getMapWidget()->getMap());
+}
+
+
 void MapEditor::changeCasePos(QPoint newCase) //Hovered
 {
     if(!isMapValid())
@@ -224,6 +329,78 @@ void MapEditor::changeCurrentCaseRSID(int n)
     m_mapWidgetScroll->getMapWidget()->m_map->map[m_selectedCase.x()][ m_selectedCase.y()] = (RSID)n;
 }
 
+void MapEditor::addRssMngr()
+{
+
+    forever
+    {
+        RSIDDialog dia;
+
+        if(!dia.newLine())
+            return;
+        if(m_mapWidgetScroll->getMapWidget()->isRSIDUsed(dia.getRSID()))
+        {
+            QMessageBox::critical(this, tr("Erreur"), tr("Le RSID \"%1\" est déjà utilisé.").arg(dia.getRSID()));
+            continue;
+        }
+
+        if(!m_mapWidgetScroll->getMapWidget()->loadRessource(dia.getName(), dia.getRSID()))
+        {
+            updateRessourcesList();
+            return;
+        }
+        else
+        {
+            QMessageBox::StandardButton ret; RSID rsid = m_mapWidgetScroll->getMapWidget()->ressourceRSID(dia.getName());
+            if(rsid != 0)
+            {
+                ret = QMessageBox::critical(this, tr("Erreur"), tr("Le fichier \"%1\" est déjà chargé (RSID %2).").arg(dia.getName()).arg(rsid), QMessageBox::Ok|QMessageBox::Abort);
+            }
+            else
+            {
+                ret = QMessageBox::critical(this, tr("Erreur"), tr("Le fichier \"%1\" n'a pas pu être chargé.").arg(dia.getName()), QMessageBox::Ok|QMessageBox::Abort);
+            }
+
+            if(ret==QMessageBox::Abort)
+                return;
+        }
+    }
+}
+
+void MapEditor::modifyRssMngr()
+{
+    int row=m_rsMngrWidget->currentRow();
+
+    forever
+    {
+        RSIDDialog dia;
+        RSID id=m_rsMngrWidget->item(row,0)->data(Qt::UserRole+1).toUInt();
+        if(!dia.changeLine(id, m_rsMngrWidget->item(row,1)->text()))
+            return;
+
+        if(!m_mapWidgetScroll->getMapWidget()->loadRessource(dia.getName(), id))
+        {
+            updateRessourcesList();
+            return;
+        }
+        else
+        {
+            QMessageBox::StandardButton ret; RSID rsid = m_mapWidgetScroll->getMapWidget()->ressourceRSID(dia.getName());
+            if(rsid != 0)
+            {
+                ret = QMessageBox::critical(this, tr("Erreur"), tr("Le fichier \"%1\" est déjà charge (RSID %2).").arg(dia.getName()).arg(rsid), QMessageBox::Ok|QMessageBox::Abort);
+            }
+            else
+            {
+                ret = QMessageBox::critical(this, tr("Erreur"), tr("Le fichier \"%1\" n'a pas pu être chargé.").arg(dia.getName()), QMessageBox::Ok|QMessageBox::Abort);
+            }
+
+            if(ret==QMessageBox::Abort)
+                return;
+        }
+    }
+}
+
 void MapEditor::updateRessourcesList()
 {
     if(!isMapValid())
@@ -231,15 +408,20 @@ void MapEditor::updateRessourcesList()
 
     const QMap<QString, RSID>& mp = m_mapWidgetScroll->getMapWidget()->m_loadedRessourcesName;
 
+    m_rsMngrWidget->clearContents(); m_rsMngrWidget->setRowCount(0); int row=0;
+    m_rsMngrWidget->setSortingEnabled(false);
     QMap<QString, RSID>::const_iterator i = mp.constBegin();
     while (i != mp.constEnd())
     {
-        int row=m_rsMngrWidget->rowCount(); m_rsMngrWidget->setRowCount(row+1);
-        m_rsMngrWidget->setItem(row, 0, new QTableWidgetItem(QString::number(i.value())));
+        m_rsMngrWidget->insertRow(row);
+        QTableWidgetItem *t=new QTableWidgetItem(QString::number(i.value())); t->setTextAlignment(Qt::AlignHCenter); t->setData(Qt::UserRole+1, i.value());
+        m_rsMngrWidget->setItem(row, 0, t);
         m_rsMngrWidget->setItem(row, 1, new QTableWidgetItem(i.key()));
 
-        ++i;
+        ++i; ++row;
     }
+    m_rsMngrWidget->setSortingEnabled(true);
+    qDebug() << mp;
 }
 
 bool MapEditor::loadMap(QString mapName, QString ressPack)
@@ -285,6 +467,8 @@ bool MapEditor::loadMap(QString mapName, QString ressPack)
     m_mapNameLabel->setText(tr("Nom de la carte : %1").arg(m_mapName));
 
     m_selectedCaseRSID->setEnabled(true);
+    m_rsMngrEdit->setEnabled(true);
+    m_rsMngrAdd->setEnabled(true);
 
     updateRessourcesList();
 

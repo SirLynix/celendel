@@ -8,25 +8,25 @@
 		<Cursor position="270" topLine="0" />
 	</File>
 	<File name="Client.pro" open="0" top="0" tabpos="1">
-		<Cursor position="161" topLine="0" />
+		<Cursor position="1238" topLine="0" />
 	</File>
 	<File name="ClientChatCommands.cpp" open="0" top="0" tabpos="1">
 		<Cursor position="8771" topLine="200" />
 	</File>
 	<File name="ClientGMInterface.cpp" open="0" top="0" tabpos="2">
-		<Cursor position="4279" topLine="57" />
+		<Cursor position="1794" topLine="45" />
 	</File>
 	<File name="ClientInterface.cpp" open="0" top="0" tabpos="2">
-		<Cursor position="3972" topLine="54" />
+		<Cursor position="299" topLine="6" />
 	</File>
-	<File name="ClientInterface.h" open="0" top="0" tabpos="1">
-		<Cursor position="5306" topLine="0" />
+	<File name="ClientInterface.h" open="0" top="0" tabpos="4">
+		<Cursor position="3366" topLine="97" />
 	</File>
-	<File name="ClientMapInterface.cpp" open="0" top="0" tabpos="2">
-		<Cursor position="2381" topLine="39" />
+	<File name="ClientMapInterface.cpp" open="0" top="0" tabpos="3">
+		<Cursor position="3295" topLine="60" />
 	</File>
 	<File name="ClientNetwork.cpp" open="0" top="0" tabpos="1">
-		<Cursor position="560" topLine="12" />
+		<Cursor position="2160" topLine="73" />
 	</File>
 	<File name="ClientNetwork.h" open="0" top="0" tabpos="2">
 		<Cursor position="1805" topLine="42" />
@@ -44,13 +44,19 @@
 		<Cursor position="841" topLine="22" />
 	</File>
 	<File name="GUI.cpp" open="0" top="0" tabpos="3">
-		<Cursor position="267" topLine="0" />
+		<Cursor position="6638" topLine="93" />
 	</File>
-	<File name="MapWidget.cpp" open="0" top="0" tabpos="2">
-		<Cursor position="7354" topLine="289" />
+	<File name="MapEditor.cpp" open="1" top="1" tabpos="1">
+		<Cursor position="15719" topLine="433" />
 	</File>
-	<File name="MapWidget.h" open="0" top="0" tabpos="1">
-		<Cursor position="1494" topLine="31" />
+	<File name="MapEditor.h" open="1" top="0" tabpos="2">
+		<Cursor position="1699" topLine="37" />
+	</File>
+	<File name="MapWidget.cpp" open="1" top="0" tabpos="3">
+		<Cursor position="2695" topLine="67" />
+	</File>
+	<File name="MapWidget.h" open="1" top="0" tabpos="4">
+		<Cursor position="1838" topLine="30" />
 	</File>
 	<File name="QSFMLCanvas.cpp" open="0" top="0" tabpos="0">
 		<Cursor position="303" topLine="10" />
@@ -74,7 +80,7 @@
 		<Cursor position="2123" topLine="45" />
 	</File>
 	<File name="SoundsGUI.h" open="0" top="0" tabpos="0">
-		<Cursor position="46" topLine="0" />
+		<Cursor position="144" topLine="0" />
 	</File>
 	<File name="VOIP\Global.h" open="0" top="0" tabpos="0">
 		<Cursor position="35" topLine="0" />
@@ -116,7 +122,7 @@
 		<Cursor position="890" topLine="18" />
 	</File>
 	<File name="..\Shared\MapStructs.h" open="0" top="0" tabpos="0">
-		<Cursor position="892" topLine="8" />
+		<Cursor position="773" topLine="8" />
 	</File>
 	<File name="..\Shared\Miscelaneous.cpp" open="0" top="0" tabpos="0">
 		<Cursor position="537" topLine="0" />
@@ -128,7 +134,7 @@
 		<Cursor position="97" topLine="0" />
 	</File>
 	<File name="..\Shared\Serializer.cpp" open="0" top="0" tabpos="0">
-		<Cursor position="6806" topLine="337" />
+		<Cursor position="6505" topLine="337" />
 	</File>
 	<File name="..\Shared\Serializer.h" open="0" top="0" tabpos="0">
 		<Cursor position="678" topLine="0" />

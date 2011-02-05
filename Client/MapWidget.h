@@ -46,6 +46,12 @@ class MapWidget : public QSFMLCanvas
     QList<RSID> loadRessourcesPack(const QStringList& list, bool exclusive=true);
     QList<RSID> loadRessourcesFolder(QString folderName, bool exclusive=true);
 
+    bool loadRessource(QString fileName, RSID id); //Force to load the fileName image with the id RSID. True on error.
+
+    RSID ressourceRSID(const QString& fileName) const;
+
+    bool isRSIDUsed(RSID id) const { return m_ressources.contains(id); }
+
     bool isMapValid() const;
 
     QPoint selectedCase() const { return m_selectedCase; }
