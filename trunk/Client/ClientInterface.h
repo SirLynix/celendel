@@ -103,6 +103,7 @@ class ClientInterface : public QMainWindow
         void syncDictionariesList(QStringList list);
 
         void sendMapToServer();
+        void sendMapToServer(const MapInformations* const map);
 
         void addDictionnary();
 

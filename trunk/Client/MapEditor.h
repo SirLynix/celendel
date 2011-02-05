@@ -7,12 +7,16 @@
 class QSpinBox;
 class QLabel;
 class QTableWidget;
+class QPushButton;
 
 class MapEditor : public QMainWindow
 {
     Q_OBJECT
     public:
         MapEditor(QWidget* parent = NULL, const QString& map = QString());
+
+        void setSendingButtonEnabled(bool b);
+        bool isSendingButtonEnabled();
 
         bool needSave() const;
 
@@ -34,6 +38,14 @@ class MapEditor : public QMainWindow
 
         void updateRessourcesList();
 
+        void btnMapSend();
+
+        void modifyRssMngr();
+        void addRssMngr();
+
+    signals:
+            void mapSendingRequested(const MapInformations* const);
+
     protected:
         virtual void closeEvent (QCloseEvent *event);
 
@@ -42,6 +54,8 @@ class MapEditor : public QMainWindow
         bool saveCheck(); // Returns true if the user choosed to abort. False if the user agreed to continue (map saved or not, it doesn't matter)
 
         bool m_needSave;
+
+        QPushButton* m_sendingBtn;
 
         MapWidgetScroll* m_mapWidgetScroll;
 
@@ -53,6 +67,8 @@ class MapEditor : public QMainWindow
         QLabel *m_mapNameLabel;
 
         QTableWidget* m_rsMngrWidget;
+        QPushButton* m_rsMngrEdit;
+        QPushButton* m_rsMngrAdd;
 
         QLabel* m_selectedCaseLabel;
         QSpinBox* m_selectedCaseRSID;

@@ -29,6 +29,8 @@ void ClientInterface::openMapEditor()
 {
     delete m_mapEditor;
     m_mapEditor = new MapEditor(this);
+    m_mapEditor->setSendingButtonEnabled(isGM());
+    connect(m_mapEditor, SIGNAL(mapSendingRequested(const MapInformations* const)), this, SLOT(sendMapToServer(const MapInformations* const)));
     m_mapEditor->show();
 }
 
@@ -78,6 +80,16 @@ bool ClientInterface::openRenderWindow(QString mapName, QString ressList)
     return false;
 }
 
+void ClientInterface::sendMapToServer(const MapInformations* const map)
+{
+    if(!isGM())
+        return;
+    if(map==NULL||!map->isValid())
+        return;
+
+    m_network->send(ETI(MAP_INFORMATIONS), serialiseMapInformationsData(*map));
+}
+
 void ClientInterface::sendMapToServer()
 {
     if(!isGM())
@@ -85,7 +97,6 @@ void ClientInterface::sendMapToServer()
     if(m_renderedMap==NULL)
         return;
 
-    qDebug() << "Oki !";
     m_network->send(ETI(MAP_INFORMATIONS), serialiseMapInformationsData(*m_renderedMap));
 }
 

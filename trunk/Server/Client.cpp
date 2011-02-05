@@ -53,6 +53,8 @@ void Client::resetSecurity()
 
 void Client::readyRead()
 {
+    forever
+    {
     if(socket->state()!=QAbstractSocket::ConnectedState||!socket->isValid())
     {
         qDebug() << "Data received... but the Client is NOT connected... WTF ?";
@@ -111,6 +113,7 @@ void Client::readyRead()
         blame(); // So, seeya pirate !
         return;
     }
+    }
 }
 
 void Client::send(Packet& pa)
@@ -120,8 +123,8 @@ void Client::send(Packet& pa)
 
 void Client::flush()
 {
-    socket->flush();
-    readyRead();
+   /* socket->flush();
+    readyRead();*/
 }
 
 void Client::send(Packet* pa)

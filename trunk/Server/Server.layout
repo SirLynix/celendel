@@ -2,7 +2,7 @@
 <CodeBlocks_layout_file>
 	<ActiveTarget name="Release" />
 	<File name="Client.cpp" open="0" top="0" tabpos="0">
-		<Cursor position="1273" topLine="0" />
+		<Cursor position="3222" topLine="94" />
 	</File>
 	<File name="Client.h" open="0" top="0" tabpos="0">
 		<Cursor position="171" topLine="0" />
@@ -43,8 +43,8 @@
 	<File name="..\Shared\Constants.h" open="0" top="0" tabpos="1">
 		<Cursor position="779" topLine="0" />
 	</File>
-	<File name="..\Shared\MapStructs.h" open="0" top="0" tabpos="1">
-		<Cursor position="82" topLine="0" />
+	<File name="..\Shared\MapStructs.h" open="1" top="0" tabpos="1">
+		<Cursor position="1053" topLine="10" />
 	</File>
 	<File name="..\Shared\Miscelaneous.cpp" open="0" top="0" tabpos="0">
 		<Cursor position="756" topLine="0" />
@@ -56,7 +56,7 @@
 		<Cursor position="82" topLine="0" />
 	</File>
 	<File name="..\Shared\Serializer.cpp" open="0" top="0" tabpos="0">
-		<Cursor position="5121" topLine="273" />
+		<Cursor position="5121" topLine="18" />
 	</File>
 	<File name="..\Shared\Serializer.h" open="0" top="0" tabpos="0">
 		<Cursor position="3815" topLine="66" />
