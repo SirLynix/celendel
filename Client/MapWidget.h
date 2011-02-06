@@ -5,11 +5,6 @@
 #include "QSFMLCanvas.hpp"
 #include <QScrollArea>
 
-#define MAX_LOADED_RESSOURCES 2000000000
-#define RESSOURCES_FOLDER "Ressources/"
-#define MAP_FOLDER "Maps/"
-#define BLOC_SIZE 24
-
 class QTimer;
 class MapEditor;
 
@@ -42,11 +37,12 @@ class MapWidget : public QSFMLCanvas
     bool saveMap(const QString& fileName) const;
 
     RSID loadRessource(QString fileName); //Return 0, if the image is already loaded it returns it RSID.
-    QList<RSID> loadRessourcesPack(QString fileName, bool exclusive=true); //Return the RSID of succefully loaded ressources. If exclusive is set to true, the previous ressources will be freed, and the RSID will restart from 1.
-    QList<RSID> loadRessourcesPack(const QStringList& list, bool exclusive=true);
-    QList<RSID> loadRessourcesFolder(QString folderName, bool exclusive=true);
-
+    QList<RSID> loadRessourcesPack(QString fileName); //Return the RSID of succefully loaded ressources. Will free previous ressources.
+    QList<QPair<QString, RSID> > loadRessources(const QStringList& list);
+    QList<QPair<QString, RSID> > loadRessourcesPack(const QList<QPair<QString, RSID> >& list);
     bool loadRessource(QString fileName, RSID id); //Force to load the fileName image with the id RSID. True on error.
+
+    bool saveRessources(QString fileName); //Save the loaded ressources in a ressource pack. True on error.
 
     RSID ressourceRSID(const QString& fileName) const;
 

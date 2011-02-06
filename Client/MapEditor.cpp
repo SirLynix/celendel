@@ -19,14 +19,15 @@ class RSIDDialog : public QDialog
 {
     public:
 
-    RSIDDialog() : m_used(false)
+    RSIDDialog(QWidget* parent) : QDialog(parent), m_used(false)
     {
         m_spinBox=new QSpinBox(this);
         m_lineEdit=new QLineEdit(this);
+        m_lineEdit->setPlaceholderText(tr("Fichier de ressource..."));
         QHBoxLayout* l=new QHBoxLayout();
         l->addWidget(m_spinBox);
         m_spinBox->setMaximum(MAX_LOADED_RESSOURCES);
-        m_spinBox->setPrefix(tr("RSID :"));
+        m_spinBox->setPrefix(tr("RSID : "));
         l->addWidget(m_lineEdit);
 
         QVBoxLayout* vl=new QVBoxLayout();
@@ -85,10 +86,10 @@ class RSIDDialog : public QDialog
 
 };
 
-MapEditor::MapEditor(QWidget* parent, const QString& map):QMainWindow(parent)
+MapEditor::MapEditor(QWidget* parent, const QString& map, const QString& ressourceList):QMainWindow(parent)
 {
     m_mapWidgetScroll = NULL;
-    m_needSave = false;
+    unmodified();
 
     setTabPosition(Qt::AllDockWidgetAreas, QTabWidget::North);
     setDockNestingEnabled(true);
@@ -114,16 +115,12 @@ MapEditor::MapEditor(QWidget* parent, const QString& map):QMainWindow(parent)
         m_mapSizeX = new QSpinBox(this);
         m_mapSizeX->setRange(0,MAP_MAX_SIZE);
         m_mapSizeX->setEnabled(false);
-        m_mapSizeX->setSingleStep(16);
-        connect(m_mapSizeX, SIGNAL(valueChanged(int)), this, SLOT(changeMapSizeX(int)));
         lay->addWidget(m_mapSizeX);
 
 
         m_mapSizeY = new QSpinBox(this);
         m_mapSizeY->setRange(0,MAP_MAX_SIZE);
         m_mapSizeY->setEnabled(false);
-        m_mapSizeY->setSingleStep(16);
-        connect(m_mapSizeY, SIGNAL(valueChanged(int)), this, SLOT(changeMapSizeY(int)));
         lay->addWidget(m_mapSizeY);
     }
     {
@@ -171,7 +168,6 @@ MapEditor::MapEditor(QWidget* parent, const QString& map):QMainWindow(parent)
     dw_rssMngrProperties->setWidget(w_rssMngrProperties);
 
     addDockWidget(Qt::RightDockWidgetArea, dw_rssMngrProperties);
-
     QVBoxLayout *l_rssMngrProperties = new QVBoxLayout(w_rssMngrProperties);
     w_rssMngrProperties->setLayout(l_rssMngrProperties);
     {
@@ -201,23 +197,36 @@ MapEditor::MapEditor(QWidget* parent, const QString& map):QMainWindow(parent)
     QAction *ac_open= fileMenu->addAction(tr("&Charger une carte..."));
     connect(ac_open, SIGNAL(triggered()), this, SLOT(loadMap()));
 
-    QAction *ac_save = fileMenu->addAction(tr("&Sauvegarder la carte..."));
+    QAction *ac_save = fileMenu->addAction(tr("Sauvegarder &la carte..."));
     connect(ac_save, SIGNAL(triggered()), this, SLOT(saveMap()));
 
-    QAction *ac_saveAs = fileMenu->addAction(tr("&Sauvegarder sous..."));
+    QAction *ac_saveAs = fileMenu->addAction(tr("Sa&uvegarder la carte sous..."));
     connect(ac_saveAs, SIGNAL(triggered()), this, SLOT(saveMapAs()));
+
+    QAction *ac_saveAll = fileMenu->addAction(tr("Tout &sauvegarder..."));
+    connect(ac_saveAll, SIGNAL(triggered()), this, SLOT(saveAll()));
+
+    QAction *ac_saveAllAs = fileMenu->addAction(tr("Tout sauveg&arder sous..."));
+    connect(ac_saveAllAs, SIGNAL(triggered()), this, SLOT(saveAllAs()));
 
     QAction *ac_quit = fileMenu->addAction(tr("&Quitter..."));
     connect(ac_quit, SIGNAL(triggered()), this, SLOT(close()));
+
+
+    QMenu *toolMenu = menuBar()->addMenu(tr("&Outils"));
+    QAction *ac_replace= toolMenu->addAction(tr("&Remplacer..."));
+    connect(ac_replace, SIGNAL(triggered()), this, SLOT(replaceRSID()));
 
     m_hoveredCaseLabel = new QLabel(this);
     statusBar()->addWidget(m_hoveredCaseLabel);
 
     m_mapName=map;
+    m_ressourcePackName=ressourceList;
     if(!map.isEmpty())
     {
-        loadMap(map);
+        loadMap(map,m_ressourcePackName);
     }
+
 }
 
 void MapEditor::setSendingButtonEnabled(bool b) {m_sendingBtn->setEnabled(b);}
@@ -236,19 +245,82 @@ bool MapEditor::isMapValid() const
     return m_mapWidgetScroll!=NULL&&m_mapWidgetScroll->getMapWidget()->isMapValid()&&!m_mapName.isEmpty();
 }
 
+bool MapEditor::replaceRSID()
+{
+    if(!isMapValid())
+        return true;
+
+}
+
+bool MapEditor::replaceRSID(RSID before, RSID after)
+{
+    if(!isMapValid())
+        return true;
+
+    MapInformations* map = m_mapWidgetScroll->getMapWidget()->m_map.get();
+    for(int x=0,mx=map->mapSizeX();x<mx;++x)
+    {
+        for(int y=0,my=map->mapSizeY();y<my;++y)
+        {
+            if(map->map[x][y]==before)
+                map->map[x][y]=after;
+        }
+    }
+
+    return false;
+}
+
 bool MapEditor::saveCheck()
 {
     if(!needSave())
         return false;
 
-    QMessageBox::StandardButton ret = QMessageBox::warning(this, tr("Attention"), tr("Tout travail non sauvegardé sera perdu."), QMessageBox::Save|QMessageBox::Ignore|QMessageBox::Abort);
-    if(ret == QMessageBox::Abort)
+    QMessageBox::StandardButton ret = QMessageBox::warning(this, tr("Attention"), tr("Tout travail non sauvegardé sera perdu.\nQue faire ?"), QMessageBox::Save|QMessageBox::SaveAll|QMessageBox::Discard|QMessageBox::Cancel);
+    if(ret == QMessageBox::Cancel)
         return true;
 
-    if(ret == QMessageBox::Ignore)
+    if(ret == QMessageBox::Discard)
         return false;
 
-    return saveMap();
+    if(ret == QMessageBox::SaveAll)
+        return saveMap()||saveRessourcePack();
+
+    if(ret == QMessageBox::Save)
+        return saveMap();
+
+    return true;
+}
+
+bool MapEditor::saveAll()
+{
+    return saveAllAs(m_mapName, m_ressourcePackName);
+}
+
+bool MapEditor::saveAllAs(QString mapName, QString ressName)
+{
+    if(!isMapValid())
+        return true;
+
+    return saveMapAs(mapName)||saveRessourcePackAs(ressName);
+}
+
+bool MapEditor::saveRessourcePack()
+{
+    return saveRessourcePackAs(m_ressourcePackName);
+}
+
+bool MapEditor::saveRessourcePackAs(QString fileName)
+{
+    if(!isMapValid())
+        return true;
+
+    if(fileName.isEmpty())
+        fileName = QFileDialog::getSaveFileName(this, tr("Sauvegarder un pack de ressources..."),QString(),tr("Fichiers de liste de ressources (*.list);;Tous les fichiers (*.*)"));
+
+    if(fileName.isEmpty())
+        return true;
+
+    return m_mapWidgetScroll->getMapWidget()->saveRessources(fileName);
 }
 
 bool MapEditor::saveMap()
@@ -280,24 +352,6 @@ bool MapEditor::needSave() const
     return m_needSave&&isMapValid();
 }
 
-void MapEditor::changeMapSizeX(int x)
-{
-  /*  if(!isMapValid())
-        return;
-    m_mapWidgetScroll->getMapWidget()->m_map->map.resize(mapDim(x, m_mapWidgetScroll->getMapWidget()->m_map->mapSizeY()));
-    m_mapWidgetScroll->getMapWidget()->setMaximumWidth(x*BLOC_SIZE);
-    m_mapWidgetScroll->viewport()->setMaximumWidth(x*BLOC_SIZE);*/
-}
-
-void MapEditor::changeMapSizeY(int y)
-{
-   /* if(!isMapValid())
-        return;
-    m_mapWidgetScroll->getMapWidget()->m_map->map.resize(mapDim(m_mapWidgetScroll->getMapWidget()->m_map->mapSizeX(), y));
-    m_mapWidgetScroll->getMapWidget()->setMaximumHeight(y*BLOC_SIZE);
-    m_mapWidgetScroll->viewport()->setMaximumHeight(y*BLOC_SIZE);*/
-}
-
 void MapEditor::btnMapSend()
 {
     if(isMapValid())
@@ -327,6 +381,29 @@ void MapEditor::changeCurrentCaseRSID(int n)
         return;
 
     m_mapWidgetScroll->getMapWidget()->m_map->map[m_selectedCase.x()][ m_selectedCase.y()] = (RSID)n;
+    modified();
+}
+
+void MapEditor::modified()
+{
+    m_needSave=true;
+    if(isMapValid())
+    {
+        setWindowTitle(tr("%1 (modifiée) - Editeur de carte", "1 i the map name").arg(m_mapName));
+    }
+    else
+        setWindowTitle(tr("Editeur de carte"));
+}
+
+void MapEditor::unmodified()
+{
+    m_needSave=false;
+    if(isMapValid())
+    {
+        setWindowTitle(tr("%1 - Editeur de carte", "1 i the map name").arg(m_mapName));
+    }
+    else
+        setWindowTitle(tr("Editeur de carte"));
 }
 
 void MapEditor::addRssMngr()
@@ -334,7 +411,7 @@ void MapEditor::addRssMngr()
 
     forever
     {
-        RSIDDialog dia;
+        RSIDDialog dia (this);
 
         if(!dia.newLine())
             return;
@@ -347,6 +424,7 @@ void MapEditor::addRssMngr()
         if(!m_mapWidgetScroll->getMapWidget()->loadRessource(dia.getName(), dia.getRSID()))
         {
             updateRessourcesList();
+            modified();
             return;
         }
         else
@@ -373,7 +451,7 @@ void MapEditor::modifyRssMngr()
 
     forever
     {
-        RSIDDialog dia;
+        RSIDDialog dia (this);
         RSID id=m_rsMngrWidget->item(row,0)->data(Qt::UserRole+1).toUInt();
         if(!dia.changeLine(id, m_rsMngrWidget->item(row,1)->text()))
             return;
@@ -381,6 +459,7 @@ void MapEditor::modifyRssMngr()
         if(!m_mapWidgetScroll->getMapWidget()->loadRessource(dia.getName(), id))
         {
             updateRessourcesList();
+            modified();
             return;
         }
         else
@@ -421,7 +500,6 @@ void MapEditor::updateRessourcesList()
         ++i; ++row;
     }
     m_rsMngrWidget->setSortingEnabled(true);
-    qDebug() << mp;
 }
 
 bool MapEditor::loadMap(QString mapName, QString ressPack)
@@ -437,8 +515,6 @@ bool MapEditor::loadMap(QString mapName, QString ressPack)
     if(ressPack.isEmpty())
         ressPack = QFileDialog::getOpenFileName(this, tr("Charger un pack de ressources..."),QString(), tr("Fichiers de liste (*.list);;Tous les fichiers (*.*)"));
 
-    m_needSave=false;
-
     delete m_mapWidgetScroll;
     m_mapWidgetScroll = new MapWidgetScroll(this);
     setCentralWidget(m_mapWidgetScroll);
@@ -453,8 +529,7 @@ bool MapEditor::loadMap(QString mapName, QString ressPack)
     }
 
     m_mapName=mapName;
-   /* m_mapSizeX->setEnabled(true);
-    m_mapSizeY->setEnabled(true);*/
+    m_ressourcePackName=ressPack;
     m_mapSizeX->setValue(mapRender->getMap()->mapSizeX());
     m_mapSizeY->setValue(mapRender->getMap()->mapSizeY());
 
@@ -471,6 +546,7 @@ bool MapEditor::loadMap(QString mapName, QString ressPack)
     m_rsMngrAdd->setEnabled(true);
 
     updateRessourcesList();
+    unmodified();
 
     return false;
 }

@@ -13,7 +13,7 @@ class MapEditor : public QMainWindow
 {
     Q_OBJECT
     public:
-        MapEditor(QWidget* parent = NULL, const QString& map = QString());
+        MapEditor(QWidget* parent = NULL, const QString& map = QString(), const QString& ressourceList = QString());
 
         void setSendingButtonEnabled(bool b);
         bool isSendingButtonEnabled();
@@ -27,9 +27,16 @@ class MapEditor : public QMainWindow
         bool saveMap();
         bool saveMapAs(QString fileName = QString());
 
+        bool saveRessourcePackAs(QString fileName=QString());
+        bool saveRessourcePack();
+
+        bool replaceRSID();
+        bool replaceRSID(RSID before, RSID after);
+
+        bool saveAll();
+        bool saveAllAs(QString mapName=QString(), QString ressName=QString());
+
     private slots:
-        void changeMapSizeX(int x);
-        void changeMapSizeY(int y);
 
         void changeCasePos(QPoint newCase);
         void changeCurrentCase(QPoint newCase);
@@ -42,6 +49,9 @@ class MapEditor : public QMainWindow
 
         void modifyRssMngr();
         void addRssMngr();
+
+        void modified();
+        void unmodified();
 
     signals:
             void mapSendingRequested(const MapInformations* const);
@@ -63,6 +73,7 @@ class MapEditor : public QMainWindow
         QSpinBox* m_mapSizeY;
 
         QString m_mapName;
+        QString m_ressourcePackName;
 
         QLabel *m_mapNameLabel;
 

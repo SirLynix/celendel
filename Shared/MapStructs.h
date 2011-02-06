@@ -2,12 +2,18 @@
 #define DEF_MAPSTRUCTS
 
 #include <Boost/multi_array.hpp>
-#include <QVector>
-#include <QString>
+//#include <QVector>
+//#include <QString>
+class QString;
 #include <QMap>
 #include <memory>
 
 #define CELEM quint32
+
+#define MAX_LOADED_RESSOURCES 2000000000
+#define RESSOURCES_FOLDER "Ressources/"
+#define MAP_FOLDER "Maps/"
+#define BLOC_SIZE 24
 
 struct Coords
 {

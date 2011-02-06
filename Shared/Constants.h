@@ -26,21 +26,28 @@
 
 #define qCApp QCoreApplication::instance()
 
+#include <QDebug>
+#define DEB() qDebug() << __FILE__ << __LINE__ << "\t: "
+
 #define ENUM_TYPE qint32
 
 #include "MapStructs.h"
 #include <QStringList>
+
 #include <QMap>
+
 #include <QPair>
-#include <QCryptographicHash>
+
 
 #define QT_USE_FAST_CONCATENATION ///QString concatenate optimisation
 #define QT_USE_FAST_OPERATOR_PLUS
 
+#include <QCryptographicHash>
 QString hashFile(const QString& filename, QCryptographicHash::Algorithm al=QCryptographicHash::Sha1);
 int alea(int min,int max);
 
 template < typename T>
+
 bool resize(QList<T>& l, int size, const T& def=T())
 {
     if(size<0)
