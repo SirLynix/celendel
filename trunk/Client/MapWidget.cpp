@@ -6,6 +6,7 @@
 #include <QEvent>
 #include <QTimer>
 #include <QMouseEvent>
+#include <QSettings>
 
 using std::auto_ptr;
 
@@ -135,49 +136,42 @@ RSID MapWidget::loadRessource(QString fileName)
     ch=m_loadedRessources;
     if(ch==0)
     {
-        qDebug() << "Critical error : image pool is full !";
+        DEB() << "Critical error : image pool is full !";
         delete img;
         return 0;
     }
     m_ressources[ch]=img;
     m_loadedRessourcesName[fileName]=ch;
     ++m_loadedRessources;
-    qDebug() << fileName << "loaded with RSID " << ch;
+    DEB() << fileName << "loaded with RSID " << ch;
     return ch;
 }
 
-QList<RSID> MapWidget::loadRessourcesPack(const QStringList& list, bool exclusive)
+QList<QPair<QString, RSID> > MapWidget::loadRessourcesPack(const QList<QPair<QString, RSID> >& list)
 {
-    QList<RSID> ret;
+    QList<QPair<QString, RSID> > ret;
 
     for(int i=0,m=list.size();i<m;++i)
     {
-        RSID rsid = loadRessource(list[i]);
-        if(rsid != 0 || exclusive)
-            ret << rsid;
+        if(!loadRessource(list[i].first,list[i].second))
+            ret << list[i];
     }
 
     return ret;
 }
 
-QList<RSID> MapWidget::loadRessourcesFolder(QString folderName, bool exclusive)
+QList<QPair<QString, RSID> > MapWidget::loadRessources(const QStringList& list)
 {
-    QStringList list;
+    QList<QPair<QString, RSID> > ret;
 
-    if(QDir::isRelativePath(folderName)&&!folderName.startsWith(RESSOURCES_FOLDER))
-        folderName.prepend(RESSOURCES_FOLDER);
+    for(int i=0,m=list.size();i<m;++i)
+    {
+        RSID rsid = loadRessource(list[i]);
+        if(rsid != 0)
+            ret << qMakePair(list[i], rsid);
+    }
 
-    QDir dir(folderName);
-
-    if(exclusive)
-        clearRessources();
-
-    if(!dir.exists())
-        return QList<RSID> ();
-
-    list = dir.entryList(QDir::Files|QDir::NoDotAndDotDot|QDir::Readable,QDir::Name);
-
-    return loadRessourcesPack(list, exclusive);
+    return ret;
 }
 
 void MapWidget::clearRessources()
@@ -191,7 +185,7 @@ void MapWidget::clearRessources()
     m_ressources.clear();
 
     m_loadedRessources=1;
-    m_ressources[0] = new sf::Image(1, 10, sf::Color(0, 0, 0)); //One black pixel. What else ?
+    m_ressources[0] = new sf::Image(BLOC_SIZE, BLOC_SIZE, sf::Color(0, 0, 0)); //One black pixel. What else ?
 
     m_loadedRessourcesName.clear();
 }
@@ -207,39 +201,63 @@ void MapWidget::adjustSize()
     {
         resize(m_map->mapSizeX()*BLOC_SIZE, m_map->mapSizeY()*BLOC_SIZE);
         setView(0,0,m_map->mapSizeX()*BLOC_SIZE,m_map->mapSizeY()*BLOC_SIZE);
-      //  setMaximumSize(m_map->mapSizeX()*BLOC_SIZE, m_map->mapSizeY()*BLOC_SIZE);
-       // setFixedSize(m_map->mapSizeX()*BLOC_SIZE, m_map->mapSizeY()*BLOC_SIZE);
     }
 }
 
-QList<RSID> MapWidget::loadRessourcesPack(QString fileName, bool exclusive)
+QList<RSID> MapWidget::loadRessourcesPack(QString fileName)
 {
     QList<RSID> ret;
 
     if(QDir::isRelativePath(fileName)&&!fileName.startsWith(RESSOURCES_FOLDER))
         fileName.prepend(RESSOURCES_FOLDER);
 
+    const QString TMPPATH ("TMPFILE"+QString::number(__LINE__));
 
-    QFile file (fileName);
-
-    if(!file.open(QIODevice::ReadOnly|QIODevice::Text))
+    if(!QFile::copy(fileName, TMPPATH))
     {
-        qDebug() << fileName << "file not found";
-        return ret; // Error : file not found
+        DEB() << "Error : " << fileName << " file not found." << TMPPATH;
+        return ret;
     }
 
-    if(exclusive)
-        clearRessources();
+    QSettings set(TMPPATH, QSettings::IniFormat);
 
-    while (!file.atEnd())
+    QStringList keys=set.allKeys();
+
+    clearRessources();
+
+    for(int i=0,size=keys.size();i<size;++i)
     {
-        QString line=file.readLine().trimmed();
-        RSID rsid = loadRessource(line);
-        if(rsid != 0 || exclusive)
-            ret << rsid;
+        bool ok=false;
+        RSID id =  set.value(keys[i]).toUInt(&ok);
+        if(ok && !loadRessource(keys[i], id))
+            ret << id;
     }
+
+    QFile::remove(TMPPATH);
+    #undef TMPPATH
 
     return ret;
+}
+
+bool MapWidget::saveRessources(QString fileName)
+{
+    if(QDir::isRelativePath(fileName)&&!fileName.startsWith(RESSOURCES_FOLDER))
+        fileName.prepend(RESSOURCES_FOLDER);
+
+    QFile file(fileName);
+    if(!file.open(QIODevice::WriteOnly|QIODevice::Text))
+        return true;
+
+    QTextStream out(&file);
+
+    QMap<QString, RSID>::const_iterator i = m_loadedRessourcesName.constBegin();
+    while (i != m_loadedRessourcesName.constEnd())
+    {
+        out << i.key() << "=" << i.value() << '\n';
+        ++i;
+    }
+
+    return false;
 }
 
 bool MapWidget::saveMap(const QString& fileName) const
@@ -388,7 +406,7 @@ void MapWidget::OnUpdate()
             yi=0;
 
 
-        Clear(sf::Color(200, 200, 200)); //Usefull on resize...
+        //Clear(sf::Color(200, 200, 200)); //Usefull on resize...
 
         for(int x=xi; x<mapX; ++x)
         {

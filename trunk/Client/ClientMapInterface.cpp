@@ -5,7 +5,7 @@
 
 bool ClientInterface::loadRessourcesListGUI()
 {
-    QString file=QFileDialog::getOpenFileName(this,tr("Charger une liste d'images"),QString(),tr("Fichiers de liste (*.list);;Tous les fichiers (*.*)"));
+  /*  QString file=QFileDialog::getOpenFileName(this,tr("Charger une liste d'images"),QString(),tr("Fichiers de liste (*.list);;Tous les fichiers (*.*)"));
     if(file.isEmpty())
         return true;
 
@@ -20,7 +20,7 @@ bool ClientInterface::loadRessourcesListGUI()
         goto prev; // Why are you starring at me ? Is it THAT bad ? I don't care, I love spaghetti anyway.
     }
 
-    m_mapWi->loadRessourcesPack(file, but==QMessageBox::Yes);
+    m_mapWi->loadRessourcesPack(file, but==QMessageBox::Yes);*/
 
     return 0;//m_mapWi->loadRessourcesPack(file, but==QMessageBox::Yes).isEmpty();
 }

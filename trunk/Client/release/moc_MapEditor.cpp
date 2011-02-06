@@ -1,8 +1,8 @@
 /****************************************************************************
 ** Meta object code from reading C++ file 'MapEditor.h'
 **
-** Created: Sat 5. Feb 21:35:59 2011
-**      by: The Qt Meta Object Compiler version 62 (Qt 4.6.2)
+** Created: Sun 6. Feb 15:14:52 2011
+**      by: The Qt Meta Object Compiler version 62 (Qt 4.7.0)
 **
 ** WARNING! All changes made in this file will be lost!
 *****************************************************************************/
@@ -11,7 +11,7 @@
 #if !defined(Q_MOC_OUTPUT_REVISION)
 #error "The header file 'MapEditor.h' doesn't include <QObject>."
 #elif Q_MOC_OUTPUT_REVISION != 62
-#error "This file was generated using the moc from 4.6.2. It"
+#error "This file was generated using the moc from 4.7.0. It"
 #error "cannot be used with the include files from this version of Qt."
 #error "(The moc has changed too much.)"
 #endif
@@ -20,10 +20,10 @@ QT_BEGIN_MOC_NAMESPACE
 static const uint qt_meta_data_MapEditor[] = {
 
  // content:
-       4,       // revision
+       5,       // revision
        0,       // classname
        0,    0, // classinfo
-      16,   14, // methods
+      25,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
@@ -40,15 +40,24 @@ static const uint qt_meta_data_MapEditor[] = {
      128,   10,   54,   10, 0x0a,
      147,  138,   54,   10, 0x0a,
      166,   10,   54,   10, 0x2a,
-     180,  178,   10,   10, 0x08,
-     202,  200,   10,   10, 0x08,
-     230,  222,   10,   10, 0x08,
-     252,  222,   10,   10, 0x08,
-     280,  278,   10,   10, 0x08,
-     307,   10,   10,   10, 0x08,
-     330,   10,   10,   10, 0x08,
-     343,   10,   10,   10, 0x08,
-     359,   10,   10,   10, 0x08,
+     178,  138,   54,   10, 0x0a,
+     207,   10,   54,   10, 0x2a,
+     229,   10,   54,   10, 0x0a,
+     249,   10,   54,   10, 0x0a,
+     276,  263,   54,   10, 0x0a,
+     299,   10,   54,   10, 0x0a,
+     326,  309,   54,   10, 0x0a,
+     361,  353,   54,   10, 0x2a,
+     380,   10,   54,   10, 0x2a,
+     400,  392,   10,   10, 0x08,
+     422,  392,   10,   10, 0x08,
+     450,  448,   10,   10, 0x08,
+     477,   10,   10,   10, 0x08,
+     500,   10,   10,   10, 0x08,
+     513,   10,   10,   10, 0x08,
+     529,   10,   10,   10, 0x08,
+     542,   10,   10,   10, 0x08,
+     553,   10,   10,   10, 0x08,
 
        0        // eod
 };
@@ -58,12 +67,18 @@ static const char qt_meta_stringdata_MapEditor[] = {
     "bool\0map,ressPack\0loadMap(QString,QString)\0"
     "map\0loadMap(QString)\0loadMap()\0saveMap()\0"
     "fileName\0saveMapAs(QString)\0saveMapAs()\0"
-    "x\0changeMapSizeX(int)\0y\0changeMapSizeY(int)\0"
+    "saveRessourcePackAs(QString)\0"
+    "saveRessourcePackAs()\0saveRessourcePack()\0"
+    "replaceRSID()\0before,after\0"
+    "replaceRSID(RSID,RSID)\0saveAll()\0"
+    "mapName,ressName\0saveAllAs(QString,QString)\0"
+    "mapName\0saveAllAs(QString)\0saveAllAs()\0"
     "newCase\0changeCasePos(QPoint)\0"
     "changeCurrentCase(QPoint)\0n\0"
     "changeCurrentCaseRSID(int)\0"
     "updateRessourcesList()\0btnMapSend()\0"
-    "modifyRssMngr()\0addRssMngr()\0"
+    "modifyRssMngr()\0addRssMngr()\0modified()\0"
+    "unmodified()\0"
 };
 
 const QMetaObject MapEditor::staticMetaObject = {
@@ -108,18 +123,36 @@ int MapEditor::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
             if (_a[0]) *reinterpret_cast< bool*>(_a[0]) = _r; }  break;
         case 6: { bool _r = saveMapAs();
             if (_a[0]) *reinterpret_cast< bool*>(_a[0]) = _r; }  break;
-        case 7: changeMapSizeX((*reinterpret_cast< int(*)>(_a[1]))); break;
-        case 8: changeMapSizeY((*reinterpret_cast< int(*)>(_a[1]))); break;
-        case 9: changeCasePos((*reinterpret_cast< QPoint(*)>(_a[1]))); break;
-        case 10: changeCurrentCase((*reinterpret_cast< QPoint(*)>(_a[1]))); break;
-        case 11: changeCurrentCaseRSID((*reinterpret_cast< int(*)>(_a[1]))); break;
-        case 12: updateRessourcesList(); break;
-        case 13: btnMapSend(); break;
-        case 14: modifyRssMngr(); break;
-        case 15: addRssMngr(); break;
+        case 7: { bool _r = saveRessourcePackAs((*reinterpret_cast< QString(*)>(_a[1])));
+            if (_a[0]) *reinterpret_cast< bool*>(_a[0]) = _r; }  break;
+        case 8: { bool _r = saveRessourcePackAs();
+            if (_a[0]) *reinterpret_cast< bool*>(_a[0]) = _r; }  break;
+        case 9: { bool _r = saveRessourcePack();
+            if (_a[0]) *reinterpret_cast< bool*>(_a[0]) = _r; }  break;
+        case 10: { bool _r = replaceRSID();
+            if (_a[0]) *reinterpret_cast< bool*>(_a[0]) = _r; }  break;
+        case 11: { bool _r = replaceRSID((*reinterpret_cast< RSID(*)>(_a[1])),(*reinterpret_cast< RSID(*)>(_a[2])));
+            if (_a[0]) *reinterpret_cast< bool*>(_a[0]) = _r; }  break;
+        case 12: { bool _r = saveAll();
+            if (_a[0]) *reinterpret_cast< bool*>(_a[0]) = _r; }  break;
+        case 13: { bool _r = saveAllAs((*reinterpret_cast< QString(*)>(_a[1])),(*reinterpret_cast< QString(*)>(_a[2])));
+            if (_a[0]) *reinterpret_cast< bool*>(_a[0]) = _r; }  break;
+        case 14: { bool _r = saveAllAs((*reinterpret_cast< QString(*)>(_a[1])));
+            if (_a[0]) *reinterpret_cast< bool*>(_a[0]) = _r; }  break;
+        case 15: { bool _r = saveAllAs();
+            if (_a[0]) *reinterpret_cast< bool*>(_a[0]) = _r; }  break;
+        case 16: changeCasePos((*reinterpret_cast< QPoint(*)>(_a[1]))); break;
+        case 17: changeCurrentCase((*reinterpret_cast< QPoint(*)>(_a[1]))); break;
+        case 18: changeCurrentCaseRSID((*reinterpret_cast< int(*)>(_a[1]))); break;
+        case 19: updateRessourcesList(); break;
+        case 20: btnMapSend(); break;
+        case 21: modifyRssMngr(); break;
+        case 22: addRssMngr(); break;
+        case 23: modified(); break;
+        case 24: unmodified(); break;
         default: ;
         }
-        _id -= 16;
+        _id -= 25;
     }
     return _id;
 }
