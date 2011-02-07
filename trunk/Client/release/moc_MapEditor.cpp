@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Meta object code from reading C++ file 'MapEditor.h'
 **
-** Created: Sun 6. Feb 15:14:52 2011
+** Created: Mon 7. Feb 22:25:32 2011
 **      by: The Qt Meta Object Compiler version 62 (Qt 4.7.0)
 **
 ** WARNING! All changes made in this file will be lost!
@@ -23,7 +23,7 @@ static const uint qt_meta_data_MapEditor[] = {
        5,       // revision
        0,       // classname
        0,    0, // classinfo
-      25,   14, // methods
+      28,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
@@ -51,13 +51,16 @@ static const uint qt_meta_data_MapEditor[] = {
      380,   10,   54,   10, 0x2a,
      400,  392,   10,   10, 0x08,
      422,  392,   10,   10, 0x08,
-     450,  448,   10,   10, 0x08,
-     477,   10,   10,   10, 0x08,
-     500,   10,   10,   10, 0x08,
-     513,   10,   10,   10, 0x08,
-     529,   10,   10,   10, 0x08,
+     448,  392,   10,   10, 0x08,
+     478,   10,   10,   10, 0x08,
+     498,   10,   10,   10, 0x08,
+     515,  513,   10,   10, 0x08,
      542,   10,   10,   10, 0x08,
-     553,   10,   10,   10, 0x08,
+     565,   10,   10,   10, 0x08,
+     578,   10,   10,   10, 0x08,
+     594,   10,   10,   10, 0x08,
+     607,   10,   10,   10, 0x08,
+     618,   10,   10,   10, 0x08,
 
        0        // eod
 };
@@ -74,7 +77,9 @@ static const char qt_meta_stringdata_MapEditor[] = {
     "mapName,ressName\0saveAllAs(QString,QString)\0"
     "mapName\0saveAllAs(QString)\0saveAllAs()\0"
     "newCase\0changeCasePos(QPoint)\0"
-    "changeCurrentCase(QPoint)\0n\0"
+    "changeCurrentCase(QPoint)\0"
+    "refreshMapObjectsList(QPoint)\0"
+    "refreshObhetsList()\0addMapObject()\0n\0"
     "changeCurrentCaseRSID(int)\0"
     "updateRessourcesList()\0btnMapSend()\0"
     "modifyRssMngr()\0addRssMngr()\0modified()\0"
@@ -143,16 +148,19 @@ int MapEditor::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
             if (_a[0]) *reinterpret_cast< bool*>(_a[0]) = _r; }  break;
         case 16: changeCasePos((*reinterpret_cast< QPoint(*)>(_a[1]))); break;
         case 17: changeCurrentCase((*reinterpret_cast< QPoint(*)>(_a[1]))); break;
-        case 18: changeCurrentCaseRSID((*reinterpret_cast< int(*)>(_a[1]))); break;
-        case 19: updateRessourcesList(); break;
-        case 20: btnMapSend(); break;
-        case 21: modifyRssMngr(); break;
-        case 22: addRssMngr(); break;
-        case 23: modified(); break;
-        case 24: unmodified(); break;
+        case 18: refreshMapObjectsList((*reinterpret_cast< QPoint(*)>(_a[1]))); break;
+        case 19: refreshObhetsList(); break;
+        case 20: addMapObject(); break;
+        case 21: changeCurrentCaseRSID((*reinterpret_cast< int(*)>(_a[1]))); break;
+        case 22: updateRessourcesList(); break;
+        case 23: btnMapSend(); break;
+        case 24: modifyRssMngr(); break;
+        case 25: addRssMngr(); break;
+        case 26: modified(); break;
+        case 27: unmodified(); break;
         default: ;
         }
-        _id -= 25;
+        _id -= 28;
     }
     return _id;
 }

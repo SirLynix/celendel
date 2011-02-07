@@ -6,85 +6,19 @@
 #include <QMessageBox>
 #include <QDockWidget>
 #include <QLayout>
-#include <QDebug>
+
 #include <QSpinBox>
-#include <QLineEdit>
-#include <QDialog>
 #include <QLabel>
 #include <QTableWidget>
 #include <QHeaderView>
 #include <QPushButton>
+#include <QInputDialog>
+#include <QCloseEvent>
+#include <QListWidget>
+#include <QGroupBox>
+#include <limits>
 
-class RSIDDialog : public QDialog
-{
-    public:
-
-    RSIDDialog(QWidget* parent) : QDialog(parent), m_used(false)
-    {
-        m_spinBox=new QSpinBox(this);
-        m_lineEdit=new QLineEdit(this);
-        m_lineEdit->setPlaceholderText(tr("Fichier de ressource..."));
-        QHBoxLayout* l=new QHBoxLayout();
-        l->addWidget(m_spinBox);
-        m_spinBox->setMaximum(MAX_LOADED_RESSOURCES);
-        m_spinBox->setPrefix(tr("RSID : "));
-        l->addWidget(m_lineEdit);
-
-        QVBoxLayout* vl=new QVBoxLayout();
-        vl->addLayout(l);
-
-        m_accept = new QPushButton(tr("Valider"), this);
-        connect(m_accept, SIGNAL(pressed()), this, SLOT(accept()));
-        m_cancel = new QPushButton(tr("Retour"), this);
-        connect(m_cancel, SIGNAL(pressed()), this, SLOT(reject()));
-
-        QHBoxLayout* h=new QHBoxLayout();
-        h->addWidget(m_accept);
-        h->addWidget(m_cancel);
-        vl->addLayout(h);
-
-        setLayout(vl);
-
-    }
-
-    int newLine()
-    {
-        if(m_used)
-            return 0;
-
-        m_used=true;
-
-        return exec();
-    }
-
-    int changeLine(RSID id, const QString& name = QString())
-    {
-        if(m_used)
-            return 0;
-
-        m_used=true;
-
-        m_spinBox->setValue(id);
-        m_spinBox->setEnabled(false);
-        m_lineEdit->setText(name);
-
-        return exec();
-    }
-
-
-    RSID getRSID() const { return m_spinBox->value(); }
-    QString getName() const {  return m_lineEdit->text(); }
-
-    private:
-
-    bool m_used;
-
-    QSpinBox* m_spinBox;
-    QLineEdit* m_lineEdit;
-    QPushButton* m_accept;
-    QPushButton* m_cancel;
-
-};
+#include "MapEditorDialogs.h"
 
 MapEditor::MapEditor(QWidget* parent, const QString& map, const QString& ressourceList):QMainWindow(parent)
 {
@@ -156,6 +90,16 @@ MapEditor::MapEditor(QWidget* parent, const QString& map, const QString& ressour
         m_selectedCaseRSID->setEnabled(false);
         l_caseProperties->addWidget(m_selectedCaseRSID);
         connect(m_selectedCaseRSID, SIGNAL(valueChanged(int)), this, SLOT(changeCurrentCaseRSID(int)));
+
+        {
+            QGroupBox* gb = new QGroupBox(tr("Objets sur la case :"), this);
+            m_mapCaseItemList = new QListWidget(this);
+            m_addItem = new QPushButton(tr("Ajouter un objet"), this);
+            connect(m_addItem, SIGNAL(pressed()), this, SLOT(addMapObject()));
+            QVBoxLayout* lyt = new QVBoxLayout();
+            gb->setLayout(lyt); lyt->addWidget(m_mapCaseItemList); lyt->addWidget(m_addItem);
+            l_caseProperties->addWidget(gb);
+        }
     }
     }
 
@@ -234,7 +178,11 @@ bool MapEditor::isSendingButtonEnabled() {return m_sendingBtn->isEnabled();}
 
 void MapEditor::closeEvent (QCloseEvent *event)
 {
-    saveCheck();
+    if(saveCheck())
+    {
+        event->ignore();
+        return;
+    }
 
     delete m_mapWidgetScroll;
     m_mapWidgetScroll=NULL;
@@ -249,13 +197,28 @@ bool MapEditor::replaceRSID()
 {
     if(!isMapValid())
         return true;
+    bool ok = false;
+    RSID from = QInputDialog::getInt(this, tr("Remplacer"), tr("Valeur à changer :"), 0, 0, std::numeric_limits<int>::max()-1, 1, &ok);
+    if(!ok)
+        return true;
 
+    RSID to = QInputDialog::getInt(this, tr("Remplacer"), tr("Valeur de remplacement :"), 0, 0, std::numeric_limits<int>::max()-1, 1, &ok);
+    if(!ok)
+        return true;
+    if(replaceRSID(from, to))
+    {
+        QMessageBox::critical(this, tr("Erreur"), tr("Impossible d'effectuer le remplacement."));
+        return true;
+    }
+    return false;
 }
 
 bool MapEditor::replaceRSID(RSID before, RSID after)
 {
     if(!isMapValid())
         return true;
+
+    modified();
 
     MapInformations* map = m_mapWidgetScroll->getMapWidget()->m_map.get();
     for(int x=0,mx=map->mapSizeX();x<mx;++x)
@@ -373,6 +336,49 @@ void MapEditor::changeCurrentCase(QPoint newCase) //Selected
     m_selectedCase=newCase;
     m_selectedCaseLabel->setText(tr("Case : (%1;%2)").arg(newCase.x()).arg(newCase.y()));
     m_selectedCaseRSID->setValue(m_mapWidgetScroll->getMapWidget()->m_map->map[newCase.x()][newCase.y()]);
+    refreshMapObjectsList(newCase);
+}
+
+void MapEditor::addMapObject()
+{
+    if(!isMapValid())
+        return;
+
+    AddObjectDialog dia(this, m_selectedCase, QPoint(m_mapWidgetScroll->getMapWidget()->m_map->mapSizeX(), m_mapWidgetScroll->getMapWidget()->m_map->mapSizeY()), tr("Nouvel objet"));
+    if(dia.exec()==QDialog::Accepted)
+    {
+        m_mapWidgetScroll->getMapWidget()->m_map->mapItems.append(MapItem(dia.getCoords(), dia.getRSID(), dia.getText(), dia.getColor()));
+        refreshObhetsList();
+    }
+}
+
+void MapEditor::refreshObhetsList()
+{
+    refreshMapObjectsList(m_selectedCase);
+}
+
+void MapEditor::refreshMapObjectsList(QPoint newCase)
+{
+    const QList<MapItem>& itms = m_mapWidgetScroll->getMapWidget()->m_map->mapItems;
+
+    m_mapCaseItemList->clear();
+
+    for(int i=0, m=itms.size(); i<m; ++i)
+    {
+        if(itms[i].coords==newCase)
+        {
+            QString txt;
+            if(!itms[i].text.isEmpty())
+                txt=tr("%1 (RSID : %2)").arg(itms[i].text).arg(itms[i].rsid);
+            else
+                txt=tr("RSID : %1").arg(itms[i].rsid);
+
+            QListWidgetItem* it = new QListWidgetItem(txt);
+            it->setData(Qt::UserRole, i);
+            m_mapCaseItemList->addItem(it);
+        }
+    }
+
 }
 
 void MapEditor::changeCurrentCaseRSID(int n)
@@ -380,8 +386,11 @@ void MapEditor::changeCurrentCaseRSID(int n)
     if(!isMapValid())
         return;
 
-    m_mapWidgetScroll->getMapWidget()->m_map->map[m_selectedCase.x()][ m_selectedCase.y()] = (RSID)n;
-    modified();
+    if(m_mapWidgetScroll->getMapWidget()->m_map->map[m_selectedCase.x()][ m_selectedCase.y()]!=(RSID)n)
+    {
+        m_mapWidgetScroll->getMapWidget()->m_map->map[m_selectedCase.x()][ m_selectedCase.y()] = (RSID)n;
+        modified();
+    }
 }
 
 void MapEditor::modified()

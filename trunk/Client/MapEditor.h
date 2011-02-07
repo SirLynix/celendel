@@ -8,6 +8,7 @@ class QSpinBox;
 class QLabel;
 class QTableWidget;
 class QPushButton;
+class QListWidget;
 
 class MapEditor : public QMainWindow
 {
@@ -40,6 +41,10 @@ class MapEditor : public QMainWindow
 
         void changeCasePos(QPoint newCase);
         void changeCurrentCase(QPoint newCase);
+        void refreshMapObjectsList(QPoint newCase);
+        void refreshObhetsList();
+
+        void addMapObject();
 
         void changeCurrentCaseRSID(int n);
 
@@ -76,6 +81,9 @@ class MapEditor : public QMainWindow
         QString m_ressourcePackName;
 
         QLabel *m_mapNameLabel;
+
+        QListWidget *m_mapCaseItemList;
+        QPushButton *m_addItem;
 
         QTableWidget* m_rsMngrWidget;
         QPushButton* m_rsMngrEdit;

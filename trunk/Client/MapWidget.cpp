@@ -409,21 +409,11 @@ void MapWidget::OnUpdate()
         //Clear(sf::Color(200, 200, 200)); //Usefull on resize...
 
         for(int x=xi; x<mapX; ++x)
-        {
             for(int y=yi; y<mapY; ++y)
-            {
-                sf::Image* im = m_ressources.value(m_map->map[x][y],NULL);
-                if(im==NULL)
-                    im=m_ressources[0];
+                drawBloc(x,y,m_map->map[x][y]);
 
-                sf::Sprite spr;
-                spr.SetImage(*im);
-                spr.Resize(BLOC_SIZE, BLOC_SIZE);
-                spr.SetPosition(x*BLOC_SIZE-1, y*BLOC_SIZE-1);
-                Draw(spr);
-
-            }
-        }
+        for(int i=0,m=m_map->mapItems.size();i<m;++i)
+            drawBloc(m_map->mapItems[i].coords, m_map->mapItems[i].rsid, m_map->mapItems[i].color);
 
         if(m_highlightEnabled&&m_mouseInside&&m_highlightedCase.x()>=xi&&m_highlightedCase.x()<mapX&&m_highlightedCase.y()>=yi&&m_highlightedCase.y()<mapY)
         {
@@ -438,6 +428,25 @@ void MapWidget::OnUpdate()
         Draw(rect);
         }
     }
+}
+
+void MapWidget::drawBloc(QPoint casePos, RSID id, const QColor& hue)
+{
+    drawBloc(casePos.x(), casePos.y(), id, sf::Color(hue.red(),hue.green(),hue.blue(),hue.alpha()));
+}
+
+void MapWidget::drawBloc(int caseX, int caseY, RSID id, const sf::Color& hue)
+{
+    sf::Image* im = m_ressources.value(id, m_ressources[0]);
+
+    sf::Sprite spr;
+    spr.SetImage(*im);
+
+    spr.SetColor(hue);
+
+    spr.Resize(BLOC_SIZE, BLOC_SIZE);
+    spr.SetPosition(caseX*BLOC_SIZE-1, caseY*BLOC_SIZE-1);
+    Draw(spr);
 }
 
 bool MapWidget::isMapValid() const

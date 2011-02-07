@@ -8,25 +8,22 @@ class QString;
 #include <QMap>
 #include <memory>
 
-#define CELEM quint32
-
 #define MAX_LOADED_RESSOURCES 2000000000
 #define RESSOURCES_FOLDER "Ressources/"
 #define MAP_FOLDER "Maps/"
 #define BLOC_SIZE 24
 
-struct Coords
-{
-    Coords(CELEM a=0, CELEM b=0): x(a), y(b) {}
-    CELEM x;
-    CELEM y;
-};
+#include <QPoint>
+#include <QSize>
+#include <QColor>
 
 struct MapItem
 {
-    MapItem(Coords co = Coords(), RSID p=0):coords(co), pixID(p) {}
-    Coords coords;
-    RSID pixID;
+    MapItem(QPoint co = QPoint(), RSID p=0, QString txt = QString(), QColor col = QColor(0,0,0)):coords(co), rsid(p), text(txt), color(col) {}
+    QPoint coords;
+    RSID rsid;
+    QString text;
+    QColor color;
 };
 
 typedef boost::multi_array<RSID, 2> MapArray;
@@ -44,7 +41,7 @@ struct MapInformations
 
     quint32 mapSizeX() const { return map.shape()[0]; }
     quint32 mapSizeY() const { return map.shape()[1]; }
-    Coords mapSize() const { return Coords(mapSizeX(),mapSizeY()); }
+    QSize mapSize() const { return QSize(mapSizeX(),mapSizeY()); }
 
     bool isValid() const { return mapSizeX()!=0 && mapSizeY()!=0; }
 
