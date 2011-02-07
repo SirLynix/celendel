@@ -202,6 +202,11 @@ QMenuBar
 			border-bottom-left-radius: 4px;
 	    }
 
+QLabel
+{
+	background: transparent;
+}
+		
 QMenuBar::item 
 		{
 			spacing: 3px;
@@ -254,7 +259,6 @@ QPushButton
 			border-width: 1px;
 			border-radius: 7px;
 			border-color: rgb(200, 200, 200);
-			min-width: 2em;
 			padding: 6px;
 			max-width: 15em
 		}

@@ -74,6 +74,10 @@ class MapWidget : public QSFMLCanvas
 
     private:
 
+    void drawBloc(QPoint casePos, RSID id, const QColor& hue= QColor(255,255,255));
+    void drawBloc(int caseX, int caseY, RSID id, const sf::Color& hue= sf::Color(255,255,255));
+
+
     QPoint posToMap(int x, int y) { return posToMap(QPoint(x,y)); }
     QPoint posToMap(QPoint pos);
 

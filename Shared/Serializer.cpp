@@ -355,11 +355,13 @@ bool extractMapInformationsData(QByteArray& data, MapInformations& mi)
     for(int i=0; i<size; ++i)
     {
         mi.mapItems.append(MapItem());
-        in>>mi.mapItems[i].coords.x;
+        in>>mi.mapItems[i].coords;
         R(in);
-        in>>mi.mapItems[i].coords.y;
+        in>>mi.mapItems[i].rsid;
         R(in);
-        in>>mi.mapItems[i].pixID;
+        in>>mi.mapItems[i].text;
+        R(in);
+        in>>mi.mapItems[i].color;
         R(in);
     }
 
@@ -395,9 +397,10 @@ QByteArray serialiseMapInformationsData(const MapInformations& mi)
 
     for(int i=0; i<mi.mapItems.size(); ++i)
     {
-        out<<(CELEM)mi.mapItems[i].coords.x;
-        out<<(CELEM)mi.mapItems[i].coords.y;
-        out<<(RSID) mi.mapItems[i].pixID;
+        out<<mi.mapItems[i].coords;
+        out<<(RSID) mi.mapItems[i].rsid;
+        out<<mi.mapItems[i].text;
+        out<<mi.mapItems[i].color;
     }
 
     qint32 mapX = sizeX(mi.map);
@@ -432,11 +435,13 @@ bool extractMapItemsInformationsData(QByteArray& data, QList<MapItem>& mi)
     for(int i=0; i<size; ++i)
     {
         mi.append(MapItem());
-        in>>mi[i].coords.x;
+        in>>mi[i].coords;
         R(in);
-        in>>mi[i].coords.y;
+        in>>mi[i].rsid;
         R(in);
-        in>>mi[i].pixID;
+        in>>mi[i].text;
+        R(in);
+        in>>mi[i].color;
         R(in);
     }
     return false;
@@ -451,9 +456,10 @@ QByteArray serialiseMapItemsInformationsData(const QList<MapItem>& mi)
 
     for(int i=0; i<mi.size(); ++i)
     {
-        out<<(CELEM)mi[i].coords.x;
-        out<<(CELEM)mi[i].coords.y;
-        out<<(RSID) mi[i].pixID;
+        out<<mi[i].coords;
+        out<<(RSID) mi[i].rsid;
+        out<<mi[i].text;
+        out<<mi[i].color;
     }
 
     return qCompress(data);
