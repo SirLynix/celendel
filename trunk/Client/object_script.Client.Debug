@@ -26,8 +26,8 @@ INPUT(
 ./debug\ClientMapInterface.o
 ./debug\MapEditor.o
 ./debug\MapEditorDialogs.o
-./debug\colorpickerwidget.o
-./debug\colorviewer.o
+./debug\QColorPickerWidget.o
+./debug\QColorViewer.o
 ./debug\qtcolortriangle.o
 ./debug\screen.o
 ./debug\xmlobject.o
@@ -48,8 +48,8 @@ INPUT(
 ./debug\moc_SoundLibThread.o
 ./debug\moc_MapWidget.o
 ./debug\moc_MapEditor.o
-./debug\moc_colorpickerwidget.o
-./debug\moc_colorviewer.o
+./debug\moc_QColorPickerWidget.o
+./debug\moc_QColorViewer.o
 ./debug\moc_qtcolortriangle.o
 ./debug\moc_screen.o
 ./debug\moc_xmlobject.o

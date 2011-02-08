@@ -77,10 +77,10 @@
 		<Unit filename="MapEditorDialogs.h" />
 		<Unit filename="MapWidget.cpp" />
 		<Unit filename="MapWidget.h" />
-		<Unit filename="QColorPicker\colorpickerwidget.cpp" />
-		<Unit filename="QColorPicker\colorpickerwidget.h" />
-		<Unit filename="QColorPicker\colorviewer.cpp" />
-		<Unit filename="QColorPicker\colorviewer.h" />
+		<Unit filename="QColorPicker\QColorPickerWidget.cpp" />
+		<Unit filename="QColorPicker\QColorPickerWidget.h" />
+		<Unit filename="QColorPicker\QColorViewer.cpp" />
+		<Unit filename="QColorPicker\QColorViewer.h" />
 		<Unit filename="QColorPicker\qtcolortriangle.cpp" />
 		<Unit filename="QColorPicker\qtcolortriangle.h" />
 		<Unit filename="QColorPicker\screen.cpp" />

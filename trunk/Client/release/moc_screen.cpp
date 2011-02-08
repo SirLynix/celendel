@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Meta object code from reading C++ file 'screen.h'
 **
-** Created: Mon 7. Feb 21:59:19 2011
+** Created: Tue 8. Feb 19:25:59 2011
 **      by: The Qt Meta Object Compiler version 62 (Qt 4.7.0)
 **
 ** WARNING! All changes made in this file will be lost!
@@ -17,7 +17,7 @@
 #endif
 
 QT_BEGIN_MOC_NAMESPACE
-static const uint qt_meta_data_screen[] = {
+static const uint qt_meta_data_Screen[] = {
 
  // content:
        5,       // revision
@@ -36,33 +36,33 @@ static const uint qt_meta_data_screen[] = {
        0        // eod
 };
 
-static const char qt_meta_stringdata_screen[] = {
-    "screen\0\0color\0colorSelected(QColor)\0"
+static const char qt_meta_stringdata_Screen[] = {
+    "Screen\0\0color\0colorSelected(QColor)\0"
 };
 
-const QMetaObject screen::staticMetaObject = {
-    { &QWidget::staticMetaObject, qt_meta_stringdata_screen,
-      qt_meta_data_screen, 0 }
+const QMetaObject Screen::staticMetaObject = {
+    { &QWidget::staticMetaObject, qt_meta_stringdata_Screen,
+      qt_meta_data_Screen, 0 }
 };
 
 #ifdef Q_NO_DATA_RELOCATION
-const QMetaObject &screen::getStaticMetaObject() { return staticMetaObject; }
+const QMetaObject &Screen::getStaticMetaObject() { return staticMetaObject; }
 #endif //Q_NO_DATA_RELOCATION
 
-const QMetaObject *screen::metaObject() const
+const QMetaObject *Screen::metaObject() const
 {
     return QObject::d_ptr->metaObject ? QObject::d_ptr->metaObject : &staticMetaObject;
 }
 
-void *screen::qt_metacast(const char *_clname)
+void *Screen::qt_metacast(const char *_clname)
 {
     if (!_clname) return 0;
-    if (!strcmp(_clname, qt_meta_stringdata_screen))
-        return static_cast<void*>(const_cast< screen*>(this));
+    if (!strcmp(_clname, qt_meta_stringdata_Screen))
+        return static_cast<void*>(const_cast< Screen*>(this));
     return QWidget::qt_metacast(_clname);
 }
 
-int screen::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
+int Screen::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
 {
     _id = QWidget::qt_metacall(_c, _id, _a);
     if (_id < 0)
@@ -78,7 +78,7 @@ int screen::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
 }
 
 // SIGNAL 0
-void screen::colorSelected(QColor _t1)
+void Screen::colorSelected(QColor _t1)
 {
     void *_a[] = { 0, const_cast<void*>(reinterpret_cast<const void*>(&_t1)) };
     QMetaObject::activate(this, &staticMetaObject, 0, _a);

@@ -8,7 +8,7 @@
 class QLineEdit;
 class QSpinBox;
 class QPushButton;
-class ColorPickerWidget;
+class QColorPickerWidget;
 
 
 class RSIDDialog : public QDialog
@@ -47,7 +47,7 @@ class AddObjectDialog : public QDialog
 
     private:
 
-    ColorPickerWidget* m_colorPicker;
+    QColorPickerWidget* m_colorPicker;
 
     Ui::NewMapItemDialog ui;
 };
