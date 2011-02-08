@@ -23,23 +23,31 @@ This file is part of colorPickerWidget.
 #ifndef COLORPICKERWIDGET_H
 #define COLORPICKERWIDGET_H
 
-#include <QtGui/QWidget>
-#include <QtGui/QPushbutton>
-#include <QtGui/QGridLayout>
-#include <QtGui/QSlider>
-#include "qtcolortriangle.h"
-#include "colorviewer.h"
-#include "screen.h"
+#include <QWidget>
 
-class ColorPickerWidget : public QWidget
+class QPushButton;
+class QGridLayout;
+class QSlider;
+class QLabel;
+class QSpinBox;
+class QtColorTriangle;
+class ColorViewer;
+class Screen;
+
+class QColorPickerWidget : public QWidget
 {
     Q_OBJECT
 
 public:
-    ColorPickerWidget(QWidget *parent = 0);
-    ~ColorPickerWidget();
+    QColorPickerWidget(QWidget *parent=NULL);
 
     QColor color() const;
+
+    void setAlphaEnabled(bool b);
+    bool isAlphaEnabled() const { return m_alphaEnabled; }
+    
+    void setSpinBoxesEnabled(bool b);
+    bool isSpinBoxesEnabled() const { return m_spinBoxesEnabled; }
 
 Q_SIGNALS:
     void colorChanged(const QColor &col);
@@ -52,15 +60,25 @@ private slots:
     void colorChgd();
 
 private:
-    QtColorTriangle *colorTriangle;
-    ColorViewer *colorView;
-    QPushButton *pickColor;
+    
+    void refresh();
 
-    QSlider *alpha;
+    QtColorTriangle *m_colorTriangle;
+    ColorViewer *m_colorView;
+    QPushButton *m_pickColor;
+    
+    QSpinBox *m_alphaSB, *m_redSB, *m_blueSB, *m_greenSB;
+
+    QSlider *m_alphaSlider;
+
+    QLabel* m_alphaLabel;
 
     QGridLayout *layout;
 
-    screen *ecran;
+    bool m_alphaEnabled;
+    bool m_spinBoxesEnabled;
+
+    Screen *scr;
 };
 
 #endif // COLORPICKERWIDGET_H

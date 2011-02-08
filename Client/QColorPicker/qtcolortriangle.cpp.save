@@ -271,8 +271,8 @@ bool QtColorTriangle::event(QEvent *event)
 {
     if(event->type()==QEvent::EnabledChange)
         mustGenerateBackground=true;
-   // event->ignore();
-    return QWidget::event(event);
+    event->reject();
+    return false;
 }
 
 /*!

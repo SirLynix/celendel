@@ -1,15 +1,15 @@
 /****************************************************************************
-** Meta object code from reading C++ file 'person.h'
+** Meta object code from reading C++ file 'QColorViewer.h'
 **
-** Created: Tue 8. Feb 19:26:04 2011
+** Created: Tue 8. Feb 20:51:28 2011
 **      by: The Qt Meta Object Compiler version 62 (Qt 4.7.0)
 **
 ** WARNING! All changes made in this file will be lost!
 *****************************************************************************/
 
-#include "../../Shared/XML/person.h"
+#include "../QColorPicker/QColorViewer.h"
 #if !defined(Q_MOC_OUTPUT_REVISION)
-#error "The header file 'person.h' doesn't include <QObject>."
+#error "The header file 'QColorViewer.h' doesn't include <QObject>."
 #elif Q_MOC_OUTPUT_REVISION != 62
 #error "This file was generated using the moc from 4.7.0. It"
 #error "cannot be used with the include files from this version of Qt."
@@ -17,7 +17,7 @@
 #endif
 
 QT_BEGIN_MOC_NAMESPACE
-static const uint qt_meta_data_Person[] = {
+static const uint qt_meta_data_ColorViewer[] = {
 
  // content:
        5,       // revision
@@ -31,45 +31,45 @@ static const uint qt_meta_data_Person[] = {
        0,       // signalCount
 
  // slots: signature, parameters, type, tag, flags
-       8,    7,    7,    7, 0x08,
+      19,   13,   12,   12, 0x0a,
 
        0        // eod
 };
 
-static const char qt_meta_stringdata_Person[] = {
-    "Person\0\0objectDestroyed()\0"
+static const char qt_meta_stringdata_ColorViewer[] = {
+    "ColorViewer\0\0color\0changeColor(QColor)\0"
 };
 
-const QMetaObject Person::staticMetaObject = {
-    { &MaterialThing::staticMetaObject, qt_meta_stringdata_Person,
-      qt_meta_data_Person, 0 }
+const QMetaObject ColorViewer::staticMetaObject = {
+    { &QWidget::staticMetaObject, qt_meta_stringdata_ColorViewer,
+      qt_meta_data_ColorViewer, 0 }
 };
 
 #ifdef Q_NO_DATA_RELOCATION
-const QMetaObject &Person::getStaticMetaObject() { return staticMetaObject; }
+const QMetaObject &ColorViewer::getStaticMetaObject() { return staticMetaObject; }
 #endif //Q_NO_DATA_RELOCATION
 
-const QMetaObject *Person::metaObject() const
+const QMetaObject *ColorViewer::metaObject() const
 {
     return QObject::d_ptr->metaObject ? QObject::d_ptr->metaObject : &staticMetaObject;
 }
 
-void *Person::qt_metacast(const char *_clname)
+void *ColorViewer::qt_metacast(const char *_clname)
 {
     if (!_clname) return 0;
-    if (!strcmp(_clname, qt_meta_stringdata_Person))
-        return static_cast<void*>(const_cast< Person*>(this));
-    return MaterialThing::qt_metacast(_clname);
+    if (!strcmp(_clname, qt_meta_stringdata_ColorViewer))
+        return static_cast<void*>(const_cast< ColorViewer*>(this));
+    return QWidget::qt_metacast(_clname);
 }
 
-int Person::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
+int ColorViewer::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
 {
-    _id = MaterialThing::qt_metacall(_c, _id, _a);
+    _id = QWidget::qt_metacall(_c, _id, _a);
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
         switch (_id) {
-        case 0: objectDestroyed(); break;
+        case 0: changeColor((*reinterpret_cast< const QColor(*)>(_a[1]))); break;
         default: ;
         }
         _id -= 1;

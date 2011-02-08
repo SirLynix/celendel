@@ -4,7 +4,7 @@
 #include <QLineEdit>
 #include <QLayout>
 #include <QPushButton>
-#include "QColorPicker/colorpickerwidget.h"
+#include "QColorPicker/QColorPickerWidget.h"
 
 
 RSIDDialog::RSIDDialog(QWidget* parent) : QDialog(parent), m_used(false)
@@ -69,7 +69,7 @@ AddObjectDialog::AddObjectDialog(QWidget* parent, QPoint defaultCase, QPoint max
     ui.text->setText(defaultText);
     ui.RSIDSpinBox->setValue(defaultRSID); ui.RSIDSpinBox->setMaximum(MAX_LOADED_RESSOURCES);
 
-    m_colorPicker = new ColorPickerWidget(this);
+    m_colorPicker = new QColorPickerWidget(this);
     ui.colorLayout->addWidget(m_colorPicker);
 
     connect(ui.buttonBox->button(QDialogButtonBox::Ok), SIGNAL(pressed()), this, SLOT(accept()));
@@ -79,5 +79,11 @@ AddObjectDialog::AddObjectDialog(QWidget* parent, QPoint defaultCase, QPoint max
 QPoint AddObjectDialog::getCoords() const { return QPoint(ui.coordX->value(), ui.coordY->value()); }
 QString AddObjectDialog::getText() const { return ui.text->text(); }
 RSID AddObjectDialog::getRSID() const { return ui.RSIDSpinBox->value(); }
-QColor AddObjectDialog::getColor() const { return m_colorPicker->color(); }
+QColor AddObjectDialog::getColor() const
+{
+    if(ui.colorGroupBox->isEnabled())
+        return m_colorPicker->color();
+
+    return QColor(255,255,255,255);
+}
 

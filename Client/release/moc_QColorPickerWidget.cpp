@@ -1,15 +1,15 @@
 /****************************************************************************
-** Meta object code from reading C++ file 'qtcolortriangle.h'
+** Meta object code from reading C++ file 'QColorPickerWidget.h'
 **
-** Created: Tue 8. Feb 21:10:34 2011
+** Created: Tue 8. Feb 19:25:55 2011
 **      by: The Qt Meta Object Compiler version 62 (Qt 4.7.0)
 **
 ** WARNING! All changes made in this file will be lost!
 *****************************************************************************/
 
-#include "../QColorPicker/qtcolortriangle.h"
+#include "../QColorPicker/QColorPickerWidget.h"
 #if !defined(Q_MOC_OUTPUT_REVISION)
-#error "The header file 'qtcolortriangle.h' doesn't include <QObject>."
+#error "The header file 'QColorPickerWidget.h' doesn't include <QObject>."
 #elif Q_MOC_OUTPUT_REVISION != 62
 #error "This file was generated using the moc from 4.7.0. It"
 #error "cannot be used with the include files from this version of Qt."
@@ -17,13 +17,13 @@
 #endif
 
 QT_BEGIN_MOC_NAMESPACE
-static const uint qt_meta_data_QtColorTriangle[] = {
+static const uint qt_meta_data_QColorPickerWidget[] = {
 
  // content:
        5,       // revision
        0,       // classname
        0,    0, // classinfo
-       2,   14, // methods
+       4,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
@@ -31,42 +31,44 @@ static const uint qt_meta_data_QtColorTriangle[] = {
        1,       // signalCount
 
  // signals: signature, parameters, type, tag, flags
-      21,   17,   16,   16, 0x05,
+      24,   20,   19,   19, 0x05,
 
  // slots: signature, parameters, type, tag, flags
-      42,   17,   16,   16, 0x0a,
+      45,   20,   19,   19, 0x0a,
+      62,   19,   19,   19, 0x08,
+      73,   19,   19,   19, 0x08,
 
        0        // eod
 };
 
-static const char qt_meta_stringdata_QtColorTriangle[] = {
-    "QtColorTriangle\0\0col\0colorChanged(QColor)\0"
-    "setColor(QColor)\0"
+static const char qt_meta_stringdata_QColorPickerWidget[] = {
+    "QColorPickerWidget\0\0col\0colorChanged(QColor)\0"
+    "setColor(QColor)\0pickMode()\0colorChgd()\0"
 };
 
-const QMetaObject QtColorTriangle::staticMetaObject = {
-    { &QWidget::staticMetaObject, qt_meta_stringdata_QtColorTriangle,
-      qt_meta_data_QtColorTriangle, 0 }
+const QMetaObject QColorPickerWidget::staticMetaObject = {
+    { &QWidget::staticMetaObject, qt_meta_stringdata_QColorPickerWidget,
+      qt_meta_data_QColorPickerWidget, 0 }
 };
 
 #ifdef Q_NO_DATA_RELOCATION
-const QMetaObject &QtColorTriangle::getStaticMetaObject() { return staticMetaObject; }
+const QMetaObject &QColorPickerWidget::getStaticMetaObject() { return staticMetaObject; }
 #endif //Q_NO_DATA_RELOCATION
 
-const QMetaObject *QtColorTriangle::metaObject() const
+const QMetaObject *QColorPickerWidget::metaObject() const
 {
     return QObject::d_ptr->metaObject ? QObject::d_ptr->metaObject : &staticMetaObject;
 }
 
-void *QtColorTriangle::qt_metacast(const char *_clname)
+void *QColorPickerWidget::qt_metacast(const char *_clname)
 {
     if (!_clname) return 0;
-    if (!strcmp(_clname, qt_meta_stringdata_QtColorTriangle))
-        return static_cast<void*>(const_cast< QtColorTriangle*>(this));
+    if (!strcmp(_clname, qt_meta_stringdata_QColorPickerWidget))
+        return static_cast<void*>(const_cast< QColorPickerWidget*>(this));
     return QWidget::qt_metacast(_clname);
 }
 
-int QtColorTriangle::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
+int QColorPickerWidget::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
 {
     _id = QWidget::qt_metacall(_c, _id, _a);
     if (_id < 0)
@@ -75,15 +77,17 @@ int QtColorTriangle::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
         switch (_id) {
         case 0: colorChanged((*reinterpret_cast< const QColor(*)>(_a[1]))); break;
         case 1: setColor((*reinterpret_cast< const QColor(*)>(_a[1]))); break;
+        case 2: pickMode(); break;
+        case 3: colorChgd(); break;
         default: ;
         }
-        _id -= 2;
+        _id -= 4;
     }
     return _id;
 }
 
 // SIGNAL 0
-void QtColorTriangle::colorChanged(const QColor & _t1)
+void QColorPickerWidget::colorChanged(const QColor & _t1)
 {
     void *_a[] = { 0, const_cast<void*>(reinterpret_cast<const void*>(&_t1)) };
     QMetaObject::activate(this, &staticMetaObject, 0, _a);

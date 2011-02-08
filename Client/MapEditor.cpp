@@ -95,6 +95,7 @@ MapEditor::MapEditor(QWidget* parent, const QString& map, const QString& ressour
             QGroupBox* gb = new QGroupBox(tr("Objets sur la case :"), this);
             m_mapCaseItemList = new QListWidget(this);
             m_addItem = new QPushButton(tr("Ajouter un objet"), this);
+            m_addItem->setEnabled(false);
             connect(m_addItem, SIGNAL(pressed()), this, SLOT(addMapObject()));
             QVBoxLayout* lyt = new QVBoxLayout();
             gb->setLayout(lyt); lyt->addWidget(m_mapCaseItemList); lyt->addWidget(m_addItem);
@@ -553,6 +554,7 @@ bool MapEditor::loadMap(QString mapName, QString ressPack)
     m_selectedCaseRSID->setEnabled(true);
     m_rsMngrEdit->setEnabled(true);
     m_rsMngrAdd->setEnabled(true);
+    m_addItem->setEnabled(true);
 
     updateRessourcesList();
     unmodified();
