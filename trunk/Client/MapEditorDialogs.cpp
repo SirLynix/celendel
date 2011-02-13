@@ -4,6 +4,7 @@
 #include <QLineEdit>
 #include <QLayout>
 #include <QPushButton>
+#include <QFileDialog>
 #include "QColorPicker/QColorPickerWidget.h"
 
 
@@ -71,7 +72,7 @@ AddObjectDialog::AddObjectDialog(QWidget* parent, QPoint defaultCase, QPoint max
 
     m_colorPicker = new QColorPickerWidget(this);
     ui.colorLayout->addWidget(m_colorPicker);
-
+    ui.buttonBox->button(QDialogButtonBox::Ok)->setDefault(false);
     connect(ui.buttonBox->button(QDialogButtonBox::Ok), SIGNAL(pressed()), this, SLOT(accept()));
     connect(ui.buttonBox->button(QDialogButtonBox::Cancel), SIGNAL(pressed()), this, SLOT(reject()));
 }
@@ -87,3 +88,24 @@ QColor AddObjectDialog::getColor() const
     return QColor(255,255,255,255);
 }
 
+/// /// /// /// /// /// /// /// /// /// /// /// /// /// /// /// /// /// /// /// /// /// /// /// /// /// /// /// /// /// /// /// /// /// /// /// /// /// /// /// /// /// /// /// /// /// /// /// /// /// /// /// /// ///
+
+NewMapDialog::NewMapDialog(QWidget* parent) : QDialog(parent)
+{
+    ui.setupUi(this);
+    ui.RSIDSpinBox->setMaximum(MAX_LOADED_RESSOURCES);
+    ui.mapSizeX->setRange(1,MAP_MAX_SIZE); ui.mapSizeY->setRange(1,MAP_MAX_SIZE);
+}
+
+void NewMapDialog::on_browse_pressed()
+{
+    QString file = QFileDialog::getOpenFileName(this, tr("Sélectionnez un fichier..."), QString(), tr("Fichiers de liste (*.list);;Tous les fichiers (*.*)"));
+    if(file.isEmpty())
+        return;
+    ui.ressFile->setText(file);
+}
+
+QString NewMapDialog::getName() const { return ui.mapName->text();}
+QString NewMapDialog::getRessourceList() const  { return ui.ressFile->text(); }
+RSID NewMapDialog::getRSID() const { return ui.RSIDSpinBox->value(); }
+QPoint NewMapDialog::getSize() const { return QPoint(ui.mapSizeX->value(),ui.mapSizeY->value()); }

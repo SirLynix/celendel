@@ -9,6 +9,8 @@ class QLabel;
 class QTableWidget;
 class QPushButton;
 class QListWidget;
+class QColorViewer;
+class QModelIndex;
 
 class MapEditor : public QMainWindow
 {
@@ -28,6 +30,8 @@ class MapEditor : public QMainWindow
         bool saveMap();
         bool saveMapAs(QString fileName = QString());
 
+        bool newMap();
+
         bool saveRessourcePackAs(QString fileName=QString());
         bool saveRessourcePack();
 
@@ -37,12 +41,20 @@ class MapEditor : public QMainWindow
         bool saveAll();
         bool saveAllAs(QString mapName=QString(), QString ressName=QString());
 
+        void copy();
+        void paste(QPoint pos);
+        void paste();
+
     private slots:
 
         void changeCasePos(QPoint newCase);
+        void changeSelectedArea(MapArea newArea);
         void changeCurrentCase(QPoint newCase);
         void refreshMapObjectsList(QPoint newCase);
-        void refreshObhetsList();
+        void refreshObjetsList();
+        void refreshGlobalObjetsList();
+        bool selectMapItem(int index);
+        bool selectMapItem(const QModelIndex& index);
 
         void addMapObject();
 
@@ -57,6 +69,12 @@ class MapEditor : public QMainWindow
 
         void modified();
         void unmodified();
+
+        void resetCopy();
+
+        void enableMapSystem(bool b);
+
+        bool createEmptyMap(QPoint size, const QString& name, const QString& ressPack, RSID defaultRSID);
 
     signals:
             void mapSendingRequested(const MapInformations* const);
@@ -82,6 +100,14 @@ class MapEditor : public QMainWindow
 
         QLabel *m_mapNameLabel;
 
+        QListWidget *m_mapItemList;
+
+        QSpinBox* m_mapItemRSID;
+        QColorViewer* m_mapItemColorViewer;
+        QLabel* m_mapItemName;
+        QLabel* m_mapItemPos;
+        int m_currentItemIndex;
+
         QListWidget *m_mapCaseItemList;
         QPushButton *m_addItem;
 
@@ -92,6 +118,9 @@ class MapEditor : public QMainWindow
         QLabel* m_selectedCaseLabel;
         QSpinBox* m_selectedCaseRSID;
         QPoint m_selectedCase;
+        MapArea m_selectedArea;
+        MapArea m_copyArea;
+        bool m_copyReady;
 
         QLabel* m_hoveredCaseLabel;
 };

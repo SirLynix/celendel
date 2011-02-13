@@ -4,6 +4,7 @@
 #include <QDialog>
 #include "..\Shared\Constants.h"
 #include "ui_MapEditorAddObjectDialog.h"
+#include "ui_MapEditorNewMapDialog.h"
 
 class QLineEdit;
 class QSpinBox;
@@ -52,5 +53,22 @@ class AddObjectDialog : public QDialog
     Ui::NewMapItemDialog ui;
 };
 
+class NewMapDialog : public QDialog
+{
+    Q_OBJECT
+    public:
+    NewMapDialog(QWidget* parent=0);
+
+    QString getName() const;
+    QString getRessourceList() const;
+    RSID getRSID() const;
+    QPoint getSize() const;
+
+    private slots:
+    void on_browse_pressed();
+
+    private:
+    Ui::NewMapDialog ui;
+};
 
 #endif //Guard

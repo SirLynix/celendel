@@ -77,7 +77,9 @@ QTextEdit
 			color: rgb(175, 175, 175);
 			border-radius: 3px;
 			selection-background-color: darkgray;
+			selection-color: rgb(50, 50, 75)
 		}
+		
 QLineEdit 
 		{
 			background-color: rgb(50, 50, 50);
@@ -92,6 +94,11 @@ QListView
 			color: rgb(175, 175, 175);
 			border-radius: 4px;
 		}
+ QListView::item:selected
+ {
+     color: rgb(50, 50, 75);
+ }
+
 QTreeView 
 		{
 			background-color: rgb(25, 25, 25);
@@ -100,8 +107,33 @@ QTreeView
 		}
  QTreeView::item:selected
  {
-     color: rgb(55, 55, 55);
+     color: rgb(50, 50, 75);
  }
+ 
+  QTreeView::branch:has-siblings:!adjoins-item {
+     border-image: url(Img/vline.png) 0;
+ }
+
+ QTreeView::branch:has-siblings:adjoins-item {
+     border-image: url(Img/branch-more.png) 0;
+ }
+
+ QTreeView::branch:!has-children:!has-siblings:adjoins-item {
+     border-image: url(Img/branch-end.png) 0;
+ }
+
+ QTreeView::branch:has-children:!has-siblings:closed,
+ QTreeView::branch:closed:has-children:has-siblings {
+         border-image: none;
+         image: url(Img/branch-closed.png);
+ }
+
+ QTreeView::branch:open:has-children:!has-siblings,
+ QTreeView::branch:open:has-children:has-siblings  {
+         border-image: none;
+         image: url(Img/branch-open.png);
+ }
+
 
 QScrollBar:horizontal 
 		{

@@ -15,6 +15,7 @@
 
 QColorPickerWidget::QColorPickerWidget(QWidget *parent):QWidget(parent)
 {
+    m_SBchanged=false;
     m_alphaEnabled=true;
     m_spinBoxesEnabled=true;
     scr=NULL;
@@ -30,16 +31,21 @@ QColorPickerWidget::QColorPickerWidget(QWidget *parent):QWidget(parent)
     connect(m_pickColor, SIGNAL(released()), this, SLOT(pickMode()));
 
     m_alphaSlider=new QSlider(Qt::Horizontal,this); m_alphaSlider->setRange(0,255); m_alphaSlider->setValue(255);
+    connect(m_alphaSlider, SIGNAL(valueChanged(int)), this, SLOT(changeAlphaSB(int)));
     m_alphaLabel=new QLabel(tr("Alpha"),this); m_alphaLabel->setAlignment(Qt::AlignHCenter);
 
     m_spinBoxesGB=new QGroupBox(tr("Valeurs :"),this);
     QVBoxLayout* lay=new QVBoxLayout();
     m_spinBoxesGB->setLayout(lay);
 
-    m_alphaSB=new QSpinBox(this); m_alphaSB->setRange(0,255); lay->addWidget(m_alphaSB);
-    m_redSB=new QSpinBox(this); m_alphaSB->setRange(0,255); lay->addWidget(m_redSB);
-    m_blueSB=new QSpinBox(this); m_alphaSB->setRange(0,255); lay->addWidget(m_blueSB);
-    m_greenSB=new QSpinBox(this); m_alphaSB->setRange(0,255); lay->addWidget(m_greenSB);
+        m_redSB=new QSpinBox(this); m_redSB->setRange(0,255); m_redSB->setAccelerated(true); m_redSB->setPrefix(tr("); lay->addWidget(m_redSB);
+        connect(m_redSB, SIGNAL(valueChanged(int)), this, SLOT(spinBoxesChgd()));
+        m_greenSB=new QSpinBox(this); m_greenSB->setRange(0,255); m_greenSB->setAccelerated(true); lay->addWidget(m_greenSB);
+        connect(m_greenSB, SIGNAL(valueChanged(int)), this, SLOT(spinBoxesChgd()));
+        m_blueSB=new QSpinBox(this); m_blueSB->setRange(0,255); m_blueSB->setAccelerated(true); lay->addWidget(m_blueSB);
+        connect(m_blueSB, SIGNAL(valueChanged(int)), this, SLOT(spinBoxesChgd()));
+        m_alphaSB=new QSpinBox(this); m_alphaSB->setRange(0,255); m_alphaSB->setAccelerated(true); lay->addWidget(m_alphaSB);
+        connect(m_alphaSB, SIGNAL(valueChanged(int)), this, SLOT(changeAlphaSL(int)));
 
     layout = new QGridLayout;
     layout->addWidget(  m_colorTriangle,  0, 0, 4, 2);
@@ -50,6 +56,9 @@ QColorPickerWidget::QColorPickerWidget(QWidget *parent):QWidget(parent)
     layout->addWidget(  m_spinBoxesGB,    0, 2, 3, 3);
 
     setLayout(layout);
+
+    setColor(QColor("grey"));
+    changeAlpha(255);
 }
 
 void QColorPickerWidget::pickMode()
@@ -81,9 +90,8 @@ void QColorPickerWidget::refresh()
 
 void QColorPickerWidget::setColor(const QColor &col)
 {
-    m_colorView->setColor(col);
     m_colorTriangle->setColor(col);
-    m_alphaSlider->setValue(col.alpha());
+    m_colorView->setColor(col);
 }
 
 QColor QColorPickerWidget::color() const
@@ -91,8 +99,43 @@ QColor QColorPickerWidget::color() const
     return QColor(m_colorView->color().red(),m_colorView->color().green(),m_colorView->color().blue(),m_alphaSlider->value());
 }
 
+void QColorPickerWidget::changeAlphaSB(int alpha)
+{
+    m_alphaSB->setValue(alpha);
+}
+
+void QColorPickerWidget::changeAlphaSL(int alpha)
+{
+    m_alphaSlider->setValue(alpha);
+}
+
+void QColorPickerWidget::changeAlpha(quint8 alpha)
+{
+    m_alphaSB->setValue(alpha);
+}
+
+void QColorPickerWidget::spinBoxesChgd()
+{
+    if(m_SBchanged)
+        return;
+
+    m_SBchanged=true;
+    setColor(QColor(m_redSB->value(),m_greenSB->value(),m_blueSB->value()));
+}
+
 
 void QColorPickerWidget::colorChgd()
 {
-    emit colorChanged(color());
+    QColor col=color();
+
+    if(!m_SBchanged)
+    {
+        m_SBchanged=true;
+        m_redSB->setValue(col.red());
+        m_blueSB->setValue(col.blue());
+        m_greenSB->setValue(col.green());
+    }
+    m_SBchanged=false;
+
+    emit colorChanged(col);
 }

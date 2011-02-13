@@ -363,6 +363,8 @@ bool extractMapInformationsData(QByteArray& data, MapInformations& mi)
         R(in);
         in>>mi.mapItems[i].color;
         R(in);
+        in>>mi.mapItems[i].hidden;
+        R(in);
     }
 
     qint32 mapX, mapY;
@@ -401,6 +403,7 @@ QByteArray serialiseMapInformationsData(const MapInformations& mi)
         out<<(RSID) mi.mapItems[i].rsid;
         out<<mi.mapItems[i].text;
         out<<mi.mapItems[i].color;
+        out<<mi.mapItems[i].hidden;
     }
 
     qint32 mapX = sizeX(mi.map);
@@ -443,6 +446,8 @@ bool extractMapItemsInformationsData(QByteArray& data, QList<MapItem>& mi)
         R(in);
         in>>mi[i].color;
         R(in);
+        in>>mi[i].hidden;
+        R(in);
     }
     return false;
 }
@@ -460,6 +465,7 @@ QByteArray serialiseMapItemsInformationsData(const QList<MapItem>& mi)
         out<<(RSID) mi[i].rsid;
         out<<mi[i].text;
         out<<mi[i].color;
+        out<<mi[i].hidden;
     }
 
     return qCompress(data);

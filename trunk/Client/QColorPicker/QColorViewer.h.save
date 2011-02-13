@@ -23,11 +23,13 @@ public slots:
 
 protected:
     void paintEvent(QPaintEvent *event);
-    
+
 private:
     QPen actualPen;
     QBrush actualBrush;
     QColor actualColor;
 };
+
+typedef Q
 
 #endif

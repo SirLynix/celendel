@@ -11,7 +11,7 @@ class QString;
 #define MAX_LOADED_RESSOURCES 2000000000
 #define RESSOURCES_FOLDER "Ressources/"
 #define MAP_FOLDER "Maps/"
-#define BLOC_SIZE 24
+#define BLOC_SIZE 32
 
 #include <QPoint>
 #include <QSize>
@@ -19,11 +19,12 @@ class QString;
 
 struct MapItem
 {
-    MapItem(QPoint co = QPoint(), RSID p=0, QString txt = QString(), QColor col = QColor(0,0,0)):coords(co), rsid(p), text(txt), color(col) {}
+    MapItem(QPoint co = QPoint(), RSID p=0, QString txt = QString(), QColor col = QColor(0,0,0)):coords(co), rsid(p), text(txt), color(col), hidden(false) {}
     QPoint coords;
     RSID rsid;
     QString text;
     QColor color;
+    bool hidden;
 };
 
 typedef boost::multi_array<RSID, 2> MapArray;

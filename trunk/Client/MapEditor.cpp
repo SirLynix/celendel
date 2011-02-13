@@ -15,15 +15,16 @@
 #include <QInputDialog>
 #include <QCloseEvent>
 #include <QListWidget>
+#include <QModelIndex>
 #include <QGroupBox>
 #include <limits>
 
+#include "QColorPicker/QColorViewer.h"
 #include "MapEditorDialogs.h"
 
 MapEditor::MapEditor(QWidget* parent, const QString& map, const QString& ressourceList):QMainWindow(parent)
 {
-    m_mapWidgetScroll = NULL;
-    unmodified();
+    m_mapWidgetScroll = NULL; m_currentItemIndex=0;
 
     setTabPosition(Qt::AllDockWidgetAreas, QTabWidget::North);
     setDockNestingEnabled(true);
@@ -94,6 +95,7 @@ MapEditor::MapEditor(QWidget* parent, const QString& map, const QString& ressour
         {
             QGroupBox* gb = new QGroupBox(tr("Objets sur la case :"), this);
             m_mapCaseItemList = new QListWidget(this);
+            connect(m_mapCaseItemList, SIGNAL(clicked(const QModelIndex&)), this, SLOT(selectMapItem(const QModelIndex&)));
             m_addItem = new QPushButton(tr("Ajouter un objet"), this);
             m_addItem->setEnabled(false);
             connect(m_addItem, SIGNAL(pressed()), this, SLOT(addMapObject()));
@@ -102,6 +104,35 @@ MapEditor::MapEditor(QWidget* parent, const QString& map, const QString& ressour
             l_caseProperties->addWidget(gb);
         }
     }
+    }
+
+    { ///MAPITEMS DOCK
+    QDockWidget* dw_mapItems = new QDockWidget(tr("Objets de la carte"), this);
+    dw_mapItems->setWhatsThis(tr("Un dock permettant la gestion des objets de la carte"));
+    dw_mapItems->setFeatures(QDockWidget::NoDockWidgetFeatures);
+    dw_mapItems->setFeatures(QDockWidget::DockWidgetFloatable|QDockWidget::DockWidgetMovable);
+    QWidget *w_mapItems = new QWidget(dw_mapItems);
+    dw_mapItems->setWidget(w_mapItems);
+
+    addDockWidget(Qt::RightDockWidgetArea, dw_mapItems);
+
+    QVBoxLayout *l_mapItems = new QVBoxLayout(w_mapItems);
+    w_mapItems->setLayout(l_mapItems);
+    {
+        m_mapItemList = new QListWidget(this);
+        connect(m_mapItemList, SIGNAL(clicked(const QModelIndex&)), this, SLOT(selectMapItem(const QModelIndex&)));
+        l_mapItems->addWidget(m_mapItemList);
+        m_mapItemName = new QLabel(this);
+        l_mapItems->addWidget(m_mapItemName);
+        m_mapItemRSID = new QSpinBox(this); m_mapItemRSID->setRange(0,MAX_LOADED_RESSOURCES); m_mapItemRSID->setPrefix(tr("RSID : ")); m_mapItemRSID->setEnabled(false);
+        l_mapItems->addWidget(m_mapItemRSID);
+        m_mapItemPos = new QLabel(this);
+        l_mapItems->addWidget(m_mapItemPos);
+        l_mapItems->addWidget(new QLabel(tr("Teinte :"), this));
+        m_mapItemColorViewer = new QColorViewer(this);
+        l_mapItems->addWidget(m_mapItemColorViewer);
+    }
+
     }
 
     { ///RSSMNGR PROPERTIES DOCK
@@ -139,6 +170,10 @@ MapEditor::MapEditor(QWidget* parent, const QString& map, const QString& ressour
     }
 
     QMenu *fileMenu = menuBar()->addMenu(tr("&Fichier"));
+
+    QAction *ac_new= fileMenu->addAction(tr("&Nouvelle carte..."));
+    connect(ac_new, SIGNAL(triggered()), this, SLOT(newMap()));
+
     QAction *ac_open= fileMenu->addAction(tr("&Charger une carte..."));
     connect(ac_open, SIGNAL(triggered()), this, SLOT(loadMap()));
 
@@ -161,6 +196,10 @@ MapEditor::MapEditor(QWidget* parent, const QString& map, const QString& ressour
     QMenu *toolMenu = menuBar()->addMenu(tr("&Outils"));
     QAction *ac_replace= toolMenu->addAction(tr("&Remplacer..."));
     connect(ac_replace, SIGNAL(triggered()), this, SLOT(replaceRSID()));
+    QAction *ac_copy= toolMenu->addAction(tr("Copier...")); ac_copy->setShortcut(QKeySequence::Copy);
+    connect(ac_copy, SIGNAL(triggered()), this, SLOT(copy()));
+    QAction *ac_paste= toolMenu->addAction(tr("Coller...")); ac_paste->setShortcut(QKeySequence::Paste);
+    connect(ac_paste, SIGNAL(triggered()), this, SLOT(paste()));
 
     m_hoveredCaseLabel = new QLabel(this);
     statusBar()->addWidget(m_hoveredCaseLabel);
@@ -172,6 +211,7 @@ MapEditor::MapEditor(QWidget* parent, const QString& map, const QString& ressour
         loadMap(map,m_ressourcePackName);
     }
 
+    enableMapSystem(false);
 }
 
 void MapEditor::setSendingButtonEnabled(bool b) {m_sendingBtn->setEnabled(b);}
@@ -349,13 +389,74 @@ void MapEditor::addMapObject()
     if(dia.exec()==QDialog::Accepted)
     {
         m_mapWidgetScroll->getMapWidget()->m_map->mapItems.append(MapItem(dia.getCoords(), dia.getRSID(), dia.getText(), dia.getColor()));
-        refreshObhetsList();
+        refreshObjetsList();
     }
 }
 
-void MapEditor::refreshObhetsList()
+void MapEditor::refreshObjetsList()
 {
+    if(!isMapValid())
+        return;
     refreshMapObjectsList(m_selectedCase);
+    refreshGlobalObjetsList();
+}
+
+bool MapEditor::selectMapItem(const QModelIndex& index)
+{
+    QListWidget* lwid = static_cast<QListWidget*>(this->sender());
+    if(lwid == 0)
+        return true;
+
+    QListWidgetItem* it=lwid->item(index.row());
+    if(it == 0)
+        return true;
+
+    bool ok=false;
+    int ind = it->data(Qt::UserRole).toInt(&ok);
+    if(!ok)
+        return true;
+
+    return selectMapItem(ind);
+}
+
+
+bool MapEditor::selectMapItem(int index)
+{
+    if(index<0 || !isMapValid())
+        return true;
+
+    const QList<MapItem>& itms = m_mapWidgetScroll->getMapWidget()->m_map->mapItems;
+
+    if(index>=itms.size())
+        return true;
+
+    const MapItem* it= &itms[index];
+
+    m_currentItemIndex=index;
+    m_mapItemRSID->setValue(it->rsid);
+    m_mapItemName->setText(tr("Nom : \"%1\"").arg(it->text));
+    m_mapItemColorViewer->setColor(it->color);
+    m_mapItemPos->setText(tr("Coordonnées : (%1;%2)").arg(it->coords.x()).arg(it->coords.y()));
+
+    return false;
+}
+
+void MapEditor::refreshGlobalObjetsList()
+{
+    const QList<MapItem>& itms = m_mapWidgetScroll->getMapWidget()->m_map->mapItems;
+    m_mapItemList->clear();
+    for(int i=0, m=itms.size(); i<m; ++i)
+    {
+        QString txt;
+        if(!itms[i].text.isEmpty())
+            txt=tr("%1 (RSID : %2)").arg(itms[i].text).arg(itms[i].rsid);
+        else
+            txt=tr("RSID : %1").arg(itms[i].rsid);
+
+        QListWidgetItem* it = new QListWidgetItem(txt);
+        it->setData(Qt::UserRole, i);
+        m_mapItemList->addItem(it);
+    }
 }
 
 void MapEditor::refreshMapObjectsList(QPoint newCase)
@@ -379,7 +480,6 @@ void MapEditor::refreshMapObjectsList(QPoint newCase)
             m_mapCaseItemList->addItem(it);
         }
     }
-
 }
 
 void MapEditor::changeCurrentCaseRSID(int n)
@@ -490,6 +590,11 @@ void MapEditor::modifyRssMngr()
     }
 }
 
+void MapEditor::changeSelectedArea(MapArea newArea)
+{
+    m_selectedArea=newArea;
+}
+
 void MapEditor::updateRessourcesList()
 {
     if(!isMapValid())
@@ -503,13 +608,90 @@ void MapEditor::updateRessourcesList()
     while (i != mp.constEnd())
     {
         m_rsMngrWidget->insertRow(row);
-        QTableWidgetItem *t=new QTableWidgetItem(QString::number(i.value())); t->setTextAlignment(Qt::AlignHCenter); t->setData(Qt::UserRole+1, i.value());
+        QTableWidgetItem *t=new QTableWidgetItem(); t->setData(Qt::DisplayRole, i.value()); t->setTextAlignment(Qt::AlignHCenter); t->setData(Qt::UserRole+1, i.value());
         m_rsMngrWidget->setItem(row, 0, t);
         m_rsMngrWidget->setItem(row, 1, new QTableWidgetItem(i.key()));
 
         ++i; ++row;
     }
     m_rsMngrWidget->setSortingEnabled(true);
+}
+
+void MapEditor::resetCopy()
+{
+    m_copyArea=MapArea();
+    m_copyReady=false;
+}
+
+void MapEditor::copy()
+{
+    m_copyArea=m_selectedArea;
+    m_copyReady=true;
+    DEB() << "COPY" << m_copyArea.leftUp << m_copyArea.rightDown;
+}
+
+void MapEditor::paste(QPoint pos)
+{
+    if(!m_copyReady || !isMapValid())
+        return;
+
+    DEB() << "PASTE" << pos << m_copyArea.leftUp << m_copyArea.rightDown;
+
+    modified();
+    MapWidget* map = m_mapWidgetScroll->getMapWidget();
+    int sizeX=map->m_map->mapSizeX(); int sizeY=map->m_map->mapSizeY();
+
+    QPoint cas = m_copyArea.size();
+
+    for(int x=0; x<cas.x() && x+pos.x()<sizeX; ++x)
+    {
+        for(int y=0; y<cas.y() && y+pos.y()<sizeY; ++y)
+        {
+            map->m_map->map[x+pos.x()][y+pos.y()] = map->m_map->map[m_copyArea.leftUp.x()+x][m_copyArea.leftUp.y()+y];
+            DEB() << x << " " << y;
+        }
+    }
+
+}
+
+void MapEditor::paste()
+{
+    paste(m_selectedCase);
+}
+
+void MapEditor::enableMapSystem(bool b)
+{
+    m_selectedCaseRSID->setEnabled(b);
+    m_rsMngrEdit->setEnabled(b);
+    m_rsMngrAdd->setEnabled(b);
+    m_addItem->setEnabled(b);
+
+    changeCurrentCase(QPoint(0,0));
+    changeCasePos(QPoint(0,0));
+
+    if(b&&isMapValid())
+    {
+        MapWidget* mapRender = m_mapWidgetScroll->getMapWidget();
+
+        m_mapSizeX->setValue(mapRender->getMap()->mapSizeX()); m_mapSizeY->setValue(mapRender->getMap()->mapSizeY());
+
+        connect(mapRender, SIGNAL(highlightedCaseChanged(QPoint)), this, SLOT(changeCasePos(QPoint)));
+
+        connect(mapRender, SIGNAL(mapClicked(QPoint)), this, SLOT(changeCurrentCase(QPoint)));
+        connect(mapRender, SIGNAL(mapAreaSelected(MapArea)), this, SLOT(changeSelectedArea(MapArea)));
+
+        m_mapNameLabel->setText(tr("Nom de la carte : %1").arg(m_mapName));
+    }
+    else
+    {
+        m_mapSizeX->setValue(0); m_mapSizeY->setValue(0);
+        m_mapNameLabel->setText(tr("Aucune carte chargée"));
+    }
+
+    updateRessourcesList();
+    unmodified();
+    refreshObjetsList();
+    resetCopy();
 }
 
 bool MapEditor::loadMap(QString mapName, QString ressPack)
@@ -531,6 +713,7 @@ bool MapEditor::loadMap(QString mapName, QString ressPack)
 
     MapWidget* mapRender = m_mapWidgetScroll->getMapWidget();
     mapRender->setHighlight(true);
+    mapRender->setMultiSelectionEnabled(true);
     mapRender->setCursor(Qt::CrossCursor);
     if(mapRender->loadRessourcesPack(ressPack).isEmpty()||mapRender->setMap(mapName))
     {
@@ -540,24 +723,51 @@ bool MapEditor::loadMap(QString mapName, QString ressPack)
 
     m_mapName=mapName;
     m_ressourcePackName=ressPack;
-    m_mapSizeX->setValue(mapRender->getMap()->mapSizeX());
-    m_mapSizeY->setValue(mapRender->getMap()->mapSizeY());
-
-    connect(mapRender, SIGNAL(highlightedCaseChanged(QPoint)), this, SLOT(changeCasePos(QPoint)));
-    changeCasePos(QPoint(0,0));
-
-    connect(mapRender, SIGNAL(mapClicked(QPoint)), this, SLOT(changeCurrentCase(QPoint)));
-    changeCurrentCase(QPoint(0,0));
-
-    m_mapNameLabel->setText(tr("Nom de la carte : %1").arg(m_mapName));
-
-    m_selectedCaseRSID->setEnabled(true);
-    m_rsMngrEdit->setEnabled(true);
-    m_rsMngrAdd->setEnabled(true);
-    m_addItem->setEnabled(true);
-
-    updateRessourcesList();
-    unmodified();
+    enableMapSystem(true);
 
     return false;
+}
+
+bool MapEditor::createEmptyMap(QPoint size, const QString& name, const QString& ressPack, RSID defaultRSID)
+{
+    delete m_mapWidgetScroll;
+    m_mapWidgetScroll = new MapWidgetScroll(this);
+    setCentralWidget(m_mapWidgetScroll);
+
+    MapWidget* mapRender = m_mapWidgetScroll->getMapWidget();
+    mapRender->setHighlight(true);
+    mapRender->setMultiSelectionEnabled(true);
+    mapRender->setCursor(Qt::CrossCursor);
+
+    mapRender->setMap(MapWidget::makeMap(size, defaultRSID));
+    if(!mapRender->isMapValid())
+    {
+        QMessageBox::critical(this,tr("Erreur"),tr("Impossible de créer la carte de dimension %1x%2").arg(size.x(), size.y()));
+        return true;
+    }
+
+    mapRender->m_map->name=name;
+
+    if(mapRender->loadRessourcesPack(ressPack).isEmpty())
+    {
+        QMessageBox::critical(this,tr("Erreur"),tr("Impossible de charger le set d'image \"%1\".").arg(ressPack));
+        return true;
+    }
+
+    m_mapName=name;
+
+    enableMapSystem(true);
+    modified();
+
+    return false;
+}
+
+bool MapEditor::newMap()
+{
+    saveCheck();
+    NewMapDialog dia(this);
+    if(!dia.exec())
+        return true;
+
+    return createEmptyMap(dia.getSize(), dia.getName(), dia.getRessourceList(), dia.getRSID());
 }

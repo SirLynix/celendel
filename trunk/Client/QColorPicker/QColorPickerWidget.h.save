@@ -30,6 +30,7 @@ class QGridLayout;
 class QSlider;
 class QLabel;
 class QSpinBox;
+class QGroupBox;
 class QtColorTriangle;
 class ColorViewer;
 class Screen;
@@ -45,9 +46,11 @@ public:
 
     void setAlphaEnabled(bool b);
     bool isAlphaEnabled() const { return m_alphaEnabled; }
-    
+
     void setSpinBoxesEnabled(bool b);
     bool isSpinBoxesEnabled() const { return m_spinBoxesEnabled; }
+
+    void changeAlpha(quint8 alpha);
 
 Q_SIGNALS:
     void colorChanged(const QColor &col);
@@ -58,16 +61,21 @@ public Q_SLOTS:
 private slots:
     void pickMode();
     void colorChgd();
+    void spinBoxesChgd();
+    void changeAlphaSB(int alpha);
+    void changeAlphaSL(int alpha)
 
 private:
-    
+
+
     void refresh();
 
     QtColorTriangle *m_colorTriangle;
     ColorViewer *m_colorView;
     QPushButton *m_pickColor;
-    
+
     QSpinBox *m_alphaSB, *m_redSB, *m_blueSB, *m_greenSB;
+    QGroupBox *m_spinBoxesGB;
 
     QSlider *m_alphaSlider;
 
@@ -77,6 +85,8 @@ private:
 
     bool m_alphaEnabled;
     bool m_spinBoxesEnabled;
+
+    bool m_SBchanged;
 
     Screen *scr;
 };

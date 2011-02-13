@@ -10,6 +10,16 @@
 
 using std::auto_ptr;
 
+sf::Color toSFMLColor(const QColor& col)
+{
+    return sf::Color(col.red(), col.green(), col.blue(), col.alpha());
+}
+
+QColor fromSFMLColor(const sf::Color& col)
+{
+    return QColor(col.r, col.g, col.b, col.a);
+}
+
 MapWidgetScroll::MapWidgetScroll(QWidget* parent) : QScrollArea(parent), map(this, QPoint(0,0), QSize(0,0))
 {
     setWidget(&map);
@@ -26,6 +36,8 @@ MapWidget::MapWidget(QWidget* Parent, const QPoint& Position, const QSize& Size)
     m_h=Size.height();
     setHighlight(false);
     m_mouseInside=false;
+    m_multiSelectionEnabled=false;
+    m_mouseDown=false;
 }
 
 MapWidget::~MapWidget()
@@ -94,6 +106,7 @@ bool MapWidget::loadRessource(QString fileName, RSID id)
     m_loadedRessourcesName.remove(m_loadedRessourcesName.key(id));
     m_ressources[id]=img;
     m_loadedRessourcesName[fileName]=id;
+    img->SetSmooth(false);
     return false;
 }
 
@@ -143,6 +156,7 @@ RSID MapWidget::loadRessource(QString fileName)
     m_ressources[ch]=img;
     m_loadedRessourcesName[fileName]=ch;
     ++m_loadedRessources;
+    img->SetSmooth(false);
     DEB() << fileName << "loaded with RSID " << ch;
     return ch;
 }
@@ -294,6 +308,18 @@ bool MapWidget::saveMap(const MapInformations* map, QString fileName) //Static
     return false;
 }
 
+auto_ptr<MapInformations> MapWidget::makeMap(QPoint size, RSID defaultRSID)
+{
+    auto_ptr<MapInformations> map;
+        map.reset(new MapInformations);
+    map->map.resize(mapDim(size.x(), size.y()));
+    for(int x=0;x<size.x();++x)
+        for(int y=0;y<size.y();++y)
+            map->map[x][y]=defaultRSID;
+
+    return map;
+}
+
 auto_ptr<MapInformations> MapWidget::loadMap(QString fileName)
 {
     auto_ptr<MapInformations> map;
@@ -422,12 +448,68 @@ void MapWidget::OnUpdate()
             Draw(rect);
         }
 
+        if(m_multiSelectionEnabled)
+        {
+            if(m_mouseDown)
+            {
+                drawBlockBox(m_mouseDownPos,m_highlightedCase,sf::Color(255,150,5,200), 2.f);
+            }
+            else
+            {
+                drawBlockBox(m_mouseDownPos,m_mouseUpPos,sf::Color(245,200,50,175), 2.f);
+            }
+        }
+
         {
         sf::Shape rect=sf::Shape::Rectangle(m_selectedCase.x()*BLOC_SIZE+2, m_selectedCase.y()*BLOC_SIZE+2, (m_selectedCase.x()+1)*BLOC_SIZE-1, (m_selectedCase.y()+1)*BLOC_SIZE-1,
                                             sf::Color(0, 0, 0, 0), 2.0f, sf::Color(255,201,14,200));
         Draw(rect);
         }
     }
+}
+
+void swp (int& x1, int& x2) {int t=x1;x1=x2;x2=t;}
+
+bool MapWidget::caseCanBeSeen(QPoint casePos) const
+{
+    return pixelCanBeSeen(casePos.x()*BLOC_SIZE,casePos.y()*BLOC_SIZE);
+}
+
+bool MapWidget::caseCanBeSeen(int x,int y) const
+{
+    return pixelCanBeSeen(x*BLOC_SIZE,y*BLOC_SIZE);
+}
+
+bool MapWidget::pixelCanBeSeen(QPoint pixel) const
+{
+    return pixelCanBeSeen(pixel.x(),pixel.y());
+}
+
+bool MapWidget::pixelCanBeSeen(int x,int y) const
+{
+    return (x+BLOC_SIZE)>m_x && (y+BLOC_SIZE)>m_y && x<m_x+m_w && y<m_y+m_h;
+}
+
+void MapWidget::drawBlockBox(QPoint casePos, QPoint caseEndPos, const sf::Color& color, float width)
+{
+    MapArea ma(casePos, caseEndPos); ma.normalise();
+
+    for(int x=ma.leftUp.x(),mx=ma.rightDown.x();x<=mx;++x)
+        for(int y=ma.leftUp.y(),my=ma.rightDown.y();y<=my;++y)
+            if(caseCanBeSeen(x,y))
+                drawBlockHighlight(x,y,color,width);
+}
+
+void MapWidget::drawBlockHighlight(const QPoint& casePos, const QColor& color, float width)
+{
+    drawBlockHighlight(casePos.x(), casePos.y(), toSFMLColor(color), width);
+}
+
+void MapWidget::drawBlockHighlight(int x, int y, const sf::Color& color, float width)
+{
+    sf::Shape rect=sf::Shape::Rectangle(x*BLOC_SIZE+width, y*BLOC_SIZE+width, (x+1)*BLOC_SIZE-(width/2), (y+1)*BLOC_SIZE-(width/2),
+                                            sf::Color(0, 0, 0, 0), width, color);
+    Draw(rect);
 }
 
 void MapWidget::drawBloc(QPoint casePos, RSID id, const QColor& hue)
@@ -437,6 +519,9 @@ void MapWidget::drawBloc(QPoint casePos, RSID id, const QColor& hue)
 
 void MapWidget::drawBloc(int caseX, int caseY, RSID id, const sf::Color& hue)
 {
+    if(!caseCanBeSeen(caseX, caseY))
+        return;
+
     sf::Image* im = m_ressources.value(id, m_ressources[0]);
 
     sf::Sprite spr;
@@ -479,13 +564,14 @@ QPoint MapWidget::posToMap(QPoint pos)
 
 void MapWidget::mouseMoveEvent (QMouseEvent *event)
 {
-    if(m_highlightEnabled&&isMapValid())
+    if(isMapValid())
     {
         QPoint p=posToMap(event->pos());
         if(p!=m_highlightedCase)
         {
             m_highlightedCase=p;
-            emit highlightedCaseChanged(p);
+            if(m_highlightEnabled)
+                emit highlightedCaseChanged(p);
         }
     }
     QSFMLCanvas::mouseMoveEvent(event);
@@ -497,6 +583,20 @@ void MapWidget::setHighlight(bool highlight)
     setMouseTracking(highlight);
 }
 
+void MapWidget::mousePressEvent(QMouseEvent* event)
+{
+    if(event->button() == Qt::LeftButton)
+    {
+        if(isMapValid())
+        {
+            m_mouseDown=true;
+            m_mouseDownPos=posToMap(event->pos());
+        }
+    }
+
+    QSFMLCanvas::mousePressEvent(event);
+}
+
 void MapWidget::mouseReleaseEvent(QMouseEvent* event)
 {
     if(event->button() == Qt::LeftButton)
@@ -505,8 +605,14 @@ void MapWidget::mouseReleaseEvent(QMouseEvent* event)
         {
             m_selectedCase = posToMap(event->pos());
             emit mapClicked(m_selectedCase);
+            m_mouseDown=false;
+            m_mouseUpPos=m_selectedCase;
+            MapArea ma(m_mouseDownPos,m_mouseUpPos); ma.normalise();
+            emit mapAreaSelected(ma);
         }
+
     }
+
 
     QSFMLCanvas::mouseReleaseEvent(event);
 }

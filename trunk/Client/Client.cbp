@@ -22,6 +22,11 @@
 				<Compiler>
 					<Add option="-g" />
 				</Compiler>
+				<Linker>
+					<Add option="-lsfml-graphics" />
+					<Add option="-lsfml-window" />
+					<Add option="-lsfml-system" />
+				</Linker>
 				<MakeCommands>
 					<Build command="$make -f $makefile $target -j4" />
 					<CompileFile command="$make -f $makefile $file" />
@@ -42,6 +47,9 @@
 				</Compiler>
 				<Linker>
 					<Add option="-s" />
+					<Add option="-lsfml-system" />
+					<Add option="-lsfml-window" />
+					<Add option="-lsfml-graphics" />
 					<Add directory="SFML-1.6\lib" />
 				</Linker>
 				<MakeCommands>
@@ -55,7 +63,14 @@
 		<Compiler>
 			<Add option="-Wall" />
 			<Add option="-fexceptions" />
+			<Add directory="C:\Arnaud\Programmes\Programmation\C-C++\SFML-1.6\include" />
 		</Compiler>
+		<Linker>
+			<Add option="-lsfml-system" />
+			<Add option="-lsfml-window" />
+			<Add option="-lsfml-graphics" />
+			<Add directory="C:\Arnaud\Programmes\Programmation\C-C++\SFML-1.6\lib" />
+		</Linker>
 		<Unit filename="AboutWindow.cpp" />
 		<Unit filename="AboutWindow.h" />
 		<Unit filename="Client.pro" />

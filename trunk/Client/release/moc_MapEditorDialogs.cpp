@@ -1,15 +1,15 @@
 /****************************************************************************
-** Meta object code from reading C++ file 'object.h'
+** Meta object code from reading C++ file 'MapEditorDialogs.h'
 **
-** Created: Sat 12. Feb 13:45:25 2011
+** Created: Sun 13. Feb 13:46:08 2011
 **      by: The Qt Meta Object Compiler version 62 (Qt 4.7.0)
 **
 ** WARNING! All changes made in this file will be lost!
 *****************************************************************************/
 
-#include "../../Shared/XML/object.h"
+#include "../MapEditorDialogs.h"
 #if !defined(Q_MOC_OUTPUT_REVISION)
-#error "The header file 'object.h' doesn't include <QObject>."
+#error "The header file 'MapEditorDialogs.h' doesn't include <QObject>."
 #elif Q_MOC_OUTPUT_REVISION != 62
 #error "This file was generated using the moc from 4.7.0. It"
 #error "cannot be used with the include files from this version of Qt."
@@ -17,7 +17,7 @@
 #endif
 
 QT_BEGIN_MOC_NAMESPACE
-static const uint qt_meta_data_Object[] = {
+static const uint qt_meta_data_NewMapDialog[] = {
 
  // content:
        5,       // revision
@@ -31,45 +31,45 @@ static const uint qt_meta_data_Object[] = {
        0,       // signalCount
 
  // slots: signature, parameters, type, tag, flags
-       8,    7,    7,    7, 0x0a,
+      14,   13,   13,   13, 0x08,
 
        0        // eod
 };
 
-static const char qt_meta_stringdata_Object[] = {
-    "Object\0\0throwUp()\0"
+static const char qt_meta_stringdata_NewMapDialog[] = {
+    "NewMapDialog\0\0on_browse_pressed()\0"
 };
 
-const QMetaObject Object::staticMetaObject = {
-    { &MaterialThing::staticMetaObject, qt_meta_stringdata_Object,
-      qt_meta_data_Object, 0 }
+const QMetaObject NewMapDialog::staticMetaObject = {
+    { &QDialog::staticMetaObject, qt_meta_stringdata_NewMapDialog,
+      qt_meta_data_NewMapDialog, 0 }
 };
 
 #ifdef Q_NO_DATA_RELOCATION
-const QMetaObject &Object::getStaticMetaObject() { return staticMetaObject; }
+const QMetaObject &NewMapDialog::getStaticMetaObject() { return staticMetaObject; }
 #endif //Q_NO_DATA_RELOCATION
 
-const QMetaObject *Object::metaObject() const
+const QMetaObject *NewMapDialog::metaObject() const
 {
     return QObject::d_ptr->metaObject ? QObject::d_ptr->metaObject : &staticMetaObject;
 }
 
-void *Object::qt_metacast(const char *_clname)
+void *NewMapDialog::qt_metacast(const char *_clname)
 {
     if (!_clname) return 0;
-    if (!strcmp(_clname, qt_meta_stringdata_Object))
-        return static_cast<void*>(const_cast< Object*>(this));
-    return MaterialThing::qt_metacast(_clname);
+    if (!strcmp(_clname, qt_meta_stringdata_NewMapDialog))
+        return static_cast<void*>(const_cast< NewMapDialog*>(this));
+    return QDialog::qt_metacast(_clname);
 }
 
-int Object::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
+int NewMapDialog::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
 {
-    _id = MaterialThing::qt_metacall(_c, _id, _a);
+    _id = QDialog::qt_metacall(_c, _id, _a);
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
         switch (_id) {
-        case 0: throwUp(); break;
+        case 0: on_browse_pressed(); break;
         default: ;
         }
         _id -= 1;
