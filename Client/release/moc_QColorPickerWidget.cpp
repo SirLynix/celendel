@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Meta object code from reading C++ file 'QColorPickerWidget.h'
 **
-** Created: Tue 8. Feb 19:25:55 2011
+** Created: Sat 12. Feb 13:45:19 2011
 **      by: The Qt Meta Object Compiler version 62 (Qt 4.7.0)
 **
 ** WARNING! All changes made in this file will be lost!
@@ -23,7 +23,7 @@ static const uint qt_meta_data_QColorPickerWidget[] = {
        5,       // revision
        0,       // classname
        0,    0, // classinfo
-       4,   14, // methods
+       7,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
@@ -37,6 +37,9 @@ static const uint qt_meta_data_QColorPickerWidget[] = {
       45,   20,   19,   19, 0x0a,
       62,   19,   19,   19, 0x08,
       73,   19,   19,   19, 0x08,
+      85,   19,   19,   19, 0x08,
+     107,  101,   19,   19, 0x08,
+     126,  101,   19,   19, 0x08,
 
        0        // eod
 };
@@ -44,6 +47,8 @@ static const uint qt_meta_data_QColorPickerWidget[] = {
 static const char qt_meta_stringdata_QColorPickerWidget[] = {
     "QColorPickerWidget\0\0col\0colorChanged(QColor)\0"
     "setColor(QColor)\0pickMode()\0colorChgd()\0"
+    "spinBoxesChgd()\0alpha\0changeAlphaSB(int)\0"
+    "changeAlphaSL(int)\0"
 };
 
 const QMetaObject QColorPickerWidget::staticMetaObject = {
@@ -79,9 +84,12 @@ int QColorPickerWidget::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
         case 1: setColor((*reinterpret_cast< const QColor(*)>(_a[1]))); break;
         case 2: pickMode(); break;
         case 3: colorChgd(); break;
+        case 4: spinBoxesChgd(); break;
+        case 5: changeAlphaSB((*reinterpret_cast< int(*)>(_a[1]))); break;
+        case 6: changeAlphaSL((*reinterpret_cast< int(*)>(_a[1]))); break;
         default: ;
         }
-        _id -= 4;
+        _id -= 7;
     }
     return _id;
 }

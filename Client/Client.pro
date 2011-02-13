@@ -44,4 +44,4 @@ HEADERS += \
 
 TRANSLATIONS = Client_en.ts
 
-FORMS += MapEditorAddObjectDialog.ui
+FORMS += MapEditorAddObjectDialog.ui MapEditorNewMapDialog.ui

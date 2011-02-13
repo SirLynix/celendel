@@ -48,6 +48,7 @@ INPUT(
 ./release\moc_SoundLibThread.o
 ./release\moc_MapWidget.o
 ./release\moc_MapEditor.o
+./release\moc_MapEditorDialogs.o
 ./release\moc_QColorPickerWidget.o
 ./release\moc_QColorViewer.o
 ./release\moc_qtcolortriangle.o

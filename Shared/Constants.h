@@ -27,7 +27,13 @@
 #define qCApp QCoreApplication::instance()
 
 #include <QDebug>
-#define DEB() qDebug() << __FILE__ << __LINE__ << "\t: "
+#ifdef __func__
+    #define DEB() qDebug() << __FILE__ << " " << __func__ << " " << __LINE__ << "\t: "
+#elif defined __FUNCTION__
+    #define DEB() qDebug() << __FILE__ << " " << __FUNCTION__ << " " << __LINE__ << "\t: "
+#else
+    #define DEB() qDebug() << __FILE__ << " " << __LINE__ << "\t: "
+#endif
 
 #define ENUM_TYPE qint32
 

@@ -5,12 +5,12 @@
 #include <QPainter>
 #include <QPaintEvent>
 
-class ColorViewer : public QWidget
+class QColorViewer : public QWidget
 {
     Q_OBJECT
 
 public:
-    ColorViewer(QWidget *parent = 0);
+    QColorViewer(QWidget *parent = 0);
 
     void setPen(const QPen &pen);
     QPen pen() const;

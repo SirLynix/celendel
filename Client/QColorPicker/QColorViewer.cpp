@@ -1,12 +1,17 @@
 #include "QColorViewer.h"
 #include "QColorPicker\qtcolortriangle.h"
 
-ColorViewer::ColorViewer(QWidget *parent):QWidget(parent)
+QColor removeAlpha(const QColor& col)
 {
-    setMinimumSize(10, 10);
+    return QColor(col.red(), col.green(), col.blue());
 }
 
-void ColorViewer::paintEvent(QPaintEvent *event)
+QColorViewer::QColorViewer(QWidget *parent):QWidget(parent)
+{
+    setMinimumSize(15, 15);
+}
+
+void QColorViewer::paintEvent(QPaintEvent *event)
 {
     QPainter p(this);
     p.setPen(actualPen);
@@ -17,28 +22,29 @@ void ColorViewer::paintEvent(QPaintEvent *event)
     p.drawRect( QRect( 2, 2, width()-4, height()-4 ) );
 }
 
-void ColorViewer::setPen(const QPen &pen)
+void QColorViewer::setPen(const QPen &pen)
 {
     actualPen = pen;
 }
 
-QPen ColorViewer::pen() const
+QPen QColorViewer::pen() const
 {
     return actualPen;
 }
 
-void ColorViewer::setColor(const QColor &color)
+void QColorViewer::setColor(const QColor &color)
 {
-    actualColor = color;
+    actualColor = removeAlpha(color);
+    update();
 }
 
-QColor ColorViewer::color() const
+QColor QColorViewer::color() const
 {
     return actualColor;
 }
 
 
-void ColorViewer::changeColor(const QColor &color)
+void QColorViewer::changeColor(const QColor &color)
 {
     actualColor = color;
     update();

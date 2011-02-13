@@ -32,7 +32,7 @@ class QLabel;
 class QSpinBox;
 class QGroupBox;
 class QtColorTriangle;
-class ColorViewer;
+class QColorViewer;
 class Screen;
 
 class QColorPickerWidget : public QWidget
@@ -50,6 +50,8 @@ public:
     void setSpinBoxesEnabled(bool b);
     bool isSpinBoxesEnabled() const { return m_spinBoxesEnabled; }
 
+    void changeAlpha(quint8 alpha);
+
 Q_SIGNALS:
     void colorChanged(const QColor &col);
 
@@ -59,13 +61,17 @@ public Q_SLOTS:
 private slots:
     void pickMode();
     void colorChgd();
+    void spinBoxesChgd();
+    void changeAlphaSB(int alpha);
+    void changeAlphaSL(int alpha);
 
 private:
+
 
     void refresh();
 
     QtColorTriangle *m_colorTriangle;
-    ColorViewer *m_colorView;
+    QColorViewer *m_colorView;
     QPushButton *m_pickColor;
 
     QSpinBox *m_alphaSB, *m_redSB, *m_blueSB, *m_greenSB;
@@ -79,6 +85,8 @@ private:
 
     bool m_alphaEnabled;
     bool m_spinBoxesEnabled;
+
+    bool m_SBchanged;
 
     Screen *scr;
 };
