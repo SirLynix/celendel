@@ -53,8 +53,8 @@ bool ClientInterface::openRenderWindow(QString mapName, QString ressList)
     }
 
     QDialog dia(this);
-    MapWidgetScroll* mapRenderWidg = new MapWidgetScroll(&dia);
-    MapWidget* mapRender = mapRenderWidg->getMapWidget();
+
+    MapWidget* mapRender = new MapWidget(&dia);
     mapRender->setHighlight(true);
     if(mapRender->loadRessourcesPack(ressList).isEmpty()||mapRender->setMap(mapName))
     {
@@ -72,7 +72,7 @@ bool ClientInterface::openRenderWindow(QString mapName, QString ressList)
     connect(&sendToServer, SIGNAL(pressed()), this, SLOT(sendMapToServer()));
 
     QHBoxLayout l;
-    l.addWidget(mapRenderWidg);
+    l.addWidget(mapRender);
     l.addWidget(&sendToServer);
     dia.setLayout(&l);
     dia.exec();

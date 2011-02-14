@@ -8,7 +8,7 @@
 		<Cursor position="270" topLine="0" />
 	</File>
 	<File name="Client.pro" open="0" top="0" tabpos="1">
-		<Cursor position="165" topLine="0" />
+		<Cursor position="161" topLine="0" />
 	</File>
 	<File name="ClientChatCommands.cpp" open="0" top="0" tabpos="1">
 		<Cursor position="8771" topLine="200" />
@@ -17,13 +17,13 @@
 		<Cursor position="4228" topLine="126" />
 	</File>
 	<File name="ClientInterface.cpp" open="0" top="0" tabpos="2">
-		<Cursor position="299" topLine="6" />
+		<Cursor position="251" topLine="6" />
 	</File>
 	<File name="ClientInterface.h" open="0" top="0" tabpos="4">
-		<Cursor position="3366" topLine="97" />
+		<Cursor position="383" topLine="142" />
 	</File>
 	<File name="ClientMapInterface.cpp" open="0" top="0" tabpos="3">
-		<Cursor position="1782" topLine="0" />
+		<Cursor position="3307" topLine="27" />
 	</File>
 	<File name="ClientNetwork.cpp" open="0" top="0" tabpos="1">
 		<Cursor position="2160" topLine="73" />
@@ -47,22 +47,22 @@
 		<Cursor position="6638" topLine="93" />
 	</File>
 	<File name="MapEditor.cpp" open="0" top="0" tabpos="5">
-		<Cursor position="19779" topLine="567" />
+		<Cursor position="22836" topLine="696" />
 	</File>
 	<File name="MapEditor.h" open="0" top="0" tabpos="2">
-		<Cursor position="2472" topLine="68" />
+		<Cursor position="2414" topLine="68" />
 	</File>
 	<File name="MapEditorDialogs.cpp" open="0" top="0" tabpos="1">
-		<Cursor position="2385" topLine="0" />
+		<Cursor position="3373" topLine="69" />
 	</File>
 	<File name="MapEditorDialogs.h" open="0" top="0" tabpos="2">
-		<Cursor position="540" topLine="14" />
+		<Cursor position="1381" topLine="28" />
 	</File>
 	<File name="MapWidget.cpp" open="1" top="1" tabpos="2">
-		<Cursor position="11051" topLine="406" />
+		<Cursor position="10434" topLine="390" />
 	</File>
 	<File name="MapWidget.h" open="1" top="0" tabpos="1">
-		<Cursor position="2868" topLine="80" />
+		<Cursor position="4771" topLine="113" />
 	</File>
 	<File name="QColorPicker\QColorPickerWidget.cpp" open="0" top="0" tabpos="1">
 		<Cursor position="620" topLine="12" />
@@ -89,10 +89,10 @@
 		<Cursor position="290" topLine="0" />
 	</File>
 	<File name="QSFMLCanvas.cpp" open="0" top="0" tabpos="0">
-		<Cursor position="303" topLine="10" />
+		<Cursor position="565" topLine="0" />
 	</File>
 	<File name="QSFMLCanvas.hpp" open="0" top="0" tabpos="0">
-		<Cursor position="214" topLine="0" />
+		<Cursor position="1029" topLine="0" />
 	</File>
 	<File name="SoundLibThread.cpp" open="0" top="0" tabpos="0">
 		<Cursor position="561" topLine="0" />
@@ -149,10 +149,7 @@
 		<Cursor position="556" topLine="0" />
 	</File>
 	<File name="..\Shared\Constants.h" open="0" top="0" tabpos="0">
-		<Cursor position="1256" topLine="85" />
-	</File>
-	<File name="..\Shared\MapStructs.h" open="0" top="0" tabpos="0">
-		<Cursor position="313" topLine="0" />
+		<Cursor position="0" topLine="85" />
 	</File>
 	<File name="..\Shared\Miscelaneous.cpp" open="0" top="0" tabpos="0">
 		<Cursor position="537" topLine="0" />

@@ -7,37 +7,35 @@
 #include <QTimer>
 #include <QMouseEvent>
 #include <QSettings>
+#include <QGraphicsPixmapItem>
+#include <QGraphicsRectItem>
 
 using std::auto_ptr;
 
-sf::Color toSFMLColor(const QColor& col)
-{
-    return sf::Color(col.red(), col.green(), col.blue(), col.alpha());
-}
 
-QColor fromSFMLColor(const sf::Color& col)
+MapWidget::MapWidget(QWidget* Parent) : QGraphicsView(Parent), m_map(NULL)
 {
-    return QColor(col.r, col.g, col.b, col.a);
-}
-
-MapWidgetScroll::MapWidgetScroll(QWidget* parent) : QScrollArea(parent), map(this, QPoint(0,0), QSize(0,0))
-{
-    setWidget(&map);
-    connect(&timer, SIGNAL(timeout()), this, SLOT(ref()));
-    timer.setSingleShot(false);
-    timer.start(10);
-}
-
-MapWidget::MapWidget(QWidget* Parent, const QPoint& Position, const QSize& Size) : QSFMLCanvas(Parent, Position, Size), m_map(NULL)
-{
+    setScene(&m_scene);
     clearRessources();
-    m_x=m_y=0;
-    m_w=Size.width();
-    m_h=Size.height();
+
+    m_highLightRect=NULL; m_selectedRect=NULL;
+
+    setOptimizationFlags(QGraphicsView::DontAdjustForAntialiasing);
+    setViewportUpdateMode(QGraphicsView::BoundingRectViewportUpdate);
+
     setHighlight(false);
     m_mouseInside=false;
     m_multiSelectionEnabled=false;
     m_mouseDown=false;
+    m_timer=new QTimer(this);
+    connect(m_timer, SIGNAL(timeout()), this, SLOT(onUpdate()));
+    m_timer->setSingleShot(false);
+    m_timer->start(20);
+    m_timerBG=new QTimer(this);
+    connect(m_timerBG, SIGNAL(timeout()), this, SLOT(repaintBackground()));
+    m_timerBG->setSingleShot(false);
+    m_timerBG->start(1000);
+    repaintBackground();
 }
 
 MapWidget::~MapWidget()
@@ -45,26 +43,7 @@ MapWidget::~MapWidget()
     clearRessources();
 }
 
-void MapWidgetScroll::sizeUpdate()
-{
-    if(widget() != NULL)
-    {
-        if(map.isMapValid())
-        {
-            widget()->resize(map.m_map->mapSizeX()*BLOC_SIZE, map.m_map->mapSizeY()*BLOC_SIZE);
-            viewport()->resize(map.m_map->mapSizeX()*BLOC_SIZE, map.m_map->mapSizeY()*BLOC_SIZE);
-            ref();
-        }
-    }
-}
-
-void MapWidgetScroll::ref()
-{
-    if(widget() != NULL)
-    {
-        map.setView(-map.pos().x(), -map.pos().y(), viewport()->width(), viewport()->height()); //The coordinates are ALWAYS negatives. Why ? Take a paper.
-    }
-}
+void MapWidget::repaintBackground () {m_repaintBG=true;}
 
 void MapWidget::openMapInfoDialog()
 {
@@ -95,18 +74,20 @@ bool MapWidget::loadRessource(QString fileName, RSID id)
     if(QDir::isRelativePath(fileName)&&!fileName.startsWith(RESSOURCES_FOLDER))
         fileName.prepend(RESSOURCES_FOLDER);
 
-    sf::Image* img = new sf::Image;
-    if(!img->LoadFromFile(fileName.toStdString()))
+    QPixmap* img = new QPixmap;
+    if(!img->load(fileName))
     {
         delete img;
         return true;
     }
 
+    *img=img->scaled(BLOC_SIZE, BLOC_SIZE, Qt::IgnoreAspectRatio,Qt::SmoothTransformation);
+
     delete m_ressources.value(id, NULL);
     m_loadedRessourcesName.remove(m_loadedRessourcesName.key(id));
     m_ressources[id]=img;
     m_loadedRessourcesName[fileName]=id;
-    img->SetSmooth(false);
+    repaintBackground();
     return false;
 }
 
@@ -126,12 +107,14 @@ RSID MapWidget::loadRessource(QString fileName)
     if(QDir::isRelativePath(fileName)&&!fileName.startsWith(RESSOURCES_FOLDER))
         fileName.prepend(RESSOURCES_FOLDER);
 
-    sf::Image* img = new sf::Image;
-    if(!img->LoadFromFile(fileName.toStdString()))
+    QPixmap* img = new QPixmap;
+    if(!img->load(fileName))
     {
         delete img;
         return 0;
     }
+    *img=img->scaled(BLOC_SIZE, BLOC_SIZE, Qt::IgnoreAspectRatio,Qt::SmoothTransformation);
+
     RSID ch=0;
     if(m_loadedRessources==MAX_LOADED_RESSOURCES)
     {
@@ -156,8 +139,9 @@ RSID MapWidget::loadRessource(QString fileName)
     m_ressources[ch]=img;
     m_loadedRessourcesName[fileName]=ch;
     ++m_loadedRessources;
-    img->SetSmooth(false);
+
     DEB() << fileName << "loaded with RSID " << ch;
+    repaintBackground();
     return ch;
 }
 
@@ -170,7 +154,7 @@ QList<QPair<QString, RSID> > MapWidget::loadRessourcesPack(const QList<QPair<QSt
         if(!loadRessource(list[i].first,list[i].second))
             ret << list[i];
     }
-
+    repaintBackground();
     return ret;
 }
 
@@ -184,13 +168,13 @@ QList<QPair<QString, RSID> > MapWidget::loadRessources(const QStringList& list)
         if(rsid != 0)
             ret << qMakePair(list[i], rsid);
     }
-
+    repaintBackground();
     return ret;
 }
 
 void MapWidget::clearRessources()
 {
-    QMap<RSID, sf::Image*>::iterator i = m_ressources.begin();
+    QMap<RSID, QPixmap*>::iterator i = m_ressources.begin();
     while (i != m_ressources.end())
     {
         delete i.value();
@@ -199,23 +183,12 @@ void MapWidget::clearRessources()
     m_ressources.clear();
 
     m_loadedRessources=1;
-    m_ressources[0] = new sf::Image(BLOC_SIZE, BLOC_SIZE, sf::Color(0, 0, 0)); //One black pixel. What else ?
+    m_ressources[0] = new QPixmap(BLOC_SIZE, BLOC_SIZE);
+    m_ressources[0]->fill();
 
     m_loadedRessourcesName.clear();
-}
 
-void MapWidget::setView(int x, int y, int w, int h)
-{
-    m_x=x; m_y=y; m_w=w; m_h=h;
-}
-
-void MapWidget::adjustSize()
-{
-    if(m_map.get() != NULL)
-    {
-        resize(m_map->mapSizeX()*BLOC_SIZE, m_map->mapSizeY()*BLOC_SIZE);
-        setView(0,0,m_map->mapSizeX()*BLOC_SIZE,m_map->mapSizeY()*BLOC_SIZE);
-    }
+    repaintBackground();
 }
 
 QList<RSID> MapWidget::loadRessourcesPack(QString fileName)
@@ -249,6 +222,8 @@ QList<RSID> MapWidget::loadRessourcesPack(QString fileName)
 
     QFile::remove(TMPPATH);
     #undef TMPPATH
+
+    repaintBackground();
 
     return ret;
 }
@@ -407,131 +382,110 @@ void MapWidget::setMap(MapPtr map)
         }
     }
 
-    adjustSize();
+    repaintBackground();
 }
 
-void MapWidget::OnUpdate()
+void MapWidget::clearTemporaryItems()
+{
+    for(int i=0,m=m_tempItems.size();i<m;++i)
+    {
+        m_scene.removeItem(m_tempItems[i]);
+        delete m_tempItems[i];
+    }
+    m_tempItems.clear();
+}
+
+void MapWidget::onUpdate()
 {
     if(m_map.get() != 0)
     {
-        qint32 mapX = sizeX(m_map->map);
-        qint32 mapY = sizeY(m_map->map);
-
-        if(mapX>(m_x+m_w)/BLOC_SIZE+2)
-            mapX=(m_x+m_w)/BLOC_SIZE+2;
-
-        if(mapY>(m_y+m_h)/BLOC_SIZE+2)
-            mapY=(m_y+m_h)/BLOC_SIZE+2;
-
-        int xi=m_x/BLOC_SIZE-2;
-        if(xi<0)
-            xi=0;
-
-        int yi=m_y/BLOC_SIZE-2;
-        if(yi<0)
-            yi=0;
-
-
-        //Clear(sf::Color(200, 200, 200)); //Usefull on resize...
-
-        for(int x=xi; x<mapX; ++x)
-            for(int y=yi; y<mapY; ++y)
-                drawBloc(x,y,m_map->map[x][y]);
-
-        for(int i=0,m=m_map->mapItems.size();i<m;++i)
-            drawBloc(m_map->mapItems[i].coords, m_map->mapItems[i].rsid, m_map->mapItems[i].color);
-
-        if(m_highlightEnabled&&m_mouseInside&&m_highlightedCase.x()>=xi&&m_highlightedCase.x()<mapX&&m_highlightedCase.y()>=yi&&m_highlightedCase.y()<mapY)
+        if(m_repaintBG)
         {
-            sf::Shape rect=sf::Shape::Rectangle(m_highlightedCase.x()*BLOC_SIZE+2, m_highlightedCase.y()*BLOC_SIZE+2, (m_highlightedCase.x()+1)*BLOC_SIZE-1, (m_highlightedCase.y()+1)*BLOC_SIZE-1,
-                                                sf::Color(0, 0, 0, 0), 2.0f, sf::Color(239,228,176,255));
-            Draw(rect);
+            m_repaintBG=false;
+            m_scene.clear();
+            m_tempItems.clear();
+
+            qint32 mapX = sizeX(m_map->map);
+            qint32 mapY = sizeY(m_map->map);
+
+            for(int x=0; x<mapX; ++x)
+                for(int y=0; y<mapY; ++y)
+                {
+                    drawBloc(x,y,m_map->map[x][y]);
+                    drawBlockHighlight(x, y, QColor(25,25,25,150), 1.f, true);
+                }
+
+            for(int i=0,m=m_map->mapItems.size();i<m;++i)
+                drawBloc(m_map->mapItems[i].coords, m_map->mapItems[i].rsid, m_map->mapItems[i].color);
+
+        }
+
+        clearTemporaryItems();
+
+        if(m_highlightEnabled&&m_mouseInside)
+        {
+            drawBlockHighlight(m_highlightedCase, QColor(255,170,25,185), 2.f);
         }
 
         if(m_multiSelectionEnabled)
         {
             if(m_mouseDown)
             {
-                drawBlockBox(m_mouseDownPos,m_highlightedCase,sf::Color(255,150,5,200), 2.f);
+                drawBlockBox(m_mouseDownPos,m_highlightedCase,QColor(255,150,5,200), 2.f);
             }
             else
             {
-                drawBlockBox(m_mouseDownPos,m_mouseUpPos,sf::Color(245,200,50,175), 2.f);
+                drawBlockBox(m_mouseDownPos,m_mouseUpPos,QColor(245,200,50,175), 2.f);
             }
         }
 
-        {
-        sf::Shape rect=sf::Shape::Rectangle(m_selectedCase.x()*BLOC_SIZE+2, m_selectedCase.y()*BLOC_SIZE+2, (m_selectedCase.x()+1)*BLOC_SIZE-1, (m_selectedCase.y()+1)*BLOC_SIZE-1,
-                                            sf::Color(0, 0, 0, 0), 2.0f, sf::Color(255,201,14,200));
-        Draw(rect);
-        }
+
+
+        drawBlockHighlight(m_selectedCase, QColor(255,170,25,185), 2.f);
     }
 }
 
 void swp (int& x1, int& x2) {int t=x1;x1=x2;x2=t;}
 
-bool MapWidget::caseCanBeSeen(QPoint casePos) const
+void MapWidget::drawBlockBox(QPointF casePos, QPointF caseEndPos, const QColor& color, float width)
 {
-    return pixelCanBeSeen(casePos.x()*BLOC_SIZE,casePos.y()*BLOC_SIZE);
+    drawBlockBox(QPoint(casePos.x(), casePos.y()), QPoint(caseEndPos.x(), caseEndPos.y()), color, width);
 }
 
-bool MapWidget::caseCanBeSeen(int x,int y) const
-{
-    return pixelCanBeSeen(x*BLOC_SIZE,y*BLOC_SIZE);
-}
-
-bool MapWidget::pixelCanBeSeen(QPoint pixel) const
-{
-    return pixelCanBeSeen(pixel.x(),pixel.y());
-}
-
-bool MapWidget::pixelCanBeSeen(int x,int y) const
-{
-    return (x+BLOC_SIZE)>m_x && (y+BLOC_SIZE)>m_y && x<m_x+m_w && y<m_y+m_h;
-}
-
-void MapWidget::drawBlockBox(QPoint casePos, QPoint caseEndPos, const sf::Color& color, float width)
+void MapWidget::drawBlockBox(QPoint casePos, QPoint caseEndPos, const QColor& color, float width)
 {
     MapArea ma(casePos, caseEndPos); ma.normalise();
 
     for(int x=ma.leftUp.x(),mx=ma.rightDown.x();x<=mx;++x)
         for(int y=ma.leftUp.y(),my=ma.rightDown.y();y<=my;++y)
-            if(caseCanBeSeen(x,y))
-                drawBlockHighlight(x,y,color,width);
+            drawBlockHighlight(x,y,color,width);
+}
+
+void MapWidget::drawBlockHighlight(const QPointF& casePos, const QColor& color, float width)
+{
+    drawBlockHighlight(QPoint(casePos.x(), casePos.y()), color, width);
 }
 
 void MapWidget::drawBlockHighlight(const QPoint& casePos, const QColor& color, float width)
 {
-    drawBlockHighlight(casePos.x(), casePos.y(), toSFMLColor(color), width);
+    drawBlockHighlight(casePos.x(), casePos.y(), color, width);
 }
 
-void MapWidget::drawBlockHighlight(int x, int y, const sf::Color& color, float width)
+void MapWidget::drawBlockHighlight(int x, int y, const QColor& color, float width, bool noDelete)
 {
-    sf::Shape rect=sf::Shape::Rectangle(x*BLOC_SIZE+width, y*BLOC_SIZE+width, (x+1)*BLOC_SIZE-(width/2), (y+1)*BLOC_SIZE-(width/2),
-                                            sf::Color(0, 0, 0, 0), width, color);
-    Draw(rect);
+    QGraphicsRectItem* it = m_scene.addRect(x*BLOC_SIZE, y*BLOC_SIZE,BLOC_SIZE, BLOC_SIZE, QPen(color) );
+    if(!noDelete)
+        m_tempItems.append(it);
 }
 
 void MapWidget::drawBloc(QPoint casePos, RSID id, const QColor& hue)
 {
-    drawBloc(casePos.x(), casePos.y(), id, sf::Color(hue.red(),hue.green(),hue.blue(),hue.alpha()));
+    drawBloc(casePos.x(), casePos.y(), id, hue);
 }
 
-void MapWidget::drawBloc(int caseX, int caseY, RSID id, const sf::Color& hue)
+void MapWidget::drawBloc(int caseX, int caseY, RSID id, const QColor& hue)
 {
-    if(!caseCanBeSeen(caseX, caseY))
-        return;
-
-    sf::Image* im = m_ressources.value(id, m_ressources[0]);
-
-    sf::Sprite spr;
-    spr.SetImage(*im);
-
-    spr.SetColor(hue);
-
-    spr.Resize(BLOC_SIZE, BLOC_SIZE);
-    spr.SetPosition(caseX*BLOC_SIZE-1, caseY*BLOC_SIZE-1);
-    Draw(spr);
+    m_scene.addPixmap(*m_ressources.value(id, m_ressources[0]))->setPos(caseX*BLOC_SIZE, caseY*BLOC_SIZE);
 }
 
 bool MapWidget::isMapValid() const
@@ -539,10 +493,12 @@ bool MapWidget::isMapValid() const
     return ((m_map.get() != NULL) && m_map->isValid());
 }
 
-QPoint MapWidget::posToMap(QPoint pos)
+QPoint MapWidget::posToMap(QPoint p)
 {
     if(!isMapValid())
         return QPoint();
+
+    QPointF pos=mapToScene(p);
 
     int mx=m_map->mapSizeX();
     int my=m_map->mapSizeY();
@@ -562,6 +518,16 @@ QPoint MapWidget::posToMap(QPoint pos)
     return QPoint(x,y);
 }
 
+void MapWidget::scrollContentsBy (int dx, int dy)
+{
+    m_highlightedCase.rx() -= (dx/BLOC_SIZE);
+    m_highlightedCase.ry() -= (dy/BLOC_SIZE);
+    if(m_highlightEnabled)
+        emit highlightedCaseChanged(m_highlightedCase);
+
+    QGraphicsView::scrollContentsBy(dx,dy);
+}
+
 void MapWidget::mouseMoveEvent (QMouseEvent *event)
 {
     if(isMapValid())
@@ -574,7 +540,7 @@ void MapWidget::mouseMoveEvent (QMouseEvent *event)
                 emit highlightedCaseChanged(p);
         }
     }
-    QSFMLCanvas::mouseMoveEvent(event);
+    QGraphicsView::mouseMoveEvent(event);
 }
 
 void MapWidget::setHighlight(bool highlight)
@@ -594,7 +560,7 @@ void MapWidget::mousePressEvent(QMouseEvent* event)
         }
     }
 
-    QSFMLCanvas::mousePressEvent(event);
+    QGraphicsView::mousePressEvent(event);
 }
 
 void MapWidget::mouseReleaseEvent(QMouseEvent* event)
@@ -614,7 +580,7 @@ void MapWidget::mouseReleaseEvent(QMouseEvent* event)
     }
 
 
-    QSFMLCanvas::mouseReleaseEvent(event);
+    QGraphicsView::mouseReleaseEvent(event);
 }
 
 void MapWidget::leaveEvent (QEvent *event)

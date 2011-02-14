@@ -90,7 +90,7 @@ class MapEditor : public QMainWindow
 
         QPushButton* m_sendingBtn;
 
-        MapWidgetScroll* m_mapWidgetScroll;
+        MapWidget* m_mapWidget;
 
         QSpinBox* m_mapSizeX;
         QSpinBox* m_mapSizeY;

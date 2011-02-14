@@ -40,11 +40,11 @@
 	<File name="main.cpp" open="0" top="0" tabpos="3">
 		<Cursor position="178" topLine="0" />
 	</File>
-	<File name="..\Shared\Constants.h" open="1" top="0" tabpos="1">
+	<File name="..\Shared\Constants.h" open="0" top="0" tabpos="1">
 		<Cursor position="779" topLine="0" />
 	</File>
-	<File name="..\Shared\MapStructs.h" open="1" top="0" tabpos="1">
-		<Cursor position="1101" topLine="13" />
+	<File name="..\Shared\MapStructs.h" open="0" top="0" tabpos="1">
+		<Cursor position="948" topLine="14" />
 	</File>
 	<File name="..\Shared\Miscelaneous.cpp" open="0" top="0" tabpos="0">
 		<Cursor position="756" topLine="0" />
@@ -55,7 +55,7 @@
 	<File name="..\Shared\Packet.h" open="0" top="0" tabpos="0">
 		<Cursor position="82" topLine="0" />
 	</File>
-	<File name="..\Shared\Serializer.cpp" open="1" top="0" tabpos="0">
+	<File name="..\Shared\Serializer.cpp" open="0" top="0" tabpos="0">
 		<Cursor position="5121" topLine="18" />
 	</File>
 	<File name="..\Shared\Serializer.h" open="0" top="0" tabpos="0">
