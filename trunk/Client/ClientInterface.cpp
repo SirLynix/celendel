@@ -14,13 +14,12 @@ ClientInterface::ClientInterface()
     m_renderedMap=NULL;
     m_mapEditor=NULL;
 
-    MapWidgetScroll* mapWiScroll = new MapWidgetScroll(this);
-    m_mapWi=mapWiScroll->getMapWidget();
+    m_mapWi=new MapWidget(this);
     QDockWidget *mapDock = new QDockWidget(tr("Carte"), this);
     mapDock->setWhatsThis(tr("Le dock de la carte"));
     mapDock->setFeatures(QDockWidget::NoDockWidgetFeatures);
     mapDock->setFeatures(QDockWidget::DockWidgetFloatable|QDockWidget::DockWidgetMovable);
-    mapDock->setWidget(mapWiScroll);
+    mapDock->setWidget(m_mapWi);
     addDockWidget(Qt::TopDockWidgetArea, mapDock);
 
     buildGUI();

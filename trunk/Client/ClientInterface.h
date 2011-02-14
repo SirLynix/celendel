@@ -12,7 +12,6 @@
 #define SAVE_EXT ".savegame"
 
 class MapWidget;
-class MapWidgetScroll;
 class MapEditor;
 
 class VOIP;

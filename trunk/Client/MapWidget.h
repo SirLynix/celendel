@@ -2,14 +2,12 @@
 #define DEF_MAPWIDGET
 
 #include "..\Shared\Constants.h"
-#include "QSFMLCanvas.hpp"
-#include <QScrollArea>
-
-sf::Color toSFMLColor(const QColor& col);
-QColor fromSFMLColor(const sf::Color& col);
+#include <QGraphicsView>
+#include <QGraphicsScene>
 
 class QTimer;
 class MapEditor;
+class QGraphicsRectItem;
 
 void swp (int& x1, int& x2);
 
@@ -23,7 +21,7 @@ struct MapArea
     QPoint leftUp; QPoint rightDown;
 };
 
-class MapWidget : public QSFMLCanvas
+class MapWidget : public QGraphicsView
 {
     Q_OBJECT
 
@@ -32,14 +30,13 @@ class MapWidget : public QSFMLCanvas
 
     public:
 
-    MapWidget(QWidget* Parent, const QPoint& Position, const QSize& Size);
+    MapWidget(QWidget* Parent);
     ~MapWidget();
 
     void clearRessources();
 
     const MapInformations* getMap() const { return m_map.get(); }
 
-    void adjustSize();
 
     bool isHightlighEnabled() const { return m_highlightEnabled; }
     void setHighlight(bool highlight);
@@ -73,9 +70,14 @@ class MapWidget : public QSFMLCanvas
 
     public slots:
 
+    void repaintBackground();
+
     void openMapInfoDialog();
     void setMap(MapPtr);
-    void setView(int x, int y, int w, int h);
+
+    private slots:
+
+    void onUpdate();
 
     signals:
 
@@ -88,6 +90,7 @@ class MapWidget : public QSFMLCanvas
     virtual void mousePressEvent (QMouseEvent* event);
     virtual void mouseReleaseEvent (QMouseEvent* event);
     virtual void mouseMoveEvent (QMouseEvent *event);
+    virtual void scrollContentsBy (int dx, int dy);
 
     virtual void leaveEvent (QEvent *event);
     virtual void enterEvent (QEvent *event);
@@ -96,10 +99,12 @@ class MapWidget : public QSFMLCanvas
     private:
 
     void drawBloc(QPoint casePos, RSID id, const QColor& hue= QColor(255,255,255));
-    void drawBloc(int caseX, int caseY, RSID id, const sf::Color& hue= sf::Color(255,255,255));
+    void drawBloc(int caseX, int caseY, RSID id, const QColor& hue= QColor(255,255,255));
     void drawBlockHighlight(const QPoint& casePos, const QColor& color, float width);
-    void drawBlockHighlight(int x, int y, const sf::Color& color, float width);
-    void drawBlockBox(QPoint casePos, QPoint caseEndPos, const sf::Color& color, float width);
+    void drawBlockHighlight(int x, int y, const QColor& color, float width, bool noDelete=false);
+    void drawBlockBox(QPoint casePos, QPoint caseEndPos, const QColor& color, float width);
+    void drawBlockBox(QPointF casePos, QPointF caseEndPos, const QColor& color, float width);
+    void drawBlockHighlight(const QPointF& casePos, const QColor& color, float width);
 
 
     QPoint posToMap(int x, int y) { return posToMap(QPoint(x,y)); }
@@ -109,8 +114,6 @@ class MapWidget : public QSFMLCanvas
     bool caseCanBeSeen(QPoint casePos) const;
     bool pixelCanBeSeen(int x,int y) const;
     bool caseCanBeSeen(int x,int y) const;
-
-    int m_x, m_y, m_w, m_h;
 
     bool m_multiSelectionEnabled;
     bool m_mouseDown;
@@ -124,10 +127,6 @@ class MapWidget : public QSFMLCanvas
 
     bool m_highlightEnabled;
 
-    void OnInit() { }
-
-    void OnUpdate();
-
     QMap<RSID, RSID> concatenateRessources(const QMap<RSID, QString>& other);
 
 
@@ -135,29 +134,22 @@ class MapWidget : public QSFMLCanvas
 
     RSID m_loadedRessources;
 
-    QMap<RSID, sf::Image*> m_ressources;
+    QMap<RSID, QPixmap*> m_ressources;
     QMap<QString, RSID> m_loadedRessourcesName;
 
-};
+    QGraphicsScene m_scene;
 
-class MapWidgetScroll : public QScrollArea
-{
-    Q_OBJECT
+    QGraphicsRectItem* m_highLightRect;
+    QGraphicsRectItem* m_selectedRect;
 
-    friend class MapEditor;
+    QTimer* m_timer;
+    QTimer* m_timerBG;
 
-    public:
-    MapWidgetScroll(QWidget* parent=0);
-    MapWidget* getMapWidget() { return &map; }
+    bool m_repaintBG;
 
-    private slots:
+    QList<QGraphicsRectItem*> m_tempItems;
+    void clearTemporaryItems();
 
-    void ref();
-    void sizeUpdate();
-
-    private:
-    MapWidget map;
-    QTimer timer;
 };
 
 #endif // DEF_MAPWIDGET

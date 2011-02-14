@@ -24,7 +24,7 @@
 
 MapEditor::MapEditor(QWidget* parent, const QString& map, const QString& ressourceList):QMainWindow(parent)
 {
-    m_mapWidgetScroll = NULL; m_currentItemIndex=0;
+    m_mapWidget = NULL; m_currentItemIndex=0;
 
     setTabPosition(Qt::AllDockWidgetAreas, QTabWidget::North);
     setDockNestingEnabled(true);
@@ -225,13 +225,13 @@ void MapEditor::closeEvent (QCloseEvent *event)
         return;
     }
 
-    delete m_mapWidgetScroll;
-    m_mapWidgetScroll=NULL;
+    delete m_mapWidget;
+    m_mapWidget=NULL;
 }
 
 bool MapEditor::isMapValid() const
 {
-    return m_mapWidgetScroll!=NULL&&m_mapWidgetScroll->getMapWidget()->isMapValid()&&!m_mapName.isEmpty();
+    return m_mapWidget!=NULL&&m_mapWidget->isMapValid()&&!m_mapName.isEmpty();
 }
 
 bool MapEditor::replaceRSID()
@@ -261,7 +261,7 @@ bool MapEditor::replaceRSID(RSID before, RSID after)
 
     modified();
 
-    MapInformations* map = m_mapWidgetScroll->getMapWidget()->m_map.get();
+    MapInformations* map = m_mapWidget->m_map.get();
     for(int x=0,mx=map->mapSizeX();x<mx;++x)
     {
         for(int y=0,my=map->mapSizeY();y<my;++y)
@@ -324,7 +324,7 @@ bool MapEditor::saveRessourcePackAs(QString fileName)
     if(fileName.isEmpty())
         return true;
 
-    return m_mapWidgetScroll->getMapWidget()->saveRessources(fileName);
+    return m_mapWidget->saveRessources(fileName);
 }
 
 bool MapEditor::saveMap()
@@ -343,7 +343,7 @@ bool MapEditor::saveMapAs(QString fileName)
     if(fileName.isEmpty())
         return true;
 
-    if(m_mapWidgetScroll->getMapWidget()->saveMap(fileName))
+    if(m_mapWidget->saveMap(fileName))
         return true;
 
     m_mapName=fileName;
@@ -359,7 +359,7 @@ bool MapEditor::needSave() const
 void MapEditor::btnMapSend()
 {
     if(isMapValid())
-        emit mapSendingRequested(m_mapWidgetScroll->getMapWidget()->getMap());
+        emit mapSendingRequested(m_mapWidget->getMap());
 }
 
 
@@ -376,7 +376,7 @@ void MapEditor::changeCurrentCase(QPoint newCase) //Selected
         return;
     m_selectedCase=newCase;
     m_selectedCaseLabel->setText(tr("Case : (%1;%2)").arg(newCase.x()).arg(newCase.y()));
-    m_selectedCaseRSID->setValue(m_mapWidgetScroll->getMapWidget()->m_map->map[newCase.x()][newCase.y()]);
+    m_selectedCaseRSID->setValue(m_mapWidget->m_map->map[newCase.x()][newCase.y()]);
     refreshMapObjectsList(newCase);
 }
 
@@ -385,10 +385,10 @@ void MapEditor::addMapObject()
     if(!isMapValid())
         return;
 
-    AddObjectDialog dia(this, m_selectedCase, QPoint(m_mapWidgetScroll->getMapWidget()->m_map->mapSizeX(), m_mapWidgetScroll->getMapWidget()->m_map->mapSizeY()), tr("Nouvel objet"));
+    AddObjectDialog dia(this, m_selectedCase, QPoint(m_mapWidget->m_map->mapSizeX(), m_mapWidget->m_map->mapSizeY()), tr("Nouvel objet"));
     if(dia.exec()==QDialog::Accepted)
     {
-        m_mapWidgetScroll->getMapWidget()->m_map->mapItems.append(MapItem(dia.getCoords(), dia.getRSID(), dia.getText(), dia.getColor()));
+        m_mapWidget->m_map->mapItems.append(MapItem(dia.getCoords(), dia.getRSID(), dia.getText(), dia.getColor()));
         refreshObjetsList();
     }
 }
@@ -425,7 +425,7 @@ bool MapEditor::selectMapItem(int index)
     if(index<0 || !isMapValid())
         return true;
 
-    const QList<MapItem>& itms = m_mapWidgetScroll->getMapWidget()->m_map->mapItems;
+    const QList<MapItem>& itms = m_mapWidget->m_map->mapItems;
 
     if(index>=itms.size())
         return true;
@@ -443,7 +443,7 @@ bool MapEditor::selectMapItem(int index)
 
 void MapEditor::refreshGlobalObjetsList()
 {
-    const QList<MapItem>& itms = m_mapWidgetScroll->getMapWidget()->m_map->mapItems;
+    const QList<MapItem>& itms = m_mapWidget->m_map->mapItems;
     m_mapItemList->clear();
     for(int i=0, m=itms.size(); i<m; ++i)
     {
@@ -461,7 +461,7 @@ void MapEditor::refreshGlobalObjetsList()
 
 void MapEditor::refreshMapObjectsList(QPoint newCase)
 {
-    const QList<MapItem>& itms = m_mapWidgetScroll->getMapWidget()->m_map->mapItems;
+    const QList<MapItem>& itms = m_mapWidget->m_map->mapItems;
 
     m_mapCaseItemList->clear();
 
@@ -487,9 +487,9 @@ void MapEditor::changeCurrentCaseRSID(int n)
     if(!isMapValid())
         return;
 
-    if(m_mapWidgetScroll->getMapWidget()->m_map->map[m_selectedCase.x()][ m_selectedCase.y()]!=(RSID)n)
+    if(m_mapWidget->m_map->map[m_selectedCase.x()][ m_selectedCase.y()]!=(RSID)n)
     {
-        m_mapWidgetScroll->getMapWidget()->m_map->map[m_selectedCase.x()][ m_selectedCase.y()] = (RSID)n;
+        m_mapWidget->m_map->map[m_selectedCase.x()][ m_selectedCase.y()] = (RSID)n;
         modified();
     }
 }
@@ -525,13 +525,13 @@ void MapEditor::addRssMngr()
 
         if(!dia.newLine())
             return;
-        if(m_mapWidgetScroll->getMapWidget()->isRSIDUsed(dia.getRSID()))
+        if(m_mapWidget->isRSIDUsed(dia.getRSID()))
         {
             QMessageBox::critical(this, tr("Erreur"), tr("Le RSID \"%1\" est déjà utilisé.").arg(dia.getRSID()));
             continue;
         }
 
-        if(!m_mapWidgetScroll->getMapWidget()->loadRessource(dia.getName(), dia.getRSID()))
+        if(!m_mapWidget->loadRessource(dia.getName(), dia.getRSID()))
         {
             updateRessourcesList();
             modified();
@@ -539,7 +539,7 @@ void MapEditor::addRssMngr()
         }
         else
         {
-            QMessageBox::StandardButton ret; RSID rsid = m_mapWidgetScroll->getMapWidget()->ressourceRSID(dia.getName());
+            QMessageBox::StandardButton ret; RSID rsid = m_mapWidget->ressourceRSID(dia.getName());
             if(rsid != 0)
             {
                 ret = QMessageBox::critical(this, tr("Erreur"), tr("Le fichier \"%1\" est déjà chargé (RSID %2).").arg(dia.getName()).arg(rsid), QMessageBox::Ok|QMessageBox::Abort);
@@ -566,7 +566,7 @@ void MapEditor::modifyRssMngr()
         if(!dia.changeLine(id, m_rsMngrWidget->item(row,1)->text()))
             return;
 
-        if(!m_mapWidgetScroll->getMapWidget()->loadRessource(dia.getName(), id))
+        if(!m_mapWidget->loadRessource(dia.getName(), id))
         {
             updateRessourcesList();
             modified();
@@ -574,7 +574,7 @@ void MapEditor::modifyRssMngr()
         }
         else
         {
-            QMessageBox::StandardButton ret; RSID rsid = m_mapWidgetScroll->getMapWidget()->ressourceRSID(dia.getName());
+            QMessageBox::StandardButton ret; RSID rsid = m_mapWidget->ressourceRSID(dia.getName());
             if(rsid != 0)
             {
                 ret = QMessageBox::critical(this, tr("Erreur"), tr("Le fichier \"%1\" est déjà charge (RSID %2).").arg(dia.getName()).arg(rsid), QMessageBox::Ok|QMessageBox::Abort);
@@ -600,7 +600,7 @@ void MapEditor::updateRessourcesList()
     if(!isMapValid())
         return;
 
-    const QMap<QString, RSID>& mp = m_mapWidgetScroll->getMapWidget()->m_loadedRessourcesName;
+    const QMap<QString, RSID>& mp = m_mapWidget->m_loadedRessourcesName;
 
     m_rsMngrWidget->clearContents(); m_rsMngrWidget->setRowCount(0); int row=0;
     m_rsMngrWidget->setSortingEnabled(false);
@@ -638,8 +638,7 @@ void MapEditor::paste(QPoint pos)
     DEB() << "PASTE" << pos << m_copyArea.leftUp << m_copyArea.rightDown;
 
     modified();
-    MapWidget* map = m_mapWidgetScroll->getMapWidget();
-    int sizeX=map->m_map->mapSizeX(); int sizeY=map->m_map->mapSizeY();
+    int sizeX=m_mapWidget->m_map->mapSizeX(); int sizeY=m_mapWidget->m_map->mapSizeY();
 
     QPoint cas = m_copyArea.size();
 
@@ -647,7 +646,7 @@ void MapEditor::paste(QPoint pos)
     {
         for(int y=0; y<cas.y() && y+pos.y()<sizeY; ++y)
         {
-            map->m_map->map[x+pos.x()][y+pos.y()] = map->m_map->map[m_copyArea.leftUp.x()+x][m_copyArea.leftUp.y()+y];
+            m_mapWidget->m_map->map[x+pos.x()][y+pos.y()] = m_mapWidget->m_map->map[m_copyArea.leftUp.x()+x][m_copyArea.leftUp.y()+y];
             DEB() << x << " " << y;
         }
     }
@@ -671,14 +670,12 @@ void MapEditor::enableMapSystem(bool b)
 
     if(b&&isMapValid())
     {
-        MapWidget* mapRender = m_mapWidgetScroll->getMapWidget();
+        m_mapSizeX->setValue(m_mapWidget->getMap()->mapSizeX()); m_mapSizeY->setValue(m_mapWidget->getMap()->mapSizeY());
 
-        m_mapSizeX->setValue(mapRender->getMap()->mapSizeX()); m_mapSizeY->setValue(mapRender->getMap()->mapSizeY());
+        connect(m_mapWidget, SIGNAL(highlightedCaseChanged(QPoint)), this, SLOT(changeCasePos(QPoint)));
 
-        connect(mapRender, SIGNAL(highlightedCaseChanged(QPoint)), this, SLOT(changeCasePos(QPoint)));
-
-        connect(mapRender, SIGNAL(mapClicked(QPoint)), this, SLOT(changeCurrentCase(QPoint)));
-        connect(mapRender, SIGNAL(mapAreaSelected(MapArea)), this, SLOT(changeSelectedArea(MapArea)));
+        connect(m_mapWidget, SIGNAL(mapClicked(QPoint)), this, SLOT(changeCurrentCase(QPoint)));
+        connect(m_mapWidget, SIGNAL(mapAreaSelected(MapArea)), this, SLOT(changeSelectedArea(MapArea)));
 
         m_mapNameLabel->setText(tr("Nom de la carte : %1").arg(m_mapName));
     }
@@ -707,15 +704,14 @@ bool MapEditor::loadMap(QString mapName, QString ressPack)
     if(ressPack.isEmpty())
         ressPack = QFileDialog::getOpenFileName(this, tr("Charger un pack de ressources..."),QString(), tr("Fichiers de liste (*.list);;Tous les fichiers (*.*)"));
 
-    delete m_mapWidgetScroll;
-    m_mapWidgetScroll = new MapWidgetScroll(this);
-    setCentralWidget(m_mapWidgetScroll);
+    delete m_mapWidget;
+    m_mapWidget = new MapWidget(this);
+    setCentralWidget(m_mapWidget);
 
-    MapWidget* mapRender = m_mapWidgetScroll->getMapWidget();
-    mapRender->setHighlight(true);
-    mapRender->setMultiSelectionEnabled(true);
-    mapRender->setCursor(Qt::CrossCursor);
-    if(mapRender->loadRessourcesPack(ressPack).isEmpty()||mapRender->setMap(mapName))
+    m_mapWidget->setHighlight(true);
+    m_mapWidget->setMultiSelectionEnabled(true);
+    m_mapWidget->setCursor(Qt::CrossCursor);
+    if(m_mapWidget->loadRessourcesPack(ressPack).isEmpty()||m_mapWidget->setMap(mapName))
     {
         QMessageBox::critical(this,tr("Erreur"),tr("Impossible de charger la carte \"%1\" ou le set d'image \"%2\".").arg(mapName).arg(ressPack));
         return true;
@@ -730,25 +726,24 @@ bool MapEditor::loadMap(QString mapName, QString ressPack)
 
 bool MapEditor::createEmptyMap(QPoint size, const QString& name, const QString& ressPack, RSID defaultRSID)
 {
-    delete m_mapWidgetScroll;
-    m_mapWidgetScroll = new MapWidgetScroll(this);
-    setCentralWidget(m_mapWidgetScroll);
+    delete m_mapWidget;
+    m_mapWidget = new MapWidget(this);
+    setCentralWidget(m_mapWidget);
 
-    MapWidget* mapRender = m_mapWidgetScroll->getMapWidget();
-    mapRender->setHighlight(true);
-    mapRender->setMultiSelectionEnabled(true);
-    mapRender->setCursor(Qt::CrossCursor);
+    m_mapWidget->setHighlight(true);
+    m_mapWidget->setMultiSelectionEnabled(true);
+    m_mapWidget->setCursor(Qt::CrossCursor);
 
-    mapRender->setMap(MapWidget::makeMap(size, defaultRSID));
-    if(!mapRender->isMapValid())
+    m_mapWidget->setMap(MapWidget::makeMap(size, defaultRSID));
+    if(!m_mapWidget->isMapValid())
     {
         QMessageBox::critical(this,tr("Erreur"),tr("Impossible de créer la carte de dimension %1x%2").arg(size.x(), size.y()));
         return true;
     }
 
-    mapRender->m_map->name=name;
+    m_mapWidget->m_map->name=name;
 
-    if(mapRender->loadRessourcesPack(ressPack).isEmpty())
+    if(m_mapWidget->loadRessourcesPack(ressPack).isEmpty())
     {
         QMessageBox::critical(this,tr("Erreur"),tr("Impossible de charger le set d'image \"%1\".").arg(ressPack));
         return true;
