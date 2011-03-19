@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Meta object code from reading C++ file 'MaterialThing.h'
 **
-** Created: Sat 12. Feb 13:45:31 2011
+** Created: Sat 19. Mar 11:10:04 2011
 **      by: The Qt Meta Object Compiler version 62 (Qt 4.7.0)
 **
 ** WARNING! All changes made in this file will be lost!
