@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'MapEditorNewMapDialog.ui'
 **
-** Created: Sun 13. Feb 13:40:19 2011
+** Created: Sat 19. Mar 11:08:01 2011
 **      by: Qt User Interface Compiler version 4.7.0
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
