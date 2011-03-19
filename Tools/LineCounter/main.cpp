@@ -79,7 +79,7 @@ int main(int argv, char** argc)
         return 1;
     }
     QString folderName(argc[1]);
-    QStringList filter;
+    QStringList filter; filter << "*.cpp" << "*.c" << "*.h" << "*.cx" << "*.H" << "*.hpp" << "*.hw" << "*.tpp" << "*.txt" << "*.pro";
     if(argv>2)
     {
         filter=QString(argc[2]).split(' ', QString::SkipEmptyParts);

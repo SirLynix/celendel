@@ -1,0 +1,2 @@
+mingw32-make release --jobs=4
+release\MakeRessourceList.exe "C:\Users\Gigotdarnaud\Desktop\Celendel\Client\release\Ressources\CircleTexturesHD" "C:\Users\Gigotdarnaud\Desktop\Celendel\Client\release\Ressources/" "C:\Users\Gigotdarnaud\Desktop\Celendel\Client\release\Ressources\HDList.list"
