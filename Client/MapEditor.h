@@ -85,7 +85,8 @@ class MapEditor : public QMainWindow
         void changeRsMngrFilter(const QString&);
 
     signals:
-            void mapSendingRequested(const MapInformations* const);
+            void mapSendingRequested(const MapInformations* const, const QMap<QString, RSID>&);
+            void closed();
 
     protected:
         virtual void closeEvent (QCloseEvent *event);

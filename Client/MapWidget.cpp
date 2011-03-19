@@ -366,7 +366,7 @@ void MapWidget::setMap(MapPtr map)
 
     if(m_map.get() != NULL)
     {
-        if(!m_map->ressources.isEmpty())
+     /*   if(!m_map->ressources.isEmpty())
         {
             QMap<RSID, RSID> cor = concatenateRessources(m_map->ressources);
 
@@ -380,7 +380,7 @@ void MapWidget::setMap(MapPtr map)
                     m_map->map[x][y] = cor.value(m_map->map[x][y], m_map->map[x][y]);
                 }
             }
-        }
+        }*/
     }
 
     repaintBackground();

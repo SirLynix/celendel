@@ -244,6 +244,7 @@ void MapEditor::closeEvent (QCloseEvent *event)
 
     delete m_mapWidget;
     m_mapWidget=NULL;
+    emit closed();
 }
 
 bool MapEditor::isMapValid() const
@@ -376,7 +377,7 @@ bool MapEditor::needSave() const
 void MapEditor::btnMapSend()
 {
     if(isMapValid())
-        emit mapSendingRequested(m_mapWidget->getMap());
+        emit mapSendingRequested(m_mapWidget->getMap(), m_mapWidget->loadedRessources());
 }
 
 

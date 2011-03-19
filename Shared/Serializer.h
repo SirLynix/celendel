@@ -105,4 +105,7 @@ QByteArray serialiseDicoListData(const QStringList& names);
 bool extractRemoveDicoData(QByteArray& data, QString& name);
 QByteArray serialiseRemoveDicoData(const QString& name);
 
+bool extractUpdateRessourcesData(QByteArray& data, QMap<QString, RSID>& ressources);
+QByteArray serialiseUpdateRessourcesData(const QMap<QString, RSID>& ressources);
+
 #endif

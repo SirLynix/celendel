@@ -11,7 +11,6 @@
 
 ClientInterface::ClientInterface()
 {
-    m_renderedMap=NULL;
     m_mapEditor=NULL;
 
     m_mapWi=new MapWidget(this);
