@@ -1,0 +1,7 @@
+# depslib dependency file v1.0
+1297519987 source:c:\users\gigotdarnaud\desktop\cutimages\main.cpp
+	<iostream>
+	<string>
+	<SFML/Graphics.hpp>
+	<SFML/Graphics/Image.hpp>
+
