@@ -8,7 +8,7 @@
 		<Cursor position="270" topLine="0" />
 	</File>
 	<File name="Client.pro" open="0" top="0" tabpos="1">
-		<Cursor position="161" topLine="0" />
+		<Cursor position="165" topLine="0" />
 	</File>
 	<File name="ClientChatCommands.cpp" open="0" top="0" tabpos="1">
 		<Cursor position="8771" topLine="200" />
@@ -46,10 +46,10 @@
 	<File name="GUI.cpp" open="0" top="0" tabpos="3">
 		<Cursor position="6638" topLine="93" />
 	</File>
-	<File name="MapEditor.cpp" open="1" top="1" tabpos="1">
+	<File name="MapEditor.cpp" open="0" top="0" tabpos="1">
 		<Cursor position="14617" topLine="389" />
 	</File>
-	<File name="MapEditor.h" open="1" top="0" tabpos="2">
+	<File name="MapEditor.h" open="0" top="0" tabpos="2">
 		<Cursor position="1650" topLine="49" />
 	</File>
 	<File name="MapEditorDialogs.cpp" open="0" top="0" tabpos="1">

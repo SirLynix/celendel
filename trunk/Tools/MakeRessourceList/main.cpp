@@ -24,7 +24,7 @@ int makeList(const QString& folder, const QStringList& filter, QTextStream& out,
             QString pth(lst[i].filePath());
             if(!prefixRem.isEmpty() && pth.startsWith(prefixRem))
                 pth=pth.mid(prefixRem.size());
-            out << from << "=" << pth << '\n';
+            out << pth << "=" << from << '\n';
             ++from;
         }
     }
