@@ -17,6 +17,8 @@
 #include <QListWidget>
 #include <QModelIndex>
 #include <QGroupBox>
+#include <QRegExp>
+#include <QLineEdit>
 #include <limits>
 
 #include "QColorPicker/QColorViewer.h"
@@ -28,6 +30,8 @@ MapEditor::MapEditor(QWidget* parent, const QString& map, const QString& ressour
 
     setTabPosition(Qt::AllDockWidgetAreas, QTabWidget::North);
     setDockNestingEnabled(true);
+
+    m_rsRegExp.setPatternSyntax(QRegExp::Wildcard);
 
     setWindowTitle(tr("Éditeur de carte"));
 
@@ -147,6 +151,10 @@ MapEditor::MapEditor(QWidget* parent, const QString& map, const QString& ressour
     QVBoxLayout *l_rssMngrProperties = new QVBoxLayout(w_rssMngrProperties);
     w_rssMngrProperties->setLayout(l_rssMngrProperties);
     {
+        m_rsMngrFilter = new QLineEdit(this); m_rsMngrFilter->setPlaceholderText(tr("Filtre..."));
+        connect(m_rsMngrFilter, SIGNAL(textEdited(const QString&)),this, SLOT(changeRsMngrFilter(const QString&)));
+        l_rssMngrProperties->addWidget(m_rsMngrFilter);
+
         m_rsMngrWidget = new QTableWidget(0,2, this);
         m_rsMngrWidget->setEditTriggers(QAbstractItemView::NoEditTriggers);
         m_rsMngrWidget->setSelectionMode(QAbstractItemView::SingleSelection);
@@ -595,6 +603,13 @@ void MapEditor::changeSelectedArea(MapArea newArea)
     m_selectedArea=newArea;
 }
 
+void MapEditor::changeRsMngrFilter(const QString& filter)
+{
+    m_rsRegExp.setPattern(filter);
+
+    updateRessourcesList();
+}
+
 void MapEditor::updateRessourcesList()
 {
     if(!isMapValid())
@@ -602,17 +617,25 @@ void MapEditor::updateRessourcesList()
 
     const QMap<QString, RSID>& mp = m_mapWidget->m_loadedRessourcesName;
 
+    QRegExp val = m_rsRegExp;
+    if(!val.isValid()||val.isEmpty())
+        val.setPattern("*");
+
     m_rsMngrWidget->clearContents(); m_rsMngrWidget->setRowCount(0); int row=0;
     m_rsMngrWidget->setSortingEnabled(false);
     QMap<QString, RSID>::const_iterator i = mp.constBegin();
     while (i != mp.constEnd())
     {
-        m_rsMngrWidget->insertRow(row);
-        QTableWidgetItem *t=new QTableWidgetItem(); t->setData(Qt::DisplayRole, i.value()); t->setTextAlignment(Qt::AlignHCenter); t->setData(Qt::UserRole+1, i.value());
-        m_rsMngrWidget->setItem(row, 0, t);
-        m_rsMngrWidget->setItem(row, 1, new QTableWidgetItem(i.key()));
+        if(val.exactMatch(i.key()))
+        {
+            m_rsMngrWidget->insertRow(row);
+            QTableWidgetItem *t=new QTableWidgetItem(); t->setData(Qt::DisplayRole, i.value()); t->setTextAlignment(Qt::AlignHCenter); t->setData(Qt::UserRole+1, i.value());
+            m_rsMngrWidget->setItem(row, 0, t);
+            m_rsMngrWidget->setItem(row, 1, new QTableWidgetItem(i.key()));
+            ++row;
+        }
 
-        ++i; ++row;
+        ++i;
     }
     m_rsMngrWidget->setSortingEnabled(true);
 }

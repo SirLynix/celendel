@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Meta object code from reading C++ file 'MapEditor.h'
 **
-** Created: Mon 14. Feb 13:58:52 2011
+** Created: Mon 14. Feb 15:50:19 2011
 **      by: The Qt Meta Object Compiler version 62 (Qt 4.7.0)
 **
 ** WARNING! All changes made in this file will be lost!
@@ -23,7 +23,7 @@ static const uint qt_meta_data_MapEditor[] = {
        5,       // revision
        0,       // classname
        0,    0, // classinfo
-      39,   14, // methods
+      40,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
@@ -72,6 +72,7 @@ static const uint qt_meta_data_MapEditor[] = {
      787,   10,   10,   10, 0x08,
      801,  799,   10,   10, 0x08,
      854,  823,   54,   10, 0x08,
+     898,   10,   10,   10, 0x08,
 
        0        // eod
 };
@@ -102,6 +103,7 @@ static const char qt_meta_stringdata_MapEditor[] = {
     "enableMapSystem(bool)\0"
     "size,name,ressPack,defaultRSID\0"
     "createEmptyMap(QPoint,QString,QString,RSID)\0"
+    "changeRsMngrFilter(QString)\0"
 };
 
 const QMetaObject MapEditor::staticMetaObject = {
@@ -191,9 +193,10 @@ int MapEditor::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
         case 37: enableMapSystem((*reinterpret_cast< bool(*)>(_a[1]))); break;
         case 38: { bool _r = createEmptyMap((*reinterpret_cast< QPoint(*)>(_a[1])),(*reinterpret_cast< const QString(*)>(_a[2])),(*reinterpret_cast< const QString(*)>(_a[3])),(*reinterpret_cast< RSID(*)>(_a[4])));
             if (_a[0]) *reinterpret_cast< bool*>(_a[0]) = _r; }  break;
+        case 39: changeRsMngrFilter((*reinterpret_cast< const QString(*)>(_a[1]))); break;
         default: ;
         }
-        _id -= 39;
+        _id -= 40;
     }
     return _id;
 }

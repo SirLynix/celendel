@@ -473,7 +473,8 @@ void MapWidget::drawBlockHighlight(const QPoint& casePos, const QColor& color, f
 
 void MapWidget::drawBlockHighlight(int x, int y, const QColor& color, float width, bool noDelete)
 {
-    QGraphicsRectItem* it = m_scene.addRect(x*BLOC_SIZE, y*BLOC_SIZE,BLOC_SIZE, BLOC_SIZE, QPen(color) );
+    QPen pe (color); pe.setWidthF(width); pe.setJoinStyle(Qt::MiterJoin);
+    QGraphicsRectItem* it = m_scene.addRect(x*BLOC_SIZE, y*BLOC_SIZE,BLOC_SIZE, BLOC_SIZE,  pe);
     if(!noDelete)
         m_tempItems.append(it);
 }

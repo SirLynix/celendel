@@ -9,6 +9,8 @@ class QLabel;
 class QTableWidget;
 class QPushButton;
 class QListWidget;
+class QLineEdit;
+class QRegExp;
 class QColorViewer;
 class QModelIndex;
 
@@ -76,6 +78,8 @@ class MapEditor : public QMainWindow
 
         bool createEmptyMap(QPoint size, const QString& name, const QString& ressPack, RSID defaultRSID);
 
+        void changeRsMngrFilter(const QString&);
+
     signals:
             void mapSendingRequested(const MapInformations* const);
 
@@ -111,6 +115,8 @@ class MapEditor : public QMainWindow
         QListWidget *m_mapCaseItemList;
         QPushButton *m_addItem;
 
+        QRegExp m_rsRegExp;
+        QLineEdit* m_rsMngrFilter;
         QTableWidget* m_rsMngrWidget;
         QPushButton* m_rsMngrEdit;
         QPushButton* m_rsMngrAdd;
