@@ -19,6 +19,7 @@
 #include <QGroupBox>
 #include <QRegExp>
 #include <QLineEdit>
+#include <QProgressDialog>
 #include <limits>
 
 #include "QColorPicker/QColorViewer.h"
@@ -27,6 +28,11 @@
 MapEditor::MapEditor(QWidget* parent, const QString& map, const QString& ressourceList):QMainWindow(parent)
 {
     m_mapWidget = NULL; m_currentItemIndex=0;
+
+    pgrdia=new QProgressDialog(tr("Chargement en cours..."), tr("Veuillez patienter.."), 0, 100, this);
+    pgrdia->setWindowModality(Qt::WindowModal);
+    pgrdia->setMinimumDuration(100);
+    pgrdia->hide();
 
     setTabPosition(Qt::AllDockWidgetAreas, QTabWidget::North);
     setDockNestingEnabled(true);
@@ -135,6 +141,9 @@ MapEditor::MapEditor(QWidget* parent, const QString& map, const QString& ressour
         l_mapItems->addWidget(new QLabel(tr("Teinte :"), this));
         m_mapItemColorViewer = new QColorViewer(this);
         l_mapItems->addWidget(m_mapItemColorViewer);
+        m_removeItem = new QPushButton(tr("Supprimer un objet"), this);
+        l_mapItems->addWidget(m_removeItem);
+        connect(m_removeItem, SIGNAL(pressed()), this, SLOT(removeMapObject()));
     }
 
     }
@@ -399,6 +408,23 @@ void MapEditor::addMapObject()
         m_mapWidget->m_map->mapItems.append(MapItem(dia.getCoords(), dia.getRSID(), dia.getText(), dia.getColor()));
         refreshObjetsList();
     }
+}
+
+bool MapEditor::removeMapObject()
+{
+    QList<MapItem>& itms = m_mapWidget->m_map->mapItems;
+
+    if(itms.size()<=m_currentItemIndex||m_currentItemIndex<0)
+        return true;
+
+    itms.removeAt(m_currentItemIndex);
+    if(m_currentItemIndex==itms.size()&&m_currentItemIndex>0)
+        --m_currentItemIndex;
+
+    refreshObjetsList();
+    modified();
+
+    return false;
 }
 
 void MapEditor::refreshObjetsList()
@@ -727,24 +753,51 @@ bool MapEditor::loadMap(QString mapName, QString ressPack)
     if(ressPack.isEmpty())
         ressPack = QFileDialog::getOpenFileName(this, tr("Charger un pack de ressources..."),QString(), tr("Fichiers de liste (*.list);;Tous les fichiers (*.*)"));
 
+    pgrdia->show();
+    pgrdia->setValue(1);
+
     delete m_mapWidget;
     m_mapWidget = new MapWidget(this);
     setCentralWidget(m_mapWidget);
 
+    connect(m_mapWidget, SIGNAL(ressourceLoadingProgress(int,int)), this, SLOT(ressourceLoadingProgress(int,int)));
+
     m_mapWidget->setHighlight(true);
     m_mapWidget->setMultiSelectionEnabled(true);
     m_mapWidget->setCursor(Qt::CrossCursor);
-    if(m_mapWidget->loadRessourcesPack(ressPack).isEmpty()||m_mapWidget->setMap(mapName))
+
+    pgrdia->setValue(2);
+
+    if(m_mapWidget->loadRessourcesPack(ressPack).isEmpty())
     {
-        QMessageBox::critical(this,tr("Erreur"),tr("Impossible de charger la carte \"%1\" ou le set d'image \"%2\".").arg(mapName).arg(ressPack));
+        QMessageBox::critical(this,tr("Erreur"),tr("Impossible de charger le set d'image \"%1\".").arg(ressPack));
+        pgrdia->setValue(100);
         return true;
     }
+    pgrdia->setValue(50);
+    if(m_mapWidget->setMap(mapName))
+    {
+        QMessageBox::critical(this,tr("Erreur"),tr("Impossible de charger la carte \"%1\".").arg(mapName));
+        pgrdia->setValue(100);
+        return true;
+    }
+
+    pgrdia->setValue(99);
+
+    disconnect(m_mapWidget, SIGNAL(ressourceLoadingProgress(int,int)), this, SLOT(ressourceLoadingProgress(int,int)));
 
     m_mapName=mapName;
     m_ressourcePackName=ressPack;
     enableMapSystem(true);
 
+    pgrdia->setValue(100);
+
     return false;
+}
+
+void MapEditor::ressourceLoadingProgress(int curr, int max)
+{
+    pgrdia->setValue(2+(48*curr/max));
 }
 
 bool MapEditor::createEmptyMap(QPoint size, const QString& name, const QString& ressPack, RSID defaultRSID)

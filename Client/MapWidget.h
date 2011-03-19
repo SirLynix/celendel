@@ -85,6 +85,8 @@ class MapWidget : public QGraphicsView
     void highlightedCaseChanged(QPoint newCase);
     void mapAreaSelected(MapArea area);
 
+    void ressourceLoadingProgress(int curr, int max);
+
     protected:
 
     virtual void mousePressEvent (QMouseEvent* event);

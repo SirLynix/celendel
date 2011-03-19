@@ -218,6 +218,7 @@ QList<RSID> MapWidget::loadRessourcesPack(QString fileName)
         RSID id =  set.value(keys[i]).toUInt(&ok);
         if(ok && !loadRessource(keys[i], id))
             ret << id;
+        emit ressourceLoadingProgress(i,size);
     }
 
     QFile::remove(TMPPATH);
