@@ -382,8 +382,6 @@ bool extractMapInformationsData(QByteArray& data, MapInformations& mi)
         }
     }
 
-    in>>mi.ressources;
-    R(in);
 
     return false;
 }
@@ -419,8 +417,6 @@ QByteArray serialiseMapInformationsData(const MapInformations& mi)
             out<<mi.map[x][y];
         }
     }
-
-    out<<mi.ressources;
 
     return qCompress(data);
 }
@@ -799,6 +795,30 @@ QByteArray serialiseRemoveDicoData(const QString& name)
     QDataStream out(&data, QIODevice::ReadWrite);
 
     out<<name;
+
+    return qCompress(data);
+}
+
+
+bool extractUpdateRessourcesData(QByteArray& data, QMap<QString, RSID>& ressources)
+{
+    QByteArray d=qUncompress(data);
+    QV(d);
+    QDataStream in(d);
+
+    in>>ressources;
+    R(in);
+
+
+    return false;
+}
+
+QByteArray serialiseUpdateRessourcesData(const QMap<QString, RSID>& ressources)
+{
+    QByteArray data;
+    QDataStream out(&data, QIODevice::ReadWrite);
+
+    out<<ressources;
 
     return qCompress(data);
 }

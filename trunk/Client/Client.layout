@@ -17,13 +17,13 @@
 		<Cursor position="4228" topLine="126" />
 	</File>
 	<File name="ClientInterface.cpp" open="0" top="0" tabpos="2">
-		<Cursor position="251" topLine="6" />
+		<Cursor position="1513" topLine="42" />
 	</File>
-	<File name="ClientInterface.h" open="0" top="0" tabpos="4">
-		<Cursor position="383" topLine="142" />
+	<File name="ClientInterface.h" open="1" top="1" tabpos="3">
+		<Cursor position="3279" topLine="81" />
 	</File>
-	<File name="ClientMapInterface.cpp" open="0" top="0" tabpos="3">
-		<Cursor position="3307" topLine="27" />
+	<File name="ClientMapInterface.cpp" open="1" top="0" tabpos="4">
+		<Cursor position="1050" topLine="0" />
 	</File>
 	<File name="ClientNetwork.cpp" open="0" top="0" tabpos="1">
 		<Cursor position="2160" topLine="73" />
@@ -43,14 +43,14 @@
 	<File name="ClientSettings.h" open="0" top="0" tabpos="5">
 		<Cursor position="733" topLine="22" />
 	</File>
-	<File name="GUI.cpp" open="0" top="0" tabpos="3">
-		<Cursor position="6638" topLine="93" />
+	<File name="GUI.cpp" open="1" top="0" tabpos="5">
+		<Cursor position="2772" topLine="12" />
 	</File>
-	<File name="MapEditor.cpp" open="0" top="0" tabpos="1">
-		<Cursor position="14617" topLine="389" />
+	<File name="MapEditor.cpp" open="1" top="0" tabpos="2">
+		<Cursor position="13768" topLine="353" />
 	</File>
-	<File name="MapEditor.h" open="0" top="0" tabpos="2">
-		<Cursor position="1650" topLine="49" />
+	<File name="MapEditor.h" open="1" top="0" tabpos="1">
+		<Cursor position="1414" topLine="43" />
 	</File>
 	<File name="MapEditorDialogs.cpp" open="0" top="0" tabpos="1">
 		<Cursor position="3373" topLine="69" />
@@ -58,11 +58,11 @@
 	<File name="MapEditorDialogs.h" open="0" top="0" tabpos="2">
 		<Cursor position="1381" topLine="28" />
 	</File>
-	<File name="MapWidget.cpp" open="0" top="0" tabpos="2">
-		<Cursor position="5520" topLine="188" />
+	<File name="MapWidget.cpp" open="0" top="0" tabpos="6">
+		<Cursor position="8935" topLine="348" />
 	</File>
 	<File name="MapWidget.h" open="0" top="0" tabpos="1">
-		<Cursor position="2841" topLine="50" />
+		<Cursor position="976" topLine="27" />
 	</File>
 	<File name="QColorPicker\QColorPickerWidget.cpp" open="0" top="0" tabpos="1">
 		<Cursor position="620" topLine="12" />
@@ -149,10 +149,10 @@
 		<Cursor position="556" topLine="0" />
 	</File>
 	<File name="..\Shared\Constants.h" open="0" top="0" tabpos="0">
-		<Cursor position="0" topLine="85" />
+		<Cursor position="3552" topLine="88" />
 	</File>
 	<File name="..\Shared\MapStructs.h" open="0" top="0" tabpos="0">
-		<Cursor position="371" topLine="0" />
+		<Cursor position="625" topLine="2" />
 	</File>
 	<File name="..\Shared\Miscelaneous.cpp" open="0" top="0" tabpos="0">
 		<Cursor position="537" topLine="0" />
@@ -161,12 +161,12 @@
 		<Cursor position="1071" topLine="15" />
 	</File>
 	<File name="..\Shared\Packet.h" open="0" top="0" tabpos="0">
-		<Cursor position="97" topLine="0" />
+		<Cursor position="157" topLine="0" />
 	</File>
 	<File name="..\Shared\Serializer.cpp" open="0" top="0" tabpos="0">
-		<Cursor position="6527" topLine="325" />
+		<Cursor position="14874" topLine="771" />
 	</File>
 	<File name="..\Shared\Serializer.h" open="0" top="0" tabpos="0">
-		<Cursor position="678" topLine="0" />
+		<Cursor position="4700" topLine="58" />
 	</File>
 </CodeBlocks_layout_file>

@@ -36,7 +36,6 @@ struct MapInformations
 {
     MapInformations() : map(mapDim(0,0)) {}
     QList<MapItem> mapItems;
-    QMap<RSID, QString> ressources;
     MapArray map;
     QString name;
 

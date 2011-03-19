@@ -36,6 +36,7 @@ class MapWidget : public QGraphicsView
     void clearRessources();
 
     const MapInformations* getMap() const { return m_map.get(); }
+    const QMap<QString, RSID>& loadedRessources() const { return m_loadedRessourcesName; }
 
 
     bool isHightlighEnabled() const { return m_highlightEnabled; }

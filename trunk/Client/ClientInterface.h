@@ -75,9 +75,9 @@ class ClientInterface : public QMainWindow
         void aboutUs();
         void aboutServer();
 
-        bool loadRessourcesListGUI();//In ClientMapInterface.cpp
-        bool openRenderWindow(QString mapName="", QString ressList="");
         void openMapEditor();
+        void clearMapEditor();
+
 
         void resetData();
 
@@ -101,8 +101,7 @@ class ClientInterface : public QMainWindow
         void syncLanguagesList(QList<QPair<QString, QString> >);
         void syncDictionariesList(QStringList list);
 
-        void sendMapToServer();
-        void sendMapToServer(const MapInformations* const map);
+        void sendMapToServer(const MapInformations* const map, const QMap<QString, RSID>& ress);
 
         void addDictionnary();
 
@@ -185,7 +184,6 @@ class ClientInterface : public QMainWindow
         bool m_needRefresh;
 
         ///Map rendering
-        const MapInformations *m_renderedMap;
         MapEditor* m_mapEditor;
 
         ///Status bar

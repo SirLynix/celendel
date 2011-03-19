@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Meta object code from reading C++ file 'MapEditorDialogs.h'
 **
-** Created: Sat 19. Mar 11:09:52 2011
+** Created: Sat 19. Mar 20:28:51 2011
 **      by: The Qt Meta Object Compiler version 62 (Qt 4.7.0)
 **
 ** WARNING! All changes made in this file will be lost!
