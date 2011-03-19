@@ -13,6 +13,7 @@ class QLineEdit;
 class QRegExp;
 class QColorViewer;
 class QModelIndex;
+class QProgressDialog;
 
 class MapEditor : public QMainWindow
 {
@@ -59,10 +60,13 @@ class MapEditor : public QMainWindow
         bool selectMapItem(const QModelIndex& index);
 
         void addMapObject();
+        bool removeMapObject();
 
         void changeCurrentCaseRSID(int n);
 
         void updateRessourcesList();
+
+        void ressourceLoadingProgress(int curr, int max);
 
         void btnMapSend();
 
@@ -111,6 +115,7 @@ class MapEditor : public QMainWindow
         QLabel* m_mapItemName;
         QLabel* m_mapItemPos;
         int m_currentItemIndex;
+        QPushButton *m_removeItem;
 
         QListWidget *m_mapCaseItemList;
         QPushButton *m_addItem;
@@ -127,6 +132,8 @@ class MapEditor : public QMainWindow
         MapArea m_selectedArea;
         MapArea m_copyArea;
         bool m_copyReady;
+
+        QProgressDialog* pgrdia;
 
         QLabel* m_hoveredCaseLabel;
 };

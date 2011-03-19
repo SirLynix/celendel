@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Meta object code from reading C++ file 'MapWidget.h'
 **
-** Created: Sat 19. Mar 11:09:48 2011
+** Created: Sat 19. Mar 13:06:20 2011
 **      by: The Qt Meta Object Compiler version 62 (Qt 4.7.0)
 **
 ** WARNING! All changes made in this file will be lost!
@@ -23,23 +23,24 @@ static const uint qt_meta_data_MapWidget[] = {
        5,       // revision
        0,       // classname
        0,    0, // classinfo
-       7,   14, // methods
+       8,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
        0,       // flags
-       3,       // signalCount
+       4,       // signalCount
 
  // signals: signature, parameters, type, tag, flags
       19,   11,   10,   10, 0x05,
       38,   11,   10,   10, 0x05,
       74,   69,   10,   10, 0x05,
+     108,   99,   10,   10, 0x05,
 
  // slots: signature, parameters, type, tag, flags
-      99,   10,   10,   10, 0x0a,
-     119,   10,   10,   10, 0x0a,
-     139,   10,   10,   10, 0x0a,
-     154,   10,   10,   10, 0x08,
+     142,   10,   10,   10, 0x0a,
+     162,   10,   10,   10, 0x0a,
+     182,   10,   10,   10, 0x0a,
+     197,   10,   10,   10, 0x08,
 
        0        // eod
 };
@@ -47,9 +48,10 @@ static const uint qt_meta_data_MapWidget[] = {
 static const char qt_meta_stringdata_MapWidget[] = {
     "MapWidget\0\0newCase\0mapClicked(QPoint)\0"
     "highlightedCaseChanged(QPoint)\0area\0"
-    "mapAreaSelected(MapArea)\0repaintBackground()\0"
-    "openMapInfoDialog()\0setMap(MapPtr)\0"
-    "onUpdate()\0"
+    "mapAreaSelected(MapArea)\0curr,max\0"
+    "ressourceLoadingProgress(int,int)\0"
+    "repaintBackground()\0openMapInfoDialog()\0"
+    "setMap(MapPtr)\0onUpdate()\0"
 };
 
 const QMetaObject MapWidget::staticMetaObject = {
@@ -84,13 +86,14 @@ int MapWidget::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
         case 0: mapClicked((*reinterpret_cast< QPoint(*)>(_a[1]))); break;
         case 1: highlightedCaseChanged((*reinterpret_cast< QPoint(*)>(_a[1]))); break;
         case 2: mapAreaSelected((*reinterpret_cast< MapArea(*)>(_a[1]))); break;
-        case 3: repaintBackground(); break;
-        case 4: openMapInfoDialog(); break;
-        case 5: setMap((*reinterpret_cast< MapPtr(*)>(_a[1]))); break;
-        case 6: onUpdate(); break;
+        case 3: ressourceLoadingProgress((*reinterpret_cast< int(*)>(_a[1])),(*reinterpret_cast< int(*)>(_a[2]))); break;
+        case 4: repaintBackground(); break;
+        case 5: openMapInfoDialog(); break;
+        case 6: setMap((*reinterpret_cast< MapPtr(*)>(_a[1]))); break;
+        case 7: onUpdate(); break;
         default: ;
         }
-        _id -= 7;
+        _id -= 8;
     }
     return _id;
 }
@@ -114,5 +117,12 @@ void MapWidget::mapAreaSelected(MapArea _t1)
 {
     void *_a[] = { 0, const_cast<void*>(reinterpret_cast<const void*>(&_t1)) };
     QMetaObject::activate(this, &staticMetaObject, 2, _a);
+}
+
+// SIGNAL 3
+void MapWidget::ressourceLoadingProgress(int _t1, int _t2)
+{
+    void *_a[] = { 0, const_cast<void*>(reinterpret_cast<const void*>(&_t1)), const_cast<void*>(reinterpret_cast<const void*>(&_t2)) };
+    QMetaObject::activate(this, &staticMetaObject, 3, _a);
 }
 QT_END_MOC_NAMESPACE
