@@ -130,7 +130,7 @@ enum PACKET_TYPE { ERROR, PING, CHAT, ALL_NARRATION, GM_ELECT, NEW_GM, LAUNCH_GA
 
 #define MAX_NICKNAME_LENGHT 15
 /* UPDATE_RESSOURCES structure - compressed :
-- QMap<RSID, QString> ressources */
+- QMap<QString, RSID> ressources */
 
 /* DICO_LIST structure - compressed :
 - QStringList names */

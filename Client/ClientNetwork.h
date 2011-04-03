@@ -62,6 +62,8 @@ class ClientNetwork : public QObject
         void narrationChanged(QString);
         void mapChanged(MapPtr);
 
+        void ressourcesUpdated(const QMap<QString, RSID>& rss);
+
         void connectionEtablished();
         void connectionLost();
         void diceRolled(CLID, quint16);

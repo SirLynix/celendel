@@ -78,6 +78,7 @@ ClientInterface::ClientInterface()
     connect(m_network, SIGNAL(syncLanguagesList(QList<QPair<QString, QString> >)), this, SLOT(syncLanguagesList(QList<QPair<QString, QString> >)));
     connect(m_network, SIGNAL(syncDictionariesList(QStringList)), this, SLOT(syncDictionariesList(QStringList)));
     connect(m_network, SIGNAL(mapChanged(MapPtr)), m_mapWi, SLOT(setMap(MapPtr)));
+    connect(m_network, SIGNAL(ressourcesUpdated(const QMap<QString, RSID>&)), m_mapWi, SLOT(updateRessources(const QMap<QString, RSID>&)));
 
     getVOIP().setEnabled(set->value(PARAM_VOIP_ENABLED, true).toBool());
     getVOIP().setVolume(set->value(PARAM_VOIP_SOUND, 100.f).toFloat());

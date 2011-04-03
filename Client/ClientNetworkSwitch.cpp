@@ -24,8 +24,18 @@ void ClientNetwork::operatePacket(Packet* packet)
             if(!map->isValid())
                 map.reset(NULL);
 
-            qDebug() << "Map changed !";
+            DEB() << "Map changed !";
             emit mapChanged(map);
+        }
+        break;
+        case UPDATE_RESSOURCES:
+        {
+            QMap<QString, RSID> rss;
+
+            QE(extractUpdateRessourcesData(packet->data, rss));
+
+            DEB() << "Ressources updated";
+            emit ressourcesUpdated(rss);
         }
         break;
         case SERVER_INFORMATIONS:

@@ -30,10 +30,12 @@ class MapWidget : public QGraphicsView
 
     public:
 
-    MapWidget(QWidget* Parent);
+    MapWidget(QWidget* Parent, const double FPS = 1.f);
     ~MapWidget();
 
     void clearRessources();
+
+    void setFPS(double FPS);
 
     const MapInformations* getMap() const { return m_map.get(); }
     const QMap<QString, RSID>& loadedRessources() const { return m_loadedRessourcesName; }
@@ -55,9 +57,8 @@ class MapWidget : public QGraphicsView
 
     RSID loadRessource(QString fileName); //Return 0, if the image is already loaded it returns it RSID.
     QList<RSID> loadRessourcesPack(QString fileName); //Return the RSID of succefully loaded ressources. Will free previous ressources.
-    QList<QPair<QString, RSID> > loadRessources(const QStringList& list);
-    QList<QPair<QString, RSID> > loadRessourcesPack(const QList<QPair<QString, RSID> >& list);
     bool loadRessource(QString fileName, RSID id); //Force to load the fileName image with the id RSID. True on error.
+
 
     bool saveRessources(QString fileName); //Save the loaded ressources in a ressource pack. True on error.
 
@@ -73,8 +74,11 @@ class MapWidget : public QGraphicsView
 
     void repaintBackground();
 
+
     void openMapInfoDialog();
     void setMap(MapPtr);
+
+    void updateRessources(const QMap<QString, RSID>& list);
 
     private slots:
 
@@ -149,6 +153,8 @@ class MapWidget : public QGraphicsView
     QTimer* m_timerBG;
 
     bool m_repaintBG;
+
+    double m_FPS;
 
     QList<QGraphicsRectItem*> m_tempItems;
     void clearTemporaryItems();

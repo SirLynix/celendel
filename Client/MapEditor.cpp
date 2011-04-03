@@ -25,6 +25,8 @@
 #include "QColorPicker/QColorViewer.h"
 #include "MapEditorDialogs.h"
 
+#define UPDATE_DELAY
+
 MapEditor::MapEditor(QWidget* parent, const QString& map, const QString& ressourceList):QMainWindow(parent)
 {
     m_mapWidget = NULL; m_currentItemIndex=0;
@@ -141,7 +143,7 @@ MapEditor::MapEditor(QWidget* parent, const QString& map, const QString& ressour
         l_mapItems->addWidget(new QLabel(tr("Teinte :"), this));
         m_mapItemColorViewer = new QColorViewer(this);
         l_mapItems->addWidget(m_mapItemColorViewer);
-        m_removeItem = new QPushButton(tr("Supprimer un objet"), this);
+        m_removeItem = new QPushButton(tr("Supprimer l'objet"), this);
         l_mapItems->addWidget(m_removeItem);
         connect(m_removeItem, SIGNAL(pressed()), this, SLOT(removeMapObject()));
     }
@@ -422,6 +424,7 @@ bool MapEditor::removeMapObject()
     if(m_currentItemIndex==itms.size()&&m_currentItemIndex>0)
         --m_currentItemIndex;
 
+    selectMapItem(0);
     refreshObjetsList();
     modified();
 
@@ -463,7 +466,18 @@ bool MapEditor::selectMapItem(int index)
     const QList<MapItem>& itms = m_mapWidget->m_map->mapItems;
 
     if(index>=itms.size())
-        return true;
+    {
+        if(index>0)
+            return true;
+
+        m_currentItemIndex=index;
+        m_mapItemRSID->setValue(0);
+        m_mapItemName->setText(tr("Aucun objet sélectionné"));
+        m_mapItemColorViewer->setColor(QColor(0,0,0,0));
+        m_mapItemPos->setText(tr("Coordonnées : N/A"));
+
+        return false;
+    }
 
     const MapItem* it= &itms[index];
 
@@ -632,7 +646,10 @@ void MapEditor::changeSelectedArea(MapArea newArea)
 
 void MapEditor::changeRsMngrFilter(const QString& filter)
 {
-    m_rsRegExp.setPattern(filter);
+    m_rsRegExp.setPattern('*'+filter+'*');
+
+    if(!m_rsRegExp.isValid()||m_rsRegExp.isEmpty())
+        m_rsRegExp.setPattern("*");
 
     updateRessourcesList();
 }
@@ -758,7 +775,7 @@ bool MapEditor::loadMap(QString mapName, QString ressPack)
     pgrdia->setValue(1);
 
     delete m_mapWidget;
-    m_mapWidget = new MapWidget(this);
+    m_mapWidget = new MapWidget(this, 60.0f); //  m_mapWidget = new MapWidget(this, 1.0f);
     setCentralWidget(m_mapWidget);
 
     connect(m_mapWidget, SIGNAL(ressourceLoadingProgress(int,int)), this, SLOT(ressourceLoadingProgress(int,int)));
@@ -804,7 +821,7 @@ void MapEditor::ressourceLoadingProgress(int curr, int max)
 bool MapEditor::createEmptyMap(QPoint size, const QString& name, const QString& ressPack, RSID defaultRSID)
 {
     delete m_mapWidget;
-    m_mapWidget = new MapWidget(this);
+    m_mapWidget = new MapWidget(this, 1.0f);
     setCentralWidget(m_mapWidget);
 
     m_mapWidget->setHighlight(true);

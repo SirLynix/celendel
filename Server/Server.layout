@@ -11,7 +11,7 @@
 		<Cursor position="3890" topLine="66" />
 	</File>
 	<File name="Network.h" open="0" top="0" tabpos="2">
-		<Cursor position="304" topLine="0" />
+		<Cursor position="1809" topLine="4" />
 	</File>
 	<File name="Player.cpp" open="0" top="0" tabpos="0">
 		<Cursor position="117" topLine="0" />
@@ -20,16 +20,16 @@
 		<Cursor position="188" topLine="0" />
 	</File>
 	<File name="Server.cpp" open="0" top="0" tabpos="6">
-		<Cursor position="1860" topLine="42" />
+		<Cursor position="2552" topLine="42" />
 	</File>
 	<File name="Server.h" open="0" top="0" tabpos="5">
-		<Cursor position="883" topLine="17" />
+		<Cursor position="1731" topLine="20" />
 	</File>
 	<File name="Server.pro" open="0" top="0" tabpos="0">
 		<Cursor position="405" topLine="0" />
 	</File>
 	<File name="ServerSwitch.cpp" open="0" top="0" tabpos="4">
-		<Cursor position="10829" topLine="282" />
+		<Cursor position="11204" topLine="276" />
 	</File>
 	<File name="Translator.cpp" open="0" top="0" tabpos="2">
 		<Cursor position="816" topLine="12" />
@@ -40,26 +40,26 @@
 	<File name="main.cpp" open="0" top="0" tabpos="3">
 		<Cursor position="178" topLine="0" />
 	</File>
-	<File name="..\Shared\Constants.h" open="1" top="0" tabpos="1">
-		<Cursor position="779" topLine="0" />
+	<File name="..\Shared\Constants.h" open="0" top="0" tabpos="2">
+		<Cursor position="2823" topLine="89" />
 	</File>
-	<File name="..\Shared\MapStructs.h" open="1" top="0" tabpos="1">
-		<Cursor position="948" topLine="8" />
+	<File name="..\Shared\MapStructs.h" open="0" top="0" tabpos="1">
+		<Cursor position="948" topLine="2" />
 	</File>
 	<File name="..\Shared\Miscelaneous.cpp" open="0" top="0" tabpos="0">
 		<Cursor position="756" topLine="0" />
 	</File>
 	<File name="..\Shared\Packet.cpp" open="0" top="0" tabpos="2">
-		<Cursor position="41" topLine="0" />
+		<Cursor position="248" topLine="0" />
 	</File>
-	<File name="..\Shared\Packet.h" open="1" top="0" tabpos="0">
-		<Cursor position="82" topLine="0" />
+	<File name="..\Shared\Packet.h" open="0" top="0" tabpos="0">
+		<Cursor position="514" topLine="0" />
 	</File>
-	<File name="..\Shared\Serializer.cpp" open="1" top="0" tabpos="0">
+	<File name="..\Shared\Serializer.cpp" open="0" top="0" tabpos="1">
 		<Cursor position="5121" topLine="18" />
 	</File>
-	<File name="..\Shared\Serializer.h" open="1" top="0" tabpos="0">
-		<Cursor position="3815" topLine="66" />
+	<File name="..\Shared\Serializer.h" open="0" top="0" tabpos="0">
+		<Cursor position="4796" topLine="58" />
 	</File>
 	<File name="..\Shared\XML\MaterialThing.cpp" open="0" top="0" tabpos="0">
 		<Cursor position="55" topLine="0" />
