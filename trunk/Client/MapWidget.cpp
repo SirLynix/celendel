@@ -5,6 +5,7 @@
 #include "AboutWindow.h"
 #include <QEvent>
 #include <QTimer>
+#include <QTime>
 #include <QMouseEvent>
 #include <QSettings>
 #include <QGraphicsPixmapItem>
@@ -12,8 +13,10 @@
 
 using std::auto_ptr;
 
+const int& qBound (const int& min,const double& value,const int& max) {return qBound(min, (int)value,max);}
 
-MapWidget::MapWidget(QWidget* Parent) : QGraphicsView(Parent), m_map(NULL)
+
+MapWidget::MapWidget(QWidget* Parent, double FPS) : QGraphicsView(Parent), m_map(NULL), m_FPS(FPS)
 {
     setScene(&m_scene);
     clearRessources();
@@ -30,17 +33,28 @@ MapWidget::MapWidget(QWidget* Parent) : QGraphicsView(Parent), m_map(NULL)
     m_timer=new QTimer(this);
     connect(m_timer, SIGNAL(timeout()), this, SLOT(onUpdate()));
     m_timer->setSingleShot(false);
-    m_timer->start(20);
+    m_timer->start(1.f/(FPS*60)*1000);
     m_timerBG=new QTimer(this);
     connect(m_timerBG, SIGNAL(timeout()), this, SLOT(repaintBackground()));
     m_timerBG->setSingleShot(false);
-    m_timerBG->start(1000);
+    m_timerBG->start(1.f/FPS*1000);
     repaintBackground();
 }
 
 MapWidget::~MapWidget()
 {
     clearRessources();
+}
+
+void MapWidget::setFPS(double FPS)
+{
+    m_FPS=FPS;
+    m_timerBG->setInterval(1.f/FPS*1000);
+
+    FPS=qBound(0,FPS*60,100);
+
+    m_timer->setInterval(1.f/FPS*1000);
+
 }
 
 void MapWidget::repaintBackground () {m_repaintBG=true;}
@@ -143,33 +157,6 @@ RSID MapWidget::loadRessource(QString fileName)
     DEB() << fileName << "loaded with RSID " << ch;
     repaintBackground();
     return ch;
-}
-
-QList<QPair<QString, RSID> > MapWidget::loadRessourcesPack(const QList<QPair<QString, RSID> >& list)
-{
-    QList<QPair<QString, RSID> > ret;
-
-    for(int i=0,m=list.size();i<m;++i)
-    {
-        if(!loadRessource(list[i].first,list[i].second))
-            ret << list[i];
-    }
-    repaintBackground();
-    return ret;
-}
-
-QList<QPair<QString, RSID> > MapWidget::loadRessources(const QStringList& list)
-{
-    QList<QPair<QString, RSID> > ret;
-
-    for(int i=0,m=list.size();i<m;++i)
-    {
-        RSID rsid = loadRessource(list[i]);
-        if(rsid != 0)
-            ret << qMakePair(list[i], rsid);
-    }
-    repaintBackground();
-    return ret;
 }
 
 void MapWidget::clearRessources()
@@ -343,6 +330,48 @@ auto_ptr<MapInformations> MapWidget::loadMap(QString fileName)
     return map;
 }
 
+void MapWidget::updateRessources(const QMap<QString, RSID>& list)
+{
+    if(list == m_loadedRessourcesName)
+        return;
+
+    QMap<RSID, QPixmap*> tmp;
+    QMap<QString, RSID> tmpName;
+
+    for (QMap<QString, RSID>::const_iterator i = m_loadedRessourcesName.constBegin() ; i != m_loadedRessourcesName.constEnd() ; ++i)
+    {
+        QPixmap* px = m_ressources.value(i.value(), 0);
+        RSID nid=list.value(i.key(),-1);
+        if(nid!=-1 && px!=0)
+        {
+            tmp[nid] = px;
+            tmpName[i.key()] = nid;
+        }
+        else
+            delete px;
+
+    }
+
+    m_ressources=tmp;
+    m_loadedRessourcesName=tmpName;
+
+    for (QMap<QString, RSID>::const_iterator i = list.constBegin() ; i != list.constEnd() ; ++i)
+    {
+        if(!m_loadedRessourcesName.contains(i.key()))
+        {
+            loadRessource(i.key(), i.value());
+        }
+    }
+
+
+
+    m_loadedRessources=m_loadedRessourcesName.size()+1;
+    m_ressources[0] = new QPixmap(BLOC_SIZE, BLOC_SIZE);
+    m_ressources[0]->fill();
+    m_loadedRessourcesName[""]=0;
+
+}
+
 QMap<RSID, RSID> MapWidget::concatenateRessources(const QMap<RSID, QString>& other)
 {
     QMap<RSID, RSID> ret;
@@ -364,25 +393,6 @@ void MapWidget::setMap(MapPtr map)
     if(m_map.get() != NULL && !m_map->isValid())
         m_map.reset(NULL);
 
-    if(m_map.get() != NULL)
-    {
-     /*   if(!m_map->ressources.isEmpty())
-        {
-            QMap<RSID, RSID> cor = concatenateRessources(m_map->ressources);
-
-            qint32 mapX = sizeX(m_map->map);
-            qint32 mapY = sizeY(m_map->map);
-
-            for(int x=0; x<mapX; ++x)
-            {
-                for(int y=0; y<mapY; ++y)
-                {
-                    m_map->map[x][y] = cor.value(m_map->map[x][y], m_map->map[x][y]);
-                }
-            }
-        }*/
-    }
-
     repaintBackground();
 }
 
@@ -402,6 +412,8 @@ void MapWidget::onUpdate()
     {
         if(m_repaintBG)
         {
+            QTime timeWatcher; timeWatcher.start();
+
             m_repaintBG=false;
             m_scene.clear();
             m_tempItems.clear();
@@ -418,6 +430,12 @@ void MapWidget::onUpdate()
 
             for(int i=0,m=m_map->mapItems.size();i<m;++i)
                 drawBloc(m_map->mapItems[i].coords, m_map->mapItems[i].rsid, m_map->mapItems[i].color);
+
+            if(timeWatcher.elapsed() > 1.0f/m_FPS*1000)
+            {
+                setFPS((1.f/(static_cast<double>(timeWatcher.elapsed())/1000.f)/4));
+                DEB() << "WARNING : New FPS = " <<m_FPS;
+            }
 
         }
 

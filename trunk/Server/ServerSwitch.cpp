@@ -301,6 +301,14 @@ void Server::processData(std::auto_ptr<Packet> pa /*Packet* pa*/, CLID cID)
             log("Game Master changed the map.");
         }
         break;
+        case UPDATE_RESSOURCES:
+        {
+            GM_CHECK();
+            QE(extractUpdateRessourcesData(pa->data, m_ressources));
+            m_network->sendToAll(ETI(UPDATE_RESSOURCES), serialiseUpdateRessourcesData(m_ressources));
+            log("Game Master modified the ressource set.");
+        }
+        break;
         case MAP_ITEMS_INFORMATIONS:
         {
             GM_CHECK();

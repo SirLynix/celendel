@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Meta object code from reading C++ file 'MapWidget.h'
 **
-** Created: Sat 19. Mar 20:45:24 2011
+** Created: Sun 3. Apr 11:21:23 2011
 **      by: The Qt Meta Object Compiler version 62 (Qt 4.7.0)
 **
 ** WARNING! All changes made in this file will be lost!
@@ -23,7 +23,7 @@ static const uint qt_meta_data_MapWidget[] = {
        5,       // revision
        0,       // classname
        0,    0, // classinfo
-       8,   14, // methods
+       9,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
@@ -40,7 +40,8 @@ static const uint qt_meta_data_MapWidget[] = {
      142,   10,   10,   10, 0x0a,
      162,   10,   10,   10, 0x0a,
      182,   10,   10,   10, 0x0a,
-     197,   10,   10,   10, 0x08,
+     202,  197,   10,   10, 0x0a,
+     239,   10,   10,   10, 0x08,
 
        0        // eod
 };
@@ -51,7 +52,9 @@ static const char qt_meta_stringdata_MapWidget[] = {
     "mapAreaSelected(MapArea)\0curr,max\0"
     "ressourceLoadingProgress(int,int)\0"
     "repaintBackground()\0openMapInfoDialog()\0"
-    "setMap(MapPtr)\0onUpdate()\0"
+    "setMap(MapPtr)\0list\0"
+    "updateRessources(QMap<QString,RSID>)\0"
+    "onUpdate()\0"
 };
 
 const QMetaObject MapWidget::staticMetaObject = {
@@ -90,10 +93,11 @@ int MapWidget::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
         case 4: repaintBackground(); break;
         case 5: openMapInfoDialog(); break;
         case 6: setMap((*reinterpret_cast< MapPtr(*)>(_a[1]))); break;
-        case 7: onUpdate(); break;
+        case 7: updateRessources((*reinterpret_cast< const QMap<QString,RSID>(*)>(_a[1]))); break;
+        case 8: onUpdate(); break;
         default: ;
         }
-        _id -= 8;
+        _id -= 9;
     }
     return _id;
 }

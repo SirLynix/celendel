@@ -66,6 +66,8 @@ class Server : public QObject
 
         MapInformations* m_map;
 
+        QMap<QString, RSID> m_ressources;
+
 };
 
 #endif // SERVER_H
