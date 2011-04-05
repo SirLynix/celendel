@@ -30,6 +30,7 @@ INPUT(
 ./debug\QColorViewer.o
 ./debug\qtcolortriangle.o
 ./debug\screen.o
+./debug\CompressedMap.o
 ./debug\xmlobject.o
 ./debug\object.o
 ./debug\person.o

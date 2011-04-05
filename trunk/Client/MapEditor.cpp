@@ -767,12 +767,22 @@ bool MapEditor::loadMap(QString mapName, QString ressPack)
 
     if(mapName.isEmpty())
         return true;
-
+/*
     if(ressPack.isEmpty())
-        ressPack = QFileDialog::getOpenFileName(this, tr("Charger un pack de ressources..."),QString(), tr("Fichiers de liste (*.list);;Tous les fichiers (*.*)"));
+        ressPack = QFileDialog::getOpenFileName(this, tr("Charger un pack de ressources..."),QString(), tr("Fichiers de liste (*.list);;Tous les fichiers (*.*)"));*/
 
     pgrdia->show();
     pgrdia->setValue(1);
+
+    MapPtr map(new MapInformations); QMap<QString, RSID> rss;
+    if(MapWidget::loadCompressedMap(mapName, *map, rss))
+    {
+        QMessageBox::critical(this,tr("Erreur"),tr("Impossible de charger la carte \"%1\".").arg(mapName));
+        pgrdia->setValue(100);
+        return true;
+    }
+
+
 
     delete m_mapWidget;
     m_mapWidget = new MapWidget(this, 60.0f); //  m_mapWidget = new MapWidget(this, 1.0f);
@@ -786,21 +796,26 @@ bool MapEditor::loadMap(QString mapName, QString ressPack)
 
     pgrdia->setValue(2);
 
-    if(m_mapWidget->loadRessourcesPack(ressPack).isEmpty())
+    /*if(m_mapWidget->loadRessourcesPack(ressPack).isEmpty())
     {
         QMessageBox::critical(this,tr("Erreur"),tr("Impossible de charger le set d'image \"%1\".").arg(ressPack));
         pgrdia->setValue(100);
         return true;
-    }
-    pgrdia->setValue(50);
-    if(m_mapWidget->setMap(mapName))
+    }*/
+    m_mapWidget->updateRessources(rss);
+
+  //  pgrdia->setValue(50);
+    /*if(m_mapWidget->setMap(map))
     {
         QMessageBox::critical(this,tr("Erreur"),tr("Impossible de charger la carte \"%1\".").arg(mapName));
         pgrdia->setValue(100);
         return true;
-    }
+    }*/
 
     pgrdia->setValue(99);
+
+    m_mapWidget->setMap(map);
+
 
     disconnect(m_mapWidget, SIGNAL(ressourceLoadingProgress(int,int)), this, SLOT(ressourceLoadingProgress(int,int)));
 
@@ -815,7 +830,7 @@ bool MapEditor::loadMap(QString mapName, QString ressPack)
 
 void MapEditor::ressourceLoadingProgress(int curr, int max)
 {
-    pgrdia->setValue(2+(48*curr/max));
+    pgrdia->setValue(2+(97*curr/max));
 }
 
 bool MapEditor::createEmptyMap(QPoint size, const QString& name, const QString& ressPack, RSID defaultRSID)

@@ -27,7 +27,7 @@ SOURCES += ClientInterface.cpp \
            AboutWindow.cpp ClientGMInterface.cpp \
            VOIP/Recorder.cpp VOIP/Sound.cpp VOIP/SoundReceiver.cpp VOIP/Speex.cpp VOIP/VOIP.cpp VOIP/OpenAL.cpp \
            SoundManager.cpp SoundsGUI.cpp SoundLibThread.cpp QSFMLCanvas.cpp MapWidget.cpp ClientMapInterface.cpp MapEditor.cpp MapEditorDialogs.cpp \
-           QColorPicker/QColorPickerWidget.cpp QColorPicker/QColorViewer.cpp QColorPicker/qtcolortriangle.cpp QColorPicker/screen.cpp
+           QColorPicker/QColorPickerWidget.cpp QColorPicker/QColorViewer.cpp QColorPicker/qtcolortriangle.cpp QColorPicker/screen.cpp CompressedMap.cpp
 
 SOURCES += \
     ../Shared/XML/xmlobject.cpp \

@@ -53,6 +53,11 @@ class MapWidget : public QGraphicsView
     static std::auto_ptr<MapInformations> makeMap(QPoint size, RSID defaultRSID);
     static bool saveMap(const MapInformations*, QString fileName);
 
+    static void saveCompressedMap(QDataStream& out, const MapInformations& map, const QMap<QString, RSID>& rss);
+    static bool saveCompressedMap(QString fileName, const MapInformations& map, const QMap<QString, RSID>& rss);
+    bool static loadCompressedMap(QDataStream& in, MapInformations& map, QMap<QString, RSID>& rss);
+    bool static loadCompressedMap(QString fileName, MapInformations& map, QMap<QString, RSID>& rss);
+
     bool saveMap(const QString& fileName) const;
 
     RSID loadRessource(QString fileName); //Return 0, if the image is already loaded it returns it RSID.
