@@ -56,9 +56,9 @@
 		<Cursor position="514" topLine="0" />
 	</File>
 	<File name="..\Shared\Serializer.cpp" open="0" top="0" tabpos="1">
-		<Cursor position="5121" topLine="18" />
+		<Cursor position="106" topLine="0" />
 	</File>
-	<File name="..\Shared\Serializer.h" open="0" top="0" tabpos="0">
+	<File name="..\Shared\Serializer.h" open="1" top="0" tabpos="0">
 		<Cursor position="4796" topLine="58" />
 	</File>
 	<File name="..\Shared\XML\MaterialThing.cpp" open="0" top="0" tabpos="0">

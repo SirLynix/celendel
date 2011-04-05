@@ -242,7 +242,7 @@ bool MapWidget::saveMap(const QString& fileName) const
     if(!isMapValid())
         return true;
 
-    return MapWidget::saveMap(m_map.get(), fileName);
+    return MapWidget::saveCompressedMap(fileName, *m_map, m_loadedRessourcesName);
 }
 
 bool MapWidget::saveMap(const MapInformations* map, QString fileName) //Static
@@ -338,6 +338,9 @@ void MapWidget::updateRessources(const QMap<QString, RSID>& list)
     QMap<RSID, QPixmap*> tmp;
     QMap<QString, RSID> tmpName;
 
+    int mx=list.size();
+    int cprg=0;
+
     for (QMap<QString, RSID>::const_iterator i = m_loadedRessourcesName.constBegin() ; i != m_loadedRessourcesName.constEnd() ; ++i)
     {
         QPixmap* px = m_ressources.value(i.value(), 0);
@@ -346,6 +349,7 @@ void MapWidget::updateRessources(const QMap<QString, RSID>& list)
         {
             tmp[nid] = px;
             tmpName[i.key()] = nid;
+            emit ressourceLoadingProgress(++cprg,mx);
         }
         else
             delete px;
@@ -360,6 +364,7 @@ void MapWidget::updateRessources(const QMap<QString, RSID>& list)
         if(!m_loadedRessourcesName.contains(i.key()))
         {
             loadRessource(i.key(), i.value());
+            emit ressourceLoadingProgress(++cprg,mx);
         }
     }
 
@@ -369,7 +374,7 @@ void MapWidget::updateRessources(const QMap<QString, RSID>& list)
     m_ressources[0] = new QPixmap(BLOC_SIZE, BLOC_SIZE);
     m_ressources[0]->fill();
     m_loadedRessourcesName[""]=0;
-
+    emit ressourceLoadingProgress(mx,mx);
 }
 
 QMap<RSID, RSID> MapWidget::concatenateRessources(const QMap<RSID, QString>& other)

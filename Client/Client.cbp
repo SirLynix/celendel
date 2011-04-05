@@ -85,6 +85,7 @@
 		<Unit filename="ClientSave.cpp" />
 		<Unit filename="ClientSettings.cpp" />
 		<Unit filename="ClientSettings.h" />
+		<Unit filename="CompressedMap.cpp" />
 		<Unit filename="GUI.cpp" />
 		<Unit filename="MapEditor.cpp" />
 		<Unit filename="MapEditor.h" />
