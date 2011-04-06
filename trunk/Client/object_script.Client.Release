@@ -31,10 +31,7 @@ INPUT(
 ./release\qtcolortriangle.o
 ./release\screen.o
 ./release\CompressedMap.o
-./release\xmlobject.o
-./release\object.o
-./release\person.o
-./release\MaterialThing.o
+./release\ScriptedEntity.o
 ./release\moc_ClientInterface.o
 ./release\moc_ClientNetwork.o
 ./release\moc_ClientSettings.o
@@ -54,8 +51,5 @@ INPUT(
 ./release\moc_QColorViewer.o
 ./release\moc_qtcolortriangle.o
 ./release\moc_screen.o
-./release\moc_xmlobject.o
-./release\moc_object.o
-./release\moc_person.o
-./release\moc_MaterialThing.o
+./release\moc_ScriptedEntity.o
 );

@@ -14,22 +14,22 @@
 		<Cursor position="1809" topLine="4" />
 	</File>
 	<File name="Player.cpp" open="0" top="0" tabpos="0">
-		<Cursor position="117" topLine="0" />
+		<Cursor position="338" topLine="0" />
 	</File>
 	<File name="Player.h" open="0" top="0" tabpos="0">
-		<Cursor position="188" topLine="0" />
+		<Cursor position="434" topLine="0" />
 	</File>
 	<File name="Server.cpp" open="0" top="0" tabpos="6">
-		<Cursor position="2552" topLine="42" />
+		<Cursor position="1366" topLine="98" />
 	</File>
 	<File name="Server.h" open="0" top="0" tabpos="5">
-		<Cursor position="1731" topLine="20" />
+		<Cursor position="865" topLine="15" />
 	</File>
 	<File name="Server.pro" open="0" top="0" tabpos="0">
-		<Cursor position="405" topLine="0" />
+		<Cursor position="581" topLine="0" />
 	</File>
-	<File name="ServerSwitch.cpp" open="0" top="0" tabpos="4">
-		<Cursor position="11204" topLine="276" />
+	<File name="ServerSwitch.cpp" open="1" top="1" tabpos="1">
+		<Cursor position="2364" topLine="62" />
 	</File>
 	<File name="Translator.cpp" open="0" top="0" tabpos="2">
 		<Cursor position="816" topLine="12" />
@@ -41,13 +41,13 @@
 		<Cursor position="178" topLine="0" />
 	</File>
 	<File name="..\Shared\Constants.h" open="0" top="0" tabpos="2">
-		<Cursor position="2823" topLine="89" />
+		<Cursor position="1808" topLine="21" />
 	</File>
 	<File name="..\Shared\MapStructs.h" open="0" top="0" tabpos="1">
 		<Cursor position="948" topLine="2" />
 	</File>
 	<File name="..\Shared\Miscelaneous.cpp" open="0" top="0" tabpos="0">
-		<Cursor position="756" topLine="0" />
+		<Cursor position="584" topLine="9" />
 	</File>
 	<File name="..\Shared\Packet.cpp" open="0" top="0" tabpos="2">
 		<Cursor position="248" topLine="0" />
@@ -55,34 +55,10 @@
 	<File name="..\Shared\Packet.h" open="0" top="0" tabpos="0">
 		<Cursor position="514" topLine="0" />
 	</File>
-	<File name="..\Shared\Serializer.cpp" open="0" top="0" tabpos="1">
-		<Cursor position="106" topLine="0" />
+	<File name="..\Shared\Serializer.cpp" open="1" top="0" tabpos="1">
+		<Cursor position="5668" topLine="266" />
 	</File>
-	<File name="..\Shared\Serializer.h" open="1" top="0" tabpos="0">
-		<Cursor position="4796" topLine="58" />
-	</File>
-	<File name="..\Shared\XML\MaterialThing.cpp" open="0" top="0" tabpos="0">
-		<Cursor position="55" topLine="0" />
-	</File>
-	<File name="..\Shared\XML\MaterialThing.h" open="0" top="0" tabpos="0">
-		<Cursor position="78" topLine="0" />
-	</File>
-	<File name="..\Shared\XML\XMLObject.h" open="0" top="0" tabpos="0">
-		<Cursor position="703" topLine="0" />
-	</File>
-	<File name="..\Shared\XML\object.cpp" open="0" top="0" tabpos="0">
-		<Cursor position="60" topLine="0" />
-	</File>
-	<File name="..\Shared\XML\object.h" open="0" top="0" tabpos="0">
-		<Cursor position="946" topLine="0" />
-	</File>
-	<File name="..\Shared\XML\person.cpp" open="0" top="0" tabpos="2">
-		<Cursor position="3377" topLine="107" />
-	</File>
-	<File name="..\Shared\XML\person.h" open="0" top="0" tabpos="1">
-		<Cursor position="1201" topLine="7" />
-	</File>
-	<File name="..\Shared\XML\xmlobject.cpp" open="0" top="0" tabpos="0">
-		<Cursor position="1107" topLine="48" />
+	<File name="..\Shared\Serializer.h" open="0" top="0" tabpos="1">
+		<Cursor position="4452" topLine="54" />
 	</File>
 </CodeBlocks_layout_file>

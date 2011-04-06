@@ -293,9 +293,9 @@ m_addLanguageAct = new QAction(tr("Ajouter un langage"), this);
 connect(m_addLanguageAct, SIGNAL(triggered()), this, SLOT(addLanguage()));
 
 
-
 addDockWidget(Qt::LeftDockWidgetArea, m_GMPanelDock);
 
+m_GMPanelDock->hide();
 
 m_centralWi->setMaximumSize(1,1);
 

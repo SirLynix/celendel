@@ -1,6 +1,0 @@
-<Object>
- <Characteristics name="Lambda" mass="10"/>
- <Event trigger="on_destruction" random="2" action="alert_special_player" text="JE SUIS VIVAAAAANT !" player_name_regexp="#[^0-9]#" player_class_regexp="paladin"/>
- <Event trigger="on_creation" action="use_object"/>
- <Event trigger="on_use" action="alert_owner" text="Used !"/>
-</Object>

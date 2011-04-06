@@ -65,14 +65,6 @@
 		<Unit filename="..\Shared\Packet.h" />
 		<Unit filename="..\Shared\Serializer.cpp" />
 		<Unit filename="..\Shared\Serializer.h" />
-		<Unit filename="..\Shared\XML\MaterialThing.cpp" />
-		<Unit filename="..\Shared\XML\MaterialThing.h" />
-		<Unit filename="..\Shared\XML\XMLObject.h" />
-		<Unit filename="..\Shared\XML\object.cpp" />
-		<Unit filename="..\Shared\XML\object.h" />
-		<Unit filename="..\Shared\XML\person.cpp" />
-		<Unit filename="..\Shared\XML\person.h" />
-		<Unit filename="..\Shared\XML\xmlobject.cpp" />
 		<Extensions>
 			<code_completion />
 			<debugger />

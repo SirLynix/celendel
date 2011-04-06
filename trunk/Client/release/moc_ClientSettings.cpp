@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Meta object code from reading C++ file 'ClientSettings.h'
 **
-** Created: Sun 3. Apr 11:21:13 2011
+** Created: Wed 6. Apr 20:48:50 2011
 **      by: The Qt Meta Object Compiler version 62 (Qt 4.7.0)
 **
 ** WARNING! All changes made in this file will be lost!

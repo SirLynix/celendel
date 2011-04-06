@@ -3,6 +3,10 @@
 
 #include <QCoreApplication>
 #include <QSettings>
+#include <QStringList>
+
+#define SCRIPT_FOLDER "./Scripts/"
+#define SCRIPT_EXT "*.lua"
 
 Server::Server(QObject* parent) : QObject(parent)
 {
@@ -58,8 +62,19 @@ ServerInformations Server::getServerInformations() const
     si.narration=narration;
     si.languages=m_translator.getLanguages();
     si.dictionaries=m_translator.getDictionariesList();
+    si.scriptList=getScriptList();
 
     return si;
+}
+
+QStringList Server::getScriptList()
+{
+    return listFilesInFolder(SCRIPT_FOLDER, SCRIPT_EXT);
+}
+
+void Server::sendScriptList(CLID cID)
+{
+    m_network->sendToClient(cID, ETI(SCRIPTS_LIST), serialiseScriptListData(getScriptList()));
 }
 
 void Server::launchGame()

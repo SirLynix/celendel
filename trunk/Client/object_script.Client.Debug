@@ -31,10 +31,7 @@ INPUT(
 ./debug\qtcolortriangle.o
 ./debug\screen.o
 ./debug\CompressedMap.o
-./debug\xmlobject.o
-./debug\object.o
-./debug\person.o
-./debug\MaterialThing.o
+./debug\ScriptedEntity.o
 ./debug\moc_ClientInterface.o
 ./debug\moc_ClientNetwork.o
 ./debug\moc_ClientSettings.o
@@ -54,8 +51,5 @@ INPUT(
 ./debug\moc_QColorViewer.o
 ./debug\moc_qtcolortriangle.o
 ./debug\moc_screen.o
-./debug\moc_xmlobject.o
-./debug\moc_object.o
-./debug\moc_person.o
-./debug\moc_MaterialThing.o
+./debug\moc_ScriptedEntity.o
 );

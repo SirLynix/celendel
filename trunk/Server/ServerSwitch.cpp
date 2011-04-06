@@ -38,14 +38,14 @@ CLID Server::nickToCLID(const QString& nick)
 
 QString Server::translateText(const QString& text, const QString& language, CLID cID)
 {
-    Player* ply=getPlayer(cID);
+  //  Player* ply=getPlayer(cID);
 
     int prct=0;
-
+/*
     if(ply->currentCharacter!=NULL)
     {
         prct=ply->currentCharacter->abilityInLanguage(language);
-    }
+    }*/
 
     return m_translator.translate(text, language, prct);
 }
@@ -74,7 +74,7 @@ void Server::processData(std::auto_ptr<Packet> pa /*Packet* pa*/, CLID cID)
             text=securise(text);
             if(!text.isEmpty())
             {
-                log("Chat message received : ["+QString::number(ply->isGM())+"]"+ply->nickname+" say on ["+QString::number(canal)+"] : \""+text+"\"");
+                log("Chat message received : [GM="+QString::number(ply->isGM())+"]"+ply->nickname+" say on ["+QString::number(canal)+"] : \""+text+"\"");
                 switch(canal)
                 {
                     case ETI(NORMAL):
@@ -399,6 +399,11 @@ void Server::processData(std::auto_ptr<Packet> pa /*Packet* pa*/, CLID cID)
             }
             else
                 m_network->sendToAll(ETI(DICO_LIST), serialiseDicoListData(m_translator.getDictionariesList()));
+        }
+        break;
+        case SCRIPTS_LIST:
+        {
+            sendScriptList(cID);
         }
         break;
         default:

@@ -78,6 +78,8 @@ class ClientNetwork : public QObject
         void syncLanguagesList(QList<QPair<QString, QString> >);
         void syncDictionariesList(QStringList list);
 
+        void syncScriptList(QStringList list);
+
 
     private:
         QTcpSocket* m_socket;
