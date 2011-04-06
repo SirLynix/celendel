@@ -3,7 +3,6 @@
 
 #include <QObject>
 #include "../Shared/Constants.h"
-#include "..\Shared\XML\person.h"
 
 class Player : public QObject
 {
@@ -16,8 +15,6 @@ class Player : public QObject
         bool vote(Player* ply); //Return true if the player already voted.
 
         QString nickname;
-
-        Person* currentCharacter;
 
     public slots:
         void promoteGM();

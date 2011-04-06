@@ -291,6 +291,8 @@ bool extractServerInformationsData(QByteArray& data, ServerInformations& si)
     R(in);
     in>>si.dictionaries;
     R(in);
+    in>>si.scriptList;
+    R(in);
 
     return extractSyncLibsData(l, si.libs);
 }
@@ -311,6 +313,7 @@ QByteArray serialiseServerInformationsData(const ServerInformations& si)
     out<<serialiseSyncLibsData(si.libs);
     out<<si.languages;
     out<<si.dictionaries;
+    out<<si.scriptList;
 
     return qCompress(data);
 }
@@ -682,52 +685,6 @@ QByteArray serialiseLanguagesData(const QList<QPair<QString, QString> >& languag
     return qCompress(data);
 }
 
-bool extractScriptsListData(QByteArray& data, QList<QPair<QString, QString> >& list)
-{
-    QByteArray d=qUncompress(data);
-    QV(d);
-    QDataStream in(d);
-
-    list.clear();
-    in>>list;
-    R(in);
-
-    return false;
-}
-
-QByteArray serialiseScriptsListData(const QList<QPair<QString, QString> >& list)
-{
-    QByteArray data;
-    QDataStream out(&data, QIODevice::ReadWrite);
-
-    out<<list;
-
-    return qCompress(data);
-}
-
-bool extractScriptsUpdateData(QByteArray& data, QList<QPair<QString, QString> >& list)
-{
-    QByteArray d=qUncompress(data);
-    QV(d);
-    QDataStream in(d);
-
-    list.clear();
-    in>>list;
-    R(in);
-
-    return false;
-}
-
-QByteArray serialiseScriptsUpdateData(const QList<QPair<QString, QString> >& list)
-{
-    QByteArray data;
-    QDataStream out(&data, QIODevice::ReadWrite);
-
-    out<<list;
-
-    return qCompress(data);
-}
-
 bool extractAddDicoData(QByteArray& data, QString& name, QString& content)
 {
     QByteArray d=qUncompress(data);
@@ -819,6 +776,28 @@ QByteArray serialiseUpdateRessourcesData(const QMap<QString, RSID>& ressources)
     QDataStream out(&data, QIODevice::ReadWrite);
 
     out<<ressources;
+
+    return qCompress(data);
+}
+
+bool extractScriptListData(QByteArray& data, QStringList& list)
+{
+    QByteArray d=qUncompress(data);
+    QV(d);
+    QDataStream in(d);
+
+    in>>list;
+    R(in);
+
+    return false;
+}
+
+QByteArray serialiseScriptListData(const QStringList& list)
+{
+    QByteArray data;
+    QDataStream out(&data, QIODevice::ReadWrite);
+
+    out<<list;
 
     return qCompress(data);
 }

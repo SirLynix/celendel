@@ -77,6 +77,7 @@ ClientInterface::ClientInterface()
     connect(m_network, SIGNAL(syncLibs(QList<SoundLibInformations>)), this, SLOT(syncSoundLibs(QList<SoundLibInformations>)));
     connect(m_network, SIGNAL(syncLanguagesList(QList<QPair<QString, QString> >)), this, SLOT(syncLanguagesList(QList<QPair<QString, QString> >)));
     connect(m_network, SIGNAL(syncDictionariesList(QStringList)), this, SLOT(syncDictionariesList(QStringList)));
+    connect(m_network, SIGNAL(syncScriptList(QStringList)), this, SLOT(syncScriptList(QStringList)));
     connect(m_network, SIGNAL(mapChanged(MapPtr)), m_mapWi, SLOT(setMap(MapPtr)));
     connect(m_network, SIGNAL(ressourcesUpdated(const QMap<QString, RSID>&)), m_mapWi, SLOT(updateRessources(const QMap<QString, RSID>&)));
 
@@ -680,6 +681,8 @@ void ClientInterface::changeServerInformations(ServerInformations si)
 
     m_motd=si.motd;
 
+    m_scriptList=si.scriptList;
+
     int nms=si.players.size();
 
     m_playersMap.clear();
@@ -764,6 +767,11 @@ QString ClientInterface::anonym(CLID ID)
         return tr("(MJ) %1[%2]").arg(nick).arg(ID);
 
     return tr("%1[%2]").arg(nick).arg(ID);
+}
+
+void ClientInterface::syncScriptList(QStringList list)
+{
+    m_scriptList=list;
 }
 
 void ClientInterface::syncLanguagesList(QList<QPair<QString, QString> > languages)

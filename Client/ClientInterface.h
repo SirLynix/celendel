@@ -101,6 +101,8 @@ class ClientInterface : public QMainWindow
         void syncLanguagesList(QList<QPair<QString, QString> >);
         void syncDictionariesList(QStringList list);
 
+        void syncScriptList(QStringList list);
+
         void sendMapToServer(const MapInformations* const map, const QMap<QString, RSID>& ress);
 
         void addDictionnary();
@@ -133,6 +135,7 @@ class ClientInterface : public QMainWindow
         QString m_serverName;
         QString m_motd;
         QMap<CLID, PlayerInformations> m_playersMap;
+        QStringList m_scriptList;
 
 
         ///Chat GUI

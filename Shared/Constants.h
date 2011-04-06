@@ -15,6 +15,7 @@
 #define CLID quint16 /// Alias for CLient ID.
 #define RSID qint32 /// Alias for ReSsource ID.
 #define LVER qint32 ///Alias for Lib VERsion.
+#define ENID qint32 ///Alias for ENtity ID.
 
 #define MAX_SEQUENTIALS_PACKETS 15
 #define PACKETS_COUNT_RESET_DELAY 100
@@ -51,6 +52,9 @@
 #include <QCryptographicHash>
 QString hashFile(const QString& filename, QCryptographicHash::Algorithm al=QCryptographicHash::Sha1);
 int alea(int min,int max);
+
+QStringList listFilesInFolder(const QString& folder, const QStringList& filters, const QString& suff="");
+QStringList listFilesInFolder(const QString& folder, const QString& filter="");
 
 template < typename T>
 
@@ -111,6 +115,7 @@ struct ServerInformations
     QList<SoundLibInformations> libs;
     QList<QPair<QString, QString> > languages;
     QStringList dictionaries;
+    QStringList scriptList;
 };
 
 /* SERVER_INFORMATIONS type structure : (compressed)
@@ -125,7 +130,7 @@ struct ServerInformations
 
 enum PACKET_TYPE { ERROR, PING, CHAT, ALL_NARRATION, GM_ELECT, NEW_GM, LAUNCH_GAME, GAME_LAUNCHED, VOTED, SET_CLID, NEW_NICK,
                 SET_NICK, GTFO_LYNIX, TOD, LOCATION, SERVER_INFORMATIONS, MOTD, MAP_INFORMATIONS, MAP_ITEMS_INFORMATIONS,
-                PLAY_SOUND, SCRIPTS_LIST, SCRIPTS_UPDATE, ROLL_DICE, SERVER_NAME, CLIENT_LEFT, CLIENT_JOINED, UNBAN, SYNC_LIBS,
+                PLAY_SOUND, ROLL_DICE, SERVER_NAME, CLIENT_LEFT, CLIENT_JOINED, UNBAN, SYNC_LIBS, SCRIPTS_LIST,
                 LANGUAGES_LIST, DICO_LIST, ADD_DICO, REMOVE_DICO, UPDATE_RESSOURCES };
 
 #define MAX_NICKNAME_LENGHT 15
@@ -139,14 +144,11 @@ enum PACKET_TYPE { ERROR, PING, CHAT, ALL_NARRATION, GM_ELECT, NEW_GM, LAUNCH_GA
 - QString name
 - QString content */
 
+/* SCRIPTS_LIST structure - compressed :
+- QStringlist scripts */
+
 /* REMOVE_DICO structure - compressed :
 - QString name */
-
-/* SCRIPT_LIST structure - compressed :
-- QList<QPair<QString, QString> > list : first QString is the script filename, second is SHA-1 hash */
-
-/* SCRIPT_UPDATE structure - compressed :
-- QList<QPair<QString, QString> > list : first QString is the script filename, second is the script file data */
 
 /* LANGUAGES_LIST structure :
 - QList<QPair<QString, QString> > languages */

@@ -90,12 +90,6 @@ QByteArray serialiseSyncLibsData(const QList<SoundLibInformations>& libs);
 bool extractLanguagesData(QByteArray& data, QList<QPair<QString, QString> >& languages);
 QByteArray serialiseLanguagesData(const QList<QPair<QString, QString> >& languages);
 
-bool extractScriptsListData(QByteArray& data, QList<QPair<QString, QString> >& list);
-QByteArray serialiseScriptsListData(const QList<QPair<QString, QString> >& list);
-
-bool extractScriptsUpdateData(QByteArray& data, QList<QPair<QString, QString> >& list);
-QByteArray serialiseScriptsUpdateData(const QList<QPair<QString, QString> >& list);
-
 bool extractAddDicoData(QByteArray& data, QString& name, QString& content);
 QByteArray serialiseAddDicoData(const QString& name, const QString& content);
 
@@ -107,5 +101,8 @@ QByteArray serialiseRemoveDicoData(const QString& name);
 
 bool extractUpdateRessourcesData(QByteArray& data, QMap<QString, RSID>& ressources);
 QByteArray serialiseUpdateRessourcesData(const QMap<QString, RSID>& ressources);
+
+bool extractScriptListData(QByteArray& data, QStringList& list);
+QByteArray serialiseScriptListData(const QStringList& list);
 
 #endif

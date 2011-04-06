@@ -1,6 +1,6 @@
 TEMPLATE = app
 
-LIBS += -lsfml-graphics -lsfml-audio -lsfml-window -lsfml-system -lALut -lOpenAL32 -lspeex -lspeexdsp
+LIBS += -lsfml-graphics -lsfml-audio -lsfml-window -lsfml-system -lALut -lOpenAL32 -lspeex -lspeexdsp -llua5.1
 
 QMAKE_CXXFLAGS +=  -O3 -Wall -Wmain -s
 
@@ -30,16 +30,11 @@ SOURCES += ClientInterface.cpp \
            QColorPicker/QColorPickerWidget.cpp QColorPicker/QColorViewer.cpp QColorPicker/qtcolortriangle.cpp QColorPicker/screen.cpp CompressedMap.cpp
 
 SOURCES += \
-    ../Shared/XML/xmlobject.cpp \
-    ../Shared/XML/object.cpp \
-    ../Shared/XML/person.cpp \
-    ../Shared/XML/MaterialThing.cpp
+    ../Shared/LuaSystem/ScriptedEntity.cpp
 
 HEADERS += \
-    ../Shared/XML/xmlobject.h \
-    ../Shared/XML/object.h \
-    ../Shared/XML/person.h \
-    ../Shared/XML/MaterialThing.h
+    ../Shared/LuaSystem/ScriptedEntity.h \
+    ../Shared/LuaSystem/luaHeader.h
 
 
 TRANSLATIONS = Client_en.ts

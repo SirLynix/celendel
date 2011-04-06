@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Meta object code from reading C++ file 'ClientNetwork.h'
 **
-** Created: Sun 3. Apr 11:21:10 2011
+** Created: Wed 6. Apr 20:48:47 2011
 **      by: The Qt Meta Object Compiler version 62 (Qt 4.7.0)
 **
 ** WARNING! All changes made in this file will be lost!
@@ -23,12 +23,12 @@ static const uint qt_meta_data_ClientNetwork[] = {
        5,       // revision
        0,       // classname
        0,    0, // classinfo
-      43,   14, // methods
+      44,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
        0,       // flags
-      26,       // signalCount
+      27,       // signalCount
 
  // signals: signature, parameters, type, tag, flags
       15,   14,   14,   14, 0x05,
@@ -57,25 +57,26 @@ static const uint qt_meta_data_ClientNetwork[] = {
      629,   14,   14,   14, 0x05,
      667,   14,   14,   14, 0x05,
      722,  717,   14,   14, 0x05,
+     756,  717,   14,   14, 0x05,
 
  // slots: signature, parameters, type, tag, flags
-     774,  756,   14,   14, 0x0a,
-     796,  793,   14,   14, 0x2a,
-     810,  793,   14,   14, 0x0a,
-     834,  824,   14,   14, 0x0a,
-     858,   14,   14,   14, 0x0a,
-     872,   14,  865,   14, 0x0a,
-     890,   14,  882,   14, 0x0a,
-     909,   14,  901,   14, 0x0a,
-     922,   14,   14,   14, 0x0a,
-     930,   14,   14,   14, 0x0a,
-     943,   14,   14,   14, 0x0a,
-     972,  964,  959,   14, 0x0a,
-     999,   14,   14,   14, 0x08,
-    1011,   14,   14,   14, 0x08,
-    1026,   14,   14,   14, 0x08,
-    1041,   14,   14,   14, 0x08,
-    1090, 1083,   14,   14, 0x08,
+     802,  784,   14,   14, 0x0a,
+     824,  821,   14,   14, 0x2a,
+     838,  821,   14,   14, 0x0a,
+     862,  852,   14,   14, 0x0a,
+     886,   14,   14,   14, 0x0a,
+     900,   14,  893,   14, 0x0a,
+     918,   14,  910,   14, 0x0a,
+     937,   14,  929,   14, 0x0a,
+     950,   14,   14,   14, 0x0a,
+     958,   14,   14,   14, 0x0a,
+     971,   14,   14,   14, 0x0a,
+    1000,  992,  987,   14, 0x0a,
+    1027,   14,   14,   14, 0x08,
+    1039,   14,   14,   14, 0x08,
+    1054,   14,   14,   14, 0x08,
+    1069,   14,   14,   14, 0x08,
+    1118, 1111,   14,   14, 0x08,
 
        0        // eod
 };
@@ -102,6 +103,7 @@ static const char qt_meta_stringdata_ClientNetwork[] = {
     "syncLibs(QList<SoundLibInformations>)\0"
     "syncLanguagesList(QList<QPair<QString,QString> >)\0"
     "list\0syncDictionariesList(QStringList)\0"
+    "syncScriptList(QStringList)\0"
     "pa,delegateDelete\0send(Packet*,bool)\0"
     "pa\0send(Packet*)\0send(Packet&)\0type,data\0"
     "send(qint32,QByteArray)\0ping()\0qint32\0"
@@ -169,30 +171,31 @@ int ClientNetwork::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
         case 23: syncLibs((*reinterpret_cast< QList<SoundLibInformations>(*)>(_a[1]))); break;
         case 24: syncLanguagesList((*reinterpret_cast< QList<QPair<QString,QString> >(*)>(_a[1]))); break;
         case 25: syncDictionariesList((*reinterpret_cast< QStringList(*)>(_a[1]))); break;
-        case 26: send((*reinterpret_cast< Packet*(*)>(_a[1])),(*reinterpret_cast< bool(*)>(_a[2]))); break;
-        case 27: send((*reinterpret_cast< Packet*(*)>(_a[1]))); break;
-        case 28: send((*reinterpret_cast< Packet(*)>(_a[1]))); break;
-        case 29: send((*reinterpret_cast< qint32(*)>(_a[1])),(*reinterpret_cast< const QByteArray(*)>(_a[2]))); break;
-        case 30: ping(); break;
-        case 31: { qint32 _r = getPing();
+        case 26: syncScriptList((*reinterpret_cast< QStringList(*)>(_a[1]))); break;
+        case 27: send((*reinterpret_cast< Packet*(*)>(_a[1])),(*reinterpret_cast< bool(*)>(_a[2]))); break;
+        case 28: send((*reinterpret_cast< Packet*(*)>(_a[1]))); break;
+        case 29: send((*reinterpret_cast< Packet(*)>(_a[1]))); break;
+        case 30: send((*reinterpret_cast< qint32(*)>(_a[1])),(*reinterpret_cast< const QByteArray(*)>(_a[2]))); break;
+        case 31: ping(); break;
+        case 32: { qint32 _r = getPing();
             if (_a[0]) *reinterpret_cast< qint32*>(_a[0]) = _r; }  break;
-        case 32: { QString _r = serverIP();
+        case 33: { QString _r = serverIP();
             if (_a[0]) *reinterpret_cast< QString*>(_a[0]) = _r; }  break;
-        case 33: { quint16 _r = serverPort();
+        case 34: { quint16 _r = serverPort();
             if (_a[0]) *reinterpret_cast< quint16*>(_a[0]) = _r; }  break;
-        case 34: flush(); break;
-        case 35: connection(); break;
-        case 36: disconnection(); break;
-        case 37: { bool _r = setServer((*reinterpret_cast< QString(*)>(_a[1])),(*reinterpret_cast< quint16(*)>(_a[2])));
+        case 35: flush(); break;
+        case 36: connection(); break;
+        case 37: disconnection(); break;
+        case 38: { bool _r = setServer((*reinterpret_cast< QString(*)>(_a[1])),(*reinterpret_cast< quint16(*)>(_a[2])));
             if (_a[0]) *reinterpret_cast< bool*>(_a[0]) = _r; }  break;
-        case 38: connected(); break;
-        case 39: disconnected(); break;
-        case 40: dataReceived(); break;
-        case 41: socketError((*reinterpret_cast< QAbstractSocket::SocketError(*)>(_a[1]))); break;
-        case 42: operatePacket((*reinterpret_cast< Packet*(*)>(_a[1]))); break;
+        case 39: connected(); break;
+        case 40: disconnected(); break;
+        case 41: dataReceived(); break;
+        case 42: socketError((*reinterpret_cast< QAbstractSocket::SocketError(*)>(_a[1]))); break;
+        case 43: operatePacket((*reinterpret_cast< Packet*(*)>(_a[1]))); break;
         default: ;
         }
-        _id -= 43;
+        _id -= 44;
     }
     return _id;
 }
@@ -372,5 +375,12 @@ void ClientNetwork::syncDictionariesList(QStringList _t1)
 {
     void *_a[] = { 0, const_cast<void*>(reinterpret_cast<const void*>(&_t1)) };
     QMetaObject::activate(this, &staticMetaObject, 25, _a);
+}
+
+// SIGNAL 26
+void ClientNetwork::syncScriptList(QStringList _t1)
+{
+    void *_a[] = { 0, const_cast<void*>(reinterpret_cast<const void*>(&_t1)) };
+    QMetaObject::activate(this, &staticMetaObject, 26, _a);
 }
 QT_END_MOC_NAMESPACE

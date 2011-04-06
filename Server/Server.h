@@ -13,7 +13,6 @@
 #include <QList>
 #include "Player.h"
 #include "..\Shared\MapStructs.h"
-#include "..\Shared\XML\person.h"
 #include "Translator.h"
 
 #define MOTD_DEFAULT_PATH "MOTD.html"
@@ -37,6 +36,8 @@ class Server : public QObject
 
         bool changeGM(CLID cID); // Returns true on error
 
+        static QStringList getScriptList();
+
         ServerInformations getServerInformations() const;
         CLID nickToCLID(const QString& nick);
 
@@ -47,6 +48,8 @@ class Server : public QObject
         void removeClient(CLID cID);
         void launchGame();
 
+        void sendScriptList(CLID cID);
+
     private slots:
         void cleanUp();
         void processData(std::auto_ptr<Packet>, CLID);
@@ -54,7 +57,6 @@ class Server : public QObject
     private:
         ServerNetwork *m_network;
         QList<Player*> m_players;
-        QList<QPair<Person*,Player*> > m_characters; //The first element is a character; the second is the player that control it.
 
         bool m_gameStarted;
 

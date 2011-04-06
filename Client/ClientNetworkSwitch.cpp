@@ -176,6 +176,13 @@ void ClientNetwork::operatePacket(Packet* packet)
             emit syncDictionariesList(l);
         }
         break;
+        case SCRIPTS_LIST:
+        {
+            QStringList l;
+            QE(extractScriptListData(packet->data, l));
+            emit syncScriptList(l);
+        }
+        break;
         default:
         break;
     }

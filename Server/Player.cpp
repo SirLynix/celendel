@@ -23,7 +23,6 @@ void Player::reset()
     m_GM=false;
     m_voted=false;
     m_voteCount=0;
-    currentCharacter=NULL;
 }
 
 void Player::unPromoteGM()
