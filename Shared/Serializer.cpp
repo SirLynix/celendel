@@ -801,3 +801,48 @@ QByteArray serialiseScriptListData(const QStringList& list)
 
     return qCompress(data);
 }
+
+bool extractSendScriptData(QByteArray& data, QString& name, QString& content)
+{
+    QByteArray d=qUncompress(data);
+    QV(d);
+    QDataStream in(d);
+
+    in>>name;
+    R(in);
+    in>>content;
+    R(in);
+
+    return false;
+}
+
+QByteArray serialiseSendScriptData(const QString& name, const QString& content)
+{
+    QByteArray data;
+    QDataStream out(&data, QIODevice::ReadWrite);
+
+    out<<name;
+    out<<content;
+
+    return qCompress(data);
+}
+
+bool extractRequestScriptData(QByteArray& data, QString& name)
+{
+    QV(data);
+    QDataStream in(data);
+    in>>name;
+    R(in);
+
+    return false;
+}
+
+QByteArray serialiseRequestScriptData(const QString& name)
+{
+    QByteArray data;
+    QDataStream out(&data, QIODevice::ReadWrite);
+
+    out<<name;
+
+    return data;
+}

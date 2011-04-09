@@ -8,7 +8,7 @@
 		<Cursor position="270" topLine="0" />
 	</File>
 	<File name="Client.pro" open="0" top="0" tabpos="1">
-		<Cursor position="120" topLine="0" />
+		<Cursor position="142" topLine="0" />
 	</File>
 	<File name="ClientChatCommands.cpp" open="0" top="0" tabpos="1">
 		<Cursor position="4564" topLine="75" />
@@ -17,10 +17,10 @@
 		<Cursor position="4228" topLine="126" />
 	</File>
 	<File name="ClientInterface.cpp" open="0" top="0" tabpos="3">
-		<Cursor position="20534" topLine="661" />
+		<Cursor position="23806" topLine="774" />
 	</File>
 	<File name="ClientInterface.h" open="0" top="0" tabpos="3">
-		<Cursor position="4059" topLine="113" />
+		<Cursor position="3262" topLine="57" />
 	</File>
 	<File name="ClientMapInterface.cpp" open="0" top="0" tabpos="4">
 		<Cursor position="793" topLine="0" />
@@ -29,16 +29,16 @@
 		<Cursor position="3451" topLine="79" />
 	</File>
 	<File name="ClientNetwork.h" open="0" top="0" tabpos="2">
-		<Cursor position="2403" topLine="35" />
+		<Cursor position="1855" topLine="35" />
 	</File>
 	<File name="ClientNetworkSwitch.cpp" open="0" top="0" tabpos="1">
-		<Cursor position="4936" topLine="136" />
+		<Cursor position="5195" topLine="143" />
 	</File>
 	<File name="ClientSave.cpp" open="0" top="0" tabpos="0">
 		<Cursor position="917" topLine="0" />
 	</File>
 	<File name="ClientSettings.cpp" open="0" top="0" tabpos="1">
-		<Cursor position="16192" topLine="447" />
+		<Cursor position="17749" topLine="437" />
 	</File>
 	<File name="ClientSettings.h" open="0" top="0" tabpos="5">
 		<Cursor position="733" topLine="22" />
@@ -47,7 +47,7 @@
 		<Cursor position="807" topLine="12" />
 	</File>
 	<File name="GUI.cpp" open="0" top="0" tabpos="5">
-		<Cursor position="14233" topLine="252" />
+		<Cursor position="12161" topLine="222" />
 	</File>
 	<File name="MapEditor.cpp" open="0" top="0" tabpos="1">
 		<Cursor position="26353" topLine="799" />
@@ -96,6 +96,12 @@
 	</File>
 	<File name="QSFMLCanvas.hpp" open="0" top="0" tabpos="0">
 		<Cursor position="1029" topLine="0" />
+	</File>
+	<File name="ScriptManager.cpp" open="1" top="0" tabpos="2">
+		<Cursor position="1605" topLine="17" />
+	</File>
+	<File name="ScriptManager.h" open="1" top="0" tabpos="1">
+		<Cursor position="501" topLine="0" />
 	</File>
 	<File name="SoundLibThread.cpp" open="0" top="0" tabpos="0">
 		<Cursor position="561" topLine="0" />
@@ -152,7 +158,7 @@
 		<Cursor position="556" topLine="0" />
 	</File>
 	<File name="..\Shared\Constants.h" open="0" top="0" tabpos="0">
-		<Cursor position="1786" topLine="27" />
+		<Cursor position="4226" topLine="108" />
 	</File>
 	<File name="..\Shared\MapStructs.h" open="0" top="0" tabpos="0">
 		<Cursor position="909" topLine="2" />
@@ -167,9 +173,9 @@
 		<Cursor position="157" topLine="0" />
 	</File>
 	<File name="..\Shared\Serializer.cpp" open="0" top="0" tabpos="0">
-		<Cursor position="14179" topLine="276" />
+		<Cursor position="14690" topLine="764" />
 	</File>
 	<File name="..\Shared\Serializer.h" open="0" top="0" tabpos="0">
-		<Cursor position="4652" topLine="58" />
+		<Cursor position="4582" topLine="58" />
 	</File>
 </CodeBlocks_layout_file>

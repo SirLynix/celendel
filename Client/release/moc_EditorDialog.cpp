@@ -1,15 +1,15 @@
 /****************************************************************************
-** Meta object code from reading C++ file 'SoundManager.h'
+** Meta object code from reading C++ file 'EditorDialog.h'
 **
-** Created: Sat 9. Apr 12:01:15 2011
+** Created: Sat 9. Apr 13:57:38 2011
 **      by: The Qt Meta Object Compiler version 62 (Qt 4.7.0)
 **
 ** WARNING! All changes made in this file will be lost!
 *****************************************************************************/
 
-#include "../SoundManager.h"
+#include "../EditorDialog.h"
 #if !defined(Q_MOC_OUTPUT_REVISION)
-#error "The header file 'SoundManager.h' doesn't include <QObject>."
+#error "The header file 'EditorDialog.h' doesn't include <QObject>."
 #elif Q_MOC_OUTPUT_REVISION != 62
 #error "This file was generated using the moc from 4.7.0. It"
 #error "cannot be used with the include files from this version of Qt."
@@ -17,7 +17,7 @@
 #endif
 
 QT_BEGIN_MOC_NAMESPACE
-static const uint qt_meta_data_SoundManager[] = {
+static const uint qt_meta_data_EditorDialog[] = {
 
  // content:
        5,       // revision
@@ -33,35 +33,35 @@ static const uint qt_meta_data_SoundManager[] = {
        0        // eod
 };
 
-static const char qt_meta_stringdata_SoundManager[] = {
-    "SoundManager\0"
+static const char qt_meta_stringdata_EditorDialog[] = {
+    "EditorDialog\0"
 };
 
-const QMetaObject SoundManager::staticMetaObject = {
-    { &QObject::staticMetaObject, qt_meta_stringdata_SoundManager,
-      qt_meta_data_SoundManager, 0 }
+const QMetaObject EditorDialog::staticMetaObject = {
+    { &QDialog::staticMetaObject, qt_meta_stringdata_EditorDialog,
+      qt_meta_data_EditorDialog, 0 }
 };
 
 #ifdef Q_NO_DATA_RELOCATION
-const QMetaObject &SoundManager::getStaticMetaObject() { return staticMetaObject; }
+const QMetaObject &EditorDialog::getStaticMetaObject() { return staticMetaObject; }
 #endif //Q_NO_DATA_RELOCATION
 
-const QMetaObject *SoundManager::metaObject() const
+const QMetaObject *EditorDialog::metaObject() const
 {
     return QObject::d_ptr->metaObject ? QObject::d_ptr->metaObject : &staticMetaObject;
 }
 
-void *SoundManager::qt_metacast(const char *_clname)
+void *EditorDialog::qt_metacast(const char *_clname)
 {
     if (!_clname) return 0;
-    if (!strcmp(_clname, qt_meta_stringdata_SoundManager))
-        return static_cast<void*>(const_cast< SoundManager*>(this));
-    return QObject::qt_metacast(_clname);
+    if (!strcmp(_clname, qt_meta_stringdata_EditorDialog))
+        return static_cast<void*>(const_cast< EditorDialog*>(this));
+    return QDialog::qt_metacast(_clname);
 }
 
-int SoundManager::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
+int EditorDialog::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
 {
-    _id = QObject::qt_metacall(_c, _id, _a);
+    _id = QDialog::qt_metacall(_c, _id, _a);
     if (_id < 0)
         return _id;
     return _id;

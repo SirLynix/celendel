@@ -5,8 +5,6 @@
 #include <QSettings>
 #include <QStringList>
 
-#define SCRIPT_FOLDER "./Scripts/"
-#define SCRIPT_EXT "*.lua"
 
 Server::Server(QObject* parent) : QObject(parent)
 {
@@ -118,6 +116,28 @@ void Server::cleanUp()
     }
 }
 
+bool Server::updateScript(const QString& name, const QString& content)
+{
+    QDir d(name);
+
+
+    if(!d.absolutePath().startsWith(QDir::currentPath()+'/'+SCRIPT_FOLDER))
+    {
+        DEB() << "Permission error : " << d.absolutePath() << '\t' << QDir::currentPath()+'/'+SCRIPT_FOLDER;
+        return true;
+    }
+
+    QFile file(name);
+
+    if(!file.open(QIODevice::WriteOnly|QIODevice::Text))
+        return true;
+
+    QTextStream out(&file);
+    out<<content;
+
+    return false;
+}
+
 void Server::removeClient(CLID cID)
 {
     if(getPlayer(cID)==NULL)
@@ -128,11 +148,7 @@ void Server::removeClient(CLID cID)
         if(m_players[i]->ID()==cID)
         {
             Player* ply=m_players[i];
-            /*if(m_players[i]!=m_players.last()) //Put the pointer to the end of the list, for avoiding empty cases.
-            {
-                m_players[i]=m_players.last();
-            }
-            m_players.removeLast();*/
+
             m_players.removeAt(i);
 
             if(ply->isGM()&&m_players.size())
