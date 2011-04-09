@@ -31,6 +31,8 @@ INPUT(
 ./debug\qtcolortriangle.o
 ./debug\screen.o
 ./debug\CompressedMap.o
+./debug\ScriptManager.o
+./debug\EditorDialog.o
 ./debug\ScriptedEntity.o
 ./debug\moc_ClientInterface.o
 ./debug\moc_ClientNetwork.o
@@ -51,5 +53,7 @@ INPUT(
 ./debug\moc_QColorViewer.o
 ./debug\moc_qtcolortriangle.o
 ./debug\moc_screen.o
+./debug\moc_ScriptManager.o
+./debug\moc_EditorDialog.o
 ./debug\moc_ScriptedEntity.o
 );

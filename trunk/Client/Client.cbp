@@ -103,6 +103,8 @@
 		<Unit filename="QColorPicker\screen.h" />
 		<Unit filename="QSFMLCanvas.cpp" />
 		<Unit filename="QSFMLCanvas.hpp" />
+		<Unit filename="ScriptManager.cpp" />
+		<Unit filename="ScriptManager.h" />
 		<Unit filename="SoundLibThread.cpp" />
 		<Unit filename="SoundLibThread.h" />
 		<Unit filename="SoundManager.cpp" />
@@ -122,6 +124,9 @@
 		<Unit filename="VOIP\VOIP.h" />
 		<Unit filename="main.cpp" />
 		<Unit filename="..\Shared\Constants.h" />
+		<Unit filename="..\Shared\LuaSystem\ScriptedEntity.cpp" />
+		<Unit filename="..\Shared\LuaSystem\ScriptedEntity.h" />
+		<Unit filename="..\Shared\LuaSystem\luaHeader.h" />
 		<Unit filename="..\Shared\MapStructs.h" />
 		<Unit filename="..\Shared\Miscelaneous.cpp" />
 		<Unit filename="..\Shared\Packet.cpp" />

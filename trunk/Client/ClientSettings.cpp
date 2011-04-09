@@ -481,6 +481,8 @@ QString ClientSettings::ETS(ENUM_TYPE errorCode, const QString& txt)
         stringMap[CANNOT_LOAD_DICTIONARY]=tr("Le dictionnaire \"%1\" n'a pas pu être chargé par le serveur.");
         stringMap[CANNOT_LOAD_LANGUAGE]=tr("Le langage \"%1\" n'a pas pu être chargé par le serveur.");
         stringMap[CANNOT_REMOVE_DICTIONARY]=tr("Le dictionnaire \"%1\" n'a pas pu être chargé par le serveur. Pensez à supprimer d'abord tous les langages l'utilisant.");
+        stringMap[CANNOT_UPDATE_SCRIPT]=tr("Le script \"%1\" n'a pas pu être mis à jour.");
+        stringMap[CANNOT_OPEN_SCRIPT]=tr("Le script \"%1\" n'a pas pu être ouvert.");
         first=false;
     }
 

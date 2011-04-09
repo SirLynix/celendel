@@ -406,6 +406,31 @@ void Server::processData(std::auto_ptr<Packet> pa /*Packet* pa*/, CLID cID)
             sendScriptList(cID);
         }
         break;
+        case SEND_SCRIPT:
+        {
+            GM_CHECK();
+            QString name, content;
+            QE(extractSendScriptData(pa->data, name, content));
+            updateScript(name, content);
+        }
+        break;
+        case REQUEST_SCRIPT_UPDATE:
+        {
+            GM_CHECK();
+            QString name;
+            QE(extractRequestScriptData(pa->data, name));
+            QFile file (SCRIPT_FOLDER+name);
+            if(!file.open(QIODevice::ReadOnly|QIODevice::Text))
+            {
+                m_network->sendToClient(cID, ETI(ERROR), serialiseErrorData(ETI(CANNOT_OPEN_SCRIPT), name));
+            }
+            else
+            {
+                m_network->sendToClient(cID, ETI(SEND_SCRIPT), serialiseSendScriptData(name, file.readAll()));
+            }
+
+        }
+        break;
         default:
         {
             log("ERROR : packet type "+QString::number(pa->type)+" unknown ! (from Client "+QString::number(cID)+")");

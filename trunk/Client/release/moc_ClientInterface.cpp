@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Meta object code from reading C++ file 'ClientInterface.h'
 **
-** Created: Wed 6. Apr 20:48:44 2011
+** Created: Sat 9. Apr 12:15:28 2011
 **      by: The Qt Meta Object Compiler version 62 (Qt 4.7.0)
 **
 ** WARNING! All changes made in this file will be lost!
@@ -86,15 +86,15 @@ static const uint qt_meta_data_ClientInterface[] = {
     1175,   16,   16,   16, 0x08,
     1218,   16,   16,   16, 0x08,
     1273, 1268,   16,   16, 0x08,
-    1307, 1268,   16,   16, 0x08,
-    1344, 1335,   16,   16, 0x08,
-    1402,   16,   16,   16, 0x08,
-    1419,   16,   16,   16, 0x08,
-    1430,   16,   16,   16, 0x08,
-    1441,   16,   16,   16, 0x08,
-    1460,   16,   16,   16, 0x08,
-    1476,   16,   16,   16, 0x08,
-    1495,  331,   16,   16, 0x08,
+    1312, 1307,   16,   16, 0x08,
+    1352, 1343,   16,   16, 0x08,
+    1410,   16,   16,   16, 0x08,
+    1427,   16,   16,   16, 0x08,
+    1438,   16,   16,   16, 0x08,
+    1449,   16,   16,   16, 0x08,
+    1468,   16,   16,   16, 0x08,
+    1484,   16,   16,   16, 0x08,
+    1503,  331,   16,   16, 0x08,
 
        0        // eod
 };
@@ -136,7 +136,8 @@ static const char qt_meta_stringdata_ClientInterface[] = {
     "syncSoundLibs(QList<SoundLibInformations>)\0"
     "syncLanguagesList(QList<QPair<QString,QString> >)\0"
     "list\0syncDictionariesList(QStringList)\0"
-    "syncScriptList(QStringList)\0map,ress\0"
+    "name\0requestScriptDownload(QString)\0"
+    "map,ress\0"
     "sendMapToServer(MapInformations*const,QMap<QString,RSID>)\0"
     "addDictionnary()\0saveGame()\0loadGame()\0"
     "VOIPRemoveClient()\0VOIPAddClient()\0"
@@ -231,7 +232,7 @@ int ClientInterface::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
         case 52: syncSoundLibs((*reinterpret_cast< QList<SoundLibInformations>(*)>(_a[1]))); break;
         case 53: syncLanguagesList((*reinterpret_cast< QList<QPair<QString,QString> >(*)>(_a[1]))); break;
         case 54: syncDictionariesList((*reinterpret_cast< QStringList(*)>(_a[1]))); break;
-        case 55: syncScriptList((*reinterpret_cast< QStringList(*)>(_a[1]))); break;
+        case 55: requestScriptDownload((*reinterpret_cast< QString(*)>(_a[1]))); break;
         case 56: sendMapToServer((*reinterpret_cast< const MapInformations*const(*)>(_a[1])),(*reinterpret_cast< const QMap<QString,RSID>(*)>(_a[2]))); break;
         case 57: addDictionnary(); break;
         case 58: saveGame(); break;

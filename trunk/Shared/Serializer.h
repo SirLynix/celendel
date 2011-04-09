@@ -105,4 +105,10 @@ QByteArray serialiseUpdateRessourcesData(const QMap<QString, RSID>& ressources);
 bool extractScriptListData(QByteArray& data, QStringList& list);
 QByteArray serialiseScriptListData(const QStringList& list);
 
+bool extractSendScriptData(QByteArray& data, QString& name, QString& content);
+QByteArray serialiseSendScriptData(const QString& name, const QString& content);
+
+bool extractRequestScriptData(QByteArray& data, QString& name);
+QByteArray serialiseRequestScriptData(const QString& name);
+
 #endif

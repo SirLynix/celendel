@@ -183,6 +183,13 @@ void ClientNetwork::operatePacket(Packet* packet)
             emit syncScriptList(l);
         }
         break;
+        case SEND_SCRIPT:
+        {
+            QString name, content;
+            QE(extractSendScriptData(packet->data, name, content));
+            emit scriptReceived(name, content);
+        }
+        break;
         default:
         break;
     }

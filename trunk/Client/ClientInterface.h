@@ -13,6 +13,7 @@
 
 class MapWidget;
 class MapEditor;
+class ScriptManager;
 
 class VOIP;
 
@@ -101,7 +102,7 @@ class ClientInterface : public QMainWindow
         void syncLanguagesList(QList<QPair<QString, QString> >);
         void syncDictionariesList(QStringList list);
 
-        void syncScriptList(QStringList list);
+        void requestScriptDownload(QString name);
 
         void sendMapToServer(const MapInformations* const map, const QMap<QString, RSID>& ress);
 
@@ -125,6 +126,8 @@ class ClientInterface : public QMainWindow
         QString anonym(CLID ID);
         QString anonym2(CLID ID);
 
+        ScriptManager *m_scriptManager;
+
         ///Infos
         bool m_gameStarted;
         bool m_voted;
@@ -135,7 +138,6 @@ class ClientInterface : public QMainWindow
         QString m_serverName;
         QString m_motd;
         QMap<CLID, PlayerInformations> m_playersMap;
-        QStringList m_scriptList;
 
 
         ///Chat GUI

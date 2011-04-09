@@ -5,6 +5,7 @@
 
 #include "ClientInterface.h"
 #include "MapWidget.h"
+#include "ScriptManager.h"
 
 void ClientInterface::buildGUI()
 {
@@ -237,6 +238,18 @@ connect(m_v_cl, SIGNAL(customContextMenuRequested(const QPoint&)), this, SLOT(ch
 l_characterListDock->addWidget(m_v_cl);
 
 addDockWidget(Qt::LeftDockWidgetArea, characterListDock);
+
+///SCRIPTS DOCK
+QDockWidget *scriptsDock = new QDockWidget(tr("Scripts"), this);
+scriptsDock->setWhatsThis(tr("Gestion des scripts"));
+scriptsDock->setFeatures(QDockWidget::NoDockWidgetFeatures);
+scriptsDock->setFeatures(QDockWidget::DockWidgetFloatable|QDockWidget::DockWidgetMovable);
+
+
+m_scriptManager = new ScriptManager(characterListDock);
+scriptsDock->setWidget(m_scriptManager);
+
+addDockWidget(Qt::LeftDockWidgetArea, scriptsDock);
 
 
 ///GM PANEL LIST DOCK

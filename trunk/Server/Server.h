@@ -17,6 +17,9 @@
 
 #define MOTD_DEFAULT_PATH "MOTD.html"
 
+#define SCRIPT_FOLDER "./Scripts/"
+#define SCRIPT_EXT "*.lua"
+
 class Server : public QObject
 {
     Q_OBJECT
@@ -49,6 +52,8 @@ class Server : public QObject
         void launchGame();
 
         void sendScriptList(CLID cID);
+
+        bool updateScript(const QString& name, const QString& content);
 
     private slots:
         void cleanUp();
