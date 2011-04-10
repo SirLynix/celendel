@@ -9,6 +9,12 @@
 
 int alea(int min,int max){static bool first=true;if(first){srand(time(NULL));first=false;alea(0,150);}return (int)(min+((float)rand()/RAND_MAX*(max-min+1)));}
 
+bool mkpath(const QString& s)
+{
+    QDir d;
+    return !d.mkpath(s);
+}
+
 QString hashFile(const QString& filename, QCryptographicHash::Algorithm al)
 {
     QFile file(filename);
@@ -42,12 +48,12 @@ QStringList listFilesInFolder(const QString& folder, const QStringList& filters,
     {
         if(list[i].isDir())
         {
-            l+=listFilesInFolder(suff+'/'+list[i].fileName(), suff+'/'+list[i].fileName());
+            l+=listFilesInFolder(folder+list[i].fileName()+'/', filters, suff+list[i].fileName()+'/');
         }
         else
         {
             if(!suff.isEmpty())
-                l<<suff+'/'+list[i].fileName();
+                l<<suff+list[i].fileName();
             else
                 l<<list[i].fileName();
         }

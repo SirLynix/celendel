@@ -10,6 +10,7 @@ class QTextEdit;
 class QGroupBox;
 class QLabel;
 class QPushButton;
+class QAction;
 
 class EditorDialog;
 
@@ -25,17 +26,30 @@ class ScriptManager : public QWidget
         void showScriptText(QString script, QString text);
         void openEditor();
 
-        void downloadButtonPressed();
+        void sendScript(QString name, QString content);
+        void openContextMenu(const QPoint& p);
+
+        void ac_download();
+        void ac_rename();
+        void ac_delete();
 
     signals:
         void requestScriptDownload(QString name);
+
+        void sendScriptToServer(QString name, QString content);
+
+        void deleteScript(QString name);
+        void renameScript(QString name, QString newName);
 
     private:
         QStringList m_scripts;
 
         QListWidget* m_list;
-        QPushButton* m_download;
         QGroupBox* m_gb;
+
+        QAction* m_download;
+        QAction* m_rename;
+        QAction* m_delete;
 
         QPushButton* m_openEditor;
 

@@ -32,11 +32,13 @@ SOURCES += ClientInterface.cpp \
            ScriptManager.cpp EditorDialog.cpp
 
 SOURCES += \
-    ../Shared/LuaSystem/ScriptedEntity.cpp
+    ../Shared/LuaSystem/ScriptedEntity.cpp \
+    ../Shared/LuaSystem/ScriptSandbox.cpp
 
 HEADERS += \
     ../Shared/LuaSystem/ScriptedEntity.h \
-    ../Shared/LuaSystem/luaHeader.h
+    ../Shared/LuaSystem/luaHeader.h \
+    ../Shared/LuaSystem/ScriptSandbox.h
 
 
 TRANSLATIONS = Client_en.ts

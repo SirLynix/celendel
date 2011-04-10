@@ -8,19 +8,19 @@
 		<Cursor position="270" topLine="0" />
 	</File>
 	<File name="Client.pro" open="0" top="0" tabpos="1">
-		<Cursor position="142" topLine="0" />
+		<Cursor position="1924" topLine="0" />
 	</File>
 	<File name="ClientChatCommands.cpp" open="0" top="0" tabpos="1">
 		<Cursor position="4564" topLine="75" />
 	</File>
 	<File name="ClientGMInterface.cpp" open="0" top="0" tabpos="2">
-		<Cursor position="4228" topLine="126" />
+		<Cursor position="2494" topLine="48" />
 	</File>
 	<File name="ClientInterface.cpp" open="0" top="0" tabpos="3">
-		<Cursor position="23806" topLine="774" />
+		<Cursor position="24594" topLine="797" />
 	</File>
 	<File name="ClientInterface.h" open="0" top="0" tabpos="3">
-		<Cursor position="3262" topLine="57" />
+		<Cursor position="3329" topLine="60" />
 	</File>
 	<File name="ClientMapInterface.cpp" open="0" top="0" tabpos="4">
 		<Cursor position="793" topLine="0" />
@@ -38,7 +38,7 @@
 		<Cursor position="917" topLine="0" />
 	</File>
 	<File name="ClientSettings.cpp" open="0" top="0" tabpos="1">
-		<Cursor position="17749" topLine="437" />
+		<Cursor position="17934" topLine="437" />
 	</File>
 	<File name="ClientSettings.h" open="0" top="0" tabpos="5">
 		<Cursor position="733" topLine="22" />
@@ -46,11 +46,17 @@
 	<File name="CompressedMap.cpp" open="0" top="0" tabpos="6">
 		<Cursor position="807" topLine="12" />
 	</File>
+	<File name="EditorDialog.cpp" open="0" top="0" tabpos="3">
+		<Cursor position="2225" topLine="33" />
+	</File>
+	<File name="EditorDialog.h" open="0" top="0" tabpos="1">
+		<Cursor position="516" topLine="0" />
+	</File>
 	<File name="GUI.cpp" open="0" top="0" tabpos="5">
-		<Cursor position="12161" topLine="222" />
+		<Cursor position="10278" topLine="178" />
 	</File>
 	<File name="MapEditor.cpp" open="0" top="0" tabpos="1">
-		<Cursor position="26353" topLine="799" />
+		<Cursor position="24550" topLine="757" />
 	</File>
 	<File name="MapEditor.h" open="0" top="0" tabpos="1">
 		<Cursor position="1279" topLine="45" />
@@ -97,11 +103,11 @@
 	<File name="QSFMLCanvas.hpp" open="0" top="0" tabpos="0">
 		<Cursor position="1029" topLine="0" />
 	</File>
-	<File name="ScriptManager.cpp" open="1" top="0" tabpos="2">
-		<Cursor position="1605" topLine="17" />
+	<File name="ScriptManager.cpp" open="0" top="0" tabpos="2">
+		<Cursor position="2596" topLine="63" />
 	</File>
-	<File name="ScriptManager.h" open="1" top="0" tabpos="1">
-		<Cursor position="501" topLine="0" />
+	<File name="ScriptManager.h" open="0" top="0" tabpos="1">
+		<Cursor position="860" topLine="3" />
 	</File>
 	<File name="SoundLibThread.cpp" open="0" top="0" tabpos="0">
 		<Cursor position="561" topLine="0" />
@@ -158,13 +164,22 @@
 		<Cursor position="556" topLine="0" />
 	</File>
 	<File name="..\Shared\Constants.h" open="0" top="0" tabpos="0">
-		<Cursor position="4226" topLine="108" />
+		<Cursor position="5875" topLine="195" />
+	</File>
+	<File name="..\Shared\LuaSystem\ScriptedEntity.cpp" open="0" top="0" tabpos="0">
+		<Cursor position="659" topLine="0" />
+	</File>
+	<File name="..\Shared\LuaSystem\ScriptedEntity.h" open="0" top="0" tabpos="0">
+		<Cursor position="369" topLine="0" />
+	</File>
+	<File name="..\Shared\LuaSystem\luaHeader.h" open="0" top="0" tabpos="0">
+		<Cursor position="157" topLine="0" />
 	</File>
 	<File name="..\Shared\MapStructs.h" open="0" top="0" tabpos="0">
 		<Cursor position="909" topLine="2" />
 	</File>
 	<File name="..\Shared\Miscelaneous.cpp" open="0" top="0" tabpos="0">
-		<Cursor position="537" topLine="0" />
+		<Cursor position="868" topLine="14" />
 	</File>
 	<File name="..\Shared\Packet.cpp" open="0" top="0" tabpos="0">
 		<Cursor position="695" topLine="37" />
@@ -173,9 +188,9 @@
 		<Cursor position="157" topLine="0" />
 	</File>
 	<File name="..\Shared\Serializer.cpp" open="0" top="0" tabpos="0">
-		<Cursor position="14690" topLine="764" />
+		<Cursor position="15380" topLine="830" />
 	</File>
 	<File name="..\Shared\Serializer.h" open="0" top="0" tabpos="0">
-		<Cursor position="4582" topLine="58" />
+		<Cursor position="4874" topLine="67" />
 	</File>
 </CodeBlocks_layout_file>

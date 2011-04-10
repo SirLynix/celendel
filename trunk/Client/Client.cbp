@@ -86,6 +86,8 @@
 		<Unit filename="ClientSettings.cpp" />
 		<Unit filename="ClientSettings.h" />
 		<Unit filename="CompressedMap.cpp" />
+		<Unit filename="EditorDialog.cpp" />
+		<Unit filename="EditorDialog.h" />
 		<Unit filename="GUI.cpp" />
 		<Unit filename="MapEditor.cpp" />
 		<Unit filename="MapEditor.h" />
@@ -124,6 +126,8 @@
 		<Unit filename="VOIP\VOIP.h" />
 		<Unit filename="main.cpp" />
 		<Unit filename="..\Shared\Constants.h" />
+		<Unit filename="..\Shared\LuaSystem\ScriptSandbox.cpp" />
+		<Unit filename="..\Shared\LuaSystem\ScriptSandbox.h" />
 		<Unit filename="..\Shared\LuaSystem\ScriptedEntity.cpp" />
 		<Unit filename="..\Shared\LuaSystem\ScriptedEntity.h" />
 		<Unit filename="..\Shared\LuaSystem\luaHeader.h" />

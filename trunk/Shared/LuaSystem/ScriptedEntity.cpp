@@ -36,6 +36,7 @@ ScriptedEntity::ScriptedEntity(const QString& file) : m_state()
     onInit();
 }
 
+
 ScriptedEntity::~ScriptedEntity()
 {
     onDeath();

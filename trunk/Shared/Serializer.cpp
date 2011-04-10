@@ -846,3 +846,47 @@ QByteArray serialiseRequestScriptData(const QString& name)
 
     return data;
 }
+
+bool extractDeleteScriptData(QByteArray& data, QString& name)
+{
+    QV(data);
+    QDataStream in(data);
+    in>>name;
+    R(in);
+
+    return false;
+}
+
+QByteArray serialiseDeleteScriptData(const QString& name)
+{
+    QByteArray data;
+    QDataStream out(&data, QIODevice::ReadWrite);
+
+    out<<name;
+
+    return data;
+}
+
+bool extractRenameScriptData(QByteArray& data, QString& name, QString& newName)
+{
+    QV(data);
+    QDataStream in(data);
+    in>>name;
+    R(in);
+    in>>newName;
+    R(in);
+
+    return false;
+}
+
+QByteArray serialiseRenameScriptData(const QString& name, const QString& newName)
+{
+    QByteArray data;
+    QDataStream out(&data, QIODevice::ReadWrite);
+
+    out<<name;
+    out<<newName;
+
+    return data;
+}
+
