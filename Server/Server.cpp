@@ -65,6 +65,30 @@ ServerInformations Server::getServerInformations() const
     return si;
 }
 
+bool Server::mkscriptpath(const QString& scriptName)
+{
+    if(!isValidScriptName(scriptName))
+        return true;
+
+    QString path = SCRIPT_FOLDER+scriptName; path = path.replace('\\', '/');
+    path = path.left(path.lastIndexOf('/'));
+
+    return mkpath(path);
+}
+
+bool Server::isValidScriptName(const QString& name)
+{
+    QDir d(SCRIPT_FOLDER+name);
+
+    if(!d.absolutePath().startsWith(QDir::currentPath()+'/'+SCRIPT_FOLDER))
+    {
+        DEB() << "Permission error : " << d.absolutePath() << '\t' << QDir::currentPath()+'/'+SCRIPT_FOLDER;
+        return false;
+    }
+
+    return true;
+}
+
 QStringList Server::getScriptList()
 {
     return listFilesInFolder(SCRIPT_FOLDER, SCRIPT_EXT);
@@ -118,16 +142,12 @@ void Server::cleanUp()
 
 bool Server::updateScript(const QString& name, const QString& content)
 {
-    QDir d(name);
-
-
-    if(!d.absolutePath().startsWith(QDir::currentPath()+'/'+SCRIPT_FOLDER))
-    {
-        DEB() << "Permission error : " << d.absolutePath() << '\t' << QDir::currentPath()+'/'+SCRIPT_FOLDER;
+    if(!isValidScriptName(name))
         return true;
-    }
 
-    QFile file(name);
+    mkscriptpath(name);
+
+    QFile file(SCRIPT_FOLDER+name);
 
     if(!file.open(QIODevice::WriteOnly|QIODevice::Text))
         return true;

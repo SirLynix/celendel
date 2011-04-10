@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Meta object code from reading C++ file 'EditorDialog.h'
 **
-** Created: Sat 9. Apr 13:57:38 2011
+** Created: Sun 10. Apr 12:14:49 2011
 **      by: The Qt Meta Object Compiler version 62 (Qt 4.7.0)
 **
 ** WARNING! All changes made in this file will be lost!
@@ -23,22 +23,34 @@ static const uint qt_meta_data_EditorDialog[] = {
        5,       // revision
        0,       // classname
        0,    0, // classinfo
-       0,    0, // methods
+       5,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
        0,       // flags
-       0,       // signalCount
+       1,       // signalCount
+
+ // signals: signature, parameters, type, tag, flags
+      27,   14,   13,   13, 0x05,
+
+ // slots: signature, parameters, type, tag, flags
+      63,   13,   13,   13, 0x08,
+      76,   13,   13,   13, 0x08,
+      89,   13,   13,   13, 0x08,
+     102,   13,   13,   13, 0x08,
 
        0        // eod
 };
 
 static const char qt_meta_stringdata_EditorDialog[] = {
-    "EditorDialog\0"
+    "EditorDialog\0\0name,content\0"
+    "sendScriptToServer(QString,QString)\0"
+    "saveScript()\0loadScript()\0sendScript()\0"
+    "runScript()\0"
 };
 
 const QMetaObject EditorDialog::staticMetaObject = {
-    { &QDialog::staticMetaObject, qt_meta_stringdata_EditorDialog,
+    { &QMainWindow::staticMetaObject, qt_meta_stringdata_EditorDialog,
       qt_meta_data_EditorDialog, 0 }
 };
 
@@ -56,14 +68,32 @@ void *EditorDialog::qt_metacast(const char *_clname)
     if (!_clname) return 0;
     if (!strcmp(_clname, qt_meta_stringdata_EditorDialog))
         return static_cast<void*>(const_cast< EditorDialog*>(this));
-    return QDialog::qt_metacast(_clname);
+    return QMainWindow::qt_metacast(_clname);
 }
 
 int EditorDialog::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
 {
-    _id = QDialog::qt_metacall(_c, _id, _a);
+    _id = QMainWindow::qt_metacall(_c, _id, _a);
     if (_id < 0)
         return _id;
+    if (_c == QMetaObject::InvokeMetaMethod) {
+        switch (_id) {
+        case 0: sendScriptToServer((*reinterpret_cast< QString(*)>(_a[1])),(*reinterpret_cast< QString(*)>(_a[2]))); break;
+        case 1: saveScript(); break;
+        case 2: loadScript(); break;
+        case 3: sendScript(); break;
+        case 4: runScript(); break;
+        default: ;
+        }
+        _id -= 5;
+    }
     return _id;
+}
+
+// SIGNAL 0
+void EditorDialog::sendScriptToServer(QString _t1, QString _t2)
+{
+    void *_a[] = { 0, const_cast<void*>(reinterpret_cast<const void*>(&_t1)), const_cast<void*>(reinterpret_cast<const void*>(&_t2)) };
+    QMetaObject::activate(this, &staticMetaObject, 0, _a);
 }
 QT_END_MOC_NAMESPACE

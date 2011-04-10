@@ -5,9 +5,6 @@
  /*  It rules the game. It receive data from the network class, */
 /* Works on it, then answer with the network class once again. */
 
-/* Workers :
-    - Gigotdarnaud
-*/
 
 #include "Network.h"
 #include <QList>
@@ -17,8 +14,9 @@
 
 #define MOTD_DEFAULT_PATH "MOTD.html"
 
-#define SCRIPT_FOLDER "./Scripts/"
+#define SCRIPT_FOLDER "Scripts/"
 #define SCRIPT_EXT "*.lua"
+
 
 class Server : public QObject
 {
@@ -40,6 +38,8 @@ class Server : public QObject
         bool changeGM(CLID cID); // Returns true on error
 
         static QStringList getScriptList();
+        static bool isValidScriptName(const QString& name);
+        static bool mkscriptpath(const QString& scriptName);
 
         ServerInformations getServerInformations() const;
         CLID nickToCLID(const QString& nick);

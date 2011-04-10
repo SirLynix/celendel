@@ -3,7 +3,7 @@
 #include "..\Shared\Constants.h"
 
 #define QE(a) if(a) {log("ERROR : packet received corrupted ! (from Client "+QString::number(cID)+") at line "+QString::number(__LINE__)+" in file "__FILE__); m_network->sendToClient(cID, ETI(ERROR), serialiseErrorData(ETI(INVALID_PACKET))); m_network->blame(cID); return;}
-#define GM_CHECK() if(!ply->isGM()) { m_network->sendToClient(cID, ETI(ERROR), serialiseErrorData(ETI(NOT_GM))); log("POWER ERROR : client "+QString::number(cID)+" at line "+QString::number(__LINE__)+" in file "__FILE__); /*delete pa; pa=NULL;*/ return;}
+#define GM_CHECK() if(!ply->isGM()) { m_network->sendToClient(cID, ETI(ERROR), serialiseErrorData(ETI(NOT_GM))); log("POWER ERROR : client "+QString::number(cID)+" at line "+QString::number(__LINE__)+" in file "__FILE__); return;}
 
 bool Server::changeGM(CLID cID)
 {
@@ -50,13 +50,12 @@ QString Server::translateText(const QString& text, const QString& language, CLID
     return m_translator.translate(text, language, prct);
 }
 
-void Server::processData(std::auto_ptr<Packet> pa /*Packet* pa*/, CLID cID)
+void Server::processData(std::auto_ptr<Packet> pa, CLID cID)
 {
     Player *ply = getPlayer(cID);
     if(ply==NULL)
     {
         log("ERROR : Packet received, but player is unfindable (cast error). -> trash bin, sorry little orphan packet.");
-        //delete pa;
         return;
 
     }
@@ -411,7 +410,14 @@ void Server::processData(std::auto_ptr<Packet> pa /*Packet* pa*/, CLID cID)
             GM_CHECK();
             QString name, content;
             QE(extractSendScriptData(pa->data, name, content));
-            updateScript(name, content);
+
+            if(!updateScript(name, content))
+            {
+                sendScriptList(cID);
+            }
+            else
+                m_network->sendToClient(cID, ETI(ERROR), serialiseErrorData(ETI(CANNOT_UPDATE_SCRIPT), name));
+
         }
         break;
         case REQUEST_SCRIPT_UPDATE:
@@ -429,6 +435,42 @@ void Server::processData(std::auto_ptr<Packet> pa /*Packet* pa*/, CLID cID)
                 m_network->sendToClient(cID, ETI(SEND_SCRIPT), serialiseSendScriptData(name, file.readAll()));
             }
 
+        }
+        break;
+        case DELETE_SCRIPT:
+        {
+            GM_CHECK();
+            QString name;
+            QE(extractDeleteScriptData(pa->data, name));
+            if(isValidScriptName(name) && QFile::remove(SCRIPT_FOLDER+name))
+            {
+                log("GM removed script \"" + name + "\" from hard drive.");
+                sendScriptList(cID);
+            }
+            else
+            {
+                m_network->sendToClient(cID, ETI(ERROR), serialiseErrorData(ETI(CANNOT_DELETE_SCRIPT), name));
+            }
+        }
+        break;
+        case RENAME_SCRIPT:
+        {
+            GM_CHECK();
+            QString name, newName;
+            QE(extractRenameScriptData(pa->data, name, newName));
+
+            QFile f(SCRIPT_FOLDER+name);
+            if(isValidScriptName(name) && isValidScriptName(newName))
+            {
+                mkscriptpath(newName);
+                f.rename(SCRIPT_FOLDER+newName);
+                log("GM renamed script \"" + name + "\" to \"" + newName + "\"");
+                sendScriptList(cID);
+            }
+            else
+            {
+                m_network->sendToClient(cID, ETI(ERROR), serialiseErrorData(ETI(CANNOT_RENAME_SCRIPT), name));
+            }
         }
         break;
         default:

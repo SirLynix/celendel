@@ -1,10 +1,10 @@
 #ifndef EDITORDIALOG_H
 #define EDITORDIALOG_H
 
-#include <QDialog>
+#include <QMainWindow>
 class QsciScintilla;
 
-class EditorDialog : public QDialog
+class EditorDialog : public QMainWindow
 {
     Q_OBJECT
     public:
@@ -13,7 +13,20 @@ class EditorDialog : public QDialog
         void setText(const QString&);
         void setScriptName(const QString&);
 
+    signals:
+        void sendScriptToServer(QString name, QString content);
+
+    private slots:
+
+        void saveScript();
+        void loadScript();
+
+        void sendScript();
+
+        void runScript();
+
     private:
+        QString m_name;
         QsciScintilla *m_editor;
 };
 

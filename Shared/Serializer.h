@@ -111,4 +111,10 @@ QByteArray serialiseSendScriptData(const QString& name, const QString& content);
 bool extractRequestScriptData(QByteArray& data, QString& name);
 QByteArray serialiseRequestScriptData(const QString& name);
 
+bool extractDeleteScriptData(QByteArray& data, QString& name);
+QByteArray serialiseDeleteScriptData(const QString& name);
+
+bool extractRenameScriptData(QByteArray& data, QString& name, QString& newName);
+QByteArray serialiseRenameScriptData(const QString& name, const QString& newName);
+
 #endif

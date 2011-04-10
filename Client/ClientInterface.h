@@ -103,6 +103,9 @@ class ClientInterface : public QMainWindow
         void syncDictionariesList(QStringList list);
 
         void requestScriptDownload(QString name);
+        void sendScriptToServer(QString name, QString content);
+        void deleteScript(QString name);
+        void renameScript(QString name, QString newName);
 
         void sendMapToServer(const MapInformations* const map, const QMap<QString, RSID>& ress);
 

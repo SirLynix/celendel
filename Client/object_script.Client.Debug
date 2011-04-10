@@ -34,6 +34,7 @@ INPUT(
 ./debug\ScriptManager.o
 ./debug\EditorDialog.o
 ./debug\ScriptedEntity.o
+./debug\ScriptSandbox.o
 ./debug\moc_ClientInterface.o
 ./debug\moc_ClientNetwork.o
 ./debug\moc_ClientSettings.o
@@ -56,4 +57,5 @@ INPUT(
 ./debug\moc_ScriptManager.o
 ./debug\moc_EditorDialog.o
 ./debug\moc_ScriptedEntity.o
+./debug\moc_ScriptSandbox.o
 );

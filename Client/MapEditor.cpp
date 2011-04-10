@@ -767,9 +767,6 @@ bool MapEditor::loadMap(QString mapName, QString ressPack)
 
     if(mapName.isEmpty())
         return true;
-/*
-    if(ressPack.isEmpty())
-        ressPack = QFileDialog::getOpenFileName(this, tr("Charger un pack de ressources..."),QString(), tr("Fichiers de liste (*.list);;Tous les fichiers (*.*)"));*/
 
     pgrdia->show();
     pgrdia->setValue(1);
@@ -785,7 +782,7 @@ bool MapEditor::loadMap(QString mapName, QString ressPack)
 
 
     delete m_mapWidget;
-    m_mapWidget = new MapWidget(this, 60.0f); //  m_mapWidget = new MapWidget(this, 1.0f);
+    m_mapWidget = new MapWidget(this, 60.0f);
     setCentralWidget(m_mapWidget);
 
     connect(m_mapWidget, SIGNAL(ressourceLoadingProgress(int,int)), this, SLOT(ressourceLoadingProgress(int,int)));
@@ -796,21 +793,7 @@ bool MapEditor::loadMap(QString mapName, QString ressPack)
 
     pgrdia->setValue(2);
 
-    /*if(m_mapWidget->loadRessourcesPack(ressPack).isEmpty())
-    {
-        QMessageBox::critical(this,tr("Erreur"),tr("Impossible de charger le set d'image \"%1\".").arg(ressPack));
-        pgrdia->setValue(100);
-        return true;
-    }*/
     m_mapWidget->updateRessources(rss);
-
-  //  pgrdia->setValue(50);
-    /*if(m_mapWidget->setMap(map))
-    {
-        QMessageBox::critical(this,tr("Erreur"),tr("Impossible de charger la carte \"%1\".").arg(mapName));
-        pgrdia->setValue(100);
-        return true;
-    }*/
 
     pgrdia->setValue(99);
 

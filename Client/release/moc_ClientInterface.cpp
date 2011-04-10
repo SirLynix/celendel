@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Meta object code from reading C++ file 'ClientInterface.h'
 **
-** Created: Sat 9. Apr 12:15:28 2011
+** Created: Sun 10. Apr 14:34:15 2011
 **      by: The Qt Meta Object Compiler version 62 (Qt 4.7.0)
 **
 ** WARNING! All changes made in this file will be lost!
@@ -23,7 +23,7 @@ static const uint qt_meta_data_ClientInterface[] = {
        5,       // revision
        0,       // classname
        0,    0, // classinfo
-      64,   14, // methods
+      67,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
@@ -87,14 +87,17 @@ static const uint qt_meta_data_ClientInterface[] = {
     1218,   16,   16,   16, 0x08,
     1273, 1268,   16,   16, 0x08,
     1312, 1307,   16,   16, 0x08,
-    1352, 1343,   16,   16, 0x08,
-    1410,   16,   16,   16, 0x08,
-    1427,   16,   16,   16, 0x08,
-    1438,   16,   16,   16, 0x08,
-    1449,   16,   16,   16, 0x08,
-    1468,   16,   16,   16, 0x08,
-    1484,   16,   16,   16, 0x08,
-    1503,  331,   16,   16, 0x08,
+    1356, 1343,   16,   16, 0x08,
+    1392, 1307,   16,   16, 0x08,
+    1427, 1414,   16,   16, 0x08,
+    1466, 1457,   16,   16, 0x08,
+    1524,   16,   16,   16, 0x08,
+    1541,   16,   16,   16, 0x08,
+    1552,   16,   16,   16, 0x08,
+    1563,   16,   16,   16, 0x08,
+    1582,   16,   16,   16, 0x08,
+    1598,   16,   16,   16, 0x08,
+    1617,  331,   16,   16, 0x08,
 
        0        // eod
 };
@@ -137,7 +140,9 @@ static const char qt_meta_stringdata_ClientInterface[] = {
     "syncLanguagesList(QList<QPair<QString,QString> >)\0"
     "list\0syncDictionariesList(QStringList)\0"
     "name\0requestScriptDownload(QString)\0"
-    "map,ress\0"
+    "name,content\0sendScriptToServer(QString,QString)\0"
+    "deleteScript(QString)\0name,newName\0"
+    "renameScript(QString,QString)\0map,ress\0"
     "sendMapToServer(MapInformations*const,QMap<QString,RSID>)\0"
     "addDictionnary()\0saveGame()\0loadGame()\0"
     "VOIPRemoveClient()\0VOIPAddClient()\0"
@@ -233,17 +238,20 @@ int ClientInterface::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
         case 53: syncLanguagesList((*reinterpret_cast< QList<QPair<QString,QString> >(*)>(_a[1]))); break;
         case 54: syncDictionariesList((*reinterpret_cast< QStringList(*)>(_a[1]))); break;
         case 55: requestScriptDownload((*reinterpret_cast< QString(*)>(_a[1]))); break;
-        case 56: sendMapToServer((*reinterpret_cast< const MapInformations*const(*)>(_a[1])),(*reinterpret_cast< const QMap<QString,RSID>(*)>(_a[2]))); break;
-        case 57: addDictionnary(); break;
-        case 58: saveGame(); break;
-        case 59: loadGame(); break;
-        case 60: VOIPRemoveClient(); break;
-        case 61: VOIPAddClient(); break;
-        case 62: VOIPClientVolume(); break;
-        case 63: dataPerSecond((*reinterpret_cast< int(*)>(_a[1])),(*reinterpret_cast< int(*)>(_a[2]))); break;
+        case 56: sendScriptToServer((*reinterpret_cast< QString(*)>(_a[1])),(*reinterpret_cast< QString(*)>(_a[2]))); break;
+        case 57: deleteScript((*reinterpret_cast< QString(*)>(_a[1]))); break;
+        case 58: renameScript((*reinterpret_cast< QString(*)>(_a[1])),(*reinterpret_cast< QString(*)>(_a[2]))); break;
+        case 59: sendMapToServer((*reinterpret_cast< const MapInformations*const(*)>(_a[1])),(*reinterpret_cast< const QMap<QString,RSID>(*)>(_a[2]))); break;
+        case 60: addDictionnary(); break;
+        case 61: saveGame(); break;
+        case 62: loadGame(); break;
+        case 63: VOIPRemoveClient(); break;
+        case 64: VOIPAddClient(); break;
+        case 65: VOIPClientVolume(); break;
+        case 66: dataPerSecond((*reinterpret_cast< int(*)>(_a[1])),(*reinterpret_cast< int(*)>(_a[2]))); break;
         default: ;
         }
-        _id -= 64;
+        _id -= 67;
     }
     return _id;
 }

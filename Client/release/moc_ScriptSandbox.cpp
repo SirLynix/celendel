@@ -1,15 +1,15 @@
 /****************************************************************************
-** Meta object code from reading C++ file 'MapEditorDialogs.h'
+** Meta object code from reading C++ file 'ScriptSandbox.h'
 **
-** Created: Sun 10. Apr 14:34:35 2011
+** Created: Sat 9. Apr 21:15:09 2011
 **      by: The Qt Meta Object Compiler version 62 (Qt 4.7.0)
 **
 ** WARNING! All changes made in this file will be lost!
 *****************************************************************************/
 
-#include "../MapEditorDialogs.h"
+#include "../../Shared/LuaSystem/ScriptSandbox.h"
 #if !defined(Q_MOC_OUTPUT_REVISION)
-#error "The header file 'MapEditorDialogs.h' doesn't include <QObject>."
+#error "The header file 'ScriptSandbox.h' doesn't include <QObject>."
 #elif Q_MOC_OUTPUT_REVISION != 62
 #error "This file was generated using the moc from 4.7.0. It"
 #error "cannot be used with the include files from this version of Qt."
@@ -17,7 +17,7 @@
 #endif
 
 QT_BEGIN_MOC_NAMESPACE
-static const uint qt_meta_data_NewMapDialog[] = {
+static const uint qt_meta_data_ScriptSandbox[] = {
 
  // content:
        5,       // revision
@@ -31,45 +31,46 @@ static const uint qt_meta_data_NewMapDialog[] = {
        0,       // signalCount
 
  // slots: signature, parameters, type, tag, flags
-      14,   13,   13,   13, 0x08,
+      25,   20,   15,   14, 0x0a,
 
        0        // eod
 };
 
-static const char qt_meta_stringdata_NewMapDialog[] = {
-    "NewMapDialog\0\0on_browse_pressed()\0"
+static const char qt_meta_stringdata_ScriptSandbox[] = {
+    "ScriptSandbox\0\0bool\0code\0pushCode(QString)\0"
 };
 
-const QMetaObject NewMapDialog::staticMetaObject = {
-    { &QDialog::staticMetaObject, qt_meta_stringdata_NewMapDialog,
-      qt_meta_data_NewMapDialog, 0 }
+const QMetaObject ScriptSandbox::staticMetaObject = {
+    { &QObject::staticMetaObject, qt_meta_stringdata_ScriptSandbox,
+      qt_meta_data_ScriptSandbox, 0 }
 };
 
 #ifdef Q_NO_DATA_RELOCATION
-const QMetaObject &NewMapDialog::getStaticMetaObject() { return staticMetaObject; }
+const QMetaObject &ScriptSandbox::getStaticMetaObject() { return staticMetaObject; }
 #endif //Q_NO_DATA_RELOCATION
 
-const QMetaObject *NewMapDialog::metaObject() const
+const QMetaObject *ScriptSandbox::metaObject() const
 {
     return QObject::d_ptr->metaObject ? QObject::d_ptr->metaObject : &staticMetaObject;
 }
 
-void *NewMapDialog::qt_metacast(const char *_clname)
+void *ScriptSandbox::qt_metacast(const char *_clname)
 {
     if (!_clname) return 0;
-    if (!strcmp(_clname, qt_meta_stringdata_NewMapDialog))
-        return static_cast<void*>(const_cast< NewMapDialog*>(this));
-    return QDialog::qt_metacast(_clname);
+    if (!strcmp(_clname, qt_meta_stringdata_ScriptSandbox))
+        return static_cast<void*>(const_cast< ScriptSandbox*>(this));
+    return QObject::qt_metacast(_clname);
 }
 
-int NewMapDialog::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
+int ScriptSandbox::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
 {
-    _id = QDialog::qt_metacall(_c, _id, _a);
+    _id = QObject::qt_metacall(_c, _id, _a);
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
         switch (_id) {
-        case 0: on_browse_pressed(); break;
+        case 0: { bool _r = pushCode((*reinterpret_cast< const QString(*)>(_a[1])));
+            if (_a[0]) *reinterpret_cast< bool*>(_a[0]) = _r; }  break;
         default: ;
         }
         _id -= 1;
