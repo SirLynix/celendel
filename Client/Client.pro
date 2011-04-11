@@ -16,7 +16,7 @@ HEADERS += ClientInterface.h \
            VOIP/Recorder.h VOIP/Sound.h VOIP/SoundReceiver.h VOIP/Speex.h VOIP/VOIP.h VOIP/Global.h VOIP/OpenAL.h \
            AboutWindow.h SoundManager.h SoundsGUI.h SoundLibThread.h QSFMLCanvas.hpp MapWidget.h MapEditor.h MapEditorDialogs.h \
            QColorPicker/QColorPickerWidget.h QColorPicker/QColorViewer.h QColorPicker/qtcolortriangle.h QColorPicker/screen.h \
-           ScriptManager.h EditorDialog.h
+           ScriptManager.h EditorDialog.h EntitiesManager.h
 
 SOURCES += ClientInterface.cpp \
            ClientNetwork.cpp \
@@ -29,11 +29,12 @@ SOURCES += ClientInterface.cpp \
            VOIP/Recorder.cpp VOIP/Sound.cpp VOIP/SoundReceiver.cpp VOIP/Speex.cpp VOIP/VOIP.cpp VOIP/OpenAL.cpp \
            SoundManager.cpp SoundsGUI.cpp SoundLibThread.cpp QSFMLCanvas.cpp MapWidget.cpp ClientMapInterface.cpp MapEditor.cpp MapEditorDialogs.cpp \
            QColorPicker/QColorPickerWidget.cpp QColorPicker/QColorViewer.cpp QColorPicker/qtcolortriangle.cpp QColorPicker/screen.cpp CompressedMap.cpp \
-           ScriptManager.cpp EditorDialog.cpp
+           ScriptManager.cpp EditorDialog.cpp EntitiesManager.cpp
 
 SOURCES += \
     ../Shared/LuaSystem/ScriptedEntity.cpp \
-    ../Shared/LuaSystem/ScriptSandbox.cpp
+    ../Shared/LuaSystem/ScriptSandbox.cpp \
+    ../Shared/LuaSystem/ScriptedEntityCallbacks.cpp
 
 HEADERS += \
     ../Shared/LuaSystem/ScriptedEntity.h \

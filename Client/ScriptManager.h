@@ -32,6 +32,7 @@ class ScriptManager : public QWidget
         void ac_download();
         void ac_rename();
         void ac_delete();
+        void ac_makeEntity();
 
     signals:
         void requestScriptDownload(QString name);
@@ -40,6 +41,8 @@ class ScriptManager : public QWidget
 
         void deleteScript(QString name);
         void renameScript(QString name, QString newName);
+
+        void makeEntity(QString name, QString scriptName);
 
     private:
         QStringList m_scripts;
@@ -50,6 +53,7 @@ class ScriptManager : public QWidget
         QAction* m_download;
         QAction* m_rename;
         QAction* m_delete;
+        QAction* m_makeEntity;
 
         QPushButton* m_openEditor;
 

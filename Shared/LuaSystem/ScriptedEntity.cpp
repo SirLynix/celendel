@@ -2,6 +2,7 @@
 
 #include <QTimer>
 #include <QString>
+#include <QStringList>
 
 const char ScriptedEntity::className[] = "ScriptedEntity";
 
@@ -21,12 +22,16 @@ ScriptedEntity::ScriptedEntity(const QString& file) : m_state()
 
     m_fileName=file;
 
+    m_valid=true;
+    m_showUpdateError=true;
+    m_needSync=true;
+
     if(luaL_dofile(m_state, file.toAscii())!=0)
     {
         LUA_ERROR() << "Error loading script : " << file;
+        m_valid=false;
     }
 
-    m_valid=true;
 
     m_elapsed.start();
     m_updateTimer = new QTimer(this);
@@ -53,188 +58,117 @@ void ScriptedEntity::unpause()
     m_elapsed.restart();
 }
 
-int ScriptedEntity::sendMessageToGM(lua_State* L)
+QStringList ScriptedEntity::getDataKeys()
 {
-    int argc = lua_gettop(L);
-    if(argc != 1 || !lua_isstring(L,1))
+    QStringList l;
+
+    lua_settop(m_state,0);
+    lua_getglobal(m_state,"data");
+    if (!lua_istable(m_state,1))
     {
-        LUA_ERROR() << "Error : invalid arguments";
-        return 0;
+        lua_pop(m_state,1);
+        return l;
     }
 
-    QString msg(lua_tostring(L,1));
-
-    emit sendGMMsg(msg);
-    qDebug() << "GM msg : " << msg;
-
-    return 0;
-}
-
-int ScriptedEntity::sendMessageToOwner(lua_State* L)
-{
-    int argc = lua_gettop(L);
-    if(argc != 1 || !lua_isstring(L,1))
+    lua_pushnil(m_state);  /* first key */
+    while (lua_next(m_state, 1) != 0) //Iterate throught the table
     {
-        LUA_ERROR() << "Error : invalid arguments";
-        return 0;
+       /* uses 'key' (at index -2) and 'value' (at index -1) */
+        if(lua_isstring(m_state, -1))
+        {
+            l << lua_tostring(m_state, -1);
+        }
+
+       lua_pop(m_state, 1); /* removes 'value'; keeps 'key' for next iteration */
     }
 
-    QString msg(lua_tostring(L,1));
+    lua_pop(m_state,1);
 
-    emit sendOwnerMsg(msg);
-
-    return 0;
+    return l;
 }
 
-int ScriptedEntity::sendMessageToAll(lua_State* L)
+QMap<QString, QString> ScriptedEntity::getData()
 {
-    int argc = lua_gettop(L);
-    if(argc != 1 || !lua_isstring(L,1))
+    QStringList keys=getDataKeys();
+    QMap<QString, QString> ret;
+
+    for(int i=0, m=keys.size();i<m;++i)
     {
-        LUA_ERROR() << "Error : invalid arguments";
-        return 0;
+        bool b;
+        QString s = getStr(keys[i], &b);
+        if(b)
+            ret[keys[i]] = s;
     }
 
-    QString msg(lua_tostring(L,1));
-
-    emit sendMsg(msg);
-
-    return 0;
+    return ret;
 }
 
-int ScriptedEntity::sendMessageToPlayer(lua_State* L)
+QString ScriptedEntity::getStr(const QString& name, bool* b)
 {
-    int argc = lua_gettop(L);
-    if(argc != 2 || !lua_isstring(L,1) || !lua_isstring(L,1))
-    {
-        LUA_ERROR() << "Error : invalid arguments";
-        return 0;
-    }
+    bool bp=false;
+    if(b == NULL)
+        b=&bp;
 
-    QString msg(lua_tostring(L,1));
-    QString ply(lua_tostring(L,2));
-
-    emit sendPlayerMsg(msg,ply);
-
-    return 0;
-}
-
-void ScriptedEntity::onInit()
-{
-    callSimpleMethod("onInit");
-}
-
-void ScriptedEntity::onDeath()
-{
-    callSimpleMethod("onDeath");
-}
-
-void ScriptedEntity::callSimpleMethod(const QString& name)
-{
-    if(!isValid())
-        return;
-
+    *b=false;
+    QString ret;
+    lua_settop(m_state,0);
     lua_getglobal(m_state,name.toAscii());
-
-    if (lua_isfunction(m_state,-1))
+    if (lua_isstring(m_state,1))
     {
-        Lunar<ScriptedEntity>::push(m_state,this);
-
-        if(lua_pcall(m_state,1,0,0))
-        {
-            LUA_ERROR() << "Error calling function " << name << " : " << lua_tostring(m_state,1);
-            lua_pop(m_state,1);
-        }
+        ret=lua_tostring(m_state,1);
+        *b=true;
     }
-    else
-    {
-        LUA_ERROR() << "Warning : no " << name << " callback function in LUA script";
-        lua_pop(m_state,1);
-    }
+    lua_pop(m_state,1);
+    return ret;
 }
 
-int ScriptedEntity::onDamage(int amount, const QString& type, const QString& from)
+double ScriptedEntity::getNumber(const QString& name, bool* b)
 {
-    if(!isValid())
-        return 0;
+    bool bp=false;
+    if(b == NULL)
+        b=&bp;
 
-    lua_getglobal(m_state,"onDamage");
-
-    if (lua_isfunction(m_state,-1))
+    *b=false;
+    double ret=0;
+    lua_settop(m_state,0);
+    lua_getglobal(m_state,name.toAscii());
+    if (lua_isnumber(m_state,1))
     {
-        Lunar<ScriptedEntity>::push(m_state,this);
-        lua_pushnumber(m_state,amount);
-        lua_pushstring(m_state,type.toAscii());
-        lua_pushstring(m_state,from.toAscii());
-
-        if(lua_pcall(m_state,4,0,0))
-        {
-            LUA_ERROR() << "Error calling function \"onDamage\" : " << lua_tostring(m_state,1);
-            lua_pop(m_state,1);
-            return 0;
-        }
-
-        return (int)lua_tonumber(m_state,-1);
+        ret=lua_tonumber(m_state,1);
+        *b=true;
     }
-    else
-    {
-        LUA_ERROR() << "Error : no \"onDamage\" callback function";
-        lua_pop(m_state,1);
-    }
-
-    return 0;
+    lua_pop(m_state,1);
+    return ret;
 }
 
-void ScriptedEntity::onUse(const QString& user)
+bool ScriptedEntity::dataExist(const QString& name)
 {
-    if(!isValid())
-        return;
-
-    lua_getglobal(m_state,"onUse");
-
-    if (lua_isfunction(m_state,-1))
-    {
-        Lunar<ScriptedEntity>::push(m_state,this);
-        lua_pushstring(m_state,user.toAscii());
-
-        if(lua_pcall(m_state,2,0,0))
-        {
-            LUA_ERROR() << "Error calling function \"onUse\" : " << lua_tostring(m_state,1);
-            lua_pop(m_state,1);
-        }
-    }
-    else
-    {
-        LUA_ERROR() << "Error : no \"onUse\" callback function";
-        lua_pop(m_state,1);
-    }
-
+    lua_settop(m_state,0);
+    lua_getglobal(m_state,name.toAscii());
+    bool re = lua_isnoneornil(m_state, -1);
+    lua_pop(m_state,1);
+    return re;
 }
 
-void ScriptedEntity::onUpdate()
+QString ScriptedEntity::pushCode(const QString& code, bool* b)
 {
-    int time = m_elapsed.elapsed();
-    m_elapsed.restart();
+    bool bp=false;
+    if(b == NULL)
+        b=&bp;
 
     if(!isValid())
-        return;
-
-    lua_getglobal(m_state,"onUpdate");
-
-    if (lua_isfunction(m_state,-1))
     {
-        Lunar<ScriptedEntity>::push(m_state,this);
-        lua_pushnumber(m_state,time);
-
-        if(lua_pcall(m_state,2,0,0))
-        {
-            LUA_ERROR() << "Error calling function \"onUpdate\" : " << lua_tostring(m_state,1);
-            lua_pop(m_state,1);
-        }
+        *b=false;
+        return tr("Script invalide");
     }
-    else
+    int ret = luaL_dostring(m_state, code.toAscii());
+    if(ret == 0)
     {
-        LUA_ERROR() << "Error : no \"onUpdate\" callback function";
-        lua_pop(m_state,1);
+        *b=true;
+        return QString();
     }
+    *b=false;
+    QString s = lua_tostring(m_state, -1) + '\n'; lua_pop(m_state, 1);
+    return s;
 }
+

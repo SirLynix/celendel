@@ -19,6 +19,21 @@ class ScriptedEntity : public QObject
 
         bool isValid() const { return m_valid; }
 
+        QString pushCode(const QString& code, bool* ok = 0);
+
+        QStringList getDataKeys();
+        QMap<QString, QString> getData();
+
+        QString getName() { return getStr("name"); }
+        QString getDescription() { return getStr("description"); }
+        QString getType() { return getStr("type"); }
+        QString getStr(const QString& name, bool* ok = 0);
+
+        double getWeight() { return getNumber("weight"); }
+        double getNumber(const QString& name, bool*ok = 0);
+
+        bool dataExist(const QString& name);
+
     public slots:
 
 
@@ -43,6 +58,8 @@ class ScriptedEntity : public QObject
         void sendPlayerMsg(QString msg,QString regexp);
         void doAction(QString msg);
 
+        void dataChanged();
+
     private:
 
         /// From Lua to C++ ///
@@ -51,6 +68,7 @@ class ScriptedEntity : public QObject
         int sendMessageToAll(lua_State* L);
         int sendMessageToPlayer(lua_State* L);
 
+        int syncData(lua_State* L);
 
         ScriptedEntity(lua_State*) {}
 
@@ -58,6 +76,10 @@ class ScriptedEntity : public QObject
         QString m_fileName;
 
         bool m_valid;
+
+        bool m_needSync;
+
+        bool m_showUpdateError;
 
         QTimer* m_updateTimer;
         QTime m_elapsed;

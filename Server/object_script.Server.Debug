@@ -9,7 +9,9 @@ INPUT(
 ./debug\ServerSwitch.o
 ./debug\Miscelaneous.o
 ./debug\Translator.o
+./debug\ScriptEnvironnement.o
 ./debug\ScriptedEntity.o
+./debug\ScriptedEntityCallbacks.o
 ./debug\moc_Network.o
 ./debug\moc_Client.o
 ./debug\moc_Server.o

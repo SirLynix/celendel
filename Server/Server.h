@@ -11,6 +11,7 @@
 #include "Player.h"
 #include "..\Shared\MapStructs.h"
 #include "Translator.h"
+#include "ScriptEnvironnement.h"
 
 #define MOTD_DEFAULT_PATH "MOTD.html"
 
@@ -74,6 +75,8 @@ class Server : public QObject
         MapInformations* m_map;
 
         QMap<QString, RSID> m_ressources;
+
+        ScriptEnvironnement m_scripts;
 
 };
 

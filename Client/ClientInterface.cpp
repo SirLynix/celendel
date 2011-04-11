@@ -8,6 +8,7 @@
 #include "VOIP/VOIP.h"
 #include "MapEditor.h"
 #include "ScriptManager.h"
+#include "EntitiesManager.h"
 
 
 ClientInterface::ClientInterface()
@@ -86,6 +87,8 @@ ClientInterface::ClientInterface()
     connect(m_scriptManager, SIGNAL(sendScriptToServer(QString,QString)), this, SLOT(sendScriptToServer(QString,QString)));
     connect(m_scriptManager, SIGNAL(renameScript(QString,QString)), this, SLOT(renameScript(QString,QString)));
     connect(m_scriptManager, SIGNAL(deleteScript(QString)), this, SLOT(deleteScript(QString)));
+    connect(m_scriptManager, SIGNAL(makeEntity(QString,QString)), this, SLOT(makeEntity(QString,QString)));
+    connect(m_network, SIGNAL(updateEntities(const QList<EntityInformations>&)), m_entitiesManager, SLOT(setEntities(const QList<EntityInformations>&)));
 
     getVOIP().setEnabled(set->value(PARAM_VOIP_ENABLED, true).toBool());
     getVOIP().setVolume(set->value(PARAM_VOIP_SOUND, 100.f).toFloat());
@@ -794,6 +797,16 @@ void ClientInterface::syncLanguagesList(QList<QPair<QString, QString> > language
 void ClientInterface::characterListMenu(const QPoint& pos)
 {
 
+}
+
+void ClientInterface::makeEntity(QString name, QString scriptName)
+{
+    if(!isGM())
+        return;
+
+    DEB() << "New entity " << name << scriptName;
+
+    m_network->send(ETI(CREATE_ENTITY), serialiseCreateEntityData(name, scriptName));
 }
 
 void ClientInterface::sendScriptToServer(QString name, QString content)
