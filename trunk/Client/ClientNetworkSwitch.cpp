@@ -190,6 +190,13 @@ void ClientNetwork::operatePacket(Packet* packet)
             emit scriptReceived(name, content);
         }
         break;
+        case ENTITIES_INFORMATIONS:
+        {
+            QList<EntityInformations> list;
+            QE(extractEntitiesInformationsData(packet->data, list));
+            emit updateEntities(list);
+        }
+        break;
         default:
         break;
     }

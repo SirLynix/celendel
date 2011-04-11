@@ -473,6 +473,22 @@ void Server::processData(std::auto_ptr<Packet> pa, CLID cID)
             }
         }
         break;
+        case CREATE_ENTITY:
+        {
+            GM_CHECK();
+            QString name, scriptName;
+            QE(extractCreateEntityData(pa->data, name, scriptName));
+            if(!m_scripts.makeEntity(name, SCRIPT_FOLDER+scriptName))
+            {
+                log("GM succefully created new entity \"" + name + "\" from script \"" + scriptName + "\"");
+                m_network->sendToAll(ETI(ENTITIES_INFORMATIONS), serialiseEntitiesInformationsData(m_scripts.getEntitiesInformations()));
+            }
+            else
+            {
+                m_network->sendToClient(cID, ETI(ERROR), serialiseErrorData(ETI(CANNOT_CREATE_ENTITY), name));
+            }
+        }
+        break;
         default:
         {
             log("ERROR : packet type "+QString::number(pa->type)+" unknown ! (from Client "+QString::number(cID)+")");

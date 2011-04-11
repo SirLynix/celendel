@@ -62,6 +62,8 @@ class ClientNetwork : public QObject
         void narrationChanged(QString);
         void mapChanged(MapPtr);
 
+        void updateEntities(const QList<EntityInformations>&);
+
         void scriptReceived(QString name, QString content);
 
         void ressourcesUpdated(const QMap<QString, RSID>& rss);

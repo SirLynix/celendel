@@ -51,6 +51,8 @@
 		<Unit filename="Network.h" />
 		<Unit filename="Player.cpp" />
 		<Unit filename="Player.h" />
+		<Unit filename="ScriptEnvironnement.cpp" />
+		<Unit filename="ScriptEnvironnement.h" />
 		<Unit filename="Server.cpp" />
 		<Unit filename="Server.h" />
 		<Unit filename="Server.pro" />
@@ -59,8 +61,11 @@
 		<Unit filename="Translator.h" />
 		<Unit filename="main.cpp" />
 		<Unit filename="..\Shared\Constants.h" />
+		<Unit filename="..\Shared\LuaSystem\ScriptSandbox.cpp" />
+		<Unit filename="..\Shared\LuaSystem\ScriptSandbox.h" />
 		<Unit filename="..\Shared\LuaSystem\ScriptedEntity.cpp" />
 		<Unit filename="..\Shared\LuaSystem\ScriptedEntity.h" />
+		<Unit filename="..\Shared\LuaSystem\ScriptedEntityCallbacks.cpp" />
 		<Unit filename="..\Shared\LuaSystem\luaHeader.h" />
 		<Unit filename="..\Shared\MapStructs.h" />
 		<Unit filename="..\Shared\Miscelaneous.cpp" />

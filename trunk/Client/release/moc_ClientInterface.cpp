@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Meta object code from reading C++ file 'ClientInterface.h'
 **
-** Created: Sun 10. Apr 14:34:15 2011
+** Created: Sun 10. Apr 19:57:37 2011
 **      by: The Qt Meta Object Compiler version 62 (Qt 4.7.0)
 **
 ** WARNING! All changes made in this file will be lost!
@@ -23,7 +23,7 @@ static const uint qt_meta_data_ClientInterface[] = {
        5,       // revision
        0,       // classname
        0,    0, // classinfo
-      67,   14, // methods
+      68,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
@@ -90,14 +90,15 @@ static const uint qt_meta_data_ClientInterface[] = {
     1356, 1343,   16,   16, 0x08,
     1392, 1307,   16,   16, 0x08,
     1427, 1414,   16,   16, 0x08,
-    1466, 1457,   16,   16, 0x08,
-    1524,   16,   16,   16, 0x08,
-    1541,   16,   16,   16, 0x08,
-    1552,   16,   16,   16, 0x08,
-    1563,   16,   16,   16, 0x08,
-    1582,   16,   16,   16, 0x08,
-    1598,   16,   16,   16, 0x08,
-    1617,  331,   16,   16, 0x08,
+    1473, 1457,   16,   16, 0x08,
+    1510, 1501,   16,   16, 0x08,
+    1568,   16,   16,   16, 0x08,
+    1585,   16,   16,   16, 0x08,
+    1596,   16,   16,   16, 0x08,
+    1607,   16,   16,   16, 0x08,
+    1626,   16,   16,   16, 0x08,
+    1642,   16,   16,   16, 0x08,
+    1661,  331,   16,   16, 0x08,
 
        0        // eod
 };
@@ -142,7 +143,9 @@ static const char qt_meta_stringdata_ClientInterface[] = {
     "name\0requestScriptDownload(QString)\0"
     "name,content\0sendScriptToServer(QString,QString)\0"
     "deleteScript(QString)\0name,newName\0"
-    "renameScript(QString,QString)\0map,ress\0"
+    "renameScript(QString,QString)\0"
+    "name,scriptName\0makeEntity(QString,QString)\0"
+    "map,ress\0"
     "sendMapToServer(MapInformations*const,QMap<QString,RSID>)\0"
     "addDictionnary()\0saveGame()\0loadGame()\0"
     "VOIPRemoveClient()\0VOIPAddClient()\0"
@@ -241,17 +244,18 @@ int ClientInterface::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
         case 56: sendScriptToServer((*reinterpret_cast< QString(*)>(_a[1])),(*reinterpret_cast< QString(*)>(_a[2]))); break;
         case 57: deleteScript((*reinterpret_cast< QString(*)>(_a[1]))); break;
         case 58: renameScript((*reinterpret_cast< QString(*)>(_a[1])),(*reinterpret_cast< QString(*)>(_a[2]))); break;
-        case 59: sendMapToServer((*reinterpret_cast< const MapInformations*const(*)>(_a[1])),(*reinterpret_cast< const QMap<QString,RSID>(*)>(_a[2]))); break;
-        case 60: addDictionnary(); break;
-        case 61: saveGame(); break;
-        case 62: loadGame(); break;
-        case 63: VOIPRemoveClient(); break;
-        case 64: VOIPAddClient(); break;
-        case 65: VOIPClientVolume(); break;
-        case 66: dataPerSecond((*reinterpret_cast< int(*)>(_a[1])),(*reinterpret_cast< int(*)>(_a[2]))); break;
+        case 59: makeEntity((*reinterpret_cast< QString(*)>(_a[1])),(*reinterpret_cast< QString(*)>(_a[2]))); break;
+        case 60: sendMapToServer((*reinterpret_cast< const MapInformations*const(*)>(_a[1])),(*reinterpret_cast< const QMap<QString,RSID>(*)>(_a[2]))); break;
+        case 61: addDictionnary(); break;
+        case 62: saveGame(); break;
+        case 63: loadGame(); break;
+        case 64: VOIPRemoveClient(); break;
+        case 65: VOIPAddClient(); break;
+        case 66: VOIPClientVolume(); break;
+        case 67: dataPerSecond((*reinterpret_cast< int(*)>(_a[1])),(*reinterpret_cast< int(*)>(_a[2]))); break;
         default: ;
         }
-        _id -= 67;
+        _id -= 68;
     }
     return _id;
 }

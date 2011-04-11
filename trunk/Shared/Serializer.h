@@ -117,4 +117,10 @@ QByteArray serialiseDeleteScriptData(const QString& name);
 bool extractRenameScriptData(QByteArray& data, QString& name, QString& newName);
 QByteArray serialiseRenameScriptData(const QString& name, const QString& newName);
 
+bool extractEntitiesInformationsData(QByteArray& data, QList<EntityInformations>& list);
+QByteArray serialiseEntitiesInformationsData(const QList<EntityInformations>& list);
+
+bool extractCreateEntityData(QByteArray& data, QString& name, QString& scriptName);
+QByteArray serialiseCreateEntityData(const QString& name, const QString& scriptName);
+
 #endif

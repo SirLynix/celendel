@@ -33,8 +33,10 @@ INPUT(
 ./release\CompressedMap.o
 ./release\ScriptManager.o
 ./release\EditorDialog.o
+./release\EntitiesManager.o
 ./release\ScriptedEntity.o
 ./release\ScriptSandbox.o
+./release\ScriptedEntityCallbacks.o
 ./release\moc_ClientInterface.o
 ./release\moc_ClientNetwork.o
 ./release\moc_ClientSettings.o
@@ -56,6 +58,7 @@ INPUT(
 ./release\moc_screen.o
 ./release\moc_ScriptManager.o
 ./release\moc_EditorDialog.o
+./release\moc_EntitiesManager.o
 ./release\moc_ScriptedEntity.o
 ./release\moc_ScriptSandbox.o
 );

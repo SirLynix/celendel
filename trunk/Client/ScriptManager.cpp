@@ -20,6 +20,8 @@ ScriptManager::ScriptManager(QWidget* parent):QWidget(parent)
 
     m_download = new QAction(tr("Télécharger"), this);
     connect(m_download, SIGNAL(triggered()), this, SLOT(ac_download()));
+    m_makeEntity = new QAction(tr("Nouvelle entitée"), this);
+    connect(m_makeEntity, SIGNAL(triggered()), this, SLOT(ac_makeEntity()));
     m_rename = new QAction(tr("Renommer"), this);
     connect(m_rename, SIGNAL(triggered()), this, SLOT(ac_rename()));
     m_delete = new QAction(tr("Supprimer"), this);
@@ -66,6 +68,7 @@ void ScriptManager::openContextMenu(const QPoint& p)
 
     QList<QAction*> l;
     l<<m_download;
+    l<<m_makeEntity;
     l<<m_rename;
     l<<m_delete;
 
@@ -101,6 +104,20 @@ void ScriptManager::ac_delete()
     if(s.isEmpty())
         return;
     emit deleteScript(s);
+}
+
+void ScriptManager::ac_makeEntity()
+{
+    QString s = m_delete->data().toString();
+    if(s.isEmpty())
+        return;
+
+    QString name = QInputDialog::getText(this,tr("Nouvelle entitée"),tr("Nom (unique) de l'entitée :"));
+
+    if(name.isEmpty())
+        return;
+
+    emit makeEntity(name, s);
 }
 
 void ScriptManager::sendScript(QString name, QString content)

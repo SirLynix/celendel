@@ -8,19 +8,19 @@
 		<Cursor position="270" topLine="0" />
 	</File>
 	<File name="Client.pro" open="0" top="0" tabpos="1">
-		<Cursor position="1924" topLine="0" />
+		<Cursor position="867" topLine="0" />
 	</File>
 	<File name="ClientChatCommands.cpp" open="0" top="0" tabpos="1">
 		<Cursor position="4564" topLine="75" />
 	</File>
 	<File name="ClientGMInterface.cpp" open="0" top="0" tabpos="2">
-		<Cursor position="2494" topLine="48" />
+		<Cursor position="5330" topLine="132" />
 	</File>
 	<File name="ClientInterface.cpp" open="0" top="0" tabpos="3">
-		<Cursor position="24594" topLine="797" />
+		<Cursor position="16310" topLine="504" />
 	</File>
 	<File name="ClientInterface.h" open="0" top="0" tabpos="3">
-		<Cursor position="3329" topLine="60" />
+		<Cursor position="1580" topLine="48" />
 	</File>
 	<File name="ClientMapInterface.cpp" open="0" top="0" tabpos="4">
 		<Cursor position="793" topLine="0" />
@@ -29,10 +29,10 @@
 		<Cursor position="3451" topLine="79" />
 	</File>
 	<File name="ClientNetwork.h" open="0" top="0" tabpos="2">
-		<Cursor position="1855" topLine="35" />
+		<Cursor position="1890" topLine="26" />
 	</File>
 	<File name="ClientNetworkSwitch.cpp" open="0" top="0" tabpos="1">
-		<Cursor position="5195" topLine="143" />
+		<Cursor position="5388" topLine="148" />
 	</File>
 	<File name="ClientSave.cpp" open="0" top="0" tabpos="0">
 		<Cursor position="917" topLine="0" />
@@ -52,8 +52,14 @@
 	<File name="EditorDialog.h" open="0" top="0" tabpos="1">
 		<Cursor position="516" topLine="0" />
 	</File>
+	<File name="EntitiesManager.cpp" open="1" top="1" tabpos="2">
+		<Cursor position="703" topLine="3" />
+	</File>
+	<File name="EntitiesManager.h" open="1" top="0" tabpos="1">
+		<Cursor position="467" topLine="0" />
+	</File>
 	<File name="GUI.cpp" open="0" top="0" tabpos="5">
-		<Cursor position="10278" topLine="178" />
+		<Cursor position="11508" topLine="216" />
 	</File>
 	<File name="MapEditor.cpp" open="0" top="0" tabpos="1">
 		<Cursor position="24550" topLine="757" />
@@ -104,10 +110,10 @@
 		<Cursor position="1029" topLine="0" />
 	</File>
 	<File name="ScriptManager.cpp" open="0" top="0" tabpos="2">
-		<Cursor position="2596" topLine="63" />
+		<Cursor position="2876" topLine="81" />
 	</File>
 	<File name="ScriptManager.h" open="0" top="0" tabpos="1">
-		<Cursor position="860" topLine="3" />
+		<Cursor position="750" topLine="3" />
 	</File>
 	<File name="SoundLibThread.cpp" open="0" top="0" tabpos="0">
 		<Cursor position="561" topLine="0" />
@@ -164,13 +170,13 @@
 		<Cursor position="556" topLine="0" />
 	</File>
 	<File name="..\Shared\Constants.h" open="0" top="0" tabpos="0">
-		<Cursor position="5875" topLine="195" />
+		<Cursor position="5263" topLine="120" />
 	</File>
 	<File name="..\Shared\LuaSystem\ScriptedEntity.cpp" open="0" top="0" tabpos="0">
 		<Cursor position="659" topLine="0" />
 	</File>
 	<File name="..\Shared\LuaSystem\ScriptedEntity.h" open="0" top="0" tabpos="0">
-		<Cursor position="369" topLine="0" />
+		<Cursor position="590" topLine="0" />
 	</File>
 	<File name="..\Shared\LuaSystem\luaHeader.h" open="0" top="0" tabpos="0">
 		<Cursor position="157" topLine="0" />
@@ -179,7 +185,7 @@
 		<Cursor position="909" topLine="2" />
 	</File>
 	<File name="..\Shared\Miscelaneous.cpp" open="0" top="0" tabpos="0">
-		<Cursor position="868" topLine="14" />
+		<Cursor position="357" topLine="0" />
 	</File>
 	<File name="..\Shared\Packet.cpp" open="0" top="0" tabpos="0">
 		<Cursor position="695" topLine="37" />
@@ -188,9 +194,9 @@
 		<Cursor position="157" topLine="0" />
 	</File>
 	<File name="..\Shared\Serializer.cpp" open="0" top="0" tabpos="0">
-		<Cursor position="15380" topLine="830" />
+		<Cursor position="16769" topLine="893" />
 	</File>
 	<File name="..\Shared\Serializer.h" open="0" top="0" tabpos="0">
-		<Cursor position="4874" topLine="67" />
+		<Cursor position="5346" topLine="73" />
 	</File>
 </CodeBlocks_layout_file>

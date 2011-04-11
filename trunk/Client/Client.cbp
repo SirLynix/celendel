@@ -88,6 +88,8 @@
 		<Unit filename="CompressedMap.cpp" />
 		<Unit filename="EditorDialog.cpp" />
 		<Unit filename="EditorDialog.h" />
+		<Unit filename="EntitiesManager.cpp" />
+		<Unit filename="EntitiesManager.h" />
 		<Unit filename="GUI.cpp" />
 		<Unit filename="MapEditor.cpp" />
 		<Unit filename="MapEditor.h" />

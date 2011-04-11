@@ -1,11 +1,11 @@
   /*           buildGui() : build the client GUI            */
  /* Use this function in ClientInterface constructor only. */
-/*            Workers :
-                   - Gigotdarnaud                        */
+
 
 #include "ClientInterface.h"
 #include "MapWidget.h"
 #include "ScriptManager.h"
+#include "EntitiesManager.h"
 
 void ClientInterface::buildGUI()
 {
@@ -245,12 +245,23 @@ scriptsDock->setWhatsThis(tr("Gestion des scripts"));
 scriptsDock->setFeatures(QDockWidget::NoDockWidgetFeatures);
 scriptsDock->setFeatures(QDockWidget::DockWidgetFloatable|QDockWidget::DockWidgetMovable);
 
-
 m_scriptManager = new ScriptManager(characterListDock);
 scriptsDock->setWidget(m_scriptManager);
 
 addDockWidget(Qt::LeftDockWidgetArea, scriptsDock);
 
+///ENTITIES DOCK
+QDockWidget *entitiesDock = new QDockWidget(tr("Entitées scriptées"), this);
+entitiesDock->setWhatsThis(tr("Gestion des entitées (objets, personnages...)"));
+entitiesDock->setFeatures(QDockWidget::NoDockWidgetFeatures);
+entitiesDock->setFeatures(QDockWidget::DockWidgetFloatable|QDockWidget::DockWidgetMovable);
+
+m_entitiesManager = new EntitiesManager(characterListDock);
+entitiesDock->setWidget(m_entitiesManager);
+
+addDockWidget(Qt::LeftDockWidgetArea, entitiesDock);
+
+tabifyDockWidget(scriptsDock, entitiesDock);
 
 ///GM PANEL LIST DOCK
 m_GMPanelDock = new QDockWidget(tr("Panneau d'administration"), this);
@@ -260,7 +271,6 @@ m_GMPanelDock->setFeatures(QDockWidget::DockWidgetFloatable|QDockWidget::DockWid
 
 QTabWidget *GMPanelTab = new QTabWidget(m_GMPanelDock);
 m_GMPanelDock->setWidget(GMPanelTab);
-
 
 {
 QGroupBox* gb=new QGroupBox(tr("Langages"),this);

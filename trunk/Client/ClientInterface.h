@@ -14,6 +14,7 @@
 class MapWidget;
 class MapEditor;
 class ScriptManager;
+class EntitiesManager;
 
 class VOIP;
 
@@ -106,6 +107,7 @@ class ClientInterface : public QMainWindow
         void sendScriptToServer(QString name, QString content);
         void deleteScript(QString name);
         void renameScript(QString name, QString newName);
+        void makeEntity(QString name, QString scriptName);
 
         void sendMapToServer(const MapInformations* const map, const QMap<QString, RSID>& ress);
 
@@ -130,6 +132,7 @@ class ClientInterface : public QMainWindow
         QString anonym2(CLID ID);
 
         ScriptManager *m_scriptManager;
+        EntitiesManager *m_entitiesManager;
 
         ///Infos
         bool m_gameStarted;

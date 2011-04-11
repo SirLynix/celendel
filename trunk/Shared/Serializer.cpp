@@ -16,6 +16,18 @@ QDataStream &operator>>(QDataStream & ds, PlayerInformations& p)
     return ds;
 }
 
+QDataStream &operator<<(QDataStream & ds, const EntityInformations& e)
+{
+    ds << e.name << e.data;
+    return ds;
+}
+
+QDataStream &operator>>(QDataStream & ds, EntityInformations& e)
+{
+    ds >> e.name >> e.data;
+    return ds;
+}
+
 bool extractChatData(QByteArray& data, ENUM_TYPE& canal, QString& language, QString& text, CLID& sender)
 {
     QV(data);
@@ -886,6 +898,51 @@ QByteArray serialiseRenameScriptData(const QString& name, const QString& newName
 
     out<<name;
     out<<newName;
+
+    return data;
+}
+
+bool extractEntitiesInformationsData(QByteArray& data, QList<EntityInformations>& list)
+{
+    QByteArray d=qUncompress(data);
+    QV(d);
+    QDataStream in(d);
+
+    in>>list;
+    R(in);
+
+    return false;
+}
+
+QByteArray serialiseEntitiesInformationsData(const QList<EntityInformations>& list)
+{
+    QByteArray data;
+    QDataStream out(&data, QIODevice::ReadWrite);
+
+    out<<list;
+
+    return qCompress(data);
+}
+
+bool extractCreateEntityData(QByteArray& data, QString& name, QString& scriptName)
+{
+    QV(data);
+    QDataStream in(data);
+    in>>name;
+    R(in);
+    in>>scriptName;
+    R(in);
+
+    return false;
+}
+
+QByteArray serialiseCreateEntityData(const QString& name, const QString& scriptName)
+{
+    QByteArray data;
+    QDataStream out(&data, QIODevice::ReadWrite);
+
+    out<<name;
+    out<<scriptName;
 
     return data;
 }
