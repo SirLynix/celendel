@@ -12,6 +12,7 @@ INPUT(
 ./debug\ClientSettings.o
 ./debug\AboutWindow.o
 ./debug\ClientGMInterface.o
+./debug\ClientInterfaceScripts.o
 ./debug\Recorder.o
 ./debug\Sound.o
 ./debug\SoundReceiver.o
@@ -21,7 +22,6 @@ INPUT(
 ./debug\SoundManager.o
 ./debug\SoundsGUI.o
 ./debug\SoundLibThread.o
-./debug\QSFMLCanvas.o
 ./debug\MapWidget.o
 ./debug\ClientMapInterface.o
 ./debug\MapEditor.o
@@ -34,6 +34,7 @@ INPUT(
 ./debug\ScriptManager.o
 ./debug\EditorDialog.o
 ./debug\EntitiesManager.o
+./debug\CodeInput.o
 ./debug\ScriptedEntity.o
 ./debug\ScriptSandbox.o
 ./debug\ScriptedEntityCallbacks.o
@@ -59,6 +60,7 @@ INPUT(
 ./debug\moc_ScriptManager.o
 ./debug\moc_EditorDialog.o
 ./debug\moc_EntitiesManager.o
+./debug\moc_CodeInput.o
 ./debug\moc_ScriptedEntity.o
 ./debug\moc_ScriptSandbox.o
 );

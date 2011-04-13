@@ -5,9 +5,13 @@
 
 #include "luaHeader.h"
 #include <QTime>
+#include <QMap>
 
 class QTimer;
 class QString;
+
+
+#define LUA_ERROR(a) emit luaError(this, a)
 
 class ScriptedEntity : public QObject
 {
@@ -49,6 +53,7 @@ class ScriptedEntity : public QObject
         void onUse(const QString& user); /* Args : this, user / No return */
 
         void callSimpleMethod(const QString& name);
+        void once();
 
     signals:
 
@@ -56,9 +61,10 @@ class ScriptedEntity : public QObject
         void sendOwnerMsg(QString);
         void sendMsg(QString);
         void sendPlayerMsg(QString msg,QString regexp);
-        void doAction(QString msg);
 
         void dataChanged();
+
+        void luaError(ScriptedEntity* ent, QString txt);
 
     private:
 

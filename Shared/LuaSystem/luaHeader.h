@@ -39,15 +39,4 @@ class Lua_State //RAII
 };
 
 
-#include <QDebug>
-#ifdef __func__
-    #define DEB() qDebug() << __FILE__ << " " << __func__ << " " << __LINE__ << "\t: "
-#elif defined __FUNCTION__
-    #define DEB() qDebug() << __FILE__ << " " << __FUNCTION__ << " " << __LINE__ << "\t: "
-#else
-    #define DEB() qDebug() << __FILE__ << " " << __LINE__ << "\t: "
-#endif
-
-#define LUA_ERROR() DEB()
-
 #endif

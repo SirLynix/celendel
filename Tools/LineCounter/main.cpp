@@ -35,10 +35,10 @@ int countDir(const QString& folderName, const QStringList& filter = QStringList(
         return 0;
     }
 
+    dir.setNameFilters(filter);
     QStringList list = dir.entryList(QDir::Files | QDir::AllDirs | QDir::NoSymLinks | QDir::Readable | QDir::NoDotAndDotDot);
 
     int nb=0;
-    int mx=filter.size();
 
     for(int i=0,m=list.size();i<m;++i)
     {
@@ -46,20 +46,7 @@ int countDir(const QString& folderName, const QStringList& filter = QStringList(
         QDir d(str);
         if(!d.exists())
         {
-
-            if(mx>0)
-            {
-                for(int j=0;j<mx;++j)
-                {
-                    if(str.endsWith(filter[j]))
-                    {
-                        nb+=countFile(str);
-                        break;
-                    }
-                }
-            }
-            else
-                nb+=countFile(str);
+            nb+=countFile(str);
         }
         else
             nb+=countDir(str, filter);

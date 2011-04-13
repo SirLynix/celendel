@@ -197,6 +197,57 @@ void ClientNetwork::operatePacket(Packet* packet)
             emit updateEntities(list);
         }
         break;
+        case UPDATE_ENTITY_INFORMATIONS:
+        {
+            EntityInformations ent;
+            QE(extractUpdateEntityInformationsData(packet->data, ent));
+            emit updateEntity(ent);
+        }
+        break;
+        case SCRIPT_MESSAGE:
+        {
+            qint32 t = 0;
+            QString ent, txt;
+            QE(extractScriptMessageData(packet->data, t, ent, txt));
+            switch (t)
+            {
+                case TO_GM:
+                {
+                    DEB() << ent << txt;
+                    emit scriptToGMMsg(ent, txt);
+                }
+                break;
+                case TO_OWNER:
+                {
+                    emit scriptToOwnerMsg(ent, txt);
+                }
+                break;
+                case ACTION_TO_DO:
+                {
+                    emit scriptActionMsg(ent, txt);
+                }
+                break;
+                case TO_PLAYER:
+                {
+                    emit scriptToPlayerMsg(ent, txt);
+                }
+                break;
+                case TO_ALL:
+                {
+                    emit scriptMsg(ent, txt);
+                }
+                break;
+                case ERROR_MSG:
+                {
+                    emit scriptError(ent, txt);
+                }
+                break;
+                default:
+                break;
+            }
+
+        }
+        break;
         default:
         break;
     }

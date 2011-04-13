@@ -10,6 +10,12 @@ void ScriptedEntity::onDeath()
     callSimpleMethod("onDeath");
 }
 
+void ScriptedEntity::once()
+{
+    callSimpleMethod("once");
+    luaL_dostring(m_state, "function once(this) end");
+}
+
 void ScriptedEntity::callSimpleMethod(const QString& name)
 {
     if(!isValid())
@@ -23,13 +29,13 @@ void ScriptedEntity::callSimpleMethod(const QString& name)
 
         if(lua_pcall(m_state,1,0,0))
         {
-            LUA_ERROR() << "Error calling function " << name << " : " << lua_tostring(m_state,1);
+            LUA_ERROR("Error calling function " + name + " : " + lua_tostring(m_state,1));
             lua_pop(m_state,1);
         }
     }
     else
     {
-        LUA_ERROR() << "Warning : no " << name << " callback function in LUA script";
+        LUA_ERROR("Warning : no " + name + " callback function in LUA script");
         lua_pop(m_state,1);
     }
 }
@@ -50,7 +56,7 @@ int ScriptedEntity::onDamage(int amount, const QString& type, const QString& fro
 
         if(lua_pcall(m_state,4,0,0))
         {
-            LUA_ERROR() << "Error calling function \"onDamage\" : " << lua_tostring(m_state,1);
+            LUA_ERROR(tr("Error calling function \"onDamage\" : %1").arg(lua_tostring(m_state,1)));
             lua_pop(m_state,1);
             return 0;
         }
@@ -59,7 +65,7 @@ int ScriptedEntity::onDamage(int amount, const QString& type, const QString& fro
     }
     else
     {
-        LUA_ERROR() << "Error : no \"onDamage\" callback function";
+        LUA_ERROR(tr("Error : no \"onDamage\" callback function"));
         lua_pop(m_state,1);
     }
 
@@ -80,13 +86,13 @@ void ScriptedEntity::onUse(const QString& user)
 
         if(lua_pcall(m_state,2,0,0))
         {
-            LUA_ERROR() << "Error calling function \"onUse\" : " << lua_tostring(m_state,1);
+            LUA_ERROR(tr("Error calling function \"onUse\" : %1").arg(lua_tostring(m_state,1)));
             lua_pop(m_state,1);
         }
     }
     else
     {
-        LUA_ERROR() << "Error : no \"onUse\" callback function";
+        LUA_ERROR(tr("Error : no \"onUse\" callback function"));
         lua_pop(m_state,1);
     }
 
@@ -106,6 +112,8 @@ void ScriptedEntity::onUpdate()
         m_needSync=false;
     }
 
+    once();
+
     lua_getglobal(m_state,"onUpdate");
     if (lua_isfunction(m_state,-1))
     {
@@ -114,7 +122,7 @@ void ScriptedEntity::onUpdate()
 
         if(lua_pcall(m_state,2,0,0))
         {
-            LUA_ERROR() << "Error calling function \"onUpdate\" : " << lua_tostring(m_state,1);
+            LUA_ERROR(tr("Error calling function \"onUpdate\" : %1").arg(lua_tostring(m_state,1)));
             lua_pop(m_state,1);
         }
     }
@@ -123,7 +131,7 @@ void ScriptedEntity::onUpdate()
         if(m_showUpdateError)
         {
             m_showUpdateError=false;
-            LUA_ERROR() << "Error : no \"onUpdate\" callback function";
+            LUA_ERROR(tr("Error : no \"onUpdate\" callback function"));
         }
 
         lua_pop(m_state,1);
@@ -135,14 +143,14 @@ int ScriptedEntity::sendMessageToGM(lua_State* L)
     int argc = lua_gettop(L);
     if(argc != 1 || !lua_isstring(L,1))
     {
-        LUA_ERROR() << "Error : invalid arguments";
+        LUA_ERROR(tr("Error : invalid arguments"));
         return 0;
     }
 
     QString msg(lua_tostring(L,1));
 
     emit sendGMMsg(msg);
-    qDebug() << "GM msg : " << msg;
+
     return 0;
 }
 
@@ -151,7 +159,7 @@ int ScriptedEntity::sendMessageToOwner(lua_State* L)
     int argc = lua_gettop(L);
     if(argc != 1 || !lua_isstring(L,1))
     {
-        LUA_ERROR() << "Error : invalid arguments";
+        LUA_ERROR(tr("Error : invalid arguments"));
         return 0;
     }
 
@@ -165,7 +173,7 @@ int ScriptedEntity::sendMessageToAll(lua_State* L)
     int argc = lua_gettop(L);
     if(argc != 1 || !lua_isstring(L,1))
     {
-        LUA_ERROR() << "Error : invalid arguments";
+        LUA_ERROR(tr("Error : invalid arguments"));
         return 0;
     }
 
@@ -179,7 +187,7 @@ int ScriptedEntity::sendMessageToPlayer(lua_State* L)
     int argc = lua_gettop(L);
     if(argc != 2 || !lua_isstring(L,1) || !lua_isstring(L,1))
     {
-        LUA_ERROR() << "Error : invalid arguments";
+        LUA_ERROR(tr("Error : invalid arguments"));
         return 0;
     }
 
@@ -194,9 +202,10 @@ int ScriptedEntity::syncData(lua_State* L)
     int argc = lua_gettop(L);
     if(argc > 0)
     {
-        LUA_ERROR() << "Error : too much arguments";
+        LUA_ERROR(tr("Error : too much arguments"));
         return 0;
     }
+
     m_needSync=true;
     return 0;
 }

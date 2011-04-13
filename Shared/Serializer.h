@@ -120,7 +120,16 @@ QByteArray serialiseRenameScriptData(const QString& name, const QString& newName
 bool extractEntitiesInformationsData(QByteArray& data, QList<EntityInformations>& list);
 QByteArray serialiseEntitiesInformationsData(const QList<EntityInformations>& list);
 
+bool extractUpdateEntityInformationsData(QByteArray& data, EntityInformations& info);
+QByteArray serialiseUpdateEntityInformationsData(const EntityInformations& info);
+
 bool extractCreateEntityData(QByteArray& data, QString& name, QString& scriptName);
 QByteArray serialiseCreateEntityData(const QString& name, const QString& scriptName);
+
+bool extractInjectCodeData(QByteArray& data, QString& entityName, QString& code);
+QByteArray serialiseInjectCodeData(const QString& entityName, const QString& code);
+
+bool extractScriptMessageData(QByteArray& data, qint32 &type, QString& ent, QString& txt);
+QByteArray serialiseScriptMessageData(qint32 type, const QString& ent, const QString& txt);
 
 #endif

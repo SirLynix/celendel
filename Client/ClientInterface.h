@@ -108,6 +108,15 @@ class ClientInterface : public QMainWindow
         void deleteScript(QString name);
         void renameScript(QString name, QString newName);
         void makeEntity(QString name, QString scriptName);
+        void injectCode(QString entityName, QString code);
+
+        void scriptToGMMsg(QString ent, QString txt);
+        void scriptToOwnerMsg(QString ent, QString txt);
+        void scriptActionMsg(QString ent, QString txt);
+        void scriptToPlayerMsg(QString ent, QString txt);
+        void scriptMsg(QString ent, QString txt);
+        void scriptError(QString ent, QString txt);
+
 
         void sendMapToServer(const MapInformations* const map, const QMap<QString, RSID>& ress);
 
