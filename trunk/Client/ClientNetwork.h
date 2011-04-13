@@ -62,7 +62,15 @@ class ClientNetwork : public QObject
         void narrationChanged(QString);
         void mapChanged(MapPtr);
 
+        void scriptToGMMsg(QString ent, QString txt);
+        void scriptToOwnerMsg(QString ent, QString txt);
+        void scriptActionMsg(QString ent, QString txt);
+        void scriptToPlayerMsg(QString ent, QString txt);
+        void scriptMsg(QString ent, QString txt);
+        void scriptError(QString ent, QString txt);
+
         void updateEntities(const QList<EntityInformations>&);
+        void updateEntity(const EntityInformations&);
 
         void scriptReceived(QString name, QString content);
 

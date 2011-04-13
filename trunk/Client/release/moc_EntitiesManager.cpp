@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Meta object code from reading C++ file 'EntitiesManager.h'
 **
-** Created: Sun 10. Apr 18:37:50 2011
+** Created: Mon 11. Apr 20:58:20 2011
 **      by: The Qt Meta Object Compiler version 62 (Qt 4.7.0)
 **
 ** WARNING! All changes made in this file will be lost!
@@ -23,25 +23,33 @@ static const uint qt_meta_data_EntitiesManager[] = {
        5,       // revision
        0,       // classname
        0,    0, // classinfo
-       3,   14, // methods
+       6,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
        0,       // flags
-       0,       // signalCount
+       1,       // signalCount
+
+ // signals: signature, parameters, type, tag, flags
+      29,   17,   16,   16, 0x05,
 
  // slots: signature, parameters, type, tag, flags
-      21,   17,   16,   16, 0x0a,
-      59,   51,   16,   16, 0x0a,
-      98,   16,   16,   16, 0x08,
+      61,   57,   16,   16, 0x0a,
+     102,   94,   16,   16, 0x0a,
+     141,   16,   16,   16, 0x08,
+     150,   16,   16,   16, 0x08,
+     174,   16,   16,   16, 0x08,
 
        0        // eod
 };
 
 static const char qt_meta_stringdata_EntitiesManager[] = {
-    "EntitiesManager\0\0ent\0addEntity(EntityInformations)\0"
+    "EntitiesManager\0\0entity,code\0"
+    "injectCode(QString,QString)\0ent\0"
+    "updateEntity(EntityInformations)\0"
     "entList\0setEntities(QList<EntityInformations>)\0"
-    "update()\0"
+    "update()\0openContextMenu(QPoint)\0"
+    "ac_injectCode()\0"
 };
 
 const QMetaObject EntitiesManager::staticMetaObject = {
@@ -73,13 +81,23 @@ int EntitiesManager::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
         switch (_id) {
-        case 0: addEntity((*reinterpret_cast< const EntityInformations(*)>(_a[1]))); break;
-        case 1: setEntities((*reinterpret_cast< const QList<EntityInformations>(*)>(_a[1]))); break;
-        case 2: update(); break;
+        case 0: injectCode((*reinterpret_cast< QString(*)>(_a[1])),(*reinterpret_cast< QString(*)>(_a[2]))); break;
+        case 1: updateEntity((*reinterpret_cast< const EntityInformations(*)>(_a[1]))); break;
+        case 2: setEntities((*reinterpret_cast< const QList<EntityInformations>(*)>(_a[1]))); break;
+        case 3: update(); break;
+        case 4: openContextMenu((*reinterpret_cast< const QPoint(*)>(_a[1]))); break;
+        case 5: ac_injectCode(); break;
         default: ;
         }
-        _id -= 3;
+        _id -= 6;
     }
     return _id;
+}
+
+// SIGNAL 0
+void EntitiesManager::injectCode(QString _t1, QString _t2)
+{
+    void *_a[] = { 0, const_cast<void*>(reinterpret_cast<const void*>(&_t1)), const_cast<void*>(reinterpret_cast<const void*>(&_t2)) };
+    QMetaObject::activate(this, &staticMetaObject, 0, _a);
 }
 QT_END_MOC_NAMESPACE

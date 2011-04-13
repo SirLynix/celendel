@@ -6,6 +6,7 @@
 
 class QTreeView;
 class QStandardItemModel;
+class QAction;
 
 class EntitiesManager : public QWidget
 {
@@ -14,16 +15,25 @@ class EntitiesManager : public QWidget
         EntitiesManager(QWidget* _parent = 0);
 
     public slots:
-        void addEntity(const EntityInformations& ent);
+        void updateEntity(const EntityInformations& ent);
         void setEntities(const QList<EntityInformations>& entList);
 
     private slots:
         void update();
 
+        void openContextMenu(const QPoint&);
+
+        void ac_injectCode();
+
+    signals:
+        void injectCode(QString entity, QString code);
+
     private:
 
         QTreeView *m_v_list;
         QStandardItemModel *m_list;
+
+        QAction* m_injectCode;
 
         QList<EntityInformations> m_entities;
 };

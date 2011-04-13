@@ -16,5 +16,6 @@ INPUT(
 ./release\moc_Client.o
 ./release\moc_Server.o
 ./release\moc_Player.o
+./release\moc_ScriptEnvironnement.o
 ./release\moc_ScriptedEntity.o
 );

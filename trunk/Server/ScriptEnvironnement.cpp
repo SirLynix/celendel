@@ -15,6 +15,32 @@ ScriptEnvironnement::~ScriptEnvironnement()
     }
 }
 
+void ScriptEnvironnement::dataChanged()
+{
+    ScriptedEntity* ent = qobject_cast<ScriptedEntity*>(sender());
+    if(ent == 0)
+        return;
+    QString name = m_entities.key(ent);
+    if(name.isEmpty())
+        return;
+
+    emit entityRequireUpdate(name);
+}
+
+EntityInformations ScriptEnvironnement::getEntityInformations(const QString& name)
+{
+    EntityInformations ei;
+
+    ScriptedEntity* ent = m_entities.value(name, 0);
+
+    if(ent == 0)
+        return ei;
+
+    ei.name = name;
+    ei.data = ent->getData();
+    return ei;
+}
+
 QList<EntityInformations> ScriptEnvironnement::getEntitiesInformations()
 {
     QList<EntityInformations> list;
@@ -44,6 +70,11 @@ bool ScriptEnvironnement::makeEntity(const QString& name, const QString& scriptN
     }
 
     m_entities[name]=ent;
+    connect(ent, SIGNAL(dataChanged()), this, SLOT(dataChanged()));
+    connect(ent, SIGNAL(sendGMMsg(QString)), this, SLOT(s_sendGMMsg(QString)));
+    connect(ent, SIGNAL(sendOwnerMsg(QString)), this, SLOT(s_sendOwnerMsg(QString)));
+    connect(ent, SIGNAL(sendMsg(QString)), this, SLOT(s_sendMsg(QString)));
+    connect(ent, SIGNAL(sendPlayerMsg(QString,QString)), this, SLOT(s_sendPlayerMsg(QString,QString)));
 
     return false;
 }
@@ -63,4 +94,48 @@ QString ScriptEnvironnement::pushCode(const QString& entity, const QString& code
     }
 
     return ent->pushCode(code, b);
+}
+
+void ScriptEnvironnement::s_sendGMMsg(QString m)
+{
+    ScriptedEntity* ent = qobject_cast<ScriptedEntity*>(sender());
+    if(ent == 0)
+        return;
+    QString name = m_entities.key(ent);
+    if(name.isEmpty())
+        return;
+    emit sendGMMsg(name,m);
+}
+
+void ScriptEnvironnement::s_sendOwnerMsg(QString m)
+{
+    ScriptedEntity* ent = qobject_cast<ScriptedEntity*>(sender());
+    if(ent == 0)
+        return;
+    QString name = m_entities.key(ent);
+    if(name.isEmpty())
+        return;
+    emit sendOwnerMsg(name,m);
+}
+
+void ScriptEnvironnement::s_sendMsg(QString m)
+{
+    ScriptedEntity* ent = qobject_cast<ScriptedEntity*>(sender());
+    if(ent == 0)
+        return;
+    QString name = m_entities.key(ent);
+    if(name.isEmpty())
+        return;
+    emit sendMsg(name,m);
+}
+
+void ScriptEnvironnement::s_sendPlayerMsg(QString msg,QString regexp)
+{
+    ScriptedEntity* ent = qobject_cast<ScriptedEntity*>(sender());
+    if(ent == 0)
+        return;
+    QString name = m_entities.key(ent);
+    if(name.isEmpty())
+        return;
+    emit sendPlayerMsg(name,msg,regexp);
 }

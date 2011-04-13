@@ -89,6 +89,14 @@ ClientInterface::ClientInterface()
     connect(m_scriptManager, SIGNAL(deleteScript(QString)), this, SLOT(deleteScript(QString)));
     connect(m_scriptManager, SIGNAL(makeEntity(QString,QString)), this, SLOT(makeEntity(QString,QString)));
     connect(m_network, SIGNAL(updateEntities(const QList<EntityInformations>&)), m_entitiesManager, SLOT(setEntities(const QList<EntityInformations>&)));
+    connect(m_network, SIGNAL(updateEntity(const EntityInformations&)), m_entitiesManager, SLOT(updateEntity(const EntityInformations&)));
+    connect(m_entitiesManager, SIGNAL(injectCode(QString,QString)), this, SLOT(injectCode(QString,QString)));
+    connect(m_network, SIGNAL(scriptToGMMsg(QString,QString)), this, SLOT(scriptToGMMsg(QString,QString)));
+    connect(m_network, SIGNAL(scriptToOwnerMsg(QString,QString)), this, SLOT(scriptToOwnerMsg(QString,QString)));
+    connect(m_network, SIGNAL(scriptActionMsg(QString,QString)), this, SLOT(scriptActionMsg(QString,QString)));
+    connect(m_network, SIGNAL(scriptToPlayerMsg(QString,QString)), this, SLOT(scriptToPlayerMsg(QString,QString)));
+    connect(m_network, SIGNAL(scriptMsg(QString,QString)), this, SLOT(scriptMsg(QString,QString)));
+    connect(m_network, SIGNAL(scriptError(QString,QString)), this, SLOT(scriptError(QString,QString)));
 
     getVOIP().setEnabled(set->value(PARAM_VOIP_ENABLED, true).toBool());
     getVOIP().setVolume(set->value(PARAM_VOIP_SOUND, 100.f).toFloat());
@@ -797,50 +805,6 @@ void ClientInterface::syncLanguagesList(QList<QPair<QString, QString> > language
 void ClientInterface::characterListMenu(const QPoint& pos)
 {
 
-}
-
-void ClientInterface::makeEntity(QString name, QString scriptName)
-{
-    if(!isGM())
-        return;
-
-    DEB() << "New entity " << name << scriptName;
-
-    m_network->send(ETI(CREATE_ENTITY), serialiseCreateEntityData(name, scriptName));
-}
-
-void ClientInterface::sendScriptToServer(QString name, QString content)
-{
-    if(!isGM())
-        return;
-
-    DEB() << "Script " << name << " sent to server...";
-
-    m_network->send(ETI(SEND_SCRIPT), serialiseSendScriptData(name, content));
-}
-
-void ClientInterface::requestScriptDownload(QString name)
-{
-    if(!isConnected())
-        return;
-
-    m_network->send(ETI(REQUEST_SCRIPT_UPDATE), serialiseRequestScriptData(name));
-}
-
-void ClientInterface::deleteScript(QString name)
-{
-    if(!isGM())
-        return;
-
-    m_network->send(ETI(DELETE_SCRIPT), serialiseDeleteScriptData(name));
-}
-
-void ClientInterface::renameScript(QString name, QString newName)
-{
-    if(!isGM())
-        return;
-
-    m_network->send(ETI(RENAME_SCRIPT), serialiseRenameScriptData(name, newName));
 }
 
 QString ClientInterface::getRolePlayName(CLID ID)

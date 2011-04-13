@@ -12,6 +12,7 @@ INPUT(
 ./release\ClientSettings.o
 ./release\AboutWindow.o
 ./release\ClientGMInterface.o
+./release\ClientInterfaceScripts.o
 ./release\Recorder.o
 ./release\Sound.o
 ./release\SoundReceiver.o
@@ -21,7 +22,6 @@ INPUT(
 ./release\SoundManager.o
 ./release\SoundsGUI.o
 ./release\SoundLibThread.o
-./release\QSFMLCanvas.o
 ./release\MapWidget.o
 ./release\ClientMapInterface.o
 ./release\MapEditor.o
@@ -34,6 +34,7 @@ INPUT(
 ./release\ScriptManager.o
 ./release\EditorDialog.o
 ./release\EntitiesManager.o
+./release\CodeInput.o
 ./release\ScriptedEntity.o
 ./release\ScriptSandbox.o
 ./release\ScriptedEntityCallbacks.o
@@ -59,6 +60,7 @@ INPUT(
 ./release\moc_ScriptManager.o
 ./release\moc_EditorDialog.o
 ./release\moc_EntitiesManager.o
+./release\moc_CodeInput.o
 ./release\moc_ScriptedEntity.o
 ./release\moc_ScriptSandbox.o
 );

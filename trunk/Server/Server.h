@@ -56,6 +56,12 @@ class Server : public QObject
 
         bool updateScript(const QString& name, const QString& content);
 
+        void sendEntityInfos(const QString& name);
+        void sendGMMsg(QString ent, QString);
+        void sendOwnerMsg(QString ent, QString);
+        void sendMsg(QString ent, QString);
+        void sendPlayerMsg(QString ent, QString msg,QString regexp);
+
     private slots:
         void cleanUp();
         void processData(std::auto_ptr<Packet>, CLID);

@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Meta object code from reading C++ file 'ScriptSandbox.h'
 **
-** Created: Sun 10. Apr 17:22:29 2011
+** Created: Tue 12. Apr 13:10:18 2011
 **      by: The Qt Meta Object Compiler version 62 (Qt 4.7.0)
 **
 ** WARNING! All changes made in this file will be lost!

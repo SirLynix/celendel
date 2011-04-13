@@ -24,6 +24,13 @@ Server::Server(QObject* parent) : QObject(parent)
     connect(m_network, SIGNAL(clientGone(CLID)), this, SLOT(removeClient(CLID)));
     connect(m_network, SIGNAL(dataReceived(std::auto_ptr<Packet>, CLID)), this, SLOT(processData(std::auto_ptr<Packet>, CLID)));
 
+    connect(&m_scripts, SIGNAL(entityRequireUpdate(const QString&)), this, SLOT(sendEntityInfos(const QString&)));
+
+    connect(&m_scripts, SIGNAL(sendGMMsg(QString, QString)), this, SLOT(sendGMMsg(QString, QString)));
+    connect(&m_scripts, SIGNAL(sendOwnerMsg(QString, QString)), this, SLOT(sendOwnerMsg(QString, QString)));
+    connect(&m_scripts, SIGNAL(sendMsg(QString, QString)), this, SLOT(sendMsg(QString, QString)));
+    connect(&m_scripts, SIGNAL(sendPlayerMsg(QString, QString, QString)), this, SLOT(sendPlayerMsg(QString, QString, QString)));
+
     m_gameStarted=false;
     m_GMID=0;
     m_map=new MapInformations();
@@ -38,9 +45,6 @@ Server::~Server()
 
     delete m_map;
 }
-
-/*void Server::processData(Packet* pa, CLID cID)*/
-/// Moved in ServerSwitch.cpp
 
 ServerInformations Server::getServerInformations() const
 {
@@ -65,6 +69,27 @@ ServerInformations Server::getServerInformations() const
     return si;
 }
 
+void Server::sendGMMsg(QString ent, QString m)
+{
+    m_network->sendToClient(m_GMID, ETI(SCRIPT_MESSAGE), serialiseScriptMessageData(TO_GM, ent, m));
+}
+
+void Server::sendOwnerMsg(QString ent, QString m)
+{
+    // m_network->sendToClient(cID, ETI(SCRIPT_MESSAGE), serialiseScriptMessageData(TO_PLAYER, ent, m));
+}
+
+void Server::sendMsg(QString ent, QString m)
+{
+    m_network->sendToAll(ETI(SCRIPT_MESSAGE), serialiseScriptMessageData(TO_ALL, ent, m));
+}
+
+void Server::sendPlayerMsg(QString ent, QString m, QString regexp)
+{
+
+   // m_network->sendToClient(cID, ETI(SCRIPT_MESSAGE), serialiseScriptMessageData(TO_PLAYER, ent, m));
+}
+
 bool Server::mkscriptpath(const QString& scriptName)
 {
     if(!isValidScriptName(scriptName))
@@ -87,6 +112,15 @@ bool Server::isValidScriptName(const QString& name)
     }
 
     return true;
+}
+
+void Server::sendEntityInfos(const QString& name)
+{
+    EntityInformations ei = m_scripts.getEntityInformations(name);
+    if(ei.name.isEmpty())
+        return;
+
+    m_network->sendToAll(ETI(UPDATE_ENTITY_INFORMATIONS), serialiseUpdateEntityInformationsData(ei));
 }
 
 QStringList Server::getScriptList()

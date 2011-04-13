@@ -16,5 +16,6 @@ INPUT(
 ./debug\moc_Client.o
 ./debug\moc_Server.o
 ./debug\moc_Player.o
+./debug\moc_ScriptEnvironnement.o
 ./debug\moc_ScriptedEntity.o
 );

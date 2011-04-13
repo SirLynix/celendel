@@ -10,6 +10,10 @@ const char ScriptedEntity::className[] = "ScriptedEntity";
 
 Lunar<ScriptedEntity>::RegType ScriptedEntity::methods[] = {
     method(ScriptedEntity, sendMessageToGM),
+    method(ScriptedEntity, sendMessageToOwner),
+    method(ScriptedEntity, sendMessageToAll),
+    method(ScriptedEntity, sendMessageToPlayer),
+    method(ScriptedEntity, syncData),
   /*method(ScriptedClass, sendMessage),*/
   {0,0}
 };
@@ -28,7 +32,7 @@ ScriptedEntity::ScriptedEntity(const QString& file) : m_state()
 
     if(luaL_dofile(m_state, file.toAscii())!=0)
     {
-        LUA_ERROR() << "Error loading script : " << file;
+        LUA_ERROR(tr("Error loading script : %1").arg(file));
         m_valid=false;
     }
 

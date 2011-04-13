@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Meta object code from reading C++ file 'ClientNetwork.h'
 **
-** Created: Sun 10. Apr 18:37:30 2011
+** Created: Tue 12. Apr 11:52:20 2011
 **      by: The Qt Meta Object Compiler version 62 (Qt 4.7.0)
 **
 ** WARNING! All changes made in this file will be lost!
@@ -23,12 +23,12 @@ static const uint qt_meta_data_ClientNetwork[] = {
        5,       // revision
        0,       // classname
        0,    0, // classinfo
-      46,   14, // methods
+      53,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
        0,       // flags
-      29,       // signalCount
+      36,       // signalCount
 
  // signals: signature, parameters, type, tag, flags
       15,   14,   14,   14, 0x05,
@@ -46,39 +46,46 @@ static const uint qt_meta_data_ClientNetwork[] = {
      352,   14,   14,   14, 0x05,
      367,   14,   14,   14, 0x05,
      393,   14,   14,   14, 0x05,
-     412,   14,   14,   14, 0x05,
-     467,  454,   14,   14, 0x05,
-     503,  499,   14,   14, 0x05,
-     541,   14,   14,   14, 0x05,
-     564,   14,   14,   14, 0x05,
-     581,  207,   14,   14, 0x05,
-     609,  606,   14,   14, 0x05,
-     645,  207,   14,   14, 0x05,
-     672,   14,   14,   14, 0x05,
-     689,  207,   14,   14, 0x05,
-     716,   14,   14,   14, 0x05,
-     754,   14,   14,   14, 0x05,
-     809,  804,   14,   14, 0x05,
-     843,  804,   14,   14, 0x05,
+     420,  412,   14,   14, 0x05,
+     451,  412,   14,   14, 0x05,
+     485,  412,   14,   14, 0x05,
+     518,  412,   14,   14, 0x05,
+     553,  412,   14,   14, 0x05,
+     580,  412,   14,   14, 0x05,
+     609,   14,   14,   14, 0x05,
+     651,   14,   14,   14, 0x05,
+     697,  684,   14,   14, 0x05,
+     733,  729,   14,   14, 0x05,
+     771,   14,   14,   14, 0x05,
+     794,   14,   14,   14, 0x05,
+     811,  207,   14,   14, 0x05,
+     839,  836,   14,   14, 0x05,
+     875,  207,   14,   14, 0x05,
+     902,   14,   14,   14, 0x05,
+     919,  207,   14,   14, 0x05,
+     946,   14,   14,   14, 0x05,
+     984,   14,   14,   14, 0x05,
+    1039, 1034,   14,   14, 0x05,
+    1073, 1034,   14,   14, 0x05,
 
  // slots: signature, parameters, type, tag, flags
-     889,  871,   14,   14, 0x0a,
-     911,  908,   14,   14, 0x2a,
-     925,  908,   14,   14, 0x0a,
-     949,  939,   14,   14, 0x0a,
-     973,   14,   14,   14, 0x0a,
-     987,   14,  980,   14, 0x0a,
-    1005,   14,  997,   14, 0x0a,
-    1024,   14, 1016,   14, 0x0a,
-    1037,   14,   14,   14, 0x0a,
-    1045,   14,   14,   14, 0x0a,
-    1058,   14,   14,   14, 0x0a,
-    1087, 1079, 1074,   14, 0x0a,
-    1114,   14,   14,   14, 0x08,
-    1126,   14,   14,   14, 0x08,
-    1141,   14,   14,   14, 0x08,
-    1156,   14,   14,   14, 0x08,
-    1205, 1198,   14,   14, 0x08,
+    1119, 1101,   14,   14, 0x0a,
+    1141, 1138,   14,   14, 0x2a,
+    1155, 1138,   14,   14, 0x0a,
+    1179, 1169,   14,   14, 0x0a,
+    1203,   14,   14,   14, 0x0a,
+    1217,   14, 1210,   14, 0x0a,
+    1235,   14, 1227,   14, 0x0a,
+    1254,   14, 1246,   14, 0x0a,
+    1267,   14,   14,   14, 0x0a,
+    1275,   14,   14,   14, 0x0a,
+    1288,   14,   14,   14, 0x0a,
+    1317, 1309, 1304,   14, 0x0a,
+    1344,   14,   14,   14, 0x08,
+    1356,   14,   14,   14, 0x08,
+    1371,   14,   14,   14, 0x08,
+    1386,   14,   14,   14, 0x08,
+    1435, 1428,   14,   14, 0x08,
 
        0        // eod
 };
@@ -95,8 +102,15 @@ static const char qt_meta_stringdata_ClientNetwork[] = {
     "clientVoted(CLID,CLID)\0newGameMaster(CLID)\0"
     "serverName(QString)\0motdChanged(QString)\0"
     "gameLaunched()\0narrationChanged(QString)\0"
-    "mapChanged(MapPtr)\0"
+    "mapChanged(MapPtr)\0ent,txt\0"
+    "scriptToGMMsg(QString,QString)\0"
+    "scriptToOwnerMsg(QString,QString)\0"
+    "scriptActionMsg(QString,QString)\0"
+    "scriptToPlayerMsg(QString,QString)\0"
+    "scriptMsg(QString,QString)\0"
+    "scriptError(QString,QString)\0"
     "updateEntities(QList<EntityInformations>)\0"
+    "updateEntity(EntityInformations)\0"
     "name,content\0scriptReceived(QString,QString)\0"
     "rss\0ressourcesUpdated(QMap<QString,RSID>)\0"
     "connectionEtablished()\0connectionLost()\0"
@@ -164,44 +178,51 @@ int ClientNetwork::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
         case 12: gameLaunched(); break;
         case 13: narrationChanged((*reinterpret_cast< QString(*)>(_a[1]))); break;
         case 14: mapChanged((*reinterpret_cast< MapPtr(*)>(_a[1]))); break;
-        case 15: updateEntities((*reinterpret_cast< const QList<EntityInformations>(*)>(_a[1]))); break;
-        case 16: scriptReceived((*reinterpret_cast< QString(*)>(_a[1])),(*reinterpret_cast< QString(*)>(_a[2]))); break;
-        case 17: ressourcesUpdated((*reinterpret_cast< const QMap<QString,RSID>(*)>(_a[1]))); break;
-        case 18: connectionEtablished(); break;
-        case 19: connectionLost(); break;
-        case 20: diceRolled((*reinterpret_cast< CLID(*)>(_a[1])),(*reinterpret_cast< quint16(*)>(_a[2]))); break;
-        case 21: sanctionned((*reinterpret_cast< CLID(*)>(_a[1])),(*reinterpret_cast< ENUM_TYPE(*)>(_a[2])),(*reinterpret_cast< QString(*)>(_a[3]))); break;
-        case 22: clientJoined((*reinterpret_cast< CLID(*)>(_a[1])),(*reinterpret_cast< QString(*)>(_a[2]))); break;
-        case 23: clientLeft((*reinterpret_cast< CLID(*)>(_a[1]))); break;
-        case 24: playSound((*reinterpret_cast< QString(*)>(_a[1])),(*reinterpret_cast< QString(*)>(_a[2]))); break;
-        case 25: syncLibs((*reinterpret_cast< QList<SoundLibInformations>(*)>(_a[1]))); break;
-        case 26: syncLanguagesList((*reinterpret_cast< QList<QPair<QString,QString> >(*)>(_a[1]))); break;
-        case 27: syncDictionariesList((*reinterpret_cast< QStringList(*)>(_a[1]))); break;
-        case 28: syncScriptList((*reinterpret_cast< QStringList(*)>(_a[1]))); break;
-        case 29: send((*reinterpret_cast< Packet*(*)>(_a[1])),(*reinterpret_cast< bool(*)>(_a[2]))); break;
-        case 30: send((*reinterpret_cast< Packet*(*)>(_a[1]))); break;
-        case 31: send((*reinterpret_cast< Packet(*)>(_a[1]))); break;
-        case 32: send((*reinterpret_cast< qint32(*)>(_a[1])),(*reinterpret_cast< const QByteArray(*)>(_a[2]))); break;
-        case 33: ping(); break;
-        case 34: { qint32 _r = getPing();
+        case 15: scriptToGMMsg((*reinterpret_cast< QString(*)>(_a[1])),(*reinterpret_cast< QString(*)>(_a[2]))); break;
+        case 16: scriptToOwnerMsg((*reinterpret_cast< QString(*)>(_a[1])),(*reinterpret_cast< QString(*)>(_a[2]))); break;
+        case 17: scriptActionMsg((*reinterpret_cast< QString(*)>(_a[1])),(*reinterpret_cast< QString(*)>(_a[2]))); break;
+        case 18: scriptToPlayerMsg((*reinterpret_cast< QString(*)>(_a[1])),(*reinterpret_cast< QString(*)>(_a[2]))); break;
+        case 19: scriptMsg((*reinterpret_cast< QString(*)>(_a[1])),(*reinterpret_cast< QString(*)>(_a[2]))); break;
+        case 20: scriptError((*reinterpret_cast< QString(*)>(_a[1])),(*reinterpret_cast< QString(*)>(_a[2]))); break;
+        case 21: updateEntities((*reinterpret_cast< const QList<EntityInformations>(*)>(_a[1]))); break;
+        case 22: updateEntity((*reinterpret_cast< const EntityInformations(*)>(_a[1]))); break;
+        case 23: scriptReceived((*reinterpret_cast< QString(*)>(_a[1])),(*reinterpret_cast< QString(*)>(_a[2]))); break;
+        case 24: ressourcesUpdated((*reinterpret_cast< const QMap<QString,RSID>(*)>(_a[1]))); break;
+        case 25: connectionEtablished(); break;
+        case 26: connectionLost(); break;
+        case 27: diceRolled((*reinterpret_cast< CLID(*)>(_a[1])),(*reinterpret_cast< quint16(*)>(_a[2]))); break;
+        case 28: sanctionned((*reinterpret_cast< CLID(*)>(_a[1])),(*reinterpret_cast< ENUM_TYPE(*)>(_a[2])),(*reinterpret_cast< QString(*)>(_a[3]))); break;
+        case 29: clientJoined((*reinterpret_cast< CLID(*)>(_a[1])),(*reinterpret_cast< QString(*)>(_a[2]))); break;
+        case 30: clientLeft((*reinterpret_cast< CLID(*)>(_a[1]))); break;
+        case 31: playSound((*reinterpret_cast< QString(*)>(_a[1])),(*reinterpret_cast< QString(*)>(_a[2]))); break;
+        case 32: syncLibs((*reinterpret_cast< QList<SoundLibInformations>(*)>(_a[1]))); break;
+        case 33: syncLanguagesList((*reinterpret_cast< QList<QPair<QString,QString> >(*)>(_a[1]))); break;
+        case 34: syncDictionariesList((*reinterpret_cast< QStringList(*)>(_a[1]))); break;
+        case 35: syncScriptList((*reinterpret_cast< QStringList(*)>(_a[1]))); break;
+        case 36: send((*reinterpret_cast< Packet*(*)>(_a[1])),(*reinterpret_cast< bool(*)>(_a[2]))); break;
+        case 37: send((*reinterpret_cast< Packet*(*)>(_a[1]))); break;
+        case 38: send((*reinterpret_cast< Packet(*)>(_a[1]))); break;
+        case 39: send((*reinterpret_cast< qint32(*)>(_a[1])),(*reinterpret_cast< const QByteArray(*)>(_a[2]))); break;
+        case 40: ping(); break;
+        case 41: { qint32 _r = getPing();
             if (_a[0]) *reinterpret_cast< qint32*>(_a[0]) = _r; }  break;
-        case 35: { QString _r = serverIP();
+        case 42: { QString _r = serverIP();
             if (_a[0]) *reinterpret_cast< QString*>(_a[0]) = _r; }  break;
-        case 36: { quint16 _r = serverPort();
+        case 43: { quint16 _r = serverPort();
             if (_a[0]) *reinterpret_cast< quint16*>(_a[0]) = _r; }  break;
-        case 37: flush(); break;
-        case 38: connection(); break;
-        case 39: disconnection(); break;
-        case 40: { bool _r = setServer((*reinterpret_cast< QString(*)>(_a[1])),(*reinterpret_cast< quint16(*)>(_a[2])));
+        case 44: flush(); break;
+        case 45: connection(); break;
+        case 46: disconnection(); break;
+        case 47: { bool _r = setServer((*reinterpret_cast< QString(*)>(_a[1])),(*reinterpret_cast< quint16(*)>(_a[2])));
             if (_a[0]) *reinterpret_cast< bool*>(_a[0]) = _r; }  break;
-        case 41: connected(); break;
-        case 42: disconnected(); break;
-        case 43: dataReceived(); break;
-        case 44: socketError((*reinterpret_cast< QAbstractSocket::SocketError(*)>(_a[1]))); break;
-        case 45: operatePacket((*reinterpret_cast< Packet*(*)>(_a[1]))); break;
+        case 48: connected(); break;
+        case 49: disconnected(); break;
+        case 50: dataReceived(); break;
+        case 51: socketError((*reinterpret_cast< QAbstractSocket::SocketError(*)>(_a[1]))); break;
+        case 52: operatePacket((*reinterpret_cast< Packet*(*)>(_a[1]))); break;
         default: ;
         }
-        _id -= 46;
+        _id -= 53;
     }
     return _id;
 }
@@ -309,98 +330,147 @@ void ClientNetwork::mapChanged(MapPtr _t1)
 }
 
 // SIGNAL 15
-void ClientNetwork::updateEntities(const QList<EntityInformations> & _t1)
+void ClientNetwork::scriptToGMMsg(QString _t1, QString _t2)
 {
-    void *_a[] = { 0, const_cast<void*>(reinterpret_cast<const void*>(&_t1)) };
+    void *_a[] = { 0, const_cast<void*>(reinterpret_cast<const void*>(&_t1)), const_cast<void*>(reinterpret_cast<const void*>(&_t2)) };
     QMetaObject::activate(this, &staticMetaObject, 15, _a);
 }
 
 // SIGNAL 16
-void ClientNetwork::scriptReceived(QString _t1, QString _t2)
+void ClientNetwork::scriptToOwnerMsg(QString _t1, QString _t2)
 {
     void *_a[] = { 0, const_cast<void*>(reinterpret_cast<const void*>(&_t1)), const_cast<void*>(reinterpret_cast<const void*>(&_t2)) };
     QMetaObject::activate(this, &staticMetaObject, 16, _a);
 }
 
 // SIGNAL 17
-void ClientNetwork::ressourcesUpdated(const QMap<QString,RSID> & _t1)
+void ClientNetwork::scriptActionMsg(QString _t1, QString _t2)
 {
-    void *_a[] = { 0, const_cast<void*>(reinterpret_cast<const void*>(&_t1)) };
+    void *_a[] = { 0, const_cast<void*>(reinterpret_cast<const void*>(&_t1)), const_cast<void*>(reinterpret_cast<const void*>(&_t2)) };
     QMetaObject::activate(this, &staticMetaObject, 17, _a);
 }
 
 // SIGNAL 18
-void ClientNetwork::connectionEtablished()
+void ClientNetwork::scriptToPlayerMsg(QString _t1, QString _t2)
 {
-    QMetaObject::activate(this, &staticMetaObject, 18, 0);
+    void *_a[] = { 0, const_cast<void*>(reinterpret_cast<const void*>(&_t1)), const_cast<void*>(reinterpret_cast<const void*>(&_t2)) };
+    QMetaObject::activate(this, &staticMetaObject, 18, _a);
 }
 
 // SIGNAL 19
-void ClientNetwork::connectionLost()
+void ClientNetwork::scriptMsg(QString _t1, QString _t2)
 {
-    QMetaObject::activate(this, &staticMetaObject, 19, 0);
+    void *_a[] = { 0, const_cast<void*>(reinterpret_cast<const void*>(&_t1)), const_cast<void*>(reinterpret_cast<const void*>(&_t2)) };
+    QMetaObject::activate(this, &staticMetaObject, 19, _a);
 }
 
 // SIGNAL 20
-void ClientNetwork::diceRolled(CLID _t1, quint16 _t2)
+void ClientNetwork::scriptError(QString _t1, QString _t2)
 {
     void *_a[] = { 0, const_cast<void*>(reinterpret_cast<const void*>(&_t1)), const_cast<void*>(reinterpret_cast<const void*>(&_t2)) };
     QMetaObject::activate(this, &staticMetaObject, 20, _a);
 }
 
 // SIGNAL 21
-void ClientNetwork::sanctionned(CLID _t1, ENUM_TYPE _t2, QString _t3)
+void ClientNetwork::updateEntities(const QList<EntityInformations> & _t1)
 {
-    void *_a[] = { 0, const_cast<void*>(reinterpret_cast<const void*>(&_t1)), const_cast<void*>(reinterpret_cast<const void*>(&_t2)), const_cast<void*>(reinterpret_cast<const void*>(&_t3)) };
+    void *_a[] = { 0, const_cast<void*>(reinterpret_cast<const void*>(&_t1)) };
     QMetaObject::activate(this, &staticMetaObject, 21, _a);
 }
 
 // SIGNAL 22
-void ClientNetwork::clientJoined(CLID _t1, QString _t2)
+void ClientNetwork::updateEntity(const EntityInformations & _t1)
 {
-    void *_a[] = { 0, const_cast<void*>(reinterpret_cast<const void*>(&_t1)), const_cast<void*>(reinterpret_cast<const void*>(&_t2)) };
+    void *_a[] = { 0, const_cast<void*>(reinterpret_cast<const void*>(&_t1)) };
     QMetaObject::activate(this, &staticMetaObject, 22, _a);
 }
 
 // SIGNAL 23
-void ClientNetwork::clientLeft(CLID _t1)
+void ClientNetwork::scriptReceived(QString _t1, QString _t2)
 {
-    void *_a[] = { 0, const_cast<void*>(reinterpret_cast<const void*>(&_t1)) };
+    void *_a[] = { 0, const_cast<void*>(reinterpret_cast<const void*>(&_t1)), const_cast<void*>(reinterpret_cast<const void*>(&_t2)) };
     QMetaObject::activate(this, &staticMetaObject, 23, _a);
 }
 
 // SIGNAL 24
-void ClientNetwork::playSound(QString _t1, QString _t2)
+void ClientNetwork::ressourcesUpdated(const QMap<QString,RSID> & _t1)
 {
-    void *_a[] = { 0, const_cast<void*>(reinterpret_cast<const void*>(&_t1)), const_cast<void*>(reinterpret_cast<const void*>(&_t2)) };
+    void *_a[] = { 0, const_cast<void*>(reinterpret_cast<const void*>(&_t1)) };
     QMetaObject::activate(this, &staticMetaObject, 24, _a);
 }
 
 // SIGNAL 25
-void ClientNetwork::syncLibs(QList<SoundLibInformations> _t1)
+void ClientNetwork::connectionEtablished()
 {
-    void *_a[] = { 0, const_cast<void*>(reinterpret_cast<const void*>(&_t1)) };
-    QMetaObject::activate(this, &staticMetaObject, 25, _a);
+    QMetaObject::activate(this, &staticMetaObject, 25, 0);
 }
 
 // SIGNAL 26
-void ClientNetwork::syncLanguagesList(QList<QPair<QString,QString> > _t1)
+void ClientNetwork::connectionLost()
 {
-    void *_a[] = { 0, const_cast<void*>(reinterpret_cast<const void*>(&_t1)) };
-    QMetaObject::activate(this, &staticMetaObject, 26, _a);
+    QMetaObject::activate(this, &staticMetaObject, 26, 0);
 }
 
 // SIGNAL 27
-void ClientNetwork::syncDictionariesList(QStringList _t1)
+void ClientNetwork::diceRolled(CLID _t1, quint16 _t2)
 {
-    void *_a[] = { 0, const_cast<void*>(reinterpret_cast<const void*>(&_t1)) };
+    void *_a[] = { 0, const_cast<void*>(reinterpret_cast<const void*>(&_t1)), const_cast<void*>(reinterpret_cast<const void*>(&_t2)) };
     QMetaObject::activate(this, &staticMetaObject, 27, _a);
 }
 
 // SIGNAL 28
+void ClientNetwork::sanctionned(CLID _t1, ENUM_TYPE _t2, QString _t3)
+{
+    void *_a[] = { 0, const_cast<void*>(reinterpret_cast<const void*>(&_t1)), const_cast<void*>(reinterpret_cast<const void*>(&_t2)), const_cast<void*>(reinterpret_cast<const void*>(&_t3)) };
+    QMetaObject::activate(this, &staticMetaObject, 28, _a);
+}
+
+// SIGNAL 29
+void ClientNetwork::clientJoined(CLID _t1, QString _t2)
+{
+    void *_a[] = { 0, const_cast<void*>(reinterpret_cast<const void*>(&_t1)), const_cast<void*>(reinterpret_cast<const void*>(&_t2)) };
+    QMetaObject::activate(this, &staticMetaObject, 29, _a);
+}
+
+// SIGNAL 30
+void ClientNetwork::clientLeft(CLID _t1)
+{
+    void *_a[] = { 0, const_cast<void*>(reinterpret_cast<const void*>(&_t1)) };
+    QMetaObject::activate(this, &staticMetaObject, 30, _a);
+}
+
+// SIGNAL 31
+void ClientNetwork::playSound(QString _t1, QString _t2)
+{
+    void *_a[] = { 0, const_cast<void*>(reinterpret_cast<const void*>(&_t1)), const_cast<void*>(reinterpret_cast<const void*>(&_t2)) };
+    QMetaObject::activate(this, &staticMetaObject, 31, _a);
+}
+
+// SIGNAL 32
+void ClientNetwork::syncLibs(QList<SoundLibInformations> _t1)
+{
+    void *_a[] = { 0, const_cast<void*>(reinterpret_cast<const void*>(&_t1)) };
+    QMetaObject::activate(this, &staticMetaObject, 32, _a);
+}
+
+// SIGNAL 33
+void ClientNetwork::syncLanguagesList(QList<QPair<QString,QString> > _t1)
+{
+    void *_a[] = { 0, const_cast<void*>(reinterpret_cast<const void*>(&_t1)) };
+    QMetaObject::activate(this, &staticMetaObject, 33, _a);
+}
+
+// SIGNAL 34
+void ClientNetwork::syncDictionariesList(QStringList _t1)
+{
+    void *_a[] = { 0, const_cast<void*>(reinterpret_cast<const void*>(&_t1)) };
+    QMetaObject::activate(this, &staticMetaObject, 34, _a);
+}
+
+// SIGNAL 35
 void ClientNetwork::syncScriptList(QStringList _t1)
 {
     void *_a[] = { 0, const_cast<void*>(reinterpret_cast<const void*>(&_t1)) };
-    QMetaObject::activate(this, &staticMetaObject, 28, _a);
+    QMetaObject::activate(this, &staticMetaObject, 35, _a);
 }
 QT_END_MOC_NAMESPACE

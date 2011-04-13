@@ -489,6 +489,28 @@ void Server::processData(std::auto_ptr<Packet> pa, CLID cID)
             }
         }
         break;
+        case INJECT_CODE:
+        {
+            GM_CHECK();
+            QString name, code;
+            QE(extractInjectCodeData(pa->data, name, code));
+
+            if(!m_scripts.entityExists(name))
+            {
+                m_network->sendToClient(cID, ETI(ERROR), serialiseErrorData(ETI(ENTITY_NOT_FOUND), name));
+            }
+            else
+            {
+                bool b=false;
+                QString err = m_scripts.pushCode(name, code, &b);
+                if(!b)
+                {
+                    m_network->sendToClient(cID, ETI(SCRIPT_MESSAGE), serialiseScriptMessageData(ETI(ERROR_MSG), name, err));
+                    log("Erreur de script (" + name + ") : \"" + err + "\"");
+                }
+            }
+        }
+        break;
         default:
         {
             log("ERROR : packet type "+QString::number(pa->type)+" unknown ! (from Client "+QString::number(cID)+")");

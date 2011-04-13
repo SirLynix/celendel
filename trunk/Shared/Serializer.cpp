@@ -924,6 +924,28 @@ QByteArray serialiseEntitiesInformationsData(const QList<EntityInformations>& li
     return qCompress(data);
 }
 
+bool extractUpdateEntityInformationsData(QByteArray& data, EntityInformations& info)
+{
+    QByteArray d=qUncompress(data);
+    QV(d);
+    QDataStream in(d);
+
+    in>>info;
+    R(in);
+
+    return false;
+}
+
+QByteArray serialiseUpdateEntityInformationsData(const EntityInformations& info)
+{
+    QByteArray data;
+    QDataStream out(&data, QIODevice::ReadWrite);
+
+    out<<info;
+
+    return qCompress(data);
+}
+
 bool extractCreateEntityData(QByteArray& data, QString& name, QString& scriptName)
 {
     QV(data);
@@ -945,5 +967,83 @@ QByteArray serialiseCreateEntityData(const QString& name, const QString& scriptN
     out<<scriptName;
 
     return data;
+}
+
+bool extractInjectCodeData(QByteArray& data, QString& entityName, QString& code)
+{
+    QByteArray d=qUncompress(data);
+    QV(d);
+    QDataStream in(d);
+
+    in>>entityName;
+    R(in);
+    in>>code;
+    R(in);
+
+    return false;
+}
+
+QByteArray serialiseInjectCodeData(const QString& entityName, const QString& code)
+{
+    QByteArray data;
+    QDataStream out(&data, QIODevice::ReadWrite);
+
+    out<<entityName;
+    out<<code;
+
+    return qCompress(data);
+}
+
+bool extractScriptErrorData(QByteArray& data, QString& entityName, QString& error)
+{
+    QByteArray d=qUncompress(data);
+    QV(d);
+    QDataStream in(d);
+
+    in>>entityName;
+    R(in);
+    in>>error;
+    R(in);
+
+    return false;
+}
+
+QByteArray serialiseScriptErrorData(const QString& entityName, const QString& error)
+{
+    QByteArray data;
+    QDataStream out(&data, QIODevice::ReadWrite);
+
+    out<<entityName;
+    out<<error;
+
+    return qCompress(data);
+}
+
+bool extractScriptMessageData(QByteArray& data, qint32& type, QString& ent, QString& txt)
+{
+    QByteArray d=qUncompress(data);
+    QV(d);
+    QDataStream in(d);
+
+    in>>type;
+    R(in);
+    in>>ent;
+    R(in);
+    in>>txt;
+    R(in);
+
+    return false;
+}
+
+QByteArray serialiseScriptMessageData(qint32 type, const QString& ent, const QString& txt)
+{
+    QByteArray data;
+    QDataStream out(&data, QIODevice::ReadWrite);
+
+    out<<(qint32)type;
+    out<<ent;
+    out<<txt;
+
+    return qCompress(data);
 }
 
