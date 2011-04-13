@@ -56,6 +56,7 @@ class Server : public QObject
 
         bool updateScript(const QString& name, const QString& content);
 
+        void updateCharacterList(const QStringList&);
         void sendEntityInfos(const QString& name);
         void sendGMMsg(QString ent, QString);
         void sendOwnerMsg(QString ent, QString);

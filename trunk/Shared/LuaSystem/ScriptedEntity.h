@@ -62,6 +62,8 @@ class ScriptedEntity : public QObject
         void sendMsg(QString);
         void sendPlayerMsg(QString msg,QString regexp);
 
+        void registerCharacter();
+
         void dataChanged();
 
         void luaError(ScriptedEntity* ent, QString txt);
@@ -73,6 +75,7 @@ class ScriptedEntity : public QObject
         int sendMessageToOwner(lua_State* L);
         int sendMessageToAll(lua_State* L);
         int sendMessageToPlayer(lua_State* L);
+        int registerAsCharacter(lua_State* L);
 
         int syncData(lua_State* L);
 

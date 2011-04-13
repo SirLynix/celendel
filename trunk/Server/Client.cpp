@@ -42,8 +42,6 @@ void Client::blame()
     qDebug() << "WARNING : Server requested a blame against a client ! Abording connection !";
     socket->abort();
 
-    /*delete packet;
-    packet=NULL;*/
 }
 
 void Client::resetSecurity()
@@ -64,13 +62,13 @@ void Client::readyRead()
     m_securityTimer->start(PACKETS_COUNT_RESET_DELAY);
     QDataStream in(socket);
 
-    if (/*packet == NULL*/packet.get()==NULL)//Try to get the header
+    if (packet.get()==NULL)//Try to get the header
     {
         if (socket->bytesAvailable() < (int)sizeofheader) //The header is not here yet
              return;
 
         packet.reset(new Packet());
-        //packet = new Packet();
+
         packet->setHeader(in);
         if(packet->dataSize > MAX_PACKET_SIZE) //A legal packet will NEVER be bigger than 1Mio, else it's an attack.
         {
@@ -103,7 +101,6 @@ void Client::readyRead()
         emit dataReceived(packet);
     }
 
-   // packet=NULL;
     packet.reset();
     ++m_sequentialsPackets;
 

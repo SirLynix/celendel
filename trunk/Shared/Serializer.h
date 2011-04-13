@@ -132,4 +132,10 @@ QByteArray serialiseInjectCodeData(const QString& entityName, const QString& cod
 bool extractScriptMessageData(QByteArray& data, qint32 &type, QString& ent, QString& txt);
 QByteArray serialiseScriptMessageData(qint32 type, const QString& ent, const QString& txt);
 
+bool extractDeleteEntityData(QByteArray& data, QString& name);
+QByteArray serialiseDeleteEntityData(const QString& name);
+
+bool extractCharacterListData(QByteArray& data, QStringList& list);
+QByteArray serialiseCharacterListData(const QStringList& list);
+
 #endif

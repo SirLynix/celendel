@@ -1,5 +1,9 @@
 #include "ScriptedEntity.h"
 
+  //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+ //                                                            C++->Lua                                                          //
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void ScriptedEntity::onInit()
 {
     callSimpleMethod("onInit");
@@ -137,7 +141,9 @@ void ScriptedEntity::onUpdate()
         lua_pop(m_state,1);
     }
 }
-
+  //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+ //                                                            Lua->C++                                                          //
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 int ScriptedEntity::sendMessageToGM(lua_State* L)
 {
     int argc = lua_gettop(L);
@@ -209,3 +215,17 @@ int ScriptedEntity::syncData(lua_State* L)
     m_needSync=true;
     return 0;
 }
+
+int ScriptedEntity::registerAsCharacter(lua_State* L)
+{
+    int argc = lua_gettop(L);
+    if(argc > 0)
+    {
+        LUA_ERROR(tr("Error : too much arguments"));
+        return 0;
+    }
+
+    emit registerCharacter();
+    return 0;
+}
+

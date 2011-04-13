@@ -248,6 +248,21 @@ void ClientNetwork::operatePacket(Packet* packet)
 
         }
         break;
+        case DELETE_ENTITY:
+        {
+            QString ent;
+            QE(extractDeleteEntityData(packet->data, ent));
+            emit entityDeleted(ent);
+        }
+        break;
+        case UPDATE_CHARACTER_LIST:
+        {
+            QStringList list;
+            QE(extractCharacterListData(packet->data, list));
+
+            emit updateCharacterList(list);
+        }
+        break;
         default:
         break;
     }

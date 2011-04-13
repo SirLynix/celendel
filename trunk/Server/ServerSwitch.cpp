@@ -511,6 +511,18 @@ void Server::processData(std::auto_ptr<Packet> pa, CLID cID)
             }
         }
         break;
+        case DELETE_ENTITY:
+        {
+            GM_CHECK();
+            QString name;
+            QE(extractDeleteEntityData(pa->data, name));
+            if(m_scripts.deleteEntity(name))
+                m_network->sendToClient(cID, ETI(ERROR), serialiseErrorData(ETI(ENTITY_NOT_FOUND), name));
+            else
+                m_network->sendToClient(cID, ETI(DELETE_ENTITY), serialiseDeleteEntityData(name));
+
+        }
+        break;
         default:
         {
             log("ERROR : packet type "+QString::number(pa->type)+" unknown ! (from Client "+QString::number(cID)+")");

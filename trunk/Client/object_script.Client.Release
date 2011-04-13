@@ -34,7 +34,7 @@ INPUT(
 ./release\ScriptManager.o
 ./release\EditorDialog.o
 ./release\EntitiesManager.o
-./release\CodeInput.o
+./release\CharactersManager.o
 ./release\ScriptedEntity.o
 ./release\ScriptSandbox.o
 ./release\ScriptedEntityCallbacks.o
@@ -60,7 +60,7 @@ INPUT(
 ./release\moc_ScriptManager.o
 ./release\moc_EditorDialog.o
 ./release\moc_EntitiesManager.o
-./release\moc_CodeInput.o
+./release\moc_CharactersManager.o
 ./release\moc_ScriptedEntity.o
 ./release\moc_ScriptSandbox.o
 );

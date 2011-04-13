@@ -3,7 +3,7 @@
 
 #include <QDialog>
 
-class QsciScintilla;
+class EditorDialog;
 class QPushButton;
 
 class CodeInput : public QDialog
@@ -18,9 +18,10 @@ class CodeInput : public QDialog
 
     private:
 
-        QsciScintilla *m_editor;
+        EditorDialog *m_editor;
         QPushButton *m_ok;
         QPushButton *m_cancel;
+
 };
 
 #endif

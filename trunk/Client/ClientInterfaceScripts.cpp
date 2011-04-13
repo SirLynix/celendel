@@ -41,6 +41,14 @@ void ClientInterface::makeEntity(QString name, QString scriptName)
     m_network->send(ETI(CREATE_ENTITY), serialiseCreateEntityData(name, scriptName));
 }
 
+void ClientInterface::deleteEntity(const QString& name)
+{
+    if(!isGM())
+        return;
+
+    m_network->send(ETI(DELETE_ENTITY), serialiseDeleteEntityData(name));
+}
+
 void ClientInterface::sendScriptToServer(QString name, QString content)
 {
     if(!isGM())

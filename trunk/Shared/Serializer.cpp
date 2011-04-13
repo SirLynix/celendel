@@ -1047,3 +1047,41 @@ QByteArray serialiseScriptMessageData(qint32 type, const QString& ent, const QSt
     return qCompress(data);
 }
 
+bool extractDeleteEntityData(QByteArray& data, QString& name)
+{
+    QV(data);
+    QDataStream in(data);
+    in>>name;
+    R(in);
+
+    return false;
+}
+
+QByteArray serialiseDeleteEntityData(const QString& name)
+{
+    QByteArray data;
+    QDataStream out(&data, QIODevice::ReadWrite);
+
+    out<<name;
+
+    return data;
+}
+
+bool extractCharacterListData(QByteArray& data, QStringList& list)
+{
+    QByteArray d=qUncompress(data);
+    QV(d);
+    QDataStream in(d);
+    in>>list;
+    R(in);
+    return false;
+}
+
+QByteArray serialiseCharacterListData(const QStringList& list)
+{
+    QByteArray data;
+    QDataStream out(&data, QIODevice::ReadWrite);
+    out<<list;
+    return qCompress(data);
+}
+

@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Meta object code from reading C++ file 'ScriptedEntity.h'
 **
-** Created: Tue 12. Apr 13:10:19 2011
+** Created: Wed 13. Apr 18:53:23 2011
 **      by: The Qt Meta Object Compiler version 62 (Qt 4.7.0)
 **
 ** WARNING! All changes made in this file will be lost!
@@ -23,12 +23,12 @@ static const uint qt_meta_data_ScriptedEntity[] = {
        5,       // revision
        0,       // classname
        0,    0, // classinfo
-      15,   14, // methods
+      16,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
        0,       // flags
-       6,       // signalCount
+       7,       // signalCount
 
  // signals: signature, parameters, type, tag, flags
       16,   15,   15,   15, 0x05,
@@ -36,18 +36,19 @@ static const uint qt_meta_data_ScriptedEntity[] = {
       57,   15,   15,   15, 0x05,
       85,   74,   15,   15, 0x05,
      116,   15,   15,   15, 0x05,
-     138,  130,   15,   15, 0x05,
+     136,   15,   15,   15, 0x05,
+     158,  150,   15,   15, 0x05,
 
  // slots: signature, parameters, type, tag, flags
-     172,   15,   15,   15, 0x0a,
-     180,   15,   15,   15, 0x0a,
-     190,   15,   15,   15, 0x0a,
-     201,   15,   15,   15, 0x0a,
+     192,   15,   15,   15, 0x0a,
+     200,   15,   15,   15, 0x0a,
      210,   15,   15,   15, 0x0a,
-     241,  224,  220,   15, 0x0a,
-     276,  271,   15,   15, 0x0a,
+     221,   15,   15,   15, 0x0a,
+     230,   15,   15,   15, 0x0a,
+     261,  244,  240,   15, 0x0a,
      296,  291,   15,   15, 0x0a,
-     322,   15,   15,   15, 0x0a,
+     316,  311,   15,   15, 0x0a,
+     342,   15,   15,   15, 0x0a,
 
        0        // eod
 };
@@ -56,8 +57,8 @@ static const char qt_meta_stringdata_ScriptedEntity[] = {
     "ScriptedEntity\0\0sendGMMsg(QString)\0"
     "sendOwnerMsg(QString)\0sendMsg(QString)\0"
     "msg,regexp\0sendPlayerMsg(QString,QString)\0"
-    "dataChanged()\0ent,txt\0"
-    "luaError(ScriptedEntity*,QString)\0"
+    "registerCharacter()\0dataChanged()\0"
+    "ent,txt\0luaError(ScriptedEntity*,QString)\0"
     "pause()\0unpause()\0onUpdate()\0onInit()\0"
     "onDeath()\0int\0amount,type,from\0"
     "onDamage(int,QString,QString)\0user\0"
@@ -98,21 +99,22 @@ int ScriptedEntity::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
         case 1: sendOwnerMsg((*reinterpret_cast< QString(*)>(_a[1]))); break;
         case 2: sendMsg((*reinterpret_cast< QString(*)>(_a[1]))); break;
         case 3: sendPlayerMsg((*reinterpret_cast< QString(*)>(_a[1])),(*reinterpret_cast< QString(*)>(_a[2]))); break;
-        case 4: dataChanged(); break;
-        case 5: luaError((*reinterpret_cast< ScriptedEntity*(*)>(_a[1])),(*reinterpret_cast< QString(*)>(_a[2]))); break;
-        case 6: pause(); break;
-        case 7: unpause(); break;
-        case 8: onUpdate(); break;
-        case 9: onInit(); break;
-        case 10: onDeath(); break;
-        case 11: { int _r = onDamage((*reinterpret_cast< int(*)>(_a[1])),(*reinterpret_cast< const QString(*)>(_a[2])),(*reinterpret_cast< const QString(*)>(_a[3])));
+        case 4: registerCharacter(); break;
+        case 5: dataChanged(); break;
+        case 6: luaError((*reinterpret_cast< ScriptedEntity*(*)>(_a[1])),(*reinterpret_cast< QString(*)>(_a[2]))); break;
+        case 7: pause(); break;
+        case 8: unpause(); break;
+        case 9: onUpdate(); break;
+        case 10: onInit(); break;
+        case 11: onDeath(); break;
+        case 12: { int _r = onDamage((*reinterpret_cast< int(*)>(_a[1])),(*reinterpret_cast< const QString(*)>(_a[2])),(*reinterpret_cast< const QString(*)>(_a[3])));
             if (_a[0]) *reinterpret_cast< int*>(_a[0]) = _r; }  break;
-        case 12: onUse((*reinterpret_cast< const QString(*)>(_a[1]))); break;
-        case 13: callSimpleMethod((*reinterpret_cast< const QString(*)>(_a[1]))); break;
-        case 14: once(); break;
+        case 13: onUse((*reinterpret_cast< const QString(*)>(_a[1]))); break;
+        case 14: callSimpleMethod((*reinterpret_cast< const QString(*)>(_a[1]))); break;
+        case 15: once(); break;
         default: ;
         }
-        _id -= 15;
+        _id -= 16;
     }
     return _id;
 }
@@ -146,15 +148,21 @@ void ScriptedEntity::sendPlayerMsg(QString _t1, QString _t2)
 }
 
 // SIGNAL 4
-void ScriptedEntity::dataChanged()
+void ScriptedEntity::registerCharacter()
 {
     QMetaObject::activate(this, &staticMetaObject, 4, 0);
 }
 
 // SIGNAL 5
+void ScriptedEntity::dataChanged()
+{
+    QMetaObject::activate(this, &staticMetaObject, 5, 0);
+}
+
+// SIGNAL 6
 void ScriptedEntity::luaError(ScriptedEntity * _t1, QString _t2)
 {
     void *_a[] = { 0, const_cast<void*>(reinterpret_cast<const void*>(&_t1)), const_cast<void*>(reinterpret_cast<const void*>(&_t2)) };
-    QMetaObject::activate(this, &staticMetaObject, 5, _a);
+    QMetaObject::activate(this, &staticMetaObject, 6, _a);
 }
 QT_END_MOC_NAMESPACE

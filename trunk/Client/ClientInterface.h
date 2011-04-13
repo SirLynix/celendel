@@ -15,6 +15,7 @@ class MapWidget;
 class MapEditor;
 class ScriptManager;
 class EntitiesManager;
+class CharactersManager;
 
 class VOIP;
 
@@ -108,6 +109,7 @@ class ClientInterface : public QMainWindow
         void deleteScript(QString name);
         void renameScript(QString name, QString newName);
         void makeEntity(QString name, QString scriptName);
+        void deleteEntity(const QString& name);
         void injectCode(QString entityName, QString code);
 
         void scriptToGMMsg(QString ent, QString txt);
@@ -179,10 +181,6 @@ class ClientInterface : public QMainWindow
         QStandardItemModel *m_playerList;
         QLabel *m_GMLabel;
 
-        ///Character list
-        QTreeView *m_v_cl;
-        QStandardItemModel *m_characterList;
-
         ///Menus
         QAction *m_ac_joinOrLeave;
 
@@ -198,6 +196,9 @@ class ClientInterface : public QMainWindow
 
         QAction *m_removeLanguage;
         QAction *m_addLanguageAct;
+
+        ///Character list
+        CharactersManager* m_characterMngr;
 
         ///GM Menus
         QTimer *m_refreshTimer;

@@ -6,6 +6,7 @@
 #include "MapWidget.h"
 #include "ScriptManager.h"
 #include "EntitiesManager.h"
+#include "CharactersManager.h"
 
 void ClientInterface::buildGUI()
 {
@@ -213,39 +214,13 @@ playerListDock->setWidget(w_playerListDock);
 
 addDockWidget(Qt::LeftDockWidgetArea, playerListDock);
 
-
-///CHARACTER LIST DOCK
-QDockWidget *characterListDock = new QDockWidget(tr("Liste des personnages"), this);
-characterListDock->setWhatsThis(tr("La liste des personnages"));
-characterListDock->setFeatures(QDockWidget::NoDockWidgetFeatures);
-characterListDock->setFeatures(QDockWidget::DockWidgetFloatable|QDockWidget::DockWidgetMovable);
-m_characterList = new QStandardItemModel(this);
-
-
-QWidget *w_characterListDock = new QWidget(characterListDock);
-characterListDock->setWidget(w_characterListDock);
-QVBoxLayout *l_characterListDock = new QVBoxLayout(w_characterListDock);
-w_characterListDock->setLayout(l_characterListDock);
-
-
-m_v_cl = new QTreeView(this);
-m_v_cl->setContextMenuPolicy(Qt::CustomContextMenu);
-m_v_cl->setModel(m_characterList);
-m_v_cl->header()->hide();
-m_v_cl->setEditTriggers(QAbstractItemView::NoEditTriggers);
-m_v_cl->setContextMenuPolicy(Qt::CustomContextMenu);
-connect(m_v_cl, SIGNAL(customContextMenuRequested(const QPoint&)), this, SLOT(characterListMenu(const QPoint&)));
-l_characterListDock->addWidget(m_v_cl);
-
-addDockWidget(Qt::LeftDockWidgetArea, characterListDock);
-
 ///SCRIPTS DOCK
 QDockWidget *scriptsDock = new QDockWidget(tr("Scripts"), this);
 scriptsDock->setWhatsThis(tr("Gestion des scripts"));
 scriptsDock->setFeatures(QDockWidget::NoDockWidgetFeatures);
 scriptsDock->setFeatures(QDockWidget::DockWidgetFloatable|QDockWidget::DockWidgetMovable);
 
-m_scriptManager = new ScriptManager(characterListDock);
+m_scriptManager = new ScriptManager(scriptsDock);
 scriptsDock->setWidget(m_scriptManager);
 
 addDockWidget(Qt::LeftDockWidgetArea, scriptsDock);
@@ -256,12 +231,24 @@ entitiesDock->setWhatsThis(tr("Gestion des entitées (objets, personnages...)"));
 entitiesDock->setFeatures(QDockWidget::NoDockWidgetFeatures);
 entitiesDock->setFeatures(QDockWidget::DockWidgetFloatable|QDockWidget::DockWidgetMovable);
 
-m_entitiesManager = new EntitiesManager(characterListDock);
+m_entitiesManager = new EntitiesManager(entitiesDock);
 entitiesDock->setWidget(m_entitiesManager);
 
 addDockWidget(Qt::LeftDockWidgetArea, entitiesDock);
 
 tabifyDockWidget(scriptsDock, entitiesDock);
+
+
+///CHARACTER LIST DOCK
+QDockWidget *characterListDock = new QDockWidget(tr("Liste des personnages"), this);
+characterListDock->setWhatsThis(tr("La liste des personnages"));
+characterListDock->setFeatures(QDockWidget::NoDockWidgetFeatures);
+characterListDock->setFeatures(QDockWidget::DockWidgetFloatable|QDockWidget::DockWidgetMovable);
+
+m_characterMngr = new CharactersManager(m_entitiesManager, characterListDock);
+characterListDock->setWidget(m_characterMngr);
+
+addDockWidget(Qt::LeftDockWidgetArea, characterListDock);
 
 ///GM PANEL LIST DOCK
 m_GMPanelDock = new QDockWidget(tr("Panneau d'administration"), this);

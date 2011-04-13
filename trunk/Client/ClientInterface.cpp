@@ -9,6 +9,7 @@
 #include "MapEditor.h"
 #include "ScriptManager.h"
 #include "EntitiesManager.h"
+#include "CharactersManager.h"
 
 
 ClientInterface::ClientInterface()
@@ -88,15 +89,18 @@ ClientInterface::ClientInterface()
     connect(m_scriptManager, SIGNAL(renameScript(QString,QString)), this, SLOT(renameScript(QString,QString)));
     connect(m_scriptManager, SIGNAL(deleteScript(QString)), this, SLOT(deleteScript(QString)));
     connect(m_scriptManager, SIGNAL(makeEntity(QString,QString)), this, SLOT(makeEntity(QString,QString)));
+    connect(m_network, SIGNAL(entityDeleted(QString)), m_entitiesManager, SLOT(entityDeleted(QString)));
     connect(m_network, SIGNAL(updateEntities(const QList<EntityInformations>&)), m_entitiesManager, SLOT(setEntities(const QList<EntityInformations>&)));
     connect(m_network, SIGNAL(updateEntity(const EntityInformations&)), m_entitiesManager, SLOT(updateEntity(const EntityInformations&)));
     connect(m_entitiesManager, SIGNAL(injectCode(QString,QString)), this, SLOT(injectCode(QString,QString)));
+    connect(m_entitiesManager, SIGNAL(deleteEntity(QString)), this, SLOT(deleteEntity(QString)));
     connect(m_network, SIGNAL(scriptToGMMsg(QString,QString)), this, SLOT(scriptToGMMsg(QString,QString)));
     connect(m_network, SIGNAL(scriptToOwnerMsg(QString,QString)), this, SLOT(scriptToOwnerMsg(QString,QString)));
     connect(m_network, SIGNAL(scriptActionMsg(QString,QString)), this, SLOT(scriptActionMsg(QString,QString)));
     connect(m_network, SIGNAL(scriptToPlayerMsg(QString,QString)), this, SLOT(scriptToPlayerMsg(QString,QString)));
     connect(m_network, SIGNAL(scriptMsg(QString,QString)), this, SLOT(scriptMsg(QString,QString)));
     connect(m_network, SIGNAL(scriptError(QString,QString)), this, SLOT(scriptError(QString,QString)));
+    connect(m_network, SIGNAL(updateCharacterList(const QStringList&)), m_characterMngr, SLOT(updateCharacterList(const QStringList&)));
 
     getVOIP().setEnabled(set->value(PARAM_VOIP_ENABLED, true).toBool());
     getVOIP().setVolume(set->value(PARAM_VOIP_SOUND, 100.f).toFloat());

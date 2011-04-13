@@ -7,15 +7,15 @@
 #include <QLayout>
 #include <QPushButton>
 #include <QAction>
-#include <QMenu>
 #include <QLineEdit>
 #include <QInputDialog>
 
 #include "EditorDialog.h"
+#include <QMenu>
 
 ScriptManager::ScriptManager(QWidget* parent):QWidget(parent)
 {
-    m_editor = new EditorDialog(this);
+    m_editor = new EditorDialog(this, SCRIPT_EDIT);
     connect(m_editor, SIGNAL(sendScriptToServer(QString,QString)), this, SLOT(sendScript(QString,QString)));
 
     m_download = new QAction(tr("Télécharger"), this);
