@@ -7,14 +7,19 @@
 #include <QAction>
 #include <QMenu>
 
-#include "CodeInput.h"
+#include "EditorDialog.h"
 
 #define DTANAMID Qt::UserRole+1337
 
 EntitiesManager::EntitiesManager(QWidget* _parent) : QWidget(_parent)
 {
-    m_injectCode = new QAction(tr("Injecter une portion de code"), this);
+    m_injectCode = new QAction(tr("Injecter du code"), this);
     connect(m_injectCode, SIGNAL(triggered()), this, SLOT(ac_injectCode()));
+    m_deleteEntity = new QAction(tr("Supprimer"), this);
+    connect(m_deleteEntity, SIGNAL(triggered()), this, SLOT(ac_deleteEntity()));
+
+    m_editor = new EditorDialog(this, CODE_INJECTION);
+    m_editor->hide();
 
     m_list = new QStandardItemModel(this);
 
@@ -75,6 +80,22 @@ void EntitiesManager::update()
             sti->appendRow(stic);
         }
     }
+
+    emit updated();
+}
+
+void EntitiesManager::entityDeleted(const QString& ent)
+{
+    for(int i=0, m=m_entities.size();i<m;++i)
+    {
+        if(m_entities[i].name == ent)
+        {
+            m_entities.removeAt(i);
+            break;
+        }
+    }
+
+    update();
 }
 
 void EntitiesManager::ac_injectCode()
@@ -83,12 +104,18 @@ void EntitiesManager::ac_injectCode()
     if(s.isEmpty())
         return;
 
-    QString code = CodeInput::getCode(this,tr("Injecter du code"),tr("Code à injecter :"));
+    m_editor->show();
+    m_editor->setScriptName(s);
+    connect(m_editor, SIGNAL(sendScriptToServer(QString,QString)), this, SIGNAL(injectCode(QString, QString)));
+}
 
-    if(code.isEmpty())
+void EntitiesManager::ac_deleteEntity()
+{
+    QString s = m_injectCode->data().toString();
+    if(s.isEmpty())
         return;
 
-    emit injectCode(s, code);
+    emit deleteEntity(s);
 }
 
 void EntitiesManager::openContextMenu(const QPoint& p)
@@ -102,6 +129,7 @@ void EntitiesManager::openContextMenu(const QPoint& p)
 
     QList<QAction*> l;
     l<<m_injectCode;
+    l<<m_deleteEntity;
 
     QMenu::exec(l, m_v_list->mapToGlobal(p));
 }

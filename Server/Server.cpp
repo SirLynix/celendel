@@ -30,6 +30,7 @@ Server::Server(QObject* parent) : QObject(parent)
     connect(&m_scripts, SIGNAL(sendOwnerMsg(QString, QString)), this, SLOT(sendOwnerMsg(QString, QString)));
     connect(&m_scripts, SIGNAL(sendMsg(QString, QString)), this, SLOT(sendMsg(QString, QString)));
     connect(&m_scripts, SIGNAL(sendPlayerMsg(QString, QString, QString)), this, SLOT(sendPlayerMsg(QString, QString, QString)));
+    connect(&m_scripts, SIGNAL(characterListUpdated(const QStringList&)), this, SLOT(updateCharacterList(const QStringList&)));
 
     m_gameStarted=false;
     m_GMID=0;
@@ -114,6 +115,11 @@ bool Server::isValidScriptName(const QString& name)
     return true;
 }
 
+void Server::updateCharacterList(const QStringList& c)
+{
+    m_network->sendToAll(ETI(UPDATE_CHARACTER_LIST), serialiseCharacterListData(c));
+}
+
 void Server::sendEntityInfos(const QString& name)
 {
     EntityInformations ei = m_scripts.getEntityInformations(name);
@@ -146,9 +152,10 @@ void Server::addClient(CLID cID)
     log("Player "+QString::number(cID)+" added to game.");
     m_network->sendToClient(cID, ETI(SET_CLID), serialiseSetCLIDData(cID));
     m_network->sendToClient(cID, ETI(SERVER_INFORMATIONS), serialiseServerInformationsData(getServerInformations()));
-    m_network->sendToClient(cID, ETI(MAP_INFORMATIONS), serialiseMapInformationsData(*m_map));
     m_network->sendToClient(cID, ETI(UPDATE_RESSOURCES), serialiseUpdateRessourcesData(m_ressources));
     m_network->sendToClient(cID, ETI(ENTITIES_INFORMATIONS), serialiseEntitiesInformationsData(m_scripts.getEntitiesInformations()));
+    m_network->sendToClient(cID, ETI(UPDATE_CHARACTER_LIST), serialiseCharacterListData(m_scripts.getCharacters()));
+    m_network->sendToClient(cID, ETI(MAP_INFORMATIONS), serialiseMapInformationsData(*m_map));
     m_network->sendToAll(ETI(CLIENT_JOINED), serialiseClientJoinedData(cID, m_network->getClient(cID)->socket->peerAddress().toString()));
 }
 

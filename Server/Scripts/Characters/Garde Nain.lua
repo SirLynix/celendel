@@ -7,11 +7,11 @@ data["description"] = "description"
 data["name"] = "name"
 data["work"] = "work"
 
-function onInit(this)
-	
+
+function once(this)
+	this:registerAsCharacter();
+	this:sendMessageToGM("Init");
 end
-
-function once(this) end
 
 function onDeath(this)
 	

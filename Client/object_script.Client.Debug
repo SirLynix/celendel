@@ -34,7 +34,7 @@ INPUT(
 ./debug\ScriptManager.o
 ./debug\EditorDialog.o
 ./debug\EntitiesManager.o
-./debug\CodeInput.o
+./debug\CharactersManager.o
 ./debug\ScriptedEntity.o
 ./debug\ScriptSandbox.o
 ./debug\ScriptedEntityCallbacks.o
@@ -60,7 +60,7 @@ INPUT(
 ./debug\moc_ScriptManager.o
 ./debug\moc_EditorDialog.o
 ./debug\moc_EntitiesManager.o
-./debug\moc_CodeInput.o
+./debug\moc_CharactersManager.o
 ./debug\moc_ScriptedEntity.o
 ./debug\moc_ScriptSandbox.o
 );

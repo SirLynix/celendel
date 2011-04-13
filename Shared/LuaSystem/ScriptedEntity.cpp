@@ -14,6 +14,7 @@ Lunar<ScriptedEntity>::RegType ScriptedEntity::methods[] = {
     method(ScriptedEntity, sendMessageToAll),
     method(ScriptedEntity, sendMessageToPlayer),
     method(ScriptedEntity, syncData),
+    method(ScriptedEntity, registerAsCharacter),
   /*method(ScriptedClass, sendMessage),*/
   {0,0}
 };

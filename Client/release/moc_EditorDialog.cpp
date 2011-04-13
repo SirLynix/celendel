@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Meta object code from reading C++ file 'EditorDialog.h'
 **
-** Created: Sun 10. Apr 12:14:49 2011
+** Created: Wed 13. Apr 11:40:26 2011
 **      by: The Qt Meta Object Compiler version 62 (Qt 4.7.0)
 **
 ** WARNING! All changes made in this file will be lost!
@@ -23,7 +23,7 @@ static const uint qt_meta_data_EditorDialog[] = {
        5,       // revision
        0,       // classname
        0,    0, // classinfo
-       5,   14, // methods
+       6,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
@@ -38,6 +38,7 @@ static const uint qt_meta_data_EditorDialog[] = {
       76,   13,   13,   13, 0x08,
       89,   13,   13,   13, 0x08,
      102,   13,   13,   13, 0x08,
+     114,   13,   13,   13, 0x08,
 
        0        // eod
 };
@@ -46,7 +47,7 @@ static const char qt_meta_stringdata_EditorDialog[] = {
     "EditorDialog\0\0name,content\0"
     "sendScriptToServer(QString,QString)\0"
     "saveScript()\0loadScript()\0sendScript()\0"
-    "runScript()\0"
+    "runScript()\0update()\0"
 };
 
 const QMetaObject EditorDialog::staticMetaObject = {
@@ -83,9 +84,10 @@ int EditorDialog::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
         case 2: loadScript(); break;
         case 3: sendScript(); break;
         case 4: runScript(); break;
+        case 5: update(); break;
         default: ;
         }
-        _id -= 5;
+        _id -= 6;
     }
     return _id;
 }

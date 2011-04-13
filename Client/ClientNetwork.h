@@ -71,6 +71,7 @@ class ClientNetwork : public QObject
 
         void updateEntities(const QList<EntityInformations>&);
         void updateEntity(const EntityInformations&);
+        void entityDeleted(const QString&);
 
         void scriptReceived(QString name, QString content);
 
@@ -92,6 +93,7 @@ class ClientNetwork : public QObject
 
         void syncScriptList(QStringList list);
 
+        void updateCharacterList(const QStringList& list);
 
     private:
         QTcpSocket* m_socket;

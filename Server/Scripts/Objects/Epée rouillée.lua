@@ -13,8 +13,8 @@ data["owner"] = "owner"
 function onInit(this)
 	
 end
-
-function once(this) end
+
+function once(this) end
 
 function onDeath(this)
 	

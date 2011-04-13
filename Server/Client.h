@@ -4,7 +4,7 @@
 #include <QObject>
 #include <QTcpSocket>
 
-#include "..\Shared\Constants.h"
+#include "../Shared/Constants.h"
 
 #include "../Shared/Packet.h"
 
@@ -18,13 +18,12 @@ class Client : public QObject
     Client(QTcpSocket *s);
     QTcpSocket* socket;
     std::auto_ptr<Packet> packet;
-    //Packet *packet;
 
     CLID ID () const {return m_ID;}
     void changeID(); //Dangerous ! Only use at init
 
     signals:
-        void dataReceived(/*Packet**/std::auto_ptr<Packet>);
+        void dataReceived(std::auto_ptr<Packet>);
         void disconnected();
 
     public slots:
