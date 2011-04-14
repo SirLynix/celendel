@@ -8,11 +8,12 @@
 #include <QTime>
 #include <QMap>
 
+#define MAX_EXEC_TIME 100
+
 class QTimer;
 class QString;
 
-
-#define LUA_ERROR(a) emit luaError(this, a)
+#define LUA_ERROR(a) emit luaError(a)
 
 class ScriptedEntity : public QObject
 {
@@ -35,7 +36,7 @@ class ScriptedEntity : public QObject
         QString getType() { return getStr("type"); }
         QString getStr(const QString& name, bool* ok = 0);
 
-        QVariant getListStrOrNum(const QString& name, bool* b); //Return a QString, a double or a QStringList
+        QVariant getListStrOrNum(const QString& name, bool* b); //Return a QString, a double or a QStringPairList
 
         double getWeight() { return getNumber("weight"); }
         double getNumber(const QString& name, bool*ok = 0);
@@ -59,6 +60,8 @@ class ScriptedEntity : public QObject
         void callSimpleMethod(const QString& name);
         void once();
 
+        void hook(lua_State *L, lua_Debug *ar);
+
     signals:
 
         void sendGMMsg(QString);
@@ -70,7 +73,7 @@ class ScriptedEntity : public QObject
 
         void dataChanged();
 
-        void luaError(ScriptedEntity* ent, QString txt);
+        void luaError(QString txt);
 
     private:
 
@@ -97,9 +100,13 @@ class ScriptedEntity : public QObject
         QTimer* m_updateTimer;
         QTime m_elapsed;
 
+        QTime m_tempusFugit;
+
         friend class Lunar<ScriptedEntity>;
         static const char className[];
         static Lunar<ScriptedEntity>::RegType methods[];
+
+        friend void luaHook(lua_State *L, lua_Debug *ar);
 };
 
 #endif // SCRIPTEDENTITY_H

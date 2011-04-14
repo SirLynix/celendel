@@ -24,6 +24,12 @@ QDataStream &operator>>(QDataStream & ds, EntityInformations& e);
 QDataStream &operator<<(QDataStream & ds, const EntityData& p);
 QDataStream &operator>>(QDataStream & q, EntityData& p);
 
+QDataStream &operator<<(QDataStream & ds, const QStringPairList& p);
+QDataStream &operator>>(QDataStream & q, QStringPairList& p);
+
+QDataStream &operator<<(QDataStream & ds, const QStringPair& p);
+QDataStream &operator>>(QDataStream & q, QStringPair& p);
+
 bool extractChatData(QByteArray& data, ENUM_TYPE& canal, QString& language, QString& text, CLID& sender); // The language string will be IGNORED if the canal is not RP chat.
 QByteArray serialiseChatData(ENUM_TYPE canal, const QString& language, const QString& text, CLID sender); // An empty language string will make the message fully understandable to everyone.
 
@@ -69,8 +75,8 @@ QByteArray serialiseMapInformationsData(const MapInformations& mi);
 bool extractMapItemsInformationsData(QByteArray& data, QList<MapItem>& mi);
 QByteArray serialiseMapItemsInformationsData(const QList<MapItem>& mi);
 
-bool extractDiceRollData(QByteArray& data, CLID& ID, quint16& result);
-QByteArray serialiseDiceRollData(CLID ID, quint16 result);
+bool extractDiceRollData(QByteArray& data, CLID& ID, quint16& result, quint16& max);
+QByteArray serialiseDiceRollData(CLID ID, quint16 result, quint16 max);
 
 bool extractPlaySoundData(QByteArray& data, QString& lib, QString& sound);
 QByteArray serialisePlaySoundData(const QString& lib, const QString& sound);

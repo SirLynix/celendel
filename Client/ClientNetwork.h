@@ -79,7 +79,7 @@ class ClientNetwork : public QObject
 
         void connectionEtablished();
         void connectionLost();
-        void diceRolled(CLID, quint16);
+        void diceRolled(CLID, quint16, quint16);
         void sanctionned(CLID, ENUM_TYPE, QString);
 
         void clientJoined(CLID, QString);

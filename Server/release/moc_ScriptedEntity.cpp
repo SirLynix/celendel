@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Meta object code from reading C++ file 'ScriptedEntity.h'
 **
-** Created: Thu 14. Apr 11:57:48 2011
+** Created: Thu 14. Apr 15:35:40 2011
 **      by: The Qt Meta Object Compiler version 62 (Qt 4.7.0)
 **
 ** WARNING! All changes made in this file will be lost!
@@ -23,7 +23,7 @@ static const uint qt_meta_data_ScriptedEntity[] = {
        5,       // revision
        0,       // classname
        0,    0, // classinfo
-      16,   14, // methods
+      17,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
@@ -37,18 +37,19 @@ static const uint qt_meta_data_ScriptedEntity[] = {
       85,   74,   15,   15, 0x05,
      116,   15,   15,   15, 0x05,
      136,   15,   15,   15, 0x05,
-     158,  150,   15,   15, 0x05,
+     154,  150,   15,   15, 0x05,
 
  // slots: signature, parameters, type, tag, flags
-     192,   15,   15,   15, 0x0a,
-     200,   15,   15,   15, 0x0a,
+     172,   15,   15,   15, 0x0a,
+     180,   15,   15,   15, 0x0a,
+     190,   15,   15,   15, 0x0a,
+     201,   15,   15,   15, 0x0a,
      210,   15,   15,   15, 0x0a,
-     221,   15,   15,   15, 0x0a,
-     230,   15,   15,   15, 0x0a,
-     261,  244,  240,   15, 0x0a,
+     241,  224,  220,   15, 0x0a,
+     276,  271,   15,   15, 0x0a,
      296,  291,   15,   15, 0x0a,
-     316,  311,   15,   15, 0x0a,
-     342,   15,   15,   15, 0x0a,
+     322,   15,   15,   15, 0x0a,
+     334,  329,   15,   15, 0x0a,
 
        0        // eod
 };
@@ -57,13 +58,13 @@ static const char qt_meta_stringdata_ScriptedEntity[] = {
     "ScriptedEntity\0\0sendGMMsg(QString)\0"
     "sendOwnerMsg(QString)\0sendMsg(QString)\0"
     "msg,regexp\0sendPlayerMsg(QString,QString)\0"
-    "registerCharacter()\0dataChanged()\0"
-    "ent,txt\0luaError(ScriptedEntity*,QString)\0"
-    "pause()\0unpause()\0onUpdate()\0onInit()\0"
-    "onDeath()\0int\0amount,type,from\0"
-    "onDamage(int,QString,QString)\0user\0"
-    "onUse(QString)\0name\0callSimpleMethod(QString)\0"
-    "once()\0"
+    "registerCharacter()\0dataChanged()\0txt\0"
+    "luaError(QString)\0pause()\0unpause()\0"
+    "onUpdate()\0onInit()\0onDeath()\0int\0"
+    "amount,type,from\0onDamage(int,QString,QString)\0"
+    "user\0onUse(QString)\0name\0"
+    "callSimpleMethod(QString)\0once()\0L,ar\0"
+    "hook(lua_State*,lua_Debug*)\0"
 };
 
 const QMetaObject ScriptedEntity::staticMetaObject = {
@@ -101,7 +102,7 @@ int ScriptedEntity::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
         case 3: sendPlayerMsg((*reinterpret_cast< QString(*)>(_a[1])),(*reinterpret_cast< QString(*)>(_a[2]))); break;
         case 4: registerCharacter(); break;
         case 5: dataChanged(); break;
-        case 6: luaError((*reinterpret_cast< ScriptedEntity*(*)>(_a[1])),(*reinterpret_cast< QString(*)>(_a[2]))); break;
+        case 6: luaError((*reinterpret_cast< QString(*)>(_a[1]))); break;
         case 7: pause(); break;
         case 8: unpause(); break;
         case 9: onUpdate(); break;
@@ -112,9 +113,10 @@ int ScriptedEntity::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
         case 13: onUse((*reinterpret_cast< const QString(*)>(_a[1]))); break;
         case 14: callSimpleMethod((*reinterpret_cast< const QString(*)>(_a[1]))); break;
         case 15: once(); break;
+        case 16: hook((*reinterpret_cast< lua_State*(*)>(_a[1])),(*reinterpret_cast< lua_Debug*(*)>(_a[2]))); break;
         default: ;
         }
-        _id -= 16;
+        _id -= 17;
     }
     return _id;
 }
@@ -160,9 +162,9 @@ void ScriptedEntity::dataChanged()
 }
 
 // SIGNAL 6
-void ScriptedEntity::luaError(ScriptedEntity * _t1, QString _t2)
+void ScriptedEntity::luaError(QString _t1)
 {
-    void *_a[] = { 0, const_cast<void*>(reinterpret_cast<const void*>(&_t1)), const_cast<void*>(reinterpret_cast<const void*>(&_t2)) };
+    void *_a[] = { 0, const_cast<void*>(reinterpret_cast<const void*>(&_t1)) };
     QMetaObject::activate(this, &staticMetaObject, 6, _a);
 }
 QT_END_MOC_NAMESPACE

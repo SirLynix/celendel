@@ -104,9 +104,9 @@ void ClientNetwork::operatePacket(Packet* packet)
         case ROLL_DICE:
         {
             CLID rID=0;
-            quint16 res=0;
-            QE(extractDiceRollData(packet->data, rID, res));
-            emit diceRolled(rID, res);
+            quint16 res=0, max=0;
+            QE(extractDiceRollData(packet->data, rID, res, max));
+            emit diceRolled(rID, res, max);
         }
         break;
         case GAME_LAUNCHED:
@@ -213,7 +213,6 @@ void ClientNetwork::operatePacket(Packet* packet)
             {
                 case TO_GM:
                 {
-                    DEB() << ent << txt;
                     emit scriptToGMMsg(ent, txt);
                 }
                 break;

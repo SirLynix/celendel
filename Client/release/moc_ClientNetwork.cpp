@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Meta object code from reading C++ file 'ClientNetwork.h'
 **
-** Created: Thu 14. Apr 12:13:24 2011
+** Created: Thu 14. Apr 16:02:03 2011
 **      by: The Qt Meta Object Compiler version 62 (Qt 4.7.0)
 **
 ** WARNING! All changes made in this file will be lost!
@@ -59,35 +59,35 @@ static const uint qt_meta_data_ClientNetwork[] = {
      756,  752,   14,   14, 0x05,
      794,   14,   14,   14, 0x05,
      817,   14,   14,   14, 0x05,
-     834,  207,   14,   14, 0x05,
-     862,  859,   14,   14, 0x05,
-     898,  207,   14,   14, 0x05,
-     925,   14,   14,   14, 0x05,
-     942,  207,   14,   14, 0x05,
-     969,   14,   14,   14, 0x05,
-    1007,   14,   14,   14, 0x05,
-    1062, 1057,   14,   14, 0x05,
-    1096, 1057,   14,   14, 0x05,
-    1124, 1057,   14,   14, 0x05,
+     837,  834,   14,   14, 0x05,
+     870,  834,   14,   14, 0x05,
+     906,  207,   14,   14, 0x05,
+     933,   14,   14,   14, 0x05,
+     950,  207,   14,   14, 0x05,
+     977,   14,   14,   14, 0x05,
+    1015,   14,   14,   14, 0x05,
+    1070, 1065,   14,   14, 0x05,
+    1104, 1065,   14,   14, 0x05,
+    1132, 1065,   14,   14, 0x05,
 
  // slots: signature, parameters, type, tag, flags
-    1175, 1157,   14,   14, 0x0a,
-    1197, 1194,   14,   14, 0x2a,
-    1211, 1194,   14,   14, 0x0a,
-    1235, 1225,   14,   14, 0x0a,
-    1259,   14,   14,   14, 0x0a,
-    1273,   14, 1266,   14, 0x0a,
-    1291,   14, 1283,   14, 0x0a,
-    1310,   14, 1302,   14, 0x0a,
-    1323,   14,   14,   14, 0x0a,
+    1183, 1165,   14,   14, 0x0a,
+    1205, 1202,   14,   14, 0x2a,
+    1219, 1202,   14,   14, 0x0a,
+    1243, 1233,   14,   14, 0x0a,
+    1267,   14,   14,   14, 0x0a,
+    1281,   14, 1274,   14, 0x0a,
+    1299,   14, 1291,   14, 0x0a,
+    1318,   14, 1310,   14, 0x0a,
     1331,   14,   14,   14, 0x0a,
-    1344,   14,   14,   14, 0x0a,
-    1373, 1365, 1360,   14, 0x0a,
-    1400,   14,   14,   14, 0x08,
-    1412,   14,   14,   14, 0x08,
-    1427,   14,   14,   14, 0x08,
-    1442,   14,   14,   14, 0x08,
-    1491, 1484,   14,   14, 0x08,
+    1339,   14,   14,   14, 0x0a,
+    1352,   14,   14,   14, 0x0a,
+    1381, 1373, 1368,   14, 0x0a,
+    1408,   14,   14,   14, 0x08,
+    1420,   14,   14,   14, 0x08,
+    1435,   14,   14,   14, 0x08,
+    1450,   14,   14,   14, 0x08,
+    1499, 1492,   14,   14, 0x08,
 
        0        // eod
 };
@@ -117,7 +117,7 @@ static const char qt_meta_stringdata_ClientNetwork[] = {
     "scriptReceived(QString,QString)\0rss\0"
     "ressourcesUpdated(QMap<QString,RSID>)\0"
     "connectionEtablished()\0connectionLost()\0"
-    "diceRolled(CLID,quint16)\0,,\0"
+    ",,\0diceRolled(CLID,quint16,quint16)\0"
     "sanctionned(CLID,ENUM_TYPE,QString)\0"
     "clientJoined(CLID,QString)\0clientLeft(CLID)\0"
     "playSound(QString,QString)\0"
@@ -195,7 +195,7 @@ int ClientNetwork::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
         case 25: ressourcesUpdated((*reinterpret_cast< const QMap<QString,RSID>(*)>(_a[1]))); break;
         case 26: connectionEtablished(); break;
         case 27: connectionLost(); break;
-        case 28: diceRolled((*reinterpret_cast< CLID(*)>(_a[1])),(*reinterpret_cast< quint16(*)>(_a[2]))); break;
+        case 28: diceRolled((*reinterpret_cast< CLID(*)>(_a[1])),(*reinterpret_cast< quint16(*)>(_a[2])),(*reinterpret_cast< quint16(*)>(_a[3]))); break;
         case 29: sanctionned((*reinterpret_cast< CLID(*)>(_a[1])),(*reinterpret_cast< ENUM_TYPE(*)>(_a[2])),(*reinterpret_cast< QString(*)>(_a[3]))); break;
         case 30: clientJoined((*reinterpret_cast< CLID(*)>(_a[1])),(*reinterpret_cast< QString(*)>(_a[2]))); break;
         case 31: clientLeft((*reinterpret_cast< CLID(*)>(_a[1]))); break;
@@ -425,9 +425,9 @@ void ClientNetwork::connectionLost()
 }
 
 // SIGNAL 28
-void ClientNetwork::diceRolled(CLID _t1, quint16 _t2)
+void ClientNetwork::diceRolled(CLID _t1, quint16 _t2, quint16 _t3)
 {
-    void *_a[] = { 0, const_cast<void*>(reinterpret_cast<const void*>(&_t1)), const_cast<void*>(reinterpret_cast<const void*>(&_t2)) };
+    void *_a[] = { 0, const_cast<void*>(reinterpret_cast<const void*>(&_t1)), const_cast<void*>(reinterpret_cast<const void*>(&_t2)), const_cast<void*>(reinterpret_cast<const void*>(&_t3)) };
     QMetaObject::activate(this, &staticMetaObject, 28, _a);
 }
 

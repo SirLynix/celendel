@@ -17,6 +17,7 @@ void ScriptedEntity::onDeath()
 void ScriptedEntity::once()
 {
     callSimpleMethod("once");
+    m_tempusFugit.restart();
     luaL_dostring(m_state, "function once(this) end");
 }
 
@@ -31,6 +32,7 @@ void ScriptedEntity::callSimpleMethod(const QString& name)
     {
         Lunar<ScriptedEntity>::push(m_state,this);
 
+        m_tempusFugit.restart();
         if(lua_pcall(m_state,1,0,0))
         {
             LUA_ERROR("Error calling function " + name + " : " + lua_tostring(m_state,1));
@@ -58,6 +60,7 @@ int ScriptedEntity::onDamage(int amount, const QString& type, const QString& fro
         lua_pushstring(m_state,type.toAscii());
         lua_pushstring(m_state,from.toAscii());
 
+        m_tempusFugit.restart();
         if(lua_pcall(m_state,4,0,0))
         {
             LUA_ERROR(tr("Error calling function \"onDamage\" : %1").arg(lua_tostring(m_state,1)));
@@ -88,6 +91,7 @@ void ScriptedEntity::onUse(const QString& user)
         Lunar<ScriptedEntity>::push(m_state,this);
         lua_pushstring(m_state,user.toAscii());
 
+        m_tempusFugit.restart();
         if(lua_pcall(m_state,2,0,0))
         {
             LUA_ERROR(tr("Error calling function \"onUse\" : %1").arg(lua_tostring(m_state,1)));
@@ -124,6 +128,7 @@ void ScriptedEntity::onUpdate()
         Lunar<ScriptedEntity>::push(m_state,this);
         lua_pushnumber(m_state,time);
 
+        m_tempusFugit.restart();
         if(lua_pcall(m_state,2,0,0))
         {
             LUA_ERROR(tr("Error calling function \"onUpdate\" : %1").arg(lua_tostring(m_state,1)));

@@ -93,15 +93,20 @@ void EntitiesManager::update()
                 stic->setData(m_entities[i].name, DTANAMID);
                 sti->appendRow(stic);
             }
-            else if(j.value().isStringList())
+            else if(j.value().isStringPairList())
             {
-                QStringList li = j.value().getStringList();
+                QStringPairList li = j.value().getStringPairList();
                 for(int k=0,m=li.size();k<m;++k)
                 {
                     QStandardItem *stic=new QStandardItem;
-                    stic->setText(li[k]);
+                    stic->setText(li[k].first);
                     stic->setData(m_entities[i].name, DTANAMID);
                     sti->appendRow(stic);
+
+                    QStandardItem *stoc=new QStandardItem;
+                    stoc->setText(li[k].second);
+                    stoc->setData(m_entities[i].name, DTANAMID);
+                    stic->appendRow(stoc);
                 }
             }
             else

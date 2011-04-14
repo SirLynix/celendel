@@ -8,6 +8,8 @@
 #include "EntitiesManager.h"
 #include "CharactersManager.h"
 
+#define ON(a) a->setObjectName(#a)
+
 void ClientInterface::buildGUI()
 {
   ////////////////////////////
@@ -65,7 +67,6 @@ QAction *ac_aboutQt = aboutMenu->addAction(tr("... de Qt"));
 ac_aboutQt->setWhatsThis(tr("Afficher quelques informations à propos du framework C++ open-source multi-licences Qt (© Nokia, tous droits réservés) utilisé massivement pour la création de Celendel."));
 connect(ac_aboutQt, SIGNAL(triggered()), qApp, SLOT(aboutQt()));
 
-
 // CONTEXTUAL MENUS
 m_kick = new QAction(tr("Ejecter le joueur"), this);
 m_kick->setWhatsThis(tr("Déconnecter méchament le joueur du serveur."));
@@ -107,6 +108,7 @@ setDockNestingEnabled(true);
 
 ///MAIN CHAT DOCK
 QDockWidget *chatDock = new QDockWidget(tr("Chat"), this);
+ON(chatDock);
 chatDock->setWhatsThis(tr("Le dock du chat (hors jeu)"));
 chatDock->setFeatures(QDockWidget::NoDockWidgetFeatures);
 chatDock->setFeatures(QDockWidget::DockWidgetFloatable|QDockWidget::DockWidgetMovable);
@@ -123,6 +125,7 @@ addDockWidget(Qt::RightDockWidgetArea, chatDock);
 
 ///NARRATOR DOCK
 QDockWidget *narratorDock = new QDockWidget(tr("Narrateur"), this);
+ON(narratorDock);
 narratorDock->setWhatsThis(tr("Le dock du narrateur"));
 narratorDock->setFeatures(QDockWidget::NoDockWidgetFeatures);
 narratorDock->setFeatures(QDockWidget::DockWidgetFloatable|QDockWidget::DockWidgetMovable);
@@ -142,6 +145,7 @@ tabifyDockWidget(chatDock, narratorDock);
 
 ///RP CHAT DOCK
 QDockWidget *RPChatDock = new QDockWidget(tr("Jeu de rôle"), this);
+ON(RPChatDock);
 RPChatDock->setWhatsThis(tr("Le dock des dialogues du jeu."));
 RPChatDock->setFeatures(QDockWidget::NoDockWidgetFeatures);
 RPChatDock->setFeatures(QDockWidget::DockWidgetFloatable|QDockWidget::DockWidgetMovable);
@@ -160,6 +164,7 @@ tabifyDockWidget(chatDock, RPChatDock);
 
 ///CHAT INPUT DOCK
 QDockWidget *chatInputDock = new QDockWidget(tr("Commandes"), this);
+ON(chatInputDock);
 chatInputDock->setWhatsThis(tr("Le dock des commandes"));
 chatInputDock->setFeatures(QDockWidget::NoDockWidgetFeatures);
 chatInputDock->setFeatures(QDockWidget::DockWidgetFloatable|QDockWidget::DockWidgetMovable);
@@ -177,10 +182,21 @@ m_chatInput->setWhatsThis(tr("Entrez ici commandes et dialogues."));
 l_chatInputDock->addWidget(m_chatInput);
 connect(m_chatInput, SIGNAL(returnPressed()), this, SLOT(sendMessage()));
 
+{
+QHBoxLayout *yahourt = new QHBoxLayout;
 m_rollTheDice = new QPushButton(tr("Roll 1d20"), this);
 m_rollTheDice->setWhatsThis(tr("Lancer 1d20. Un dé à vingt faces, quoi..."));
-l_chatInputDock->addWidget(m_rollTheDice);
-connect(m_rollTheDice, SIGNAL(pressed()), this, SLOT(rollDice()));
+yahourt->addWidget(m_rollTheDice);
+connect(m_rollTheDice, SIGNAL(released()), this, SLOT(rollDice()));
+
+m_rollSpecialDice = new QPushButton(tr("Lancer un autre dé..."), this);
+m_rollSpecialDice->setWhatsThis(tr("Pour les lanceurs de dés les plus exigents !"));
+yahourt->addWidget(m_rollSpecialDice);
+connect(m_rollSpecialDice, SIGNAL(released()), this, SLOT(rollSpecialDice()));
+
+
+l_chatInputDock->addLayout(yahourt);
+}
 
 addDockWidget(Qt::RightDockWidgetArea, chatInputDock);
 
@@ -189,6 +205,7 @@ w_chatInputDock->setMaximumHeight(m_RPLanguage->height() + m_chatInput->height()
 
 ///PLAYER LIST DOCK
 QDockWidget *playerListDock = new QDockWidget(tr("Liste des joueurs"), this);
+ON(playerListDock);
 playerListDock->setWhatsThis(tr("La liste des joueurs"));
 playerListDock->setFeatures(QDockWidget::NoDockWidgetFeatures);
 playerListDock->setFeatures(QDockWidget::DockWidgetFloatable|QDockWidget::DockWidgetMovable);
@@ -216,6 +233,7 @@ addDockWidget(Qt::LeftDockWidgetArea, playerListDock);
 
 ///SCRIPTS DOCK
 QDockWidget *scriptsDock = new QDockWidget(tr("Scripts"), this);
+ON(scriptsDock);
 scriptsDock->setWhatsThis(tr("Gestion des scripts"));
 scriptsDock->setFeatures(QDockWidget::NoDockWidgetFeatures);
 scriptsDock->setFeatures(QDockWidget::DockWidgetFloatable|QDockWidget::DockWidgetMovable);
@@ -227,6 +245,7 @@ addDockWidget(Qt::LeftDockWidgetArea, scriptsDock);
 
 ///ENTITIES DOCK
 QDockWidget *entitiesDock = new QDockWidget(tr("Entitées scriptées"), this);
+ON(entitiesDock);
 entitiesDock->setWhatsThis(tr("Gestion des entitées (objets, personnages...)"));
 entitiesDock->setFeatures(QDockWidget::NoDockWidgetFeatures);
 entitiesDock->setFeatures(QDockWidget::DockWidgetFloatable|QDockWidget::DockWidgetMovable);
@@ -241,6 +260,7 @@ tabifyDockWidget(scriptsDock, entitiesDock);
 
 ///CHARACTER LIST DOCK
 QDockWidget *characterListDock = new QDockWidget(tr("Liste des personnages"), this);
+ON(characterListDock);
 characterListDock->setWhatsThis(tr("La liste des personnages"));
 characterListDock->setFeatures(QDockWidget::NoDockWidgetFeatures);
 characterListDock->setFeatures(QDockWidget::DockWidgetFloatable|QDockWidget::DockWidgetMovable);
@@ -252,6 +272,7 @@ addDockWidget(Qt::LeftDockWidgetArea, characterListDock);
 
 ///GM PANEL LIST DOCK
 m_GMPanelDock = new QDockWidget(tr("Panneau d'administration"), this);
+m_GMPanelDock->setObjectName("GMPanelDock");
 m_GMPanelDock->setWhatsThis(tr("Le panneau d'administration"));
 m_GMPanelDock->setFeatures(QDockWidget::NoDockWidgetFeatures);
 m_GMPanelDock->setFeatures(QDockWidget::DockWidgetFloatable|QDockWidget::DockWidgetMovable);

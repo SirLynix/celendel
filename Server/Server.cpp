@@ -8,6 +8,14 @@
 
 Server::Server(QObject* parent) : QObject(parent)
 {
+    qRegisterMetaType<QStringPair>("QStringPair");
+    qRegisterMetaTypeStreamOperators<QStringPair>("QStringPair");
+    qMetaTypeId<QStringPair>();
+
+    qRegisterMetaType<QStringPairList>("QStringPairList");
+    qRegisterMetaTypeStreamOperators<QStringPairList>("QStringPairList");
+    qMetaTypeId<QStringPairList>();
+
     QCoreApplication::setOrganizationName("Celendel Project");
     QCoreApplication::setOrganizationDomain("http://code.google.com/p/celendel/");
     QCoreApplication::setApplicationName("Celendel");
@@ -31,6 +39,7 @@ Server::Server(QObject* parent) : QObject(parent)
     connect(&m_scripts, SIGNAL(sendMsg(QString, QString)), this, SLOT(sendMsg(QString, QString)));
     connect(&m_scripts, SIGNAL(sendPlayerMsg(QString, QString, QString)), this, SLOT(sendPlayerMsg(QString, QString, QString)));
     connect(&m_scripts, SIGNAL(characterListUpdated(const QStringList&)), this, SLOT(updateCharacterList(const QStringList&)));
+    connect(&m_scripts, SIGNAL(luaError(QString, QString)), this, SLOT(sendLuaError(QString,QString)));
 
     m_gameStarted=false;
     m_GMID=0;
@@ -68,6 +77,11 @@ ServerInformations Server::getServerInformations() const
     si.scriptList=getScriptList();
 
     return si;
+}
+
+void Server::sendLuaError(QString ent, QString m)
+{
+    m_network->sendToClient(m_GMID, ETI(SCRIPT_MESSAGE), serialiseScriptMessageData(ERROR_MSG, ent, m));
 }
 
 void Server::sendGMMsg(QString ent, QString m)

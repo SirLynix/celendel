@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Meta object code from reading C++ file 'ScriptEnvironnement.h'
 **
-** Created: Thu 14. Apr 12:07:25 2011
+** Created: Thu 14. Apr 16:03:46 2011
 **      by: The Qt Meta Object Compiler version 62 (Qt 4.7.0)
 **
 ** WARNING! All changes made in this file will be lost!
@@ -23,12 +23,12 @@ static const uint qt_meta_data_ScriptEnvironnement[] = {
        5,       // revision
        0,       // classname
        0,    0, // classinfo
-      12,   14, // methods
+      14,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
        0,       // flags
-       6,       // signalCount
+       7,       // signalCount
 
  // signals: signature, parameters, type, tag, flags
       29,   21,   20,   20, 0x05,
@@ -36,15 +36,17 @@ static const uint qt_meta_data_ScriptEnvironnement[] = {
       90,   58,   20,   20, 0x05,
      120,   58,   20,   20, 0x05,
      160,  145,   20,   20, 0x05,
-     199,   20,   20,   20, 0x05,
+     199,   58,   20,   20, 0x05,
+     225,   20,   20,   20, 0x05,
 
  // slots: signature, parameters, type, tag, flags
-     233,   20,   20,   20, 0x08,
-     247,   20,   20,   20, 0x08,
-     268,   20,   20,   20, 0x08,
-     292,   20,   20,   20, 0x08,
-     322,  311,   20,   20, 0x08,
-     355,   20,   20,   20, 0x08,
+     259,   20,   20,   20, 0x08,
+     273,   20,   20,   20, 0x08,
+     294,   20,   20,   20, 0x08,
+     318,   20,   20,   20, 0x08,
+     348,  337,   20,   20, 0x08,
+     383,  381,   20,   20, 0x08,
+     403,   20,   20,   20, 0x08,
 
        0        // eod
 };
@@ -56,11 +58,12 @@ static const char qt_meta_stringdata_ScriptEnvironnement[] = {
     "sendOwnerMsg(QString,QString)\0"
     "sendMsg(QString,QString)\0ent,msg,regexp\0"
     "sendPlayerMsg(QString,QString,QString)\0"
+    "luaError(QString,QString)\0"
     "characterListUpdated(QStringList)\0"
     "dataChanged()\0s_sendGMMsg(QString)\0"
     "s_sendOwnerMsg(QString)\0s_sendMsg(QString)\0"
     "msg,regexp\0s_sendPlayerMsg(QString,QString)\0"
-    "s_registerCharacter()\0"
+    "m\0s_luaError(QString)\0s_registerCharacter()\0"
 };
 
 const QMetaObject ScriptEnvironnement::staticMetaObject = {
@@ -97,16 +100,18 @@ int ScriptEnvironnement::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
         case 2: sendOwnerMsg((*reinterpret_cast< QString(*)>(_a[1])),(*reinterpret_cast< QString(*)>(_a[2]))); break;
         case 3: sendMsg((*reinterpret_cast< QString(*)>(_a[1])),(*reinterpret_cast< QString(*)>(_a[2]))); break;
         case 4: sendPlayerMsg((*reinterpret_cast< QString(*)>(_a[1])),(*reinterpret_cast< QString(*)>(_a[2])),(*reinterpret_cast< QString(*)>(_a[3]))); break;
-        case 5: characterListUpdated((*reinterpret_cast< const QStringList(*)>(_a[1]))); break;
-        case 6: dataChanged(); break;
-        case 7: s_sendGMMsg((*reinterpret_cast< QString(*)>(_a[1]))); break;
-        case 8: s_sendOwnerMsg((*reinterpret_cast< QString(*)>(_a[1]))); break;
-        case 9: s_sendMsg((*reinterpret_cast< QString(*)>(_a[1]))); break;
-        case 10: s_sendPlayerMsg((*reinterpret_cast< QString(*)>(_a[1])),(*reinterpret_cast< QString(*)>(_a[2]))); break;
-        case 11: s_registerCharacter(); break;
+        case 5: luaError((*reinterpret_cast< QString(*)>(_a[1])),(*reinterpret_cast< QString(*)>(_a[2]))); break;
+        case 6: characterListUpdated((*reinterpret_cast< const QStringList(*)>(_a[1]))); break;
+        case 7: dataChanged(); break;
+        case 8: s_sendGMMsg((*reinterpret_cast< QString(*)>(_a[1]))); break;
+        case 9: s_sendOwnerMsg((*reinterpret_cast< QString(*)>(_a[1]))); break;
+        case 10: s_sendMsg((*reinterpret_cast< QString(*)>(_a[1]))); break;
+        case 11: s_sendPlayerMsg((*reinterpret_cast< QString(*)>(_a[1])),(*reinterpret_cast< QString(*)>(_a[2]))); break;
+        case 12: s_luaError((*reinterpret_cast< QString(*)>(_a[1]))); break;
+        case 13: s_registerCharacter(); break;
         default: ;
         }
-        _id -= 12;
+        _id -= 14;
     }
     return _id;
 }
@@ -147,9 +152,16 @@ void ScriptEnvironnement::sendPlayerMsg(QString _t1, QString _t2, QString _t3)
 }
 
 // SIGNAL 5
+void ScriptEnvironnement::luaError(QString _t1, QString _t2)
+{
+    void *_a[] = { 0, const_cast<void*>(reinterpret_cast<const void*>(&_t1)), const_cast<void*>(reinterpret_cast<const void*>(&_t2)) };
+    QMetaObject::activate(this, &staticMetaObject, 5, _a);
+}
+
+// SIGNAL 6
 void ScriptEnvironnement::characterListUpdated(const QStringList & _t1)
 {
     void *_a[] = { 0, const_cast<void*>(reinterpret_cast<const void*>(&_t1)) };
-    QMetaObject::activate(this, &staticMetaObject, 5, _a);
+    QMetaObject::activate(this, &staticMetaObject, 6, _a);
 }
 QT_END_MOC_NAMESPACE

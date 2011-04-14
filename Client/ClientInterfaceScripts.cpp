@@ -54,8 +54,6 @@ void ClientInterface::sendScriptToServer(QString name, QString content)
     if(!isGM())
         return;
 
-    DEB() << "Script " << name << " sent to server...";
-
     m_network->send(ETI(SEND_SCRIPT), serialiseSendScriptData(name, content));
 }
 
