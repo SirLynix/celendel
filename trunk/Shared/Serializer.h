@@ -18,6 +18,12 @@
 QDataStream &operator<<(QDataStream & ds, const PlayerInformations& p);
 QDataStream &operator>>(QDataStream & q, PlayerInformations& p);
 
+QDataStream &operator<<(QDataStream & ds, const EntityInformations& e);
+QDataStream &operator>>(QDataStream & ds, EntityInformations& e);
+
+QDataStream &operator<<(QDataStream & ds, const EntityData& p);
+QDataStream &operator>>(QDataStream & q, EntityData& p);
+
 bool extractChatData(QByteArray& data, ENUM_TYPE& canal, QString& language, QString& text, CLID& sender); // The language string will be IGNORED if the canal is not RP chat.
 QByteArray serialiseChatData(ENUM_TYPE canal, const QString& language, const QString& text, CLID sender); // An empty language string will make the message fully understandable to everyone.
 

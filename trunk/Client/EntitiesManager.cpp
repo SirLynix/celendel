@@ -13,6 +13,8 @@
 
 EntitiesManager::EntitiesManager(QWidget* _parent) : QWidget(_parent)
 {
+    m_GM = false;
+
     m_injectCode = new QAction(tr("Injecter du code"), this);
     connect(m_injectCode, SIGNAL(triggered()), this, SLOT(ac_injectCode()));
     m_deleteEntity = new QAction(tr("Supprimer"), this);
@@ -33,6 +35,11 @@ EntitiesManager::EntitiesManager(QWidget* _parent) : QWidget(_parent)
     QVBoxLayout *l = new QVBoxLayout;
     l->addWidget(m_v_list);
     setLayout(l);
+}
+
+void EntitiesManager::setGM(bool m)
+{
+    m_GM = m;
 }
 
 void EntitiesManager::updateEntity(const EntityInformations& ent)
@@ -67,17 +74,43 @@ void EntitiesManager::update()
         item->setData(m_entities[i].name, DTANAMID);
         m_list->appendRow(item);
 
-        for(QMap<QString,QString>::const_iterator j = m_entities[i].data.constBegin() ; j!=m_entities[i].data.constEnd() ; ++j)
+        for(QMap<QString,EntityData>::const_iterator j = m_entities[i].data.constBegin() ; j!=m_entities[i].data.constEnd() ; ++j)
         {
             QStandardItem *sti=new QStandardItem;
-            sti->setText(j.key());
+            sti->setText( (j.value().shownName.isEmpty()) ? j.key() : j.value().shownName );
             sti->setData(m_entities[i].name, DTANAMID);
             item->appendRow(sti);
 
-            QStandardItem *stic=new QStandardItem;
-            stic->setText(j.value());
-            stic->setData(m_entities[i].name, DTANAMID);
-            sti->appendRow(stic);
+            QStandardItem *stec=new QStandardItem;
+            stec->setText(tr("Nom en. : \"%1\"").arg(j.key()));
+            stec->setData(m_entities[i].name, DTANAMID);
+            sti->appendRow(stec);
+
+            if(j.value().isString() || j.value().isNumber())
+            {
+                QStandardItem *stic=new QStandardItem;
+                stic->setText(j.value().getString());
+                stic->setData(m_entities[i].name, DTANAMID);
+                sti->appendRow(stic);
+            }
+            else if(j.value().isStringList())
+            {
+                QStringList li = j.value().getStringList();
+                for(int k=0,m=li.size();k<m;++k)
+                {
+                    QStandardItem *stic=new QStandardItem;
+                    stic->setText(li[k]);
+                    stic->setData(m_entities[i].name, DTANAMID);
+                    sti->appendRow(stic);
+                }
+            }
+            else
+            {
+                QStandardItem *stic=new QStandardItem;
+                stic->setText(tr("Erreur : données invalides"));
+                stic->setData(m_entities[i].name, DTANAMID);
+                sti->appendRow(stic);
+            }
         }
     }
 
@@ -126,10 +159,15 @@ void EntitiesManager::openContextMenu(const QPoint& p)
     QString s = m.data(DTANAMID).toString();
 
     m_injectCode->setData(s);
+    m_deleteEntity->setData(s);
 
     QList<QAction*> l;
-    l<<m_injectCode;
-    l<<m_deleteEntity;
+    if(isGM())
+    {
+        l<<m_injectCode;
+        l<<m_deleteEntity;
+    }
 
-    QMenu::exec(l, m_v_list->mapToGlobal(p));
+    if(!l.isEmpty())
+        QMenu::exec(l, m_v_list->mapToGlobal(p));
 }

@@ -20,8 +20,12 @@ class ScriptManager : public QWidget
     public:
         ScriptManager(QWidget* parent=NULL);
 
+        bool isGM() const { return m_GM; }
+
     public slots:
         void updateScriptList(QStringList list);
+
+        void setGM(bool);
 
         void showScriptText(QString script, QString text);
         void openEditor();
@@ -59,9 +63,7 @@ class ScriptManager : public QWidget
 
         EditorDialog* m_editor;
 
-      /*  QTextEdit* m_edit;
-        QLabel* m_editName;
-        QGroupBox* m_gbEdit;*/
+        bool m_GM;
 };
 
 #endif

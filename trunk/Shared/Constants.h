@@ -45,6 +45,7 @@
 
 #include <QPair>
 
+#include <QVariant>
 
 #define QT_USE_FAST_CONCATENATION ///QString concatenate optimisation
 #define QT_USE_FAST_OPERATOR_PLUS
@@ -103,10 +104,37 @@ struct PlayerInformations
     QString ip;
 };
 
+struct EntityData
+{
+    EntityData() {}
+    EntityData(QVariant d) { data = d; }
+
+    QString shownName;
+
+    bool isString() const { return data.type() == QVariant::String; }
+    bool isNumber() const { return data.type() == QVariant::Double; }
+    bool isStringList() const { return data.type() == QVariant::StringList; }
+
+    QString getString() const { return data.toString(); }
+    double getNumber() const { return data.toDouble(); }
+    QStringList getStringList() const { return data.toStringList(); }
+
+    void setData(const QString& s) { data.setValue(s); }
+    void setData(const QStringList& s) { data.setValue(s); }
+    void setData(double d) { data.setValue(d); }
+
+    /* Note that if the data can be converted to a QString (e.i. a number), getString() will return the converted value. */
+
+    private:
+        friend QDataStream &operator<<(QDataStream & ds, const EntityData& p);
+        friend QDataStream &operator>>(QDataStream & q, EntityData& p);
+        QVariant data;
+};
+
 struct EntityInformations
 {
     QString name;
-    QMap<QString, QString> data;
+    QMap<QString, EntityData> data;
 };
 
 struct ServerInformations

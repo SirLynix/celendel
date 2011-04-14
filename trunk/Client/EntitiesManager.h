@@ -17,11 +17,15 @@ class EntitiesManager : public QWidget
     public:
         EntitiesManager(QWidget* _parent = 0);
 
+        bool isGM() const { return m_GM; }
+
     public slots:
         void updateEntity(const EntityInformations& ent);
         void setEntities(const QList<EntityInformations>& entList);
 
         void entityDeleted(const QString& ent);
+
+        void setGM(bool m);
 
     private slots:
         void update();
@@ -40,6 +44,8 @@ class EntitiesManager : public QWidget
     private:
 
         friend class CharactersManager;
+
+        bool m_GM;
 
         EditorDialog *m_editor;
 

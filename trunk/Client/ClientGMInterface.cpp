@@ -1,6 +1,8 @@
 #include "ClientInterface.h"
 #include "..\Shared\Serializer.h"
 
+#include "EntitiesManager.h"
+#include "ScriptManager.h"
 
 
 void ClientInterface::buildGMStuff()
@@ -24,6 +26,8 @@ void ClientInterface::updateGMPanel()
     {
         m_GMPanelDock->hide();
     }
+    m_entitiesManager->setGM(isGM());
+    m_scriptManager->setGM(isGM());
 }
 
 bool ClientInterface::addLanguage()

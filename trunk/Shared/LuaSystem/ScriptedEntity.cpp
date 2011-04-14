@@ -79,9 +79,9 @@ QStringList ScriptedEntity::getDataKeys()
     while (lua_next(m_state, 1) != 0) //Iterate throught the table
     {
        /* uses 'key' (at index -2) and 'value' (at index -1) */
-        if(lua_isstring(m_state, -1))
+        if(lua_isstring(m_state, -2))
         {
-            l << lua_tostring(m_state, -1);
+            l << lua_tostring(m_state, -2);
         }
 
        lua_pop(m_state, 1); /* removes 'value'; keeps 'key' for next iteration */
@@ -92,19 +92,88 @@ QStringList ScriptedEntity::getDataKeys()
     return l;
 }
 
-QMap<QString, QString> ScriptedEntity::getData()
+QMap<QString, QString> ScriptedEntity::getDataPairs()
 {
-    QStringList keys=getDataKeys();
     QMap<QString, QString> ret;
 
-    for(int i=0, m=keys.size();i<m;++i)
+    lua_settop(m_state,0);
+    lua_getglobal(m_state,"data");
+    if (!lua_istable(m_state,1))
     {
-        bool b;
-        QString s = getStr(keys[i], &b);
-        if(b)
-            ret[keys[i]] = s;
+        lua_pop(m_state,1);
+        return ret;
     }
 
+    lua_pushnil(m_state);
+    while (lua_next(m_state, 1) != 0)
+    {
+        if(lua_isstring(m_state, -2) && lua_isstring(m_state, -1))
+            ret[lua_tostring(m_state, -2)] = lua_tostring(m_state, -1);
+       lua_pop(m_state, 1);
+    }
+    lua_pop(m_state,1);
+
+    return ret;
+}
+
+
+QMap<QString, EntityData> ScriptedEntity::getData()
+{
+    QMap<QString, QString> pairs=getDataPairs();
+    QMap<QString, EntityData> ret;
+
+    for(QMap<QString,QString>::const_iterator i=pairs.constBegin();i!=pairs.constEnd();++i)
+    {
+        bool b;
+        EntityData s(getListStrOrNum(i.key(), &b));
+        if(b)
+        {
+            s.shownName = i.value();
+            ret[i.key()] = s;
+        }
+    }
+
+    return ret;
+}
+
+QVariant ScriptedEntity::getListStrOrNum(const QString& name, bool* b)
+{
+    bool bp=false;
+    if(b == NULL)
+        b=&bp;
+
+    *b=false;
+
+    QVariant ret;
+    lua_settop(m_state,0);
+    lua_getglobal(m_state,name.toAscii());
+    if (lua_isstring(m_state,1))
+    {
+        ret.setValue(QString(lua_tostring(m_state,1)));
+        *b=true;
+    }
+    else if(lua_isnumber(m_state,1))
+    {
+        ret.setValue(lua_tonumber(m_state,1));
+        *b=true;
+    }
+    else if(lua_istable(m_state, 1))
+    {
+        QStringList l;
+        lua_pushnil(m_state);
+        while (lua_next(m_state, 1) != 0)
+        {
+            if(lua_isstring(m_state, -1))
+                l << lua_tostring(m_state, -1);
+           lua_pop(m_state, 1);
+        }
+        if(!l.isEmpty())
+        {
+            ret.setValue(l);
+            *b=true;
+        }
+    }
+    lua_pop(m_state,1);
     return ret;
 }
 
