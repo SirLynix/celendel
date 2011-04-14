@@ -21,10 +21,12 @@ class CharactersManager : public QWidget
 
         QString getCharacterName(const EntityInformations& e);
 
+
     private slots:
         void update();
 
     private:
+
         EntitiesManager* m_entMngr;
 
         QStringList m_characters;

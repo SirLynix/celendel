@@ -4,6 +4,7 @@
 #include <QObject>
 
 #include "luaHeader.h"
+#include "..\Constants.h"
 #include <QTime>
 #include <QMap>
 
@@ -26,12 +27,15 @@ class ScriptedEntity : public QObject
         QString pushCode(const QString& code, bool* ok = 0);
 
         QStringList getDataKeys();
-        QMap<QString, QString> getData();
+        QMap<QString, QString> getDataPairs();
+        QMap<QString, EntityData> getData();
 
         QString getName() { return getStr("name"); }
         QString getDescription() { return getStr("description"); }
         QString getType() { return getStr("type"); }
         QString getStr(const QString& name, bool* ok = 0);
+
+        QVariant getListStrOrNum(const QString& name, bool* b); //Return a QString, a double or a QStringList
 
         double getWeight() { return getNumber("weight"); }
         double getNumber(const QString& name, bool*ok = 0);

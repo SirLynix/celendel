@@ -9,6 +9,7 @@
 
 CharactersManager::CharactersManager(EntitiesManager* entMngr, QWidget *parent) : QWidget(parent), m_entMngr(entMngr)
 {
+
     connect(entMngr, SIGNAL(updated()), this, SLOT(update()));
 
     m_list = new QStandardItemModel(this);
@@ -31,7 +32,9 @@ void CharactersManager::updateCharacterList(const QStringList& list)
 
 QString CharactersManager::getCharacterName(const EntityInformations& e)
 {
-    return e.data.value("name", e.name);
+    QString n = e.data.value("name").getString();
+
+    return (n.isEmpty()) ? e.name : n;
 }
 
 
@@ -53,7 +56,7 @@ void CharactersManager::update()
         sti->setText(tr("Entitée : %1").arg(ent[i].name));
         item->appendRow(sti);
         }
-        QString ply = ent[i].data.value("player");
+        QString ply = ent[i].data.value("player").getString();
         if(!ply.isEmpty())
         {
             QStandardItem *sti=new QStandardItem;

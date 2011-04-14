@@ -28,6 +28,18 @@ QDataStream &operator>>(QDataStream & ds, EntityInformations& e)
     return ds;
 }
 
+QDataStream &operator<<(QDataStream & ds, const EntityData& p)
+{
+    ds << p.shownName << p.data;
+    return ds;
+}
+
+QDataStream &operator>>(QDataStream & ds, EntityData& p)
+{
+    ds>>p.shownName>>p.data;
+    return ds;
+}
+
 bool extractChatData(QByteArray& data, ENUM_TYPE& canal, QString& language, QString& text, CLID& sender)
 {
     QV(data);

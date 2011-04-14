@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Meta object code from reading C++ file 'EntitiesManager.h'
 **
-** Created: Wed 13. Apr 20:03:37 2011
+** Created: Thu 14. Apr 12:13:44 2011
 **      by: The Qt Meta Object Compiler version 62 (Qt 4.7.0)
 **
 ** WARNING! All changes made in this file will be lost!
@@ -23,7 +23,7 @@ static const uint qt_meta_data_EntitiesManager[] = {
        5,       // revision
        0,       // classname
        0,    0, // classinfo
-      10,   14, // methods
+      11,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
@@ -39,10 +39,11 @@ static const uint qt_meta_data_EntitiesManager[] = {
       93,   57,   16,   16, 0x0a,
      134,  126,   16,   16, 0x0a,
      173,   57,   16,   16, 0x0a,
-     196,   16,   16,   16, 0x08,
-     205,   16,   16,   16, 0x08,
-     229,   16,   16,   16, 0x08,
-     245,   16,   16,   16, 0x08,
+     198,  196,   16,   16, 0x0a,
+     210,   16,   16,   16, 0x08,
+     219,   16,   16,   16, 0x08,
+     243,   16,   16,   16, 0x08,
+     259,   16,   16,   16, 0x08,
 
        0        // eod
 };
@@ -53,9 +54,9 @@ static const char qt_meta_stringdata_EntitiesManager[] = {
     "deleteEntity(QString)\0updated()\0"
     "updateEntity(EntityInformations)\0"
     "entList\0setEntities(QList<EntityInformations>)\0"
-    "entityDeleted(QString)\0update()\0"
-    "openContextMenu(QPoint)\0ac_injectCode()\0"
-    "ac_deleteEntity()\0"
+    "entityDeleted(QString)\0m\0setGM(bool)\0"
+    "update()\0openContextMenu(QPoint)\0"
+    "ac_injectCode()\0ac_deleteEntity()\0"
 };
 
 const QMetaObject EntitiesManager::staticMetaObject = {
@@ -93,13 +94,14 @@ int EntitiesManager::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
         case 3: updateEntity((*reinterpret_cast< const EntityInformations(*)>(_a[1]))); break;
         case 4: setEntities((*reinterpret_cast< const QList<EntityInformations>(*)>(_a[1]))); break;
         case 5: entityDeleted((*reinterpret_cast< const QString(*)>(_a[1]))); break;
-        case 6: update(); break;
-        case 7: openContextMenu((*reinterpret_cast< const QPoint(*)>(_a[1]))); break;
-        case 8: ac_injectCode(); break;
-        case 9: ac_deleteEntity(); break;
+        case 6: setGM((*reinterpret_cast< bool(*)>(_a[1]))); break;
+        case 7: update(); break;
+        case 8: openContextMenu((*reinterpret_cast< const QPoint(*)>(_a[1]))); break;
+        case 9: ac_injectCode(); break;
+        case 10: ac_deleteEntity(); break;
         default: ;
         }
-        _id -= 10;
+        _id -= 11;
     }
     return _id;
 }

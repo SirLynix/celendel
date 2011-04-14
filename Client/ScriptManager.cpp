@@ -15,6 +15,7 @@
 
 ScriptManager::ScriptManager(QWidget* parent):QWidget(parent)
 {
+    m_GM = false;
     m_editor = new EditorDialog(this, SCRIPT_EDIT);
     connect(m_editor, SIGNAL(sendScriptToServer(QString,QString)), this, SLOT(sendScript(QString,QString)));
 
@@ -55,6 +56,24 @@ void ScriptManager::openEditor()
     m_editor->show();
 }
 
+void ScriptManager::setGM(bool m)
+{
+    m_GM = m;
+
+    QWidget *p = qobject_cast<QWidget*>(parent());
+
+    if(p == 0)
+        p = this;
+
+    if(isGM())
+    {
+        p->show();
+
+    }
+    else
+        p->hide();
+}
+
 void ScriptManager::openContextMenu(const QPoint& p)
 {
     QModelIndex m = m_list->indexAt(p);
@@ -67,12 +86,16 @@ void ScriptManager::openContextMenu(const QPoint& p)
     m_delete->setData(s);
 
     QList<QAction*> l;
-    l<<m_download;
-    l<<m_makeEntity;
-    l<<m_rename;
-    l<<m_delete;
+    if(isGM())
+    {
+        l<<m_download;
+        l<<m_makeEntity;
+        l<<m_rename;
+        l<<m_delete;
+    }
 
-    QMenu::exec(l, m_list->mapToGlobal(p));
+    if(!l.isEmpty())
+        QMenu::exec(l, m_list->mapToGlobal(p));
 }
 
 void ScriptManager::ac_download()
