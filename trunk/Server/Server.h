@@ -54,6 +54,8 @@ class Server : public QObject
 
         void sendScriptList(CLID cID);
 
+        void sendLuaError(QString ent, QString m);
+
         bool updateScript(const QString& name, const QString& content);
 
         void updateCharacterList(const QStringList&);

@@ -40,6 +40,42 @@ QDataStream &operator>>(QDataStream & ds, EntityData& p)
     return ds;
 }
 
+QDataStream &operator<<(QDataStream & ds, const QStringPairList& p)
+{
+    qint32 s = p.size();
+    ds<<s;
+    for(int i=0;i<s;++i)
+        ds<<p[i];
+
+    return ds;
+}
+
+QDataStream &operator>>(QDataStream & q, QStringPairList& p)
+{
+    qint32 s;
+    q>>s;
+
+    for(int i=0;i<s;++i)
+    {
+        QStringPair t;
+        q>>t;
+        p<<t;
+    }
+    return q;
+}
+
+QDataStream &operator<<(QDataStream & ds, const QStringPair& p)
+{
+    ds << p.first << p.second;
+    return ds;
+}
+
+QDataStream &operator>>(QDataStream & q, QStringPair& p)
+{
+    q>> p.first >> p.second;
+    return q;
+}
+
 bool extractChatData(QByteArray& data, ENUM_TYPE& canal, QString& language, QString& text, CLID& sender)
 {
     QV(data);
@@ -494,7 +530,7 @@ QByteArray serialiseMapItemsInformationsData(const QList<MapItem>& mi)
     return qCompress(data);
 }
 
-bool extractDiceRollData(QByteArray& data, CLID& ID, quint16& result)
+bool extractDiceRollData(QByteArray& data, CLID& ID, quint16& result, quint16& max)
 {
     QV(data);
     QDataStream in(data);
@@ -502,17 +538,20 @@ bool extractDiceRollData(QByteArray& data, CLID& ID, quint16& result)
     R(in);
     in>>result;
     R(in);
+    in>>max;
+    R(in);
 
     return false;
 }
 
-QByteArray serialiseDiceRollData(CLID ID, quint16 result)
+QByteArray serialiseDiceRollData(CLID ID, quint16 result, quint16 max)
 {
     QByteArray data;
     QDataStream out(&data, QIODevice::ReadWrite);
 
     out<<(CLID)ID;
     out<<(quint16)result;
+    out<<(quint16)max;
 
     return data;
 }

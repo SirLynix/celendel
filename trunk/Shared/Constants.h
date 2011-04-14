@@ -43,6 +43,7 @@
 
 #include <QMap>
 
+#include <QList>
 #include <QPair>
 
 #include <QVariant>
@@ -104,6 +105,12 @@ struct PlayerInformations
     QString ip;
 };
 
+
+typedef QPair<QString, QString> QStringPair;
+Q_DECLARE_METATYPE(QStringPair);
+typedef QList<QStringPair> QStringPairList;
+Q_DECLARE_METATYPE(QStringPairList);
+
 struct EntityData
 {
     EntityData() {}
@@ -113,14 +120,14 @@ struct EntityData
 
     bool isString() const { return data.type() == QVariant::String; }
     bool isNumber() const { return data.type() == QVariant::Double; }
-    bool isStringList() const { return data.type() == QVariant::StringList; }
+    bool isStringPairList() const { return data.canConvert<QStringPairList>(); }
 
     QString getString() const { return data.toString(); }
     double getNumber() const { return data.toDouble(); }
-    QStringList getStringList() const { return data.toStringList(); }
+    QStringPairList getStringPairList() const { return data.value<QStringPairList >(); }
 
     void setData(const QString& s) { data.setValue(s); }
-    void setData(const QStringList& s) { data.setValue(s); }
+    void setData(const QStringPairList& s) { data.setValue(s); }
     void setData(double d) { data.setValue(d); }
 
     /* Note that if the data can be converted to a QString (e.i. a number), getString() will return the converted value. */
@@ -251,7 +258,8 @@ enum SCRIPT_MESSAGE_TYPE { ERROR_MSG, TO_GM, TO_OWNER, ACTION_TO_DO, TO_PLAYER, 
 
 /* ROLL_DICE type structure :
 - CLID ID
-- quint16 result */
+- quint16 result
+- quint16 max */
 
 /* PLAY_SOUND type structure :
 - QString lib

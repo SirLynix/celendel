@@ -14,6 +14,15 @@
 
 ClientInterface::ClientInterface()
 {
+    qRegisterMetaType<QStringPair>("QStringPair");
+    qRegisterMetaTypeStreamOperators<QStringPair>("QStringPair");
+    qMetaTypeId<QStringPair>();
+
+    qRegisterMetaType<QStringPairList>("QStringPairList");
+    qRegisterMetaTypeStreamOperators<QStringPairList>("QStringPairList");
+    qMetaTypeId<QStringPairList>();
+
+
     m_mapEditor=NULL;
 
     m_mapWi=new MapWidget(this);
@@ -69,7 +78,7 @@ ClientInterface::ClientInterface()
     connect(m_network, SIGNAL(connectionEtablished()), this, SLOT(connectionEtablished()));
     connect(m_network, SIGNAL(connectionLost()), this, SLOT(connectionLost()));
     connect(m_network, SIGNAL(sanctionned(CLID, ENUM_TYPE, QString)), this, SLOT(sanctionned(CLID, ENUM_TYPE, QString)));
-    connect(m_network, SIGNAL(diceRolled(CLID, quint16)), this, SLOT(diceRolled(CLID, quint16)));
+    connect(m_network, SIGNAL(diceRolled(CLID, quint16, quint16)), this, SLOT(diceRolled(CLID, quint16, quint16)));
     connect(m_network, SIGNAL(gameLaunched()), this, SLOT(gameLaunched()));
     connect(m_network, SIGNAL(serverName(QString)), this, SLOT(serverName(QString)));
     connect(m_network, SIGNAL(motdChanged(QString)), this, SLOT(motdChanged(QString)));
@@ -125,30 +134,18 @@ ClientInterface::ClientInterface()
 void ClientInterface::dataPerSecond(int d, int u)
 {
     if(d<1024)
-    {
         m_dlPerSec->setText(tr("Download : %1 o/s").arg(d,5));
-    }
     else if(d<1024*1024)
-    {
         m_dlPerSec->setText(tr("Download : %1 kio/s").arg((double)d/1024,5,'g',2));
-    }
     else
-    {
         m_dlPerSec->setText(tr("Download : %1 mio/s").arg((double)d/1024/1024,5,'g',2));
-    }
 
     if(u<1024)
-    {
         m_upPerSec->setText(tr("Upload : %1 o/s", "").arg(u,5));
-    }
     else if(u<1024*1024)
-    {
         m_upPerSec->setText(tr("Upload : %1 kio/s").arg((double)u/1024,5,'g',2));
-    }
     else
-    {
         m_upPerSec->setText(tr("Upload : %1 mio/s").arg((double)u/1024/1024,5,'g',2));
-    }
 }
 
 void ClientInterface::setInterface(const QString& path)
@@ -463,14 +460,22 @@ void ClientInterface::clientLeft(CLID cID)
     updatePlayerList();
 }
 
-void ClientInterface::diceRolled(CLID ID, quint16 result)
+void ClientInterface::diceRolled(CLID ID, quint16 result, quint16 max)
 {
-    lg(tr("%1 lance 1d20, et obtient un %2.").arg(anonym(ID)).arg(result));
+    lg(tr("%1 lance 1d%2, et obtient un %3.").arg(anonym(ID)).arg(max).arg(result));
 }
 
 void ClientInterface::rollDice()
 {
-    m_network->send(ETI(ROLL_DICE), serialiseDiceRollData(0,0) );
+    m_network->send(ETI(ROLL_DICE), serialiseDiceRollData(0,0,20));
+}
+
+void ClientInterface::rollSpecialDice()
+{
+    bool ok=false;
+    int r = QInputDialog::getInt(this, tr("Lancer un dé"), tr("Sélectionnez le nombre de faces"), 20, 2, 2147483647, 1, &ok);
+    if(ok)
+        m_network->send(ETI(ROLL_DICE), serialiseDiceRollData(0,0,r));
 }
 
 void ClientInterface::changeClientNickname(CLID ID, QString nick)

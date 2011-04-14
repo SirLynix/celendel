@@ -323,7 +323,11 @@ void Server::processData(std::auto_ptr<Packet> pa, CLID cID)
         break;
         case ROLL_DICE:
         {
-            m_network->sendToAll(ETI(ROLL_DICE), serialiseDiceRollData(cID, alea(1,20)));
+            CLID g;
+            quint16 v, max;
+            QE(extractDiceRollData(pa->data, g, v, max));
+            if(max>1)
+                m_network->sendToAll(ETI(ROLL_DICE), serialiseDiceRollData(cID, alea(1,max), max));
         }
         break;
         case SERVER_NAME:

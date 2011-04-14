@@ -38,6 +38,7 @@ class ScriptEnvironnement : public QObject
         void s_sendOwnerMsg(QString);
         void s_sendMsg(QString);
         void s_sendPlayerMsg(QString msg,QString regexp);
+        void s_luaError(QString m);
 
         void s_registerCharacter();
 
@@ -48,6 +49,8 @@ class ScriptEnvironnement : public QObject
         void sendOwnerMsg(QString ent, QString);
         void sendMsg(QString ent, QString);
         void sendPlayerMsg(QString ent, QString msg,QString regexp);
+
+        void luaError(QString ent, QString);
 
         void characterListUpdated(const QStringList&);
 

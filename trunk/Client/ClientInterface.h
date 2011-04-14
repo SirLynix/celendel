@@ -44,10 +44,11 @@ class ClientInterface : public QMainWindow
 
         void connectionEtablished();
         void connectionLost();
-        void diceRolled(CLID, quint16);
+        void diceRolled(CLID, quint16, quint16);
         void sanctionned(CLID, ENUM_TYPE, QString);
 
         void rollDice();
+        void rollSpecialDice();
         void serverName(QString);
         void motdChanged(QString);
         void gameLaunched();
@@ -164,6 +165,7 @@ class ClientInterface : public QMainWindow
         QLineEdit* m_chatInput;
         QComboBox* m_RPLanguage;
         QPushButton* m_rollTheDice;
+        QPushButton* m_rollSpecialDice;
 
         MapWidget* m_mapWi;
 

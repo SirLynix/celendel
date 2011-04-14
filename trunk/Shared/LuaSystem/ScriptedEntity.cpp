@@ -6,6 +6,8 @@
 
 const char ScriptedEntity::className[] = "ScriptedEntity";
 
+QMap<lua_State*, ScriptedEntity*> stateMap;
+
 #define method(class, name) {#name, &class::name}
 
 Lunar<ScriptedEntity>::RegType ScriptedEntity::methods[] = {
@@ -19,9 +21,21 @@ Lunar<ScriptedEntity>::RegType ScriptedEntity::methods[] = {
   {0,0}
 };
 
+void luaHook(lua_State *L, lua_Debug *ar)
+{
+    ScriptedEntity* ent = stateMap.value(L,0);
+    if(ent != 0)
+    {
+        ent->hook(L,ar);
+    }
+}
+
 ScriptedEntity::ScriptedEntity(const QString& file) : m_state()
 {
     m_valid=false;
+
+    stateMap[m_state] = this;
+    lua_sethook(m_state, luaHook, LUA_MASKCOUNT, 10);
 
     Lunar<ScriptedEntity>::Register(m_state);
 
@@ -31,6 +45,7 @@ ScriptedEntity::ScriptedEntity(const QString& file) : m_state()
     m_showUpdateError=true;
     m_needSync=true;
 
+    m_tempusFugit.restart();
     if(luaL_dofile(m_state, file.toAscii())!=0)
     {
         LUA_ERROR(tr("Error loading script : %1").arg(file));
@@ -49,7 +64,16 @@ ScriptedEntity::ScriptedEntity(const QString& file) : m_state()
 
 ScriptedEntity::~ScriptedEntity()
 {
+    stateMap.remove(m_state);
     onDeath();
+}
+
+void ScriptedEntity::hook(lua_State *L, lua_Debug *ar)
+{
+    if(m_tempusFugit.elapsed() > MAX_EXEC_TIME)
+    {
+        luaL_error(L, "Script execution time too long");
+    }
 }
 
 void ScriptedEntity::pause()
@@ -159,12 +183,12 @@ QVariant ScriptedEntity::getListStrOrNum(const QString& name, bool* b)
     }
     else if(lua_istable(m_state, 1))
     {
-        QStringList l;
+        QStringPairList l;
         lua_pushnil(m_state);
         while (lua_next(m_state, 1) != 0)
         {
-            if(lua_isstring(m_state, -1))
-                l << lua_tostring(m_state, -1);
+            if(lua_isstring(m_state, -1) && lua_isstring(m_state, -2))
+                l.append(qMakePair(QString(lua_tostring(m_state, -2)), QString(lua_tostring(m_state, -1))));
            lua_pop(m_state, 1);
         }
         if(!l.isEmpty())
@@ -235,6 +259,7 @@ QString ScriptedEntity::pushCode(const QString& code, bool* b)
         *b=false;
         return tr("Script invalide");
     }
+    m_tempusFugit.restart();
     int ret = luaL_dostring(m_state, code.toAscii());
     if(ret == 0)
     {

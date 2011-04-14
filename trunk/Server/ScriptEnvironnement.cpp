@@ -70,6 +70,8 @@ bool ScriptEnvironnement::makeEntity(const QString& name, const QString& scriptN
     }
 
     m_entities[name]=ent;
+
+    connect(ent, SIGNAL(luaError(QString)), this, SLOT(s_luaError(QString)));
     connect(ent, SIGNAL(dataChanged()), this, SLOT(dataChanged()));
     connect(ent, SIGNAL(sendGMMsg(QString)), this, SLOT(s_sendGMMsg(QString)));
     connect(ent, SIGNAL(sendOwnerMsg(QString)), this, SLOT(s_sendOwnerMsg(QString)));
@@ -108,6 +110,17 @@ bool ScriptEnvironnement::deleteEntity(const QString& name)
     removeCharacter(name);
 
     return false;
+}
+
+void ScriptEnvironnement::s_luaError(QString m)
+{
+    ScriptedEntity* ent = qobject_cast<ScriptedEntity*>(sender());
+    if(ent == 0)
+        return;
+    QString name = m_entities.key(ent);
+    if(name.isEmpty())
+        return;
+    emit luaError(name, m);
 }
 
 void ScriptEnvironnement::s_sendGMMsg(QString m)

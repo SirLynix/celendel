@@ -20,22 +20,22 @@
 		<Cursor position="432" topLine="0" />
 	</File>
 	<File name="ScriptEnvironnement.cpp" open="0" top="0" tabpos="2">
-		<Cursor position="1305" topLine="81" />
+		<Cursor position="2858" topLine="84" />
 	</File>
 	<File name="ScriptEnvironnement.h" open="0" top="0" tabpos="0">
-		<Cursor position="904" topLine="4" />
+		<Cursor position="1613" topLine="10" />
 	</File>
 	<File name="Server.cpp" open="0" top="0" tabpos="3">
-		<Cursor position="4097" topLine="111" />
+		<Cursor position="191" topLine="0" />
 	</File>
 	<File name="Server.h" open="0" top="0" tabpos="2">
-		<Cursor position="1595" topLine="30" />
+		<Cursor position="1457" topLine="30" />
 	</File>
 	<File name="Server.pro" open="0" top="0" tabpos="0">
 		<Cursor position="531" topLine="0" />
 	</File>
 	<File name="ServerSwitch.cpp" open="0" top="0" tabpos="1">
-		<Cursor position="18060" topLine="480" />
+		<Cursor position="12119" topLine="222" />
 	</File>
 	<File name="Translator.cpp" open="0" top="0" tabpos="2">
 		<Cursor position="1495" topLine="129" />
@@ -47,19 +47,19 @@
 		<Cursor position="178" topLine="0" />
 	</File>
 	<File name="..\Shared\Constants.h" open="1" top="0" tabpos="5">
-		<Cursor position="2787" topLine="81" />
+		<Cursor position="2851" topLine="87" />
 	</File>
 	<File name="..\Shared\LuaSystem\ScriptSandbox.cpp" open="0" top="0" tabpos="0">
 		<Cursor position="156" topLine="0" />
 	</File>
 	<File name="..\Shared\LuaSystem\ScriptedEntity.cpp" open="0" top="0" tabpos="4">
-		<Cursor position="2829" topLine="92" />
+		<Cursor position="4492" topLine="154" />
 	</File>
 	<File name="..\Shared\LuaSystem\ScriptedEntity.h" open="0" top="0" tabpos="2">
-		<Cursor position="576" topLine="0" />
+		<Cursor position="923" topLine="0" />
 	</File>
 	<File name="..\Shared\LuaSystem\ScriptedEntityCallbacks.cpp" open="0" top="0" tabpos="1">
-		<Cursor position="5498" topLine="178" />
+		<Cursor position="3705" topLine="120" />
 	</File>
 	<File name="..\Shared\LuaSystem\luaHeader.h" open="0" top="0" tabpos="3">
 		<Cursor position="898" topLine="0" />
@@ -76,10 +76,10 @@
 	<File name="..\Shared\Packet.h" open="0" top="0" tabpos="0">
 		<Cursor position="514" topLine="0" />
 	</File>
-	<File name="..\Shared\Serializer.cpp" open="1" top="0" tabpos="1">
-		<Cursor position="772" topLine="0" />
+	<File name="..\Shared\Serializer.cpp" open="0" top="0" tabpos="1">
+		<Cursor position="9912" topLine="518" />
 	</File>
 	<File name="..\Shared\Serializer.h" open="1" top="0" tabpos="1">
-		<Cursor position="6143" topLine="88" />
+		<Cursor position="998" topLine="0" />
 	</File>
 </CodeBlocks_layout_file>
