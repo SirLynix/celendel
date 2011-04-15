@@ -3,7 +3,7 @@
 
 #include <QObject>
 #include <QMap>
-#include "..\Shared\Constants.h"
+#include "../Shared/Constants.h"
 
 class ScriptedEntity;
 

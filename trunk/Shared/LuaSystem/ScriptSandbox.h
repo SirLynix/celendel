@@ -2,7 +2,7 @@
 #define SCRIPTSANDBOX_H
 
 #include <QObject>
-#include "..\Shared\LuaSystem\luaHeader.h"
+#include "luaHeader.h"
 
 class ScriptSandbox : public QObject
 {

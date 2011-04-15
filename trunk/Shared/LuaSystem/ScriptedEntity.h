@@ -4,7 +4,7 @@
 #include <QObject>
 
 #include "luaHeader.h"
-#include "..\Constants.h"
+#include "../Constants.h"
 #include <QTime>
 #include <QMap>
 

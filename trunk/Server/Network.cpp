@@ -4,7 +4,7 @@
 #include <QDebug>
 #include <QDateTime>
 #include <QTextDocument>
-#include "..\Shared\Serializer.h"
+#include "../Shared/Serializer.h"
 
 QString securise (const QString& in)
 {

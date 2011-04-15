@@ -1,7 +1,7 @@
 #include "Translator.h"
 #include <QFile>
 #include <qDebug>
-#include "..\Shared\Constants.h"
+#include "../Shared/Constants.h"
 
 Translator::Translator(){}
 
