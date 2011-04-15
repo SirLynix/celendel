@@ -1,5 +1,5 @@
 #include "Server.h"
-#include "..\Shared\Serializer.h"
+#include "../Shared/Serializer.h"
 
 #include <QCoreApplication>
 #include <QSettings>

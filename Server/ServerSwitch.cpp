@@ -1,6 +1,6 @@
 #include "Server.h"
-#include "..\Shared\Serializer.h"
-#include "..\Shared\Constants.h"
+#include "../Shared/Serializer.h"
+#include "../Shared/Constants.h"
 
 #define QE(a) if(a) {log("ERROR : packet received corrupted ! (from Client "+QString::number(cID)+") at line "+QString::number(__LINE__)+" in file "__FILE__); m_network->sendToClient(cID, ETI(ERROR), serialiseErrorData(ETI(INVALID_PACKET))); m_network->blame(cID); return;}
 #define GM_CHECK() if(!ply->isGM()) { m_network->sendToClient(cID, ETI(ERROR), serialiseErrorData(ETI(NOT_GM))); log("POWER ERROR : client "+QString::number(cID)+" at line "+QString::number(__LINE__)+" in file "__FILE__); return;}

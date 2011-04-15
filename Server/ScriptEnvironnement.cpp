@@ -1,6 +1,6 @@
 #include "ScriptEnvironnement.h"
 
-#include "..\Shared\LuaSystem\ScriptedEntity.h"
+#include "../Shared/LuaSystem/ScriptedEntity.h"
 
 ScriptEnvironnement::ScriptEnvironnement()
 {

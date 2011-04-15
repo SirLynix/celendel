@@ -9,7 +9,7 @@
 #include "Network.h"
 #include <QList>
 #include "Player.h"
-#include "..\Shared\MapStructs.h"
+#include "../Shared/MapStructs.h"
 #include "Translator.h"
 #include "ScriptEnvironnement.h"
 
