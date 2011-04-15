@@ -82,6 +82,8 @@ bool extractChatData(QByteArray& data, ENUM_TYPE& canal, QString& language, QStr
     QDataStream in(data);
     in>>canal;
     R(in);
+    in>>language;
+    R(in);
     in>>text;
     R(in);
     in>>sender;
@@ -96,6 +98,7 @@ QByteArray serialiseChatData(ENUM_TYPE canal, const QString& language, const QSt
     QDataStream out(&data, QIODevice::ReadWrite);
 
     out<<(ENUM_TYPE)canal;
+    out<<language;
     out<<text;
     out<<(CLID)sender;
     return data;

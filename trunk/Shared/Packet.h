@@ -36,7 +36,7 @@ class Packet : public QObject
 
     private:
         void setError();
-        Packet(const Packet&) {} ///Non-copiable
+        Packet(const Packet&) : QObject() {} ///Non-copiable
         bool m_error;
 };
 
