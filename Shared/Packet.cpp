@@ -50,7 +50,6 @@ bool Packet::setBody(QDataStream& in)
 
 void Packet::setError()
 {
-    qDebug() << "PACKET SETERROR() CALLED ON PACKET (this = " << (int)this << ")"; show(); ///DEBUG
     m_error=true;
     full=false;
     data=QByteArray();
