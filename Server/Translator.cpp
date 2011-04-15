@@ -1,6 +1,6 @@
 #include "Translator.h"
 #include <QFile>
-#include <qDebug>
+
 #include "../Shared/Constants.h"
 
 Translator::Translator(){}
@@ -74,8 +74,6 @@ QString Translator::getWord(const QString& language, int size, int sum)
     if(m<2)
         return QString();
 
-    qDebug() << size << m << sum;
-
     if(size==0)
         size=m-1;
 
@@ -110,7 +108,7 @@ bool Translator::openDictionary(const QString& name)
     QFile file(fileName);
     if(!file.open(QIODevice::ReadOnly|QIODevice::Text))
     {
-        qDebug() << "Dictionary not found : " << fileName;
+        DEB() << "Dictionary not found : " << fileName;
         return true;
     }
 
@@ -154,7 +152,7 @@ bool Translator::loadLanguage(const QString& name, const QString& dico)
         QFile file(fileName);
         if(!file.open(QIODevice::ReadOnly|QIODevice::Text))
         {
-            qDebug() << "FAILLURE : " << fileName;
+            DEB() << "FAILLURE : " << fileName;
             return true;
         }
 
