@@ -64,7 +64,7 @@ void Client::readyRead()
 
     if (packet.get()==NULL)//Try to get the header
     {
-        if (socket->bytesAvailable() < (int)sizeofheader) //The header is not here yet
+        if (socket->bytesAvailable() < static_cast<qint64>(sizeofheader)) //The header is not here yet
              return;
 
         packet.reset(new Packet());
