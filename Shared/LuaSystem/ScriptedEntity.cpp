@@ -1,8 +1,8 @@
-#include "ScriptedEntity.h"
-
 #include <QTimer>
 #include <QString>
 #include <QStringList>
+
+#include "ScriptedEntity.h"
 
 const char ScriptedEntity::className[] = "ScriptedEntity";
 
@@ -41,17 +41,18 @@ ScriptedEntity::ScriptedEntity(const QString& file) : m_state()
 
     m_fileName=file;
 
-    m_valid=true;
+
     m_showUpdateError=true;
     m_needSync=true;
 
     m_tempusFugit.restart();
-    if(luaL_dofile(m_state, file.toAscii())!=0)
+    m_valid=true;
+
+    if(!file.isEmpty() && luaL_dofile(m_state, file.toAscii())!=0)
     {
         LUA_ERROR(tr("Error loading script : %1").arg(file));
         m_valid=false;
     }
-
 
     m_elapsed.start();
     m_updateTimer = new QTimer(this);
@@ -85,6 +86,21 @@ void ScriptedEntity::unpause()
 {
     m_updateTimer->start();
     m_elapsed.restart();
+}
+
+QList<QPair<QString, int> > ScriptedEntity::getLanguages()
+{
+    QList<QPair<QString, int> > ret;
+    QStringPairList var = getListStrOrNum("languages").value<QStringPairList >();
+
+    for(int i=0,m=var.size();i<m;++i)
+    {
+        int prct=var[i].second.toInt();
+        if(prct > 0 && prct <= 100)
+            ret.append(qMakePair(var[i].first, prct));
+    }
+
+    return ret;
 }
 
 QStringList ScriptedEntity::getDataKeys()
@@ -171,14 +187,14 @@ QVariant ScriptedEntity::getListStrOrNum(const QString& name, bool* b)
     QVariant ret;
     lua_settop(m_state,0);
     lua_getglobal(m_state,name.toAscii());
-    if (lua_isstring(m_state,1))
-    {
-        ret.setValue(QString(lua_tostring(m_state,1)));
-        *b=true;
-    }
-    else if(lua_isnumber(m_state,1))
+    if(lua_isnumber(m_state,1))
     {
         ret.setValue(lua_tonumber(m_state,1));
+        *b=true;
+    }
+    else if (lua_isstring(m_state,1))
+    {
+        ret.setValue(QString(lua_tostring(m_state,1)));
         *b=true;
     }
     else if(lua_istable(m_state, 1))

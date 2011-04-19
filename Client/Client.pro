@@ -2,7 +2,7 @@ TEMPLATE = app
 
 LIBS += -lsfml-audio -lsfml-window -lsfml-system -lALut -lOpenAL32 -lspeex -lspeexdsp -llua5.1 -lqscintilla2
 
-QMAKE_CXXFLAGS +=  -O3 -Wall -Wmain -s
+QMAKE_CXXFLAGS +=  -O3 -Wall -Wmain -s -W -Wextra
 
 CONFIG += console
 QT += network
@@ -16,7 +16,7 @@ HEADERS += ClientInterface.h \
            VOIP/Recorder.h VOIP/Sound.h VOIP/SoundReceiver.h VOIP/Speex.h VOIP/VOIP.h VOIP/Global.h VOIP/OpenAL.h \
            AboutWindow.h SoundManager.h SoundsGUI.h SoundLibThread.h MapWidget.h MapEditor.h MapEditorDialogs.h \
            QColorPicker/QColorPickerWidget.h QColorPicker/QColorViewer.h QColorPicker/qtcolortriangle.h QColorPicker/screen.h \
-           ScriptManager.h EditorDialog.h EntitiesManager.h CharactersManager.h
+           ScriptManager.h EditorDialog.h EntitiesManager.h CharactersManager.h EntityMaker.h TableEditor.h
 
 SOURCES += ClientInterface.cpp \
            ClientNetwork.cpp \
@@ -29,7 +29,7 @@ SOURCES += ClientInterface.cpp \
            VOIP/Recorder.cpp VOIP/Sound.cpp VOIP/SoundReceiver.cpp VOIP/Speex.cpp VOIP/VOIP.cpp VOIP/OpenAL.cpp \
            SoundManager.cpp SoundsGUI.cpp SoundLibThread.cpp MapWidget.cpp ClientMapInterface.cpp MapEditor.cpp MapEditorDialogs.cpp \
            QColorPicker/QColorPickerWidget.cpp QColorPicker/QColorViewer.cpp QColorPicker/qtcolortriangle.cpp QColorPicker/screen.cpp CompressedMap.cpp \
-           ScriptManager.cpp EditorDialog.cpp EntitiesManager.cpp CharactersManager.cpp
+           ScriptManager.cpp EditorDialog.cpp EntitiesManager.cpp CharactersManager.cpp EntityMaker.cpp TableEditor.cpp
 
 
 SOURCES += \

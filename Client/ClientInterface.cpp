@@ -22,7 +22,6 @@ ClientInterface::ClientInterface()
     qRegisterMetaTypeStreamOperators<QStringPairList>("QStringPairList");
     qMetaTypeId<QStringPairList>();
 
-
     m_mapEditor=NULL;
 
     m_mapWi=new MapWidget(this);
@@ -126,7 +125,6 @@ ClientInterface::ClientInterface()
 
     buildGMStuff();
     updateGMPanel();
-
 
     delete set;
 }
@@ -749,6 +747,7 @@ void ClientInterface::changeServerInformations(ServerInformations si)
     m_narrator->setHtml(si.narration);
     m_narrator->moveCursor(QTextCursor::End);
 
+    syncLanguagesList(si.languages);
     syncDictionariesList(si.dictionaries);
 
     if(si.gameStarted)
@@ -811,15 +810,13 @@ void ClientInterface::syncLanguagesList(QList<QPair<QString, QString> > language
     m_RPLanguage->setCurrentIndex(a==-1?0:a);
 }
 
-void ClientInterface::characterListMenu(const QPoint& pos)
-{
-
-}
-
 QString ClientInterface::getRolePlayName(CLID ID)
 {
-    ///DEBUG
-    return m_playersMap.value(ID).name;
+    QString n=m_characterMngr->getPlayerCharacter(m_playersMap.value(ID).name);
+    if(n.isEmpty())
+        return m_playersMap.value(ID).name;
+
+    return n;
 }
 
 void ClientInterface::chat(CLID sender, QString lang, QString txt, ENUM_TYPE canal)

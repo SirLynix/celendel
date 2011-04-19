@@ -1,7 +1,7 @@
 description = "Un humain un peu étrange..."
 work = "Heros à plein temps"
-name = "Noven"
-class = "Magicien de combat"
+name = "Jean-Claude"
+class = "Paysan"
 age = 23
 player = ""
 
@@ -19,20 +19,13 @@ data["class"] = "Classe"
 data["age"] = "Âge"
 data["attributes"] = "Attributs"
 data["player"] = "Joueur"
-data["languages"] = "Langues"
-data["inventory"] = "Inventaire"
+data["languages"] = "Langues"
 
 languages = {}
-languages["Draconien"] = 100
-languages["Commun"] = 97
-
-inventory = {}
-inventory["novenAxe"] = "Primary Weapon"
-inventory["novenCristal"] = "Neck"
-inventory["elficRope"] = "Backpack"
+languages["Commun"] = 100
 
 function once(this)
-	this:registerAsCharacter("Gigotdarnaud");
+	this:registerAsCharacter("ShadicMoimeme");
 end
 
 function onDeath(this)

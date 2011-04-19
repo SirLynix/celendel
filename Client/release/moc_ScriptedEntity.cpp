@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Meta object code from reading C++ file 'ScriptedEntity.h'
 **
-** Created: Thu 14. Apr 15:38:32 2011
+** Created: Tue 19. Apr 15:08:05 2011
 **      by: The Qt Meta Object Compiler version 62 (Qt 4.7.0)
 **
 ** WARNING! All changes made in this file will be lost!
@@ -36,20 +36,20 @@ static const uint qt_meta_data_ScriptedEntity[] = {
       57,   15,   15,   15, 0x05,
       85,   74,   15,   15, 0x05,
      116,   15,   15,   15, 0x05,
-     136,   15,   15,   15, 0x05,
-     154,  150,   15,   15, 0x05,
+     143,   15,   15,   15, 0x05,
+     161,  157,   15,   15, 0x05,
 
  // slots: signature, parameters, type, tag, flags
-     172,   15,   15,   15, 0x0a,
-     180,   15,   15,   15, 0x0a,
-     190,   15,   15,   15, 0x0a,
-     201,   15,   15,   15, 0x0a,
-     210,   15,   15,   15, 0x0a,
-     241,  224,  220,   15, 0x0a,
-     276,  271,   15,   15, 0x0a,
-     296,  291,   15,   15, 0x0a,
-     322,   15,   15,   15, 0x0a,
-     334,  329,   15,   15, 0x0a,
+     179,   15,   15,   15, 0x0a,
+     187,   15,   15,   15, 0x0a,
+     197,   15,   15,   15, 0x0a,
+     208,   15,   15,   15, 0x0a,
+     217,   15,   15,   15, 0x0a,
+     248,  231,  227,   15, 0x0a,
+     283,  278,   15,   15, 0x0a,
+     303,  298,   15,   15, 0x0a,
+     329,   15,   15,   15, 0x0a,
+     341,  336,   15,   15, 0x0a,
 
        0        // eod
 };
@@ -58,8 +58,8 @@ static const char qt_meta_stringdata_ScriptedEntity[] = {
     "ScriptedEntity\0\0sendGMMsg(QString)\0"
     "sendOwnerMsg(QString)\0sendMsg(QString)\0"
     "msg,regexp\0sendPlayerMsg(QString,QString)\0"
-    "registerCharacter()\0dataChanged()\0txt\0"
-    "luaError(QString)\0pause()\0unpause()\0"
+    "registerCharacter(QString)\0dataChanged()\0"
+    "txt\0luaError(QString)\0pause()\0unpause()\0"
     "onUpdate()\0onInit()\0onDeath()\0int\0"
     "amount,type,from\0onDamage(int,QString,QString)\0"
     "user\0onUse(QString)\0name\0"
@@ -100,7 +100,7 @@ int ScriptedEntity::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
         case 1: sendOwnerMsg((*reinterpret_cast< QString(*)>(_a[1]))); break;
         case 2: sendMsg((*reinterpret_cast< QString(*)>(_a[1]))); break;
         case 3: sendPlayerMsg((*reinterpret_cast< QString(*)>(_a[1])),(*reinterpret_cast< QString(*)>(_a[2]))); break;
-        case 4: registerCharacter(); break;
+        case 4: registerCharacter((*reinterpret_cast< QString(*)>(_a[1]))); break;
         case 5: dataChanged(); break;
         case 6: luaError((*reinterpret_cast< QString(*)>(_a[1]))); break;
         case 7: pause(); break;
@@ -150,9 +150,10 @@ void ScriptedEntity::sendPlayerMsg(QString _t1, QString _t2)
 }
 
 // SIGNAL 4
-void ScriptedEntity::registerCharacter()
+void ScriptedEntity::registerCharacter(QString _t1)
 {
-    QMetaObject::activate(this, &staticMetaObject, 4, 0);
+    void *_a[] = { 0, const_cast<void*>(reinterpret_cast<const void*>(&_t1)) };
+    QMetaObject::activate(this, &staticMetaObject, 4, _a);
 }
 
 // SIGNAL 5

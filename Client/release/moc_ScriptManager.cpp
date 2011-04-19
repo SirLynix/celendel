@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Meta object code from reading C++ file 'ScriptManager.h'
 **
-** Created: Thu 14. Apr 16:02:21 2011
+** Created: Tue 19. Apr 15:07:57 2011
 **      by: The Qt Meta Object Compiler version 62 (Qt 4.7.0)
 **
 ** WARNING! All changes made in this file will be lost!
@@ -23,7 +23,7 @@ static const uint qt_meta_data_ScriptManager[] = {
        5,       // revision
        0,       // classname
        0,    0, // classinfo
-      15,   14, // methods
+      16,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
@@ -42,12 +42,13 @@ static const uint qt_meta_data_ScriptManager[] = {
      244,   14,   14,   14, 0x0a,
      268,  256,   14,   14, 0x0a,
      300,   14,   14,   14, 0x0a,
-     313,   51,   14,   14, 0x0a,
-     343,  341,   14,   14, 0x0a,
-     367,   14,   14,   14, 0x0a,
-     381,   14,   14,   14, 0x0a,
-     393,   14,   14,   14, 0x0a,
-     405,   14,   14,   14, 0x0a,
+     313,   14,   14,   14, 0x0a,
+     328,   51,   14,   14, 0x0a,
+     358,  356,   14,   14, 0x0a,
+     382,   14,   14,   14, 0x0a,
+     396,   14,   14,   14, 0x0a,
+     408,   14,   14,   14, 0x0a,
+     420,   14,   14,   14, 0x0a,
 
        0        // eod
 };
@@ -61,8 +62,9 @@ static const char qt_meta_stringdata_ScriptManager[] = {
     "list\0updateScriptList(QStringList)\0"
     "setGM(bool)\0script,text\0"
     "showScriptText(QString,QString)\0"
-    "openEditor()\0sendScript(QString,QString)\0"
-    "p\0openContextMenu(QPoint)\0ac_download()\0"
+    "openEditor()\0openEntMaker()\0"
+    "sendScript(QString,QString)\0p\0"
+    "openContextMenu(QPoint)\0ac_download()\0"
     "ac_rename()\0ac_delete()\0ac_makeEntity()\0"
 };
 
@@ -104,15 +106,16 @@ int ScriptManager::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
         case 6: setGM((*reinterpret_cast< bool(*)>(_a[1]))); break;
         case 7: showScriptText((*reinterpret_cast< QString(*)>(_a[1])),(*reinterpret_cast< QString(*)>(_a[2]))); break;
         case 8: openEditor(); break;
-        case 9: sendScript((*reinterpret_cast< QString(*)>(_a[1])),(*reinterpret_cast< QString(*)>(_a[2]))); break;
-        case 10: openContextMenu((*reinterpret_cast< const QPoint(*)>(_a[1]))); break;
-        case 11: ac_download(); break;
-        case 12: ac_rename(); break;
-        case 13: ac_delete(); break;
-        case 14: ac_makeEntity(); break;
+        case 9: openEntMaker(); break;
+        case 10: sendScript((*reinterpret_cast< QString(*)>(_a[1])),(*reinterpret_cast< QString(*)>(_a[2]))); break;
+        case 11: openContextMenu((*reinterpret_cast< const QPoint(*)>(_a[1]))); break;
+        case 12: ac_download(); break;
+        case 13: ac_rename(); break;
+        case 14: ac_delete(); break;
+        case 15: ac_makeEntity(); break;
         default: ;
         }
-        _id -= 15;
+        _id -= 16;
     }
     return _id;
 }

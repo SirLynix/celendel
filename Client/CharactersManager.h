@@ -3,6 +3,7 @@
 
 #include <QWidget>
 #include <QStringList>
+#include <QMap>
 
 class EntitiesManager;
 class QTreeView;
@@ -16,11 +17,11 @@ class CharactersManager : public QWidget
     public:
         CharactersManager(EntitiesManager* entMngr, QWidget *parent = 0);
 
+        QString getName(const EntityInformations& e) const;
+        QString getPlayerCharacter(const QString& ply) const;
+
     public slots:
         void updateCharacterList(const QStringList& list);
-
-        QString getCharacterName(const EntityInformations& e);
-
 
     private slots:
         void update();
@@ -30,6 +31,8 @@ class CharactersManager : public QWidget
         EntitiesManager* m_entMngr;
 
         QStringList m_characters;
+
+        QMap<QString, QString> m_chPlyMap; //First = player, second = character
 
         QTreeView *m_v_cl;
         QStandardItemModel *m_list;

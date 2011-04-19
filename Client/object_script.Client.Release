@@ -35,6 +35,8 @@ INPUT(
 ./release\EditorDialog.o
 ./release\EntitiesManager.o
 ./release\CharactersManager.o
+./release\EntityMaker.o
+./release\TableEditor.o
 ./release\ScriptedEntity.o
 ./release\ScriptSandbox.o
 ./release\ScriptedEntityCallbacks.o
@@ -61,6 +63,8 @@ INPUT(
 ./release\moc_EditorDialog.o
 ./release\moc_EntitiesManager.o
 ./release\moc_CharactersManager.o
+./release\moc_EntityMaker.o
+./release\moc_TableEditor.o
 ./release\moc_ScriptedEntity.o
 ./release\moc_ScriptSandbox.o
 );

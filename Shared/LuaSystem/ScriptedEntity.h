@@ -8,7 +8,7 @@
 #include <QTime>
 #include <QMap>
 
-#define MAX_EXEC_TIME 100
+#define MAX_EXEC_TIME 50
 
 class QTimer;
 class QString;
@@ -20,7 +20,7 @@ class ScriptedEntity : public QObject
     Q_OBJECT
 
     public:
-        ScriptedEntity(const QString& file);
+        ScriptedEntity(const QString& file = "");
         ~ScriptedEntity();
 
         bool isValid() const { return m_valid; }
@@ -36,10 +36,12 @@ class ScriptedEntity : public QObject
         QString getType() { return getStr("type"); }
         QString getStr(const QString& name, bool* ok = 0);
 
-        QVariant getListStrOrNum(const QString& name, bool* b); //Return a QString, a double or a QStringPairList
+        QVariant getListStrOrNum(const QString& name, bool* b=0); //Return a QString, a double or a QStringPairList
 
         double getWeight() { return getNumber("weight"); }
         double getNumber(const QString& name, bool*ok = 0);
+
+        QList<QPair<QString, int> > getLanguages();
 
         bool dataExist(const QString& name);
 
@@ -50,8 +52,8 @@ class ScriptedEntity : public QObject
         void unpause();
 
         /// From C++ to Lua ///
-        /* All this function must have a 'this' first argument in lua */
-        void onUpdate(); /* Args : this, elapsedTime / No return / Will be triggered every 'tick' (100ms ?)*/
+        /* All this function must have 'this' as first argument in lua */
+        void onUpdate(); /* Args : this, elapsedTime / No return / Will be triggered every 'tick' (1s ?)*/
         void onInit(); /* Args : this / No return / Will be triggered at loading*/
         void onDeath(); /* Args : this / No return / Will be triggered at destruction*/
         int onDamage(int amount, const QString& type, const QString& from); /* Args : this, amount, type, from / Return effective damage */
@@ -69,7 +71,7 @@ class ScriptedEntity : public QObject
         void sendMsg(QString);
         void sendPlayerMsg(QString msg,QString regexp);
 
-        void registerCharacter();
+        void registerCharacter(QString);
 
         void dataChanged();
 

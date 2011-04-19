@@ -26,8 +26,13 @@ class ScriptEnvironnement : public QObject
 
         EntityInformations getEntityInformations(const QString& name);
 
-        void addCharacter(const QString& ent);
+        void addCharacter(const QString& ent, const QString& ply);
         void removeCharacter(const QString& ent);
+
+        QString getPlayerCurrentCharacter(const QString& ply) const;
+        bool playerHasCharacter(const QString& ply) const;
+
+        QList<QPair<QString, int> > getPlayerLanguages(const QString& ply); //First = language name, second = ability in this language, in percent
 
         QString pushCode(const QString& entity, const QString& code, bool* ok = 0);
 
@@ -40,7 +45,7 @@ class ScriptEnvironnement : public QObject
         void s_sendPlayerMsg(QString msg,QString regexp);
         void s_luaError(QString m);
 
-        void s_registerCharacter();
+        void s_registerCharacter(QString);
 
     signals:
         void entityRequireUpdate(const QString& entName);
@@ -58,6 +63,8 @@ class ScriptEnvironnement : public QObject
         QMap<QString, ScriptedEntity*> m_entities;
 
         QStringList m_characters;
+
+        QMap<QString, QString> m_chPlyMap; //First : player - Second : character / 1 character per player
 };
 
 #endif // SCRIPTENVIRONNEMENT_H

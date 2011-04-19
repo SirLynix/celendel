@@ -88,8 +88,6 @@ class ClientInterface : public QMainWindow
         void setCSS(const QString& fileName = ""); // If fileName is empty, the defaut theme (OS dependent) will be loaded
         void setInterface(const QString& path = DEFAULT_INTERFACE);  // If path is empty, the defaut interface will be loaded
 
-        void characterListMenu(const QPoint& pos);
-
         void playerListMenu(const QPoint& pos);
         void actionKick();
         void actionBan();

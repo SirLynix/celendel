@@ -38,16 +38,18 @@ CLID Server::nickToCLID(const QString& nick)
 
 QString Server::translateText(const QString& text, const QString& language, CLID cID)
 {
-  //  Player* ply=getPlayer(cID);
+    QString ply=getPlayer(cID)->nickname;
 
-    int prct=0;
-/*
-    if(ply->currentCharacter!=NULL)
+    QList<QPair<QString, int> > l = m_scripts.getPlayerLanguages(ply);
+
+    for(int i=0,m=l.size();i<m;++i)
     {
-        prct=ply->currentCharacter->abilityInLanguage(language);
-    }*/
+        DEB() << l[i].first << l[i].second;
+        if(l[i].first == language)
+            return m_translator.translate(text, l[i].first, l[i].second);
+    }
 
-    return m_translator.translate(text, language, prct);
+    return m_translator.translate(text, language, 0);
 }
 
 void Server::processData(std::auto_ptr<Packet> pa, CLID cID)
@@ -62,7 +64,7 @@ void Server::processData(std::auto_ptr<Packet> pa, CLID cID)
     QE(pa.get()==NULL);
     QE(pa->error());
 
-    //  log("Packet received, working...");
+
     switch(pa->type)
     {
         case CHAT:
@@ -100,22 +102,25 @@ void Server::processData(std::auto_ptr<Packet> pa, CLID cID)
                     {
                         if(gameStarted())
                         {
-                            if(lang!="")
+                            if(m_scripts.playerHasCharacter(ply->nickname))
                             {
-                                for(int i=0,m=m_players.size();i<m;++i)
+                                if(lang!="")
                                 {
-                                    m_network->sendToClient(m_players[i]->ID(), ETI(CHAT), serialiseChatData(ETI(RP), lang, translateText(text, lang, m_players[i]->ID()), cID));
+                                    QString trText = translateText(text, lang, cID);
+                                    for(int i=0,m=m_players.size();i<m;++i)
+                                    {
+                                        m_network->sendToClient(m_players[i]->ID(), ETI(CHAT), serialiseChatData(ETI(RP), lang, translateText(trText, lang, m_players[i]->ID()), cID));
+                                    }
                                 }
+                                else
+                                    m_network->sendToAll(ETI(CHAT), serialiseChatData(ETI(RP), lang, text, cID));
                             }
                             else
-                            {
-                                m_network->sendToAll(ETI(CHAT), serialiseChatData(ETI(RP), lang, text, cID));
-                            }
+                                m_network->sendToClient(cID, ETI(ERROR), serialiseErrorData(ETI(NO_CHARACTER)));
                         }
                         else
-                        {
                             m_network->sendToClient(cID, ETI(ERROR), serialiseErrorData(ETI(GAME_NOT_LAUNCHED)));
-                        }
+
                     }
                     break;
                     default:

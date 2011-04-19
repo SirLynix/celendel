@@ -38,6 +38,13 @@ EntityInformations ScriptEnvironnement::getEntityInformations(const QString& nam
 
     ei.name = name;
     ei.data = ent->getData();
+
+    QString ply = m_chPlyMap.key(name);
+    if(!ply.isEmpty())
+        ei.data["player"].setData(ply);
+    else
+        ei.data.remove("player");
+
     return ei;
 }
 
@@ -51,6 +58,13 @@ QList<EntityInformations> ScriptEnvironnement::getEntitiesInformations()
         EntityInformations& ei = list.last();
         ei.name = i.key();
         ei.data = i.value()->getData();
+
+        QString ply = m_chPlyMap.key(i.key());
+
+        if(!ply.isEmpty())
+            ei.data["player"].setData(ply);
+        else
+            ei.data.remove("player");
     }
 
     return list;
@@ -77,7 +91,7 @@ bool ScriptEnvironnement::makeEntity(const QString& name, const QString& scriptN
     connect(ent, SIGNAL(sendOwnerMsg(QString)), this, SLOT(s_sendOwnerMsg(QString)));
     connect(ent, SIGNAL(sendMsg(QString)), this, SLOT(s_sendMsg(QString)));
     connect(ent, SIGNAL(sendPlayerMsg(QString,QString)), this, SLOT(s_sendPlayerMsg(QString,QString)));
-    connect(ent, SIGNAL(registerCharacter()), this, SLOT(s_registerCharacter()));
+    connect(ent, SIGNAL(registerCharacter(QString)), this, SLOT(s_registerCharacter(QString)));
 
     return false;
 }
@@ -172,26 +186,57 @@ void ScriptEnvironnement::removeCharacter(const QString& ent)
     if(!m_characters.removeOne(ent))
         return;
 
+    m_chPlyMap.remove(m_chPlyMap.key(ent));
+
     emit characterListUpdated(m_characters);
 }
 
-void ScriptEnvironnement::addCharacter(const QString& name)
+void ScriptEnvironnement::addCharacter(const QString& name, const QString& ply)
 {
-    if(m_characters.contains(name))
-        return;
+    if(!m_characters.contains(name))
+    {
+        m_characters.append(name);
+        emit characterListUpdated(m_characters);
+    }
 
-    m_characters.append(name);
-    emit characterListUpdated(m_characters);
+
+    m_chPlyMap.remove(m_chPlyMap.key(name));
+    m_chPlyMap[ply] = name;
+
+    emit entityRequireUpdate(name);
 }
 
-void ScriptEnvironnement::s_registerCharacter()
+void ScriptEnvironnement::s_registerCharacter(QString ply)
 {
     ScriptedEntity* ent = qobject_cast<ScriptedEntity*>(sender());
     if(ent == 0)
         return;
+
     QString name = m_entities.key(ent);
     if(name.isEmpty())
         return;
 
-    addCharacter(name);
+    addCharacter(name, ply);
+}
+
+QString ScriptEnvironnement::getPlayerCurrentCharacter(const QString& ply) const
+{
+    return m_chPlyMap.value(ply);
+}
+
+bool ScriptEnvironnement::playerHasCharacter(const QString& ply) const
+{
+    return m_chPlyMap.contains(ply);
+}
+
+QList<QPair<QString, int> > ScriptEnvironnement::getPlayerLanguages(const QString& ply)
+{
+    QList<QPair<QString, int> > ret;
+
+    ScriptedEntity *ent = m_entities.value(m_chPlyMap.value(ply));
+
+    if(ent == 0) //Obviously, there's no entity assigned to this player
+        return ret; //Empty list
+
+    return ent->getLanguages();
 }

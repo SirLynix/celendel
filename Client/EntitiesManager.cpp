@@ -1,5 +1,3 @@
-#include "EntitiesManager.h"
-
 #include <QTreeView>
 #include <QStandardItemModel>
 #include <QLayout>
@@ -7,6 +5,7 @@
 #include <QAction>
 #include <QMenu>
 
+#include "EntitiesManager.h"
 #include "EditorDialog.h"
 
 #define DTANAMID Qt::UserRole+1337
@@ -23,12 +22,13 @@ EntitiesManager::EntitiesManager(QWidget* _parent) : QWidget(_parent)
     m_editor = new EditorDialog(this, CODE_INJECTION);
     m_editor->hide();
 
+
     m_list = new QStandardItemModel(this);
 
     m_v_list = new QTreeView(this);
     m_v_list->setModel(m_list);
     m_v_list->header()->hide();
-
+    m_v_list->setEditTriggers(QAbstractItemView::NoEditTriggers);
     m_v_list->setContextMenuPolicy(Qt::CustomContextMenu);
     connect(m_v_list, SIGNAL(customContextMenuRequested(const QPoint&)), this, SLOT(openContextMenu(const QPoint&)));
 
@@ -39,7 +39,7 @@ EntitiesManager::EntitiesManager(QWidget* _parent) : QWidget(_parent)
 
 void EntitiesManager::setGM(bool m)
 {
-    m_GM = m;
+    m_GM=m;
 }
 
 void EntitiesManager::updateEntity(const EntityInformations& ent)
@@ -56,6 +56,14 @@ void EntitiesManager::updateEntity(const EntityInformations& ent)
     }
     m_entities.append(ent);
     update();
+}
+
+EntityInformations* EntitiesManager::findEntity(const QString& n)
+{
+    for(int i=0,m=m_entities.size();i<m;++i)
+        if(m_entities[i].name==n)
+            return &m_entities[i];
+    return NULL;
 }
 
 void EntitiesManager::setEntities(const QList<EntityInformations>& entList)

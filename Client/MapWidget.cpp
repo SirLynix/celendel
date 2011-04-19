@@ -436,6 +436,7 @@ void MapWidget::onUpdate()
             for(int i=0,m=m_map->mapItems.size();i<m;++i)
                 drawBloc(m_map->mapItems[i].coords, m_map->mapItems[i].rsid, m_map->mapItems[i].color);
 
+
             if(timeWatcher.elapsed() > 1.0f/m_FPS*1000)
             {
                 setFPS((1.f/(static_cast<double>(timeWatcher.elapsed())/1000.f)/4));

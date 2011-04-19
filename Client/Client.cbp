@@ -93,6 +93,8 @@
 		<Unit filename="EditorDialog.h" />
 		<Unit filename="EntitiesManager.cpp" />
 		<Unit filename="EntitiesManager.h" />
+		<Unit filename="EntityMaker.cpp" />
+		<Unit filename="EntityMaker.h" />
 		<Unit filename="GUI.cpp" />
 		<Unit filename="MapEditor.cpp" />
 		<Unit filename="MapEditor.h" />
@@ -116,6 +118,8 @@
 		<Unit filename="SoundManager.h" />
 		<Unit filename="SoundsGUI.cpp" />
 		<Unit filename="SoundsGUI.h" />
+		<Unit filename="TableEditor.cpp" />
+		<Unit filename="TableEditor.h" />
 		<Unit filename="VOIP\Global.h" />
 		<Unit filename="VOIP\Recorder.cpp" />
 		<Unit filename="VOIP\Recorder.h" />
