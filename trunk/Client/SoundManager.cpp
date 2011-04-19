@@ -13,11 +13,17 @@ Sound::Sound(const QByteArray& d, const QString& n)
 
     if(data.size()>RAM_CACHE_LIMIT)
     {
+        QString sf(TMP_FOLDER+n);
+
+        mkpath(sf.left(sf.lastIndexOf('/')));
+
         QFile f(TMP_FOLDER+n);
+
         if(f.open(QIODevice::WriteOnly|QIODevice::Truncate))
         {
             f.write(data);
             f.close();
+
             if(music->OpenFromFile(QString(TMP_FOLDER+n).toStdString()))
             {
                 data.clear();
@@ -26,7 +32,10 @@ Sound::Sound(const QByteArray& d, const QString& n)
                 return;
             }
             else
+            {
+                DEB() << "Fail";
                 QFile::remove(TMP_FOLDER+name);
+            }
         }
         qDebug()<<"WARNING : Failed to cache sound " << n << " in directory " << TMP_FOLDER << ". Loading from memory...";
     }
@@ -71,18 +80,16 @@ bool SoundLib::createSoundLib(const QString& name, const QString& folder, LVER v
         return true;
     }
     QStringList filters;
-    filters << "*.wav" << "*.ogg";
+    filters << "*.wav" << "*.ogg" << "*.OGG" << "*.WAV";
     dir.setNameFilters(filters);
-    QStringList fileList = dir.entryList(QDir::Files|QDir::NoDotAndDotDot|QDir::NoSymLinks|QDir::Readable);
+    QStringList fileList;
 
-    for(int i=0;i<fileList.size();++i)
-    {
-        fileList[i]=folder+QDir::separator()+fileList[i];
-    }
-    return createSoundLib(name, fileList, ver);
+    fileList=listFilesInFolder(folder+'/', filters);
+
+    return createSoundLib(name, fileList, ver, folder);
 }
 
-bool SoundLib::createSoundLib(const QString& name, const QStringList& fileList, LVER ver)
+bool SoundLib::createSoundLib(const QString& name, const QStringList& fileList, LVER ver, const QString& folder)
 {
     if(fileList.isEmpty())
     {
@@ -94,10 +101,9 @@ bool SoundLib::createSoundLib(const QString& name, const QStringList& fileList, 
     if(!f.open(QIODevice::WriteOnly|QIODevice::Truncate))
         return true;
 
-    QStringList fileName;
-
-    for(int i=0;i<fileList.size();++i)
-        fileName.append(fileList[i].mid(fileList[i].lastIndexOf(QDir::separator())+1));
+    QStringList fileName = fileList;
+    for(int i=0,m=fileList.size();i<m;++i)
+        fileName[i].replace(' ', '_').replace('\\', '/').replace("é","e").replace("è","e");
 
     QDataStream in(&f);
 
@@ -106,15 +112,15 @@ bool SoundLib::createSoundLib(const QString& name, const QStringList& fileList, 
     bool err=false;
     for(int i=0; i<fileList.size();++i)
     {
-        QFile t(fileList[i]);
+        QFile t(folder+'/'+fileList[i]);
         if(!t.open(QIODevice::ReadOnly))
         {
             err=true;
-            qDebug() << "Error : file \"" << fileList[i] << "\" not found.";
+            qDebug() << "Error : file " << folder+'/'+fileList[i] << " not found.";
         }
         else
         {
-            qDebug() << "Processing file \"" << fileList[i] << " -> "<< fileName[i] << "\"...";
+            DEB() << "Processing file " << fileName[i];
             in<<t.readAll();
         }
     }

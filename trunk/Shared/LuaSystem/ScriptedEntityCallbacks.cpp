@@ -224,13 +224,15 @@ int ScriptedEntity::syncData(lua_State* L)
 int ScriptedEntity::registerAsCharacter(lua_State* L)
 {
     int argc = lua_gettop(L);
-    if(argc > 0)
+    if(argc != 1 || !lua_isstring(L,1))
     {
-        LUA_ERROR(tr("Error : too much arguments"));
+        LUA_ERROR(tr("Error : invalid arguments"));
         return 0;
     }
 
-    emit registerCharacter();
+    QString msg(lua_tostring(L,1));
+
+    emit registerCharacter(msg);
     return 0;
 }
 

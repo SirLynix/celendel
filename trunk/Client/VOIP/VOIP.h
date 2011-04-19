@@ -28,6 +28,14 @@ struct VOIPClient
     VOIPSystem::Sound* sound;
 };
 
+class Thread : public QThread
+{
+    public:
+    Thread(QObject* p=0):QThread(p) {}
+    protected:
+    void run() { exec(); }
+};
+
 class VOIP : public QObject
 {
     Q_OBJECT
@@ -78,55 +86,11 @@ class VOIP : public QObject
         bool m_enabled;
 
         int m_floor;
-
         quint16 m_port;
 
+        Thread m_thread;
+
 };
 
-class VOIPThread : public QThread //Multi-thread interface
-{
-    Q_OBJECT
-    public:
-        VOIPThread(QObject* p=NULL);
-        ~VOIPThread();
-
-        bool remove(const QString& cl) {mutex.lock(); bool e=m_voip->remove(cl);mutex.unlock();return e;}
-
-        bool mute(const QString& cl) {mutex.lock(); bool e=m_voip->mute(cl);mutex.unlock();return e;}
-        bool unmute(const QString& cl) {mutex.lock(); bool e=m_voip->unmute(cl);mutex.unlock();return e;}
-
-        float quality() { mutex.lock();float q=m_voip->quality();mutex.unlock();return q;}
-        bool isEnabled() { mutex.lock(); bool e=m_voip->isEnabled(); mutex.unlock();return e;}
-
-        bool contains(const QString& IP) {mutex.lock();bool e=m_voip->contains(IP);mutex.unlock();return e;}
-
-        float volume(const QString& ip="") {mutex.lock();float e=m_voip->volume(ip);mutex.unlock();return e;}
-
-        bool changeCaptureDevice(const QString& name) {mutex.lock();bool e=m_voip->changeCaptureDevice(name);mutex.unlock();return e;}
-
-    public slots:
-        void setQuality(float q) {mutex.lock(); m_voip->setQuality(q); mutex.unlock();}
-        void setVolume(float volume, const QString& ip="") {mutex.lock(); m_voip->setVolume(volume,ip); mutex.unlock();}
-        void setEnabled(bool b) {mutex.lock(); m_voip->setEnabled(b); mutex.unlock();}
-        void add(const QString& cl) {mutex.lock(); m_voip->add(cl); mutex.unlock();}
-        void removeAll() {mutex.lock(); m_voip->removeAll(); mutex.unlock();}
-
-        void setPort(quint16 port, const QString& ip="") {mutex.lock(); m_voip->setPort(port,ip); mutex.unlock();}
-
-    private slots:
-        void dtaPS(int d, int u) { emit dataPerSecond(d,u);}
-
-    signals:
-        void dataPerSecond(int, int);
-
-    protected:
-        void run();
-    private:
-        VOIP* m_voip;
-        QThread* t;
-        QMutex mutex;
-};
-
-VOIPThread& getVOIP();
-
+VOIP& getVOIP();
 #endif

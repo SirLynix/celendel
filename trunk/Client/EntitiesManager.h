@@ -45,6 +45,8 @@ class EntitiesManager : public QWidget
 
         friend class CharactersManager;
 
+        EntityInformations* findEntity(const QString&);
+
         bool m_GM;
 
         EditorDialog *m_editor;

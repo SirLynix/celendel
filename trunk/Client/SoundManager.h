@@ -7,9 +7,9 @@
 #include "SFML\Audio.hpp"
 
 #define LIB_FOLDER "Sounds/"
-#define TMP_FOLDER QDir::tempPath()+QDir::separator()+"Celendel"+QDir::separator()+"SoundCache"+QDir::separator()
+#define TMP_FOLDER QDir::tempPath()+"/Celendel/SoundCache/"
 #define LIB_EXT ".soundlib"
-#define RAM_CACHE_LIMIT 1024*512 //512ko
+#define RAM_CACHE_LIMIT 1024*64 //64ko
 
 #define LR(a) (a>=0&&a<m_libs.size())
 #define SR(l,a) (a>=0&&LR(l)&&a<m_libs[l]->sounds.size())
@@ -46,7 +46,7 @@ struct SoundLib
 
     QStringList getSoundList() const;
 
-    static bool createSoundLib(const QString& name, const QStringList& fileList, LVER ver=0);
+    static bool createSoundLib(const QString& name, const QStringList& fileList, LVER ver=0, const QString& folder = "");
     static bool createSoundLib(const QString& name, const QString& folder, LVER ver=0);
 
     private:

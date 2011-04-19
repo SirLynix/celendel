@@ -63,48 +63,13 @@ QString getOALCurrentDevice(bool output)
 
 using namespace VOIPSystem;
 
-VOIPThread& getVOIP()
+
+VOIP& getVOIP()
 {
-    static VOIPThread voip;
+    static VOIP voip;
     return voip;
 }
 
-VOIPThread::VOIPThread(QObject* p): QThread(p)
-{
-    t=NULL;
-    m_voip=new VOIP();
-    start();
-    while(t==NULL) { mutex.lock(); msleep(1); mutex.unlock();}
-    mutex.lock();
-    m_voip->moveToThread(t);
-    t=NULL;
-    mutex.unlock();
-}
-
-void VOIPThread::run()
-{
-    mutex.lock();
-    t=this;
-    mutex.unlock();
-    while(t!=NULL) { mutex.lock(); msleep(1); mutex.unlock(); }
-
-    mutex.lock();
-    m_voip->setParent(this);
-
-    connect(m_voip, SIGNAL(dataPerSecond(int, int)), this, SLOT(dtaPS(int,int)),Qt::QueuedConnection);
-    mutex.unlock();
-
-    exec();
-}
-
-VOIPThread::~VOIPThread()
-{
-    quit();
-    mutex.lock();
-    delete m_voip;
-    m_voip=NULL;
-    mutex.unlock();
-}
 
 VOIP::VOIP(QObject* p) : QObject(p), speex(SAMPLE_RATE)
 {
@@ -113,7 +78,8 @@ VOIP::VOIP(QObject* p) : QObject(p), speex(SAMPLE_RATE)
     rec->startRecord();
     connect(rec, SIGNAL(readyRead(ALshortVector)), &speex, SLOT(encode(ALshortVector)), Qt::QueuedConnection);
     connect(&speex, SIGNAL(encoded(QByteArray)), this, SLOT(send(QByteArray)), Qt::QueuedConnection);
-    QTimer* updateT = new QTimer(this);
+
+    QTimer* updateT = new QTimer;
     connect(updateT, SIGNAL(timeout()), this, SLOT(update()));
     updateT->start(1000);
     udpSocket = new QUdpSocket(this);
@@ -122,6 +88,10 @@ VOIP::VOIP(QObject* p) : QObject(p), speex(SAMPLE_RATE)
     m_enabled=true;
     setQuality(4);
     m_port=VOIP_DEFAULT_PORT;
+
+    updateT->moveToThread(&m_thread);
+    moveToThread(&m_thread);
+    m_thread.start();
 }
 
 VOIP::~VOIP()

@@ -11,6 +11,7 @@ class QGroupBox;
 class QLabel;
 class QPushButton;
 class QAction;
+class EntityMaker;
 
 class EditorDialog;
 
@@ -29,6 +30,7 @@ class ScriptManager : public QWidget
 
         void showScriptText(QString script, QString text);
         void openEditor();
+        void openEntMaker();
 
         void sendScript(QString name, QString content);
         void openContextMenu(const QPoint& p);
@@ -51,6 +53,9 @@ class ScriptManager : public QWidget
     private:
         QStringList m_scripts;
 
+
+        EntityMaker *m_entMaker;
+
         QListWidget* m_list;
         QGroupBox* m_gb;
 
@@ -60,6 +65,7 @@ class ScriptManager : public QWidget
         QAction* m_makeEntity;
 
         QPushButton* m_openEditor;
+        QPushButton* m_openEntMaker;
 
         EditorDialog* m_editor;
 

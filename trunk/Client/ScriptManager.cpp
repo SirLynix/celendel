@@ -1,5 +1,3 @@
-#include "ScriptManager.h"
-
 #include <QListWidget>
 #include <QTextEdit>
 #include <QGroupBox>
@@ -9,15 +7,23 @@
 #include <QAction>
 #include <QLineEdit>
 #include <QInputDialog>
-
-#include "EditorDialog.h"
 #include <QMenu>
+
+#include "ScriptManager.h"
+#include "EntityMaker.h"
+#include "EditorDialog.h"
+
 
 ScriptManager::ScriptManager(QWidget* parent):QWidget(parent)
 {
     m_GM = false;
     m_editor = new EditorDialog(this, SCRIPT_EDIT);
     connect(m_editor, SIGNAL(sendScriptToServer(QString,QString)), this, SLOT(sendScript(QString,QString)));
+
+
+    m_entMaker = new EntityMaker(this);
+    m_entMaker->hide();
+    connect(m_entMaker, SIGNAL(sendScript(QString,QString)), this, SLOT(sendScript(QString,QString)));
 
     m_download = new QAction(tr("Télécharger"), this);
     connect(m_download, SIGNAL(triggered()), this, SLOT(ac_download()));
@@ -29,13 +35,13 @@ ScriptManager::ScriptManager(QWidget* parent):QWidget(parent)
     connect(m_delete, SIGNAL(triggered()), this, SLOT(ac_delete()));
 
 
-    QHBoxLayout* lay = new QHBoxLayout;
+    QVBoxLayout* lay = new QVBoxLayout;
 
     {
     m_list = new QListWidget(this);
     m_list->setContextMenuPolicy(Qt::CustomContextMenu);
     connect(m_list, SIGNAL(customContextMenuRequested(const QPoint&)), this, SLOT(openContextMenu(const QPoint&)));
-    m_gb = new QGroupBox(tr("Script sur le serveur"), this);
+    m_gb = new QGroupBox(tr("Scripts sur le serveur"), this);
 
     QVBoxLayout* l = new QVBoxLayout;
     l->addWidget(m_list);
@@ -43,12 +49,24 @@ ScriptManager::ScriptManager(QWidget* parent):QWidget(parent)
     }
     lay->addWidget(m_gb);
 
-
+    {
+    QHBoxLayout* hl = new QHBoxLayout;
     m_openEditor = new QPushButton(tr("Ouvrir l'éditeur"), this);
     connect(m_openEditor, SIGNAL(pressed()), this, SLOT(openEditor()));
-    lay->addWidget(m_openEditor);
+    hl->addWidget(m_openEditor);
+    m_openEntMaker = new QPushButton(tr("Ouvrir l'éditeur d'entitées"), this);
+    connect(m_openEntMaker, SIGNAL(pressed()), this, SLOT(openEntMaker()));
+    hl->addWidget(m_openEntMaker);
+    lay->addLayout(hl);
+    }
+
 
     setLayout(lay);
+}
+
+void ScriptManager::openEntMaker()
+{
+    m_entMaker->show();
 }
 
 void ScriptManager::openEditor()
@@ -145,7 +163,6 @@ void ScriptManager::ac_makeEntity()
 
 void ScriptManager::sendScript(QString name, QString content)
 {
-    DEB() << "ScriptManager " << name;
     emit sendScriptToServer(name, content);
 }
 
@@ -159,5 +176,6 @@ void ScriptManager::updateScriptList(QStringList list)
 void ScriptManager::showScriptText(QString script, QString text)
 {
     m_editor->setText(text); m_editor->setScriptName(script);
+    m_entMaker->setScript(text); m_entMaker->setScriptName(script);
 }
 

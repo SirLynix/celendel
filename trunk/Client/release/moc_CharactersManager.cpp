@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Meta object code from reading C++ file 'CharactersManager.h'
 **
-** Created: Thu 14. Apr 10:46:58 2011
+** Created: Tue 19. Apr 15:08:02 2011
 **      by: The Qt Meta Object Compiler version 62 (Qt 4.7.0)
 **
 ** WARNING! All changes made in this file will be lost!
@@ -23,7 +23,7 @@ static const uint qt_meta_data_CharactersManager[] = {
        5,       // revision
        0,       // classname
        0,    0, // classinfo
-       3,   14, // methods
+       2,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
@@ -32,8 +32,7 @@ static const uint qt_meta_data_CharactersManager[] = {
 
  // slots: signature, parameters, type, tag, flags
       24,   19,   18,   18, 0x0a,
-      67,   65,   57,   18, 0x0a,
-     104,   18,   18,   18, 0x08,
+      57,   18,   18,   18, 0x08,
 
        0        // eod
 };
@@ -41,7 +40,6 @@ static const uint qt_meta_data_CharactersManager[] = {
 static const char qt_meta_stringdata_CharactersManager[] = {
     "CharactersManager\0\0list\0"
     "updateCharacterList(QStringList)\0"
-    "QString\0e\0getCharacterName(EntityInformations)\0"
     "update()\0"
 };
 
@@ -75,12 +73,10 @@ int CharactersManager::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_c == QMetaObject::InvokeMetaMethod) {
         switch (_id) {
         case 0: updateCharacterList((*reinterpret_cast< const QStringList(*)>(_a[1]))); break;
-        case 1: { QString _r = getCharacterName((*reinterpret_cast< const EntityInformations(*)>(_a[1])));
-            if (_a[0]) *reinterpret_cast< QString*>(_a[0]) = _r; }  break;
-        case 2: update(); break;
+        case 1: update(); break;
         default: ;
         }
-        _id -= 3;
+        _id -= 2;
     }
     return _id;
 }

@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Meta object code from reading C++ file 'ScriptEnvironnement.h'
 **
-** Created: Thu 14. Apr 16:03:46 2011
+** Created: Tue 19. Apr 15:06:00 2011
 **      by: The Qt Meta Object Compiler version 62 (Qt 4.7.0)
 **
 ** WARNING! All changes made in this file will be lost!
@@ -63,7 +63,8 @@ static const char qt_meta_stringdata_ScriptEnvironnement[] = {
     "dataChanged()\0s_sendGMMsg(QString)\0"
     "s_sendOwnerMsg(QString)\0s_sendMsg(QString)\0"
     "msg,regexp\0s_sendPlayerMsg(QString,QString)\0"
-    "m\0s_luaError(QString)\0s_registerCharacter()\0"
+    "m\0s_luaError(QString)\0"
+    "s_registerCharacter(QString)\0"
 };
 
 const QMetaObject ScriptEnvironnement::staticMetaObject = {
@@ -108,7 +109,7 @@ int ScriptEnvironnement::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
         case 10: s_sendMsg((*reinterpret_cast< QString(*)>(_a[1]))); break;
         case 11: s_sendPlayerMsg((*reinterpret_cast< QString(*)>(_a[1])),(*reinterpret_cast< QString(*)>(_a[2]))); break;
         case 12: s_luaError((*reinterpret_cast< QString(*)>(_a[1]))); break;
-        case 13: s_registerCharacter(); break;
+        case 13: s_registerCharacter((*reinterpret_cast< QString(*)>(_a[1]))); break;
         default: ;
         }
         _id -= 14;
