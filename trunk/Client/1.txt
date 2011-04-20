@@ -1,0 +1,2 @@
+
+C:\Users\Gigotdarnaud\Desktop\Celendel\Client>mingw32-make release --jobs=4  1>out.txt 

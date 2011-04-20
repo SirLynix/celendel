@@ -50,7 +50,7 @@ QAction *ac_mapInformations = renderingMenu->addAction(tr("Informations sur la c
 ac_mapInformations->setWhatsThis(tr("Affiche quelques informations très interessantes sur la carte. Vraiment."));
 connect(ac_mapInformations, SIGNAL(triggered()), m_mapWi, SLOT(openMapInfoDialog()));
 QAction *ac_mapEditor = renderingMenu->addAction(tr("Ouvrir l'éditeur de cartes"));
-ac_mapEditor->setWhatsThis(tr("Ouvre l'éditeur de carte."));
+ac_mapEditor->setWhatsThis(tr("Ouvre l'éditeur de carte. Utile comme aide, n'est-ce pas ?"));
 connect(ac_mapEditor, SIGNAL(triggered()), this, SLOT(openMapEditor()));
 
 // ABOUT MENU
@@ -106,6 +106,27 @@ resize(1024,768);
 setTabPosition(Qt::AllDockWidgetAreas, QTabWidget::North);
 setDockNestingEnabled(true);
 
+///MAP DOCK
+QDockWidget *mapDock = new QDockWidget(tr("Carte"), this);
+ON(mapDock);
+mapDock->setWhatsThis(tr("Le dock de la carte"));
+mapDock->setFeatures(QDockWidget::NoDockWidgetFeatures);
+mapDock->setFeatures(QDockWidget::DockWidgetFloatable|QDockWidget::DockWidgetMovable);
+
+QWidget *w_mapDock = new QWidget(mapDock);
+mapDock->setWidget(w_mapDock);
+QVBoxLayout *l_mapDock = new QVBoxLayout(w_mapDock);
+w_mapDock->setLayout(l_mapDock);
+
+
+l_mapDock->addWidget(m_mapWi);
+
+m_flare = new QPushButton(tr("Montrer"), this);
+connect(m_flare, SIGNAL(pressed()),this,SLOT(mapFlare()));
+l_mapDock->addWidget(m_flare);
+
+addDockWidget(Qt::TopDockWidgetArea, mapDock);
+
 ///MAIN CHAT DOCK
 QDockWidget *chatDock = new QDockWidget(tr("Chat"), this);
 ON(chatDock);
@@ -141,7 +162,6 @@ l_narratorDock->addWidget(m_narrator);
 addDockWidget(Qt::RightDockWidgetArea, narratorDock);
 
 tabifyDockWidget(chatDock, narratorDock);
-
 
 ///RP CHAT DOCK
 QDockWidget *RPChatDock = new QDockWidget(tr("Jeu de rôle"), this);

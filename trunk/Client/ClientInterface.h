@@ -82,6 +82,7 @@ class ClientInterface : public QMainWindow
         void openMapEditor();
         void clearMapEditor();
 
+        void mapFlare();
 
         void resetData();
 
@@ -165,7 +166,9 @@ class ClientInterface : public QMainWindow
         QPushButton* m_rollTheDice;
         QPushButton* m_rollSpecialDice;
 
+        ///Map dock
         MapWidget* m_mapWi;
+        QPushButton* m_flare;
 
         ///GM Panel
         QDockWidget *m_GMPanelDock;

@@ -9,6 +9,7 @@
 #include <QMouseEvent>
 #include <QSettings>
 #include <QGraphicsPixmapItem>
+#include <QGraphicsColorizeEffect>
 #include <QGraphicsRectItem>
 
 using std::auto_ptr;
@@ -511,7 +512,16 @@ void MapWidget::drawBloc(QPoint casePos, RSID id, const QColor& hue)
 
 void MapWidget::drawBloc(int caseX, int caseY, RSID id, const QColor& hue)
 {
-    m_scene.addPixmap(*m_ressources.value(id, m_ressources[0]))->setPos(caseX*BLOC_SIZE, caseY*BLOC_SIZE);
+    QGraphicsPixmapItem *it = m_scene.addPixmap(*m_ressources.value(id, m_ressources[0]));
+    it->setPos(caseX*BLOC_SIZE, caseY*BLOC_SIZE);
+    if(hue != QColor(255,255,255))
+    {
+        QGraphicsColorizeEffect *eff = new QGraphicsColorizeEffect;
+        eff->setColor(hue);
+        eff->setStrength(0.75f);
+        it->setGraphicsEffect(eff);
+        it->setOpacity(hue.alphaF());
+    }
 }
 
 bool MapWidget::isMapValid() const
@@ -605,16 +615,15 @@ void MapWidget::mouseReleaseEvent(QMouseEvent* event)
 
     }
 
-
     QGraphicsView::mouseReleaseEvent(event);
 }
 
-void MapWidget::leaveEvent (QEvent *event)
+void MapWidget::leaveEvent(QEvent*)
 {
     m_mouseInside=false;
 }
 
-void MapWidget::enterEvent (QEvent *event)
+void MapWidget::enterEvent(QEvent*)
 {
     m_mouseInside=true;
 }

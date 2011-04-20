@@ -2,9 +2,14 @@
 #define ENTITIESMANAGER_H
 
 #include <QWidget>
-#include "..\Shared\Constants.h"
+#include "../Shared/Constants.h"
+#include <QDataStream>
 
 #include "CharactersManager.h"
+
+QDataStream &operator<<(QDataStream & ds, const EntitiesManager& p);
+QDataStream &operator>>(QDataStream & ds, EntitiesManager& p);
+
 
 class QTreeView;
 class QStandardItemModel;
@@ -44,6 +49,10 @@ class EntitiesManager : public QWidget
     private:
 
         friend class CharactersManager;
+
+        friend QDataStream &operator<<(QDataStream & ds, const EntitiesManager& p);
+        friend QDataStream &operator>>(QDataStream & ds, EntitiesManager& p);
+
 
         EntityInformations* findEntity(const QString&);
 

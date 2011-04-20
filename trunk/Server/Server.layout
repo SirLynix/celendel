@@ -46,7 +46,7 @@
 	<File name="main.cpp" open="0" top="0" tabpos="3">
 		<Cursor position="178" topLine="0" />
 	</File>
-	<File name="..\Shared\Constants.h" open="0" top="0" tabpos="5">
+	<File name="..\Shared\Constants.h" open="1" top="0" tabpos="5">
 		<Cursor position="2762" topLine="93" />
 	</File>
 	<File name="..\Shared\LuaSystem\ScriptSandbox.cpp" open="0" top="0" tabpos="0">
@@ -67,10 +67,10 @@
 	<File name="..\Shared\LuaSystem\luaHeader.h" open="0" top="0" tabpos="3">
 		<Cursor position="898" topLine="0" />
 	</File>
-	<File name="..\Shared\MapStructs.h" open="0" top="0" tabpos="1">
+	<File name="..\Shared\MapStructs.h" open="1" top="0" tabpos="1">
 		<Cursor position="948" topLine="2" />
 	</File>
-	<File name="..\Shared\Miscelaneous.cpp" open="1" top="0" tabpos="0">
+	<File name="..\Shared\Miscelaneous.cpp" open="0" top="0" tabpos="0">
 		<Cursor position="598" topLine="10" />
 	</File>
 	<File name="..\Shared\Packet.cpp" open="0" top="0" tabpos="2">
@@ -80,9 +80,9 @@
 		<Cursor position="788" topLine="0" />
 	</File>
 	<File name="..\Shared\Serializer.cpp" open="0" top="0" tabpos="1">
-		<Cursor position="1674" topLine="65" />
+		<Cursor position="21066" topLine="1103" />
 	</File>
-	<File name="..\Shared\Serializer.h" open="0" top="0" tabpos="1">
+	<File name="..\Shared\Serializer.h" open="1" top="0" tabpos="1">
 		<Cursor position="998" topLine="0" />
 	</File>
 </CodeBlocks_layout_file>

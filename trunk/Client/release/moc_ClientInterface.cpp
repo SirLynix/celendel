@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Meta object code from reading C++ file 'ClientInterface.h'
 **
-** Created: Tue 19. Apr 15:07:24 2011
+** Created: Wed 20. Apr 12:17:02 2011
 **      by: The Qt Meta Object Compiler version 62 (Qt 4.7.0)
 **
 ** WARNING! All changes made in this file will be lost!
@@ -23,7 +23,7 @@ static const uint qt_meta_data_ClientInterface[] = {
        5,       // revision
        0,       // classname
        0,    0, // classinfo
-      76,   14, // methods
+      77,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
@@ -71,42 +71,43 @@ static const uint qt_meta_data_ClientInterface[] = {
      922,   16,   16,   16, 0x08,
      938,   16,   16,   16, 0x08,
      955,   16,   16,   16, 0x08,
-     976,  967,   16,   16, 0x08,
-     992,   16,   16,   16, 0x28,
-    1006, 1001,   16,   16, 0x08,
-    1028,   16,   16,   16, 0x28,
-    1043,  691,   16,   16, 0x08,
-    1066,   16,   16,   16, 0x08,
-    1079,   16,   16,   16, 0x08,
-    1091,   16,   16,   16, 0x08,
-    1106,   16,   16,   16, 0x08,
-    1123,   16,   16,   16, 0x08,
-    1133,   16,   16,   16, 0x08,
-    1147,   16,   16,   16, 0x08,
-    1173,   16,   16,   16, 0x08,
-    1216,   16,   16,   16, 0x08,
-    1271, 1266,   16,   16, 0x08,
-    1310, 1305,   16,   16, 0x08,
-    1354, 1341,   16,   16, 0x08,
-    1390, 1305,   16,   16, 0x08,
-    1425, 1412,   16,   16, 0x08,
-    1471, 1455,   16,   16, 0x08,
-    1499, 1305,   16,   16, 0x08,
-    1537, 1521,   16,   16, 0x08,
-    1573, 1565,   16,   16, 0x08,
-    1604, 1565,   16,   16, 0x08,
-    1638, 1565,   16,   16, 0x08,
-    1671, 1565,   16,   16, 0x08,
-    1706, 1565,   16,   16, 0x08,
-    1733, 1565,   16,   16, 0x08,
-    1771, 1762,   16,   16, 0x08,
-    1829,   16,   16,   16, 0x08,
-    1846,   16,   16,   16, 0x08,
+     966,   16,   16,   16, 0x08,
+     987,  978,   16,   16, 0x08,
+    1003,   16,   16,   16, 0x28,
+    1017, 1012,   16,   16, 0x08,
+    1039,   16,   16,   16, 0x28,
+    1054,  691,   16,   16, 0x08,
+    1077,   16,   16,   16, 0x08,
+    1090,   16,   16,   16, 0x08,
+    1102,   16,   16,   16, 0x08,
+    1117,   16,   16,   16, 0x08,
+    1134,   16,   16,   16, 0x08,
+    1144,   16,   16,   16, 0x08,
+    1158,   16,   16,   16, 0x08,
+    1184,   16,   16,   16, 0x08,
+    1227,   16,   16,   16, 0x08,
+    1282, 1277,   16,   16, 0x08,
+    1321, 1316,   16,   16, 0x08,
+    1365, 1352,   16,   16, 0x08,
+    1401, 1316,   16,   16, 0x08,
+    1436, 1423,   16,   16, 0x08,
+    1482, 1466,   16,   16, 0x08,
+    1510, 1316,   16,   16, 0x08,
+    1548, 1532,   16,   16, 0x08,
+    1584, 1576,   16,   16, 0x08,
+    1615, 1576,   16,   16, 0x08,
+    1649, 1576,   16,   16, 0x08,
+    1682, 1576,   16,   16, 0x08,
+    1717, 1576,   16,   16, 0x08,
+    1744, 1576,   16,   16, 0x08,
+    1782, 1773,   16,   16, 0x08,
+    1840,   16,   16,   16, 0x08,
     1857,   16,   16,   16, 0x08,
     1868,   16,   16,   16, 0x08,
-    1887,   16,   16,   16, 0x08,
-    1903,   16,   16,   16, 0x08,
-    1924, 1922,   16,   16, 0x08,
+    1879,   16,   16,   16, 0x08,
+    1898,   16,   16,   16, 0x08,
+    1914,   16,   16,   16, 0x08,
+    1935, 1933,   16,   16, 0x08,
 
        0        // eod
 };
@@ -140,11 +141,12 @@ static const char qt_meta_stringdata_ClientInterface[] = {
     "switchConnectionState()\0openSettings()\0"
     "openSoundsGUI()\0aboutUs()\0aboutServer()\0"
     "openMapEditor()\0clearMapEditor()\0"
-    "resetData()\0fileName\0setCSS(QString)\0"
-    "setCSS()\0path\0setInterface(QString)\0"
-    "setInterface()\0playerListMenu(QPoint)\0"
-    "actionKick()\0actionBan()\0actionVoteGM()\0"
-    "actionChangeGM()\0refresh()\0textChanged()\0"
+    "mapFlare()\0resetData()\0fileName\0"
+    "setCSS(QString)\0setCSS()\0path\0"
+    "setInterface(QString)\0setInterface()\0"
+    "playerListMenu(QPoint)\0actionKick()\0"
+    "actionBan()\0actionVoteGM()\0actionChangeGM()\0"
+    "refresh()\0textChanged()\0"
     "narrationChanged(QString)\0"
     "syncSoundLibs(QList<SoundLibInformations>)\0"
     "syncLanguagesList(QList<QPair<QString,QString> >)\0"
@@ -240,46 +242,47 @@ int ClientInterface::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
         case 36: aboutServer(); break;
         case 37: openMapEditor(); break;
         case 38: clearMapEditor(); break;
-        case 39: resetData(); break;
-        case 40: setCSS((*reinterpret_cast< const QString(*)>(_a[1]))); break;
-        case 41: setCSS(); break;
-        case 42: setInterface((*reinterpret_cast< const QString(*)>(_a[1]))); break;
-        case 43: setInterface(); break;
-        case 44: playerListMenu((*reinterpret_cast< const QPoint(*)>(_a[1]))); break;
-        case 45: actionKick(); break;
-        case 46: actionBan(); break;
-        case 47: actionVoteGM(); break;
-        case 48: actionChangeGM(); break;
-        case 49: refresh(); break;
-        case 50: textChanged(); break;
-        case 51: narrationChanged((*reinterpret_cast< QString(*)>(_a[1]))); break;
-        case 52: syncSoundLibs((*reinterpret_cast< QList<SoundLibInformations>(*)>(_a[1]))); break;
-        case 53: syncLanguagesList((*reinterpret_cast< QList<QPair<QString,QString> >(*)>(_a[1]))); break;
-        case 54: syncDictionariesList((*reinterpret_cast< QStringList(*)>(_a[1]))); break;
-        case 55: requestScriptDownload((*reinterpret_cast< QString(*)>(_a[1]))); break;
-        case 56: sendScriptToServer((*reinterpret_cast< QString(*)>(_a[1])),(*reinterpret_cast< QString(*)>(_a[2]))); break;
-        case 57: deleteScript((*reinterpret_cast< QString(*)>(_a[1]))); break;
-        case 58: renameScript((*reinterpret_cast< QString(*)>(_a[1])),(*reinterpret_cast< QString(*)>(_a[2]))); break;
-        case 59: makeEntity((*reinterpret_cast< QString(*)>(_a[1])),(*reinterpret_cast< QString(*)>(_a[2]))); break;
-        case 60: deleteEntity((*reinterpret_cast< const QString(*)>(_a[1]))); break;
-        case 61: injectCode((*reinterpret_cast< QString(*)>(_a[1])),(*reinterpret_cast< QString(*)>(_a[2]))); break;
-        case 62: scriptToGMMsg((*reinterpret_cast< QString(*)>(_a[1])),(*reinterpret_cast< QString(*)>(_a[2]))); break;
-        case 63: scriptToOwnerMsg((*reinterpret_cast< QString(*)>(_a[1])),(*reinterpret_cast< QString(*)>(_a[2]))); break;
-        case 64: scriptActionMsg((*reinterpret_cast< QString(*)>(_a[1])),(*reinterpret_cast< QString(*)>(_a[2]))); break;
-        case 65: scriptToPlayerMsg((*reinterpret_cast< QString(*)>(_a[1])),(*reinterpret_cast< QString(*)>(_a[2]))); break;
-        case 66: scriptMsg((*reinterpret_cast< QString(*)>(_a[1])),(*reinterpret_cast< QString(*)>(_a[2]))); break;
-        case 67: scriptError((*reinterpret_cast< QString(*)>(_a[1])),(*reinterpret_cast< QString(*)>(_a[2]))); break;
-        case 68: sendMapToServer((*reinterpret_cast< const MapInformations*const(*)>(_a[1])),(*reinterpret_cast< const QMap<QString,RSID>(*)>(_a[2]))); break;
-        case 69: addDictionnary(); break;
-        case 70: saveGame(); break;
-        case 71: loadGame(); break;
-        case 72: VOIPRemoveClient(); break;
-        case 73: VOIPAddClient(); break;
-        case 74: VOIPClientVolume(); break;
-        case 75: dataPerSecond((*reinterpret_cast< int(*)>(_a[1])),(*reinterpret_cast< int(*)>(_a[2]))); break;
+        case 39: mapFlare(); break;
+        case 40: resetData(); break;
+        case 41: setCSS((*reinterpret_cast< const QString(*)>(_a[1]))); break;
+        case 42: setCSS(); break;
+        case 43: setInterface((*reinterpret_cast< const QString(*)>(_a[1]))); break;
+        case 44: setInterface(); break;
+        case 45: playerListMenu((*reinterpret_cast< const QPoint(*)>(_a[1]))); break;
+        case 46: actionKick(); break;
+        case 47: actionBan(); break;
+        case 48: actionVoteGM(); break;
+        case 49: actionChangeGM(); break;
+        case 50: refresh(); break;
+        case 51: textChanged(); break;
+        case 52: narrationChanged((*reinterpret_cast< QString(*)>(_a[1]))); break;
+        case 53: syncSoundLibs((*reinterpret_cast< QList<SoundLibInformations>(*)>(_a[1]))); break;
+        case 54: syncLanguagesList((*reinterpret_cast< QList<QPair<QString,QString> >(*)>(_a[1]))); break;
+        case 55: syncDictionariesList((*reinterpret_cast< QStringList(*)>(_a[1]))); break;
+        case 56: requestScriptDownload((*reinterpret_cast< QString(*)>(_a[1]))); break;
+        case 57: sendScriptToServer((*reinterpret_cast< QString(*)>(_a[1])),(*reinterpret_cast< QString(*)>(_a[2]))); break;
+        case 58: deleteScript((*reinterpret_cast< QString(*)>(_a[1]))); break;
+        case 59: renameScript((*reinterpret_cast< QString(*)>(_a[1])),(*reinterpret_cast< QString(*)>(_a[2]))); break;
+        case 60: makeEntity((*reinterpret_cast< QString(*)>(_a[1])),(*reinterpret_cast< QString(*)>(_a[2]))); break;
+        case 61: deleteEntity((*reinterpret_cast< const QString(*)>(_a[1]))); break;
+        case 62: injectCode((*reinterpret_cast< QString(*)>(_a[1])),(*reinterpret_cast< QString(*)>(_a[2]))); break;
+        case 63: scriptToGMMsg((*reinterpret_cast< QString(*)>(_a[1])),(*reinterpret_cast< QString(*)>(_a[2]))); break;
+        case 64: scriptToOwnerMsg((*reinterpret_cast< QString(*)>(_a[1])),(*reinterpret_cast< QString(*)>(_a[2]))); break;
+        case 65: scriptActionMsg((*reinterpret_cast< QString(*)>(_a[1])),(*reinterpret_cast< QString(*)>(_a[2]))); break;
+        case 66: scriptToPlayerMsg((*reinterpret_cast< QString(*)>(_a[1])),(*reinterpret_cast< QString(*)>(_a[2]))); break;
+        case 67: scriptMsg((*reinterpret_cast< QString(*)>(_a[1])),(*reinterpret_cast< QString(*)>(_a[2]))); break;
+        case 68: scriptError((*reinterpret_cast< QString(*)>(_a[1])),(*reinterpret_cast< QString(*)>(_a[2]))); break;
+        case 69: sendMapToServer((*reinterpret_cast< const MapInformations*const(*)>(_a[1])),(*reinterpret_cast< const QMap<QString,RSID>(*)>(_a[2]))); break;
+        case 70: addDictionnary(); break;
+        case 71: saveGame(); break;
+        case 72: loadGame(); break;
+        case 73: VOIPRemoveClient(); break;
+        case 74: VOIPAddClient(); break;
+        case 75: VOIPClientVolume(); break;
+        case 76: dataPerSecond((*reinterpret_cast< int(*)>(_a[1])),(*reinterpret_cast< int(*)>(_a[2]))); break;
         default: ;
         }
-        _id -= 76;
+        _id -= 77;
     }
     return _id;
 }

@@ -3,8 +3,9 @@
 #define VERSION (qint32)0
 #define MAGIC_NUMBER (quint32)0x1337C0D3
 #include <QDateTime>
+#include "EntitiesManager.h"
 #include "SoundManager.h"
-#include "..\Shared\Serializer.h"
+#include "../Shared/Serializer.h"
 
 void ClientInterface::saveGame()
 {
@@ -41,6 +42,7 @@ void ClientInterface::saveGame()
     out << m_narrator->toHtml();
     out << m_RPChat->toHtml();
     out << sndMngr.loadedLibs();
+    out << *m_entitiesManager;
 
     file.write(qCompress(dta));
 
@@ -106,6 +108,7 @@ void ClientInterface::loadGame()
     QStringList libs;
     in >> libs;
     sndMngr.setLibList(libs);
+    in >> *m_entitiesManager;
 
     QMessageBox::information(this, tr("Partie chargée avec succès !"), tr("Partie chargée avec succès depuis le fichier \"%1\".").arg(fileName));
 }

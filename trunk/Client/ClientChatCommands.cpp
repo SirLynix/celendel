@@ -228,7 +228,7 @@ void ClientInterface::sendMessage()
 
             m_network->send(ETI(SERVER_NAME), serialiseServerNameData(txt.mid( spl[0].size()).trimmed()));
         }
-        else if(txt.startsWith("/stopsounds"));
+        else if(txt.startsWith("/stopsounds"))
         {
             sndMngr.stopSounds();
             show=false;
