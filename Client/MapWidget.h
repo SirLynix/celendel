@@ -110,7 +110,7 @@ class MapWidget : public QGraphicsView
 
     private:
 
-    void drawBloc(QPoint casePos, RSID id, const QColor& hue= QColor(255,255,255));
+    void drawBloc(QPoint casePos, RSID id, const QColor& hue=QColor(255,255,255));
     void drawBloc(int caseX, int caseY, RSID id, const QColor& hue= QColor(255,255,255));
     void drawBlockHighlight(const QPoint& casePos, const QColor& color, float width);
     void drawBlockHighlight(int x, int y, const QColor& color, float width, bool noDelete=false);

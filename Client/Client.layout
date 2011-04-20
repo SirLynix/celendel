@@ -17,22 +17,22 @@
 		<Cursor position="1809" topLine="0" />
 	</File>
 	<File name="ClientChatCommands.cpp" open="0" top="0" tabpos="1">
-		<Cursor position="4564" topLine="75" />
+		<Cursor position="9375" topLine="189" />
 	</File>
 	<File name="ClientGMInterface.cpp" open="0" top="0" tabpos="2">
 		<Cursor position="698" topLine="0" />
 	</File>
 	<File name="ClientInterface.cpp" open="0" top="0" tabpos="1">
-		<Cursor position="1940" topLine="15" />
+		<Cursor position="728" topLine="9" />
 	</File>
 	<File name="ClientInterface.h" open="0" top="0" tabpos="2">
-		<Cursor position="377" topLine="0" />
+		<Cursor position="2528" topLine="54" />
 	</File>
 	<File name="ClientInterfaceScripts.cpp" open="0" top="0" tabpos="0">
 		<Cursor position="1669" topLine="9" />
 	</File>
 	<File name="ClientMapInterface.cpp" open="0" top="0" tabpos="4">
-		<Cursor position="793" topLine="0" />
+		<Cursor position="1102" topLine="0" />
 	</File>
 	<File name="ClientNetwork.cpp" open="0" top="0" tabpos="1">
 		<Cursor position="3451" topLine="79" />
@@ -44,7 +44,7 @@
 		<Cursor position="1227" topLine="27" />
 	</File>
 	<File name="ClientSave.cpp" open="0" top="0" tabpos="0">
-		<Cursor position="917" topLine="0" />
+		<Cursor position="143" topLine="0" />
 	</File>
 	<File name="ClientSettings.cpp" open="0" top="0" tabpos="1">
 		<Cursor position="17934" topLine="437" />
@@ -62,19 +62,19 @@
 		<Cursor position="264" topLine="0" />
 	</File>
 	<File name="EntitiesManager.cpp" open="0" top="0" tabpos="2">
-		<Cursor position="1760" topLine="36" />
+		<Cursor position="207" topLine="0" />
 	</File>
 	<File name="EntitiesManager.h" open="0" top="0" tabpos="1">
-		<Cursor position="1072" topLine="10" />
+		<Cursor position="1317" topLine="4" />
 	</File>
-	<File name="EntityMaker.cpp" open="1" top="0" tabpos="3">
+	<File name="EntityMaker.cpp" open="0" top="0" tabpos="3">
 		<Cursor position="1827" topLine="51" />
 	</File>
-	<File name="EntityMaker.h" open="1" top="0" tabpos="4">
+	<File name="EntityMaker.h" open="0" top="0" tabpos="4">
 		<Cursor position="644" topLine="0" />
 	</File>
 	<File name="GUI.cpp" open="0" top="0" tabpos="3">
-		<Cursor position="3953" topLine="26" />
+		<Cursor position="1246" topLine="0" />
 	</File>
 	<File name="MapEditor.cpp" open="0" top="0" tabpos="1">
 		<Cursor position="19772" topLine="580" />
@@ -88,11 +88,11 @@
 	<File name="MapEditorDialogs.h" open="0" top="0" tabpos="2">
 		<Cursor position="1381" topLine="28" />
 	</File>
-	<File name="MapWidget.cpp" open="0" top="0" tabpos="2">
-		<Cursor position="12770" topLine="463" />
+	<File name="MapWidget.cpp" open="1" top="1" tabpos="1">
+		<Cursor position="13925" topLine="486" />
 	</File>
 	<File name="MapWidget.h" open="0" top="0" tabpos="4">
-		<Cursor position="5341" topLine="115" />
+		<Cursor position="3735" topLine="86" />
 	</File>
 	<File name="QColorPicker\QColorPickerWidget.cpp" open="0" top="0" tabpos="1">
 		<Cursor position="620" topLine="12" />
@@ -131,10 +131,10 @@
 		<Cursor position="440" topLine="0" />
 	</File>
 	<File name="SoundManager.cpp" open="0" top="0" tabpos="4">
-		<Cursor position="517" topLine="0" />
+		<Cursor position="2358" topLine="69" />
 	</File>
 	<File name="SoundManager.h" open="0" top="0" tabpos="3">
-		<Cursor position="316" topLine="0" />
+		<Cursor position="1018" topLine="22" />
 	</File>
 	<File name="SoundsGUI.cpp" open="0" top="0" tabpos="3">
 		<Cursor position="2123" topLine="45" />
@@ -142,10 +142,10 @@
 	<File name="SoundsGUI.h" open="0" top="0" tabpos="0">
 		<Cursor position="144" topLine="0" />
 	</File>
-	<File name="TableEditor.cpp" open="1" top="1" tabpos="2">
-		<Cursor position="1561" topLine="33" />
+	<File name="TableEditor.cpp" open="0" top="0" tabpos="2">
+		<Cursor position="1571" topLine="33" />
 	</File>
-	<File name="TableEditor.h" open="1" top="0" tabpos="1">
+	<File name="TableEditor.h" open="0" top="0" tabpos="1">
 		<Cursor position="1209" topLine="0" />
 	</File>
 	<File name="VOIP\Global.h" open="0" top="0" tabpos="0">
@@ -170,13 +170,13 @@
 		<Cursor position="221" topLine="0" />
 	</File>
 	<File name="VOIP\Speex.cpp" open="0" top="0" tabpos="1">
-		<Cursor position="111" topLine="0" />
+		<Cursor position="211" topLine="0" />
 	</File>
 	<File name="VOIP\Speex.h" open="0" top="0" tabpos="2">
 		<Cursor position="240" topLine="0" />
 	</File>
 	<File name="VOIP\VOIP.cpp" open="0" top="0" tabpos="3">
-		<Cursor position="1381" topLine="63" />
+		<Cursor position="2045" topLine="63" />
 	</File>
 	<File name="VOIP\VOIP.h" open="0" top="0" tabpos="2">
 		<Cursor position="2484" topLine="43" />
@@ -185,7 +185,7 @@
 		<Cursor position="556" topLine="0" />
 	</File>
 	<File name="..\Shared\Constants.h" open="0" top="0" tabpos="0">
-		<Cursor position="2948" topLine="92" />
+		<Cursor position="5468" topLine="167" />
 	</File>
 	<File name="..\Shared\LuaSystem\ScriptedEntity.cpp" open="0" top="0" tabpos="0">
 		<Cursor position="4456" topLine="164" />
@@ -197,7 +197,7 @@
 		<Cursor position="157" topLine="0" />
 	</File>
 	<File name="..\Shared\MapStructs.h" open="0" top="0" tabpos="0">
-		<Cursor position="291" topLine="2" />
+		<Cursor position="263" topLine="2" />
 	</File>
 	<File name="..\Shared\Miscelaneous.cpp" open="0" top="0" tabpos="0">
 		<Cursor position="1218" topLine="9" />
@@ -212,6 +212,6 @@
 		<Cursor position="742" topLine="0" />
 	</File>
 	<File name="..\Shared\Serializer.h" open="0" top="0" tabpos="0">
-		<Cursor position="3275" topLine="36" />
+		<Cursor position="6823" topLine="103" />
 	</File>
 </CodeBlocks_layout_file>

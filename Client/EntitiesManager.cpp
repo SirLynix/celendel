@@ -7,8 +7,23 @@
 
 #include "EntitiesManager.h"
 #include "EditorDialog.h"
+#include "../Shared/Serializer.h"
 
 #define DTANAMID Qt::UserRole+1337
+
+QDataStream &operator<<(QDataStream & ds, const EntitiesManager& p)
+{
+    ds << p.m_entities;
+    return ds;
+}
+
+QDataStream &operator>>(QDataStream & ds, EntitiesManager& p)
+{
+    QList<EntityInformations> e;
+    ds>>e;
+    p.setEntities(e);
+    return ds;
+}
 
 EntitiesManager::EntitiesManager(QWidget* _parent) : QWidget(_parent)
 {

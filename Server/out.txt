@@ -1,0 +1,4 @@
+mingw32-make -f Makefile.Release
+mingw32-make[1]: Entering directory `C:/Users/Gigotdarnaud/Desktop/Celendel/Server'
+mingw32-make[1]: Nothing to be done for `first'.
+mingw32-make[1]: Leaving directory `C:/Users/Gigotdarnaud/Desktop/Celendel/Server'

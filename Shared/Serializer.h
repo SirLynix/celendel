@@ -150,4 +150,7 @@ QByteArray serialiseDeleteEntityData(const QString& name);
 bool extractCharacterListData(QByteArray& data, QStringList& list);
 QByteArray serialiseCharacterListData(const QStringList& list);
 
+bool extractMapFlareData(QByteArray& data, QPoint& coords, CLID& who);
+QByteArray serialiseMapFlareData(const QPoint& coords, CLID who);
+
 #endif

@@ -1139,3 +1139,26 @@ QByteArray serialiseCharacterListData(const QStringList& list)
     return qCompress(data);
 }
 
+bool extractMapFlareData(QByteArray& data, QPoint& coords, CLID& who)
+{
+    QV(data);
+    QDataStream in(data);
+    in>>coords;
+    R(in);
+    in>>who;
+    R(in);
+
+    return false;
+}
+
+QByteArray serialiseMapFlareData(const QPoint& coords, CLID who)
+{
+    QByteArray data;
+    QDataStream out(&data, QIODevice::ReadWrite);
+
+    out<<coords;
+    out<<who;
+
+    return data;
+}
+

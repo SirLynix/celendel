@@ -23,14 +23,7 @@ ClientInterface::ClientInterface()
     qMetaTypeId<QStringPairList>();
 
     m_mapEditor=NULL;
-
     m_mapWi=new MapWidget(this);
-    QDockWidget *mapDock = new QDockWidget(tr("Carte"), this);
-    mapDock->setWhatsThis(tr("Le dock de la carte"));
-    mapDock->setFeatures(QDockWidget::NoDockWidgetFeatures);
-    mapDock->setFeatures(QDockWidget::DockWidgetFloatable|QDockWidget::DockWidgetMovable);
-    mapDock->setWidget(m_mapWi);
-    addDockWidget(Qt::TopDockWidgetArea, mapDock);
 
     buildGUI();
 

@@ -31,3 +31,7 @@ void ClientInterface::sendMapToServer(const MapInformations* const map, const QM
         m_network->send(ETI(UPDATE_RESSOURCES), serialiseUpdateRessourcesData(ress));
 }
 
+void ClientInterface::mapFlare()
+{
+
+}

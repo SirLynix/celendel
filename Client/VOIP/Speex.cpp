@@ -1,11 +1,14 @@
 #include "Speex.h"
 
+#include <iostream>
+#include <fstream>
+
+#include <cstdio>
+
 namespace VOIPSystem
 {
 
-Speex::Speex(int sampleRate, QObject*p)
-        : QObject(p),m_sampleRate(sampleRate)
-        , m_frameSize(0)
+Speex::Speex(int sampleRate, QObject*p) : QObject(p),m_sampleRate(sampleRate), m_frameSize(0)
 {
     speex_bits_init(&ebits);
     enc_state = speex_encoder_init(&speex_nb_mode);
