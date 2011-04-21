@@ -102,6 +102,7 @@ ClientInterface::ClientInterface()
     connect(m_network, SIGNAL(scriptMsg(QString,QString)), this, SLOT(scriptMsg(QString,QString)));
     connect(m_network, SIGNAL(scriptError(QString,QString)), this, SLOT(scriptError(QString,QString)));
     connect(m_network, SIGNAL(updateCharacterList(const QStringList&)), m_characterMngr, SLOT(updateCharacterList(const QStringList&)));
+    connect(m_network, SIGNAL(mapFlare(QPoint,CLID)), m_mapWi, SLOT(flare(QPoint,CLID)));
 
     getVOIP().setEnabled(set->value(PARAM_VOIP_ENABLED, true).toBool());
     getVOIP().setVolume(set->value(PARAM_VOIP_SOUND, 100.f).toFloat());

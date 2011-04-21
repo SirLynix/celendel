@@ -65,8 +65,8 @@ int RSIDDialog::changeLine(RSID id, const QString& name)
 AddObjectDialog::AddObjectDialog(QWidget* parent, QPoint defaultCase, QPoint maxCase, QString defaultText, RSID defaultRSID) : QDialog(parent)
 {
     ui.setupUi(this);
-    ui.coordX->setValue(defaultCase.x()); ui.coordX->setMaximum(MAP_MAX_SIZE);
-    ui.coordY->setValue(defaultCase.y()); ui.coordY->setMaximum(MAP_MAX_SIZE);
+    ui.coordX->setValue(defaultCase.x()); ui.coordX->setMaximum(maxCase.x());
+    ui.coordY->setValue(defaultCase.y()); ui.coordY->setMaximum(maxCase.y());
     ui.text->setText(defaultText);
     ui.RSIDSpinBox->setValue(defaultRSID); ui.RSIDSpinBox->setMaximum(MAX_LOADED_RESSOURCES);
 

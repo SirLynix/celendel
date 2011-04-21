@@ -11,7 +11,7 @@ QColorViewer::QColorViewer(QWidget *parent):QWidget(parent)
     setMinimumSize(15, 15);
 }
 
-void QColorViewer::paintEvent(QPaintEvent *event)
+void QColorViewer::paintEvent(QPaintEvent*)
 {
     QPainter p(this);
     p.setPen(actualPen);

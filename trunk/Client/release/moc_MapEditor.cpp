@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Meta object code from reading C++ file 'MapEditor.h'
 **
-** Created: Wed 20. Apr 13:10:03 2011
+** Created: Thu 21. Apr 13:28:28 2011
 **      by: The Qt Meta Object Compiler version 62 (Qt 4.7.0)
 **
 ** WARNING! All changes made in this file will be lost!
@@ -23,7 +23,7 @@ static const uint qt_meta_data_MapEditor[] = {
        5,       // revision
        0,       // classname
        0,    0, // classinfo
-      43,   14, // methods
+      39,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
@@ -47,35 +47,31 @@ static const uint qt_meta_data_MapEditor[] = {
      268,   10,   84,   10, 0x0a,
      288,   10,   84,   10, 0x0a,
      315,  302,   84,   10, 0x0a,
-     338,   10,   84,   10, 0x0a,
-     365,  348,   84,   10, 0x0a,
-     400,  392,   84,   10, 0x2a,
-     419,   10,   84,   10, 0x2a,
-     431,   10,   10,   10, 0x0a,
-     442,  438,   10,   10, 0x0a,
-     456,   10,   10,   10, 0x0a,
-     472,  464,   10,   10, 0x08,
-     502,  494,   10,   10, 0x08,
-     530,  464,   10,   10, 0x08,
-     556,  464,   10,   10, 0x08,
-     586,   10,   10,   10, 0x08,
-     606,   10,   10,   10, 0x08,
-     638,  632,   84,   10, 0x08,
-     657,  632,   84,   10, 0x08,
-     684,   10,   10,   10, 0x08,
-     699,   10,   84,   10, 0x08,
-     719,  717,   10,   10, 0x08,
-     746,   10,   10,   10, 0x08,
-     778,  769,   10,   10, 0x08,
-     812,   10,   10,   10, 0x08,
-     825,   10,   10,   10, 0x08,
-     841,   10,   10,   10, 0x08,
-     854,   10,   10,   10, 0x08,
-     865,   10,   10,   10, 0x08,
-     878,   10,   10,   10, 0x08,
-     892,  890,   10,   10, 0x08,
-     945,  914,   84,   10, 0x08,
-     989,   10,   10,   10, 0x08,
+     338,   10,   10,   10, 0x0a,
+     349,  345,   10,   10, 0x0a,
+     363,   10,   10,   10, 0x0a,
+     379,  371,   10,   10, 0x08,
+     409,  401,   10,   10, 0x08,
+     437,  371,   10,   10, 0x08,
+     463,  371,   10,   10, 0x08,
+     493,   10,   10,   10, 0x08,
+     513,   10,   10,   10, 0x08,
+     545,  539,   84,   10, 0x08,
+     564,  539,   84,   10, 0x08,
+     591,   10,   10,   10, 0x08,
+     606,   10,   84,   10, 0x08,
+     626,  624,   10,   10, 0x08,
+     653,   10,   10,   10, 0x08,
+     685,  676,   10,   10, 0x08,
+     719,   10,   10,   10, 0x08,
+     732,   10,   10,   10, 0x08,
+     748,   10,   10,   10, 0x08,
+     761,   10,   10,   10, 0x08,
+     772,   10,   10,   10, 0x08,
+     785,   10,   10,   10, 0x08,
+     799,  797,   10,   10, 0x08,
+     852,  821,   84,   10, 0x08,
+     896,   10,   10,   10, 0x08,
 
        0        // eod
 };
@@ -90,11 +86,9 @@ static const char qt_meta_stringdata_MapEditor[] = {
     "newMap()\0saveRessourcePackAs(QString)\0"
     "saveRessourcePackAs()\0saveRessourcePack()\0"
     "replaceRSID()\0before,after\0"
-    "replaceRSID(RSID,RSID)\0saveAll()\0"
-    "mapName,ressName\0saveAllAs(QString,QString)\0"
-    "mapName\0saveAllAs(QString)\0saveAllAs()\0"
-    "copy()\0pos\0paste(QPoint)\0paste()\0"
-    "newCase\0changeCasePos(QPoint)\0newArea\0"
+    "replaceRSID(RSID,RSID)\0copy()\0pos\0"
+    "paste(QPoint)\0paste()\0newCase\0"
+    "changeCasePos(QPoint)\0newArea\0"
     "changeSelectedArea(MapArea)\0"
     "changeCurrentCase(QPoint)\0"
     "refreshMapObjectsList(QPoint)\0"
@@ -167,46 +161,38 @@ int MapEditor::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
             if (_a[0]) *reinterpret_cast< bool*>(_a[0]) = _r; }  break;
         case 13: { bool _r = replaceRSID((*reinterpret_cast< RSID(*)>(_a[1])),(*reinterpret_cast< RSID(*)>(_a[2])));
             if (_a[0]) *reinterpret_cast< bool*>(_a[0]) = _r; }  break;
-        case 14: { bool _r = saveAll();
+        case 14: copy(); break;
+        case 15: paste((*reinterpret_cast< QPoint(*)>(_a[1]))); break;
+        case 16: paste(); break;
+        case 17: changeCasePos((*reinterpret_cast< QPoint(*)>(_a[1]))); break;
+        case 18: changeSelectedArea((*reinterpret_cast< MapArea(*)>(_a[1]))); break;
+        case 19: changeCurrentCase((*reinterpret_cast< QPoint(*)>(_a[1]))); break;
+        case 20: refreshMapObjectsList((*reinterpret_cast< QPoint(*)>(_a[1]))); break;
+        case 21: refreshObjetsList(); break;
+        case 22: refreshGlobalObjetsList(); break;
+        case 23: { bool _r = selectMapItem((*reinterpret_cast< int(*)>(_a[1])));
             if (_a[0]) *reinterpret_cast< bool*>(_a[0]) = _r; }  break;
-        case 15: { bool _r = saveAllAs((*reinterpret_cast< QString(*)>(_a[1])),(*reinterpret_cast< QString(*)>(_a[2])));
+        case 24: { bool _r = selectMapItem((*reinterpret_cast< const QModelIndex(*)>(_a[1])));
             if (_a[0]) *reinterpret_cast< bool*>(_a[0]) = _r; }  break;
-        case 16: { bool _r = saveAllAs((*reinterpret_cast< QString(*)>(_a[1])));
+        case 25: addMapObject(); break;
+        case 26: { bool _r = removeMapObject();
             if (_a[0]) *reinterpret_cast< bool*>(_a[0]) = _r; }  break;
-        case 17: { bool _r = saveAllAs();
+        case 27: changeCurrentCaseRSID((*reinterpret_cast< int(*)>(_a[1]))); break;
+        case 28: updateRessourcesList(); break;
+        case 29: ressourceLoadingProgress((*reinterpret_cast< int(*)>(_a[1])),(*reinterpret_cast< int(*)>(_a[2]))); break;
+        case 30: btnMapSend(); break;
+        case 31: modifyRssMngr(); break;
+        case 32: addRssMngr(); break;
+        case 33: modified(); break;
+        case 34: unmodified(); break;
+        case 35: resetCopy(); break;
+        case 36: enableMapSystem((*reinterpret_cast< bool(*)>(_a[1]))); break;
+        case 37: { bool _r = createEmptyMap((*reinterpret_cast< QPoint(*)>(_a[1])),(*reinterpret_cast< const QString(*)>(_a[2])),(*reinterpret_cast< const QString(*)>(_a[3])),(*reinterpret_cast< RSID(*)>(_a[4])));
             if (_a[0]) *reinterpret_cast< bool*>(_a[0]) = _r; }  break;
-        case 18: copy(); break;
-        case 19: paste((*reinterpret_cast< QPoint(*)>(_a[1]))); break;
-        case 20: paste(); break;
-        case 21: changeCasePos((*reinterpret_cast< QPoint(*)>(_a[1]))); break;
-        case 22: changeSelectedArea((*reinterpret_cast< MapArea(*)>(_a[1]))); break;
-        case 23: changeCurrentCase((*reinterpret_cast< QPoint(*)>(_a[1]))); break;
-        case 24: refreshMapObjectsList((*reinterpret_cast< QPoint(*)>(_a[1]))); break;
-        case 25: refreshObjetsList(); break;
-        case 26: refreshGlobalObjetsList(); break;
-        case 27: { bool _r = selectMapItem((*reinterpret_cast< int(*)>(_a[1])));
-            if (_a[0]) *reinterpret_cast< bool*>(_a[0]) = _r; }  break;
-        case 28: { bool _r = selectMapItem((*reinterpret_cast< const QModelIndex(*)>(_a[1])));
-            if (_a[0]) *reinterpret_cast< bool*>(_a[0]) = _r; }  break;
-        case 29: addMapObject(); break;
-        case 30: { bool _r = removeMapObject();
-            if (_a[0]) *reinterpret_cast< bool*>(_a[0]) = _r; }  break;
-        case 31: changeCurrentCaseRSID((*reinterpret_cast< int(*)>(_a[1]))); break;
-        case 32: updateRessourcesList(); break;
-        case 33: ressourceLoadingProgress((*reinterpret_cast< int(*)>(_a[1])),(*reinterpret_cast< int(*)>(_a[2]))); break;
-        case 34: btnMapSend(); break;
-        case 35: modifyRssMngr(); break;
-        case 36: addRssMngr(); break;
-        case 37: modified(); break;
-        case 38: unmodified(); break;
-        case 39: resetCopy(); break;
-        case 40: enableMapSystem((*reinterpret_cast< bool(*)>(_a[1]))); break;
-        case 41: { bool _r = createEmptyMap((*reinterpret_cast< QPoint(*)>(_a[1])),(*reinterpret_cast< const QString(*)>(_a[2])),(*reinterpret_cast< const QString(*)>(_a[3])),(*reinterpret_cast< RSID(*)>(_a[4])));
-            if (_a[0]) *reinterpret_cast< bool*>(_a[0]) = _r; }  break;
-        case 42: changeRsMngrFilter((*reinterpret_cast< const QString(*)>(_a[1]))); break;
+        case 38: changeRsMngrFilter((*reinterpret_cast< const QString(*)>(_a[1]))); break;
         default: ;
         }
-        _id -= 43;
+        _id -= 39;
     }
     return _id;
 }

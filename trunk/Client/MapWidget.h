@@ -8,6 +8,7 @@
 class QTimer;
 class MapEditor;
 class QGraphicsRectItem;
+class Flare;
 
 void swp (int& x1, int& x2);
 
@@ -79,6 +80,8 @@ class MapWidget : public QGraphicsView
 
     void repaintBackground();
 
+    void flare(QPoint,CLID);
+    void flare(QPoint,QColor);
 
     void openMapInfoDialog();
     void setMap(MapPtr);
@@ -110,8 +113,8 @@ class MapWidget : public QGraphicsView
 
     private:
 
-    void drawBloc(QPoint casePos, RSID id, const QColor& hue=QColor(255,255,255));
-    void drawBloc(int caseX, int caseY, RSID id, const QColor& hue= QColor(255,255,255));
+    void drawBloc(QPoint casePos, RSID id, const QColor& hue=QColor(255,255,255), qreal hueStrenght=0.75f);
+    void drawBloc(int caseX, int caseY, RSID id, const QColor& hue= QColor(255,255,255), qreal hueStrenght=0.75f);
     void drawBlockHighlight(const QPoint& casePos, const QColor& color, float width);
     void drawBlockHighlight(int x, int y, const QColor& color, float width, bool noDelete=false);
     void drawBlockBox(QPoint casePos, QPoint caseEndPos, const QColor& color, float width);
@@ -126,6 +129,8 @@ class MapWidget : public QGraphicsView
     bool caseCanBeSeen(QPoint casePos) const;
     bool pixelCanBeSeen(int x,int y) const;
     bool caseCanBeSeen(int x,int y) const;
+
+    void cleanFlares();
 
     bool m_multiSelectionEnabled;
     bool m_mouseDown;
@@ -163,6 +168,8 @@ class MapWidget : public QGraphicsView
 
     QList<QGraphicsRectItem*> m_tempItems;
     void clearTemporaryItems();
+
+    QList<Flare*> m_flares;
 
 };
 

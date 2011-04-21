@@ -44,7 +44,6 @@ QString Server::translateText(const QString& text, const QString& language, CLID
 
     for(int i=0,m=l.size();i<m;++i)
     {
-        DEB() << l[i].first << l[i].second;
         if(l[i].first == language)
             return m_translator.translate(text, l[i].first, l[i].second);
     }
@@ -233,6 +232,8 @@ void Server::processData(std::auto_ptr<Packet> pa, CLID cID)
                 ply->nickname=nick;
                 m_network->sendToAll(ETI(NEW_NICK),serialiseNewNickData(ply->ID(),nick));
             }
+            else
+                m_network->sendToClient(cID, ETI(ERROR), serialiseErrorData(ETI(INVALID_NICKNAME)));
         }
         break;
         case GTFO_LYNIX:
@@ -323,7 +324,7 @@ void Server::processData(std::auto_ptr<Packet> pa, CLID cID)
         case PLAY_SOUND:
         {
             GM_CHECK();
-            m_network->sendToAll(/*pa*/pa.get(), false);
+            m_network->sendToAll(pa.get(), false);
         }
         break;
         case ROLL_DICE:
@@ -530,6 +531,14 @@ void Server::processData(std::auto_ptr<Packet> pa, CLID cID)
             else
                 m_network->sendToClient(cID, ETI(DELETE_ENTITY), serialiseDeleteEntityData(name));
 
+        }
+        break;
+        case MAP_FLARE:
+        {
+            QPoint c; CLID w=0;
+            QE(extractMapFlareData(pa->data, c, w));
+            if((unsigned)c.x()<m_map->mapSizeX() && (unsigned)c.y()<m_map->mapSizeY())
+                m_network->sendToAll(ETI(MAP_FLARE), serialiseMapFlareData(c,cID));
         }
         break;
         default:

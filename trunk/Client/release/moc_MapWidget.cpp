@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Meta object code from reading C++ file 'MapWidget.h'
 **
-** Created: Wed 20. Apr 13:10:01 2011
+** Created: Thu 21. Apr 13:28:26 2011
 **      by: The Qt Meta Object Compiler version 62 (Qt 4.7.0)
 **
 ** WARNING! All changes made in this file will be lost!
@@ -23,7 +23,7 @@ static const uint qt_meta_data_MapWidget[] = {
        5,       // revision
        0,       // classname
        0,    0, // classinfo
-       9,   14, // methods
+      11,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
@@ -38,10 +38,12 @@ static const uint qt_meta_data_MapWidget[] = {
 
  // slots: signature, parameters, type, tag, flags
      142,   10,   10,   10, 0x0a,
-     162,   10,   10,   10, 0x0a,
-     182,   10,   10,   10, 0x0a,
-     202,  197,   10,   10, 0x0a,
-     239,   10,   10,   10, 0x08,
+     164,  162,   10,   10, 0x0a,
+     183,  162,   10,   10, 0x0a,
+     204,   10,   10,   10, 0x0a,
+     224,   10,   10,   10, 0x0a,
+     244,  239,   10,   10, 0x0a,
+     281,   10,   10,   10, 0x08,
 
        0        // eod
 };
@@ -51,7 +53,8 @@ static const char qt_meta_stringdata_MapWidget[] = {
     "highlightedCaseChanged(QPoint)\0area\0"
     "mapAreaSelected(MapArea)\0curr,max\0"
     "ressourceLoadingProgress(int,int)\0"
-    "repaintBackground()\0openMapInfoDialog()\0"
+    "repaintBackground()\0,\0flare(QPoint,CLID)\0"
+    "flare(QPoint,QColor)\0openMapInfoDialog()\0"
     "setMap(MapPtr)\0list\0"
     "updateRessources(QMap<QString,RSID>)\0"
     "onUpdate()\0"
@@ -91,13 +94,15 @@ int MapWidget::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
         case 2: mapAreaSelected((*reinterpret_cast< MapArea(*)>(_a[1]))); break;
         case 3: ressourceLoadingProgress((*reinterpret_cast< int(*)>(_a[1])),(*reinterpret_cast< int(*)>(_a[2]))); break;
         case 4: repaintBackground(); break;
-        case 5: openMapInfoDialog(); break;
-        case 6: setMap((*reinterpret_cast< MapPtr(*)>(_a[1]))); break;
-        case 7: updateRessources((*reinterpret_cast< const QMap<QString,RSID>(*)>(_a[1]))); break;
-        case 8: onUpdate(); break;
+        case 5: flare((*reinterpret_cast< QPoint(*)>(_a[1])),(*reinterpret_cast< CLID(*)>(_a[2]))); break;
+        case 6: flare((*reinterpret_cast< QPoint(*)>(_a[1])),(*reinterpret_cast< QColor(*)>(_a[2]))); break;
+        case 7: openMapInfoDialog(); break;
+        case 8: setMap((*reinterpret_cast< MapPtr(*)>(_a[1]))); break;
+        case 9: updateRessources((*reinterpret_cast< const QMap<QString,RSID>(*)>(_a[1]))); break;
+        case 10: onUpdate(); break;
         default: ;
         }
-        _id -= 9;
+        _id -= 11;
     }
     return _id;
 }

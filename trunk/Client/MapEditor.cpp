@@ -1,4 +1,3 @@
-#include "MapEditor.h"
 #include <QFileDialog>
 #include <QMenu>
 #include <QMenuBar>
@@ -24,6 +23,8 @@
 
 #include "QColorPicker/QColorViewer.h"
 #include "MapEditorDialogs.h"
+
+#include "MapEditor.h"
 
 #define UPDATE_DELAY
 
@@ -202,12 +203,6 @@ MapEditor::MapEditor(QWidget* parent, const QString& map, const QString& ressour
     QAction *ac_saveAs = fileMenu->addAction(tr("Sa&uvegarder la carte sous..."));
     connect(ac_saveAs, SIGNAL(triggered()), this, SLOT(saveMapAs()));
 
-    QAction *ac_saveAll = fileMenu->addAction(tr("Tout &sauvegarder..."));
-    connect(ac_saveAll, SIGNAL(triggered()), this, SLOT(saveAll()));
-
-    QAction *ac_saveAllAs = fileMenu->addAction(tr("Tout sauveg&arder sous..."));
-    connect(ac_saveAllAs, SIGNAL(triggered()), this, SLOT(saveAllAs()));
-
     QAction *ac_quit = fileMenu->addAction(tr("&Quitter..."));
     connect(ac_quit, SIGNAL(triggered()), this, SLOT(close()));
 
@@ -299,33 +294,17 @@ bool MapEditor::saveCheck()
     if(!needSave())
         return false;
 
-    QMessageBox::StandardButton ret = QMessageBox::warning(this, tr("Attention"), tr("Tout travail non sauvegardé sera perdu.\nQue faire ?"), QMessageBox::Save|QMessageBox::SaveAll|QMessageBox::Discard|QMessageBox::Cancel);
+    QMessageBox::StandardButton ret = QMessageBox::warning(this, tr("Attention"), tr("Tout travail non sauvegardé sera perdu.\nQue faire ?"), QMessageBox::Save|QMessageBox::Discard|QMessageBox::Cancel);
     if(ret == QMessageBox::Cancel)
         return true;
 
     if(ret == QMessageBox::Discard)
         return false;
 
-    if(ret == QMessageBox::SaveAll)
-        return saveMap()||saveRessourcePack();
-
     if(ret == QMessageBox::Save)
         return saveMap();
 
     return true;
-}
-
-bool MapEditor::saveAll()
-{
-    return saveAllAs(m_mapName, m_ressourcePackName);
-}
-
-bool MapEditor::saveAllAs(QString mapName, QString ressName)
-{
-    if(!isMapValid())
-        return true;
-
-    return saveMapAs(mapName)||saveRessourcePackAs(ressName);
 }
 
 bool MapEditor::saveRessourcePack()
@@ -694,15 +673,12 @@ void MapEditor::copy()
 {
     m_copyArea=m_selectedArea;
     m_copyReady=true;
-    DEB() << "COPY" << m_copyArea.leftUp << m_copyArea.rightDown;
 }
 
 void MapEditor::paste(QPoint pos)
 {
     if(!m_copyReady || !isMapValid())
         return;
-
-    DEB() << "PASTE" << pos << m_copyArea.leftUp << m_copyArea.rightDown;
 
     modified();
     int sizeX=m_mapWidget->m_map->mapSizeX(); int sizeY=m_mapWidget->m_map->mapSizeY();
@@ -714,7 +690,6 @@ void MapEditor::paste(QPoint pos)
         for(int y=0; y<cas.y() && y+pos.y()<sizeY; ++y)
         {
             m_mapWidget->m_map->map[x+pos.x()][y+pos.y()] = m_mapWidget->m_map->map[m_copyArea.leftUp.x()+x][m_copyArea.leftUp.y()+y];
-            DEB() << x << " " << y;
         }
     }
 

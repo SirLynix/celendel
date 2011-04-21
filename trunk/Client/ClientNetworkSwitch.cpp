@@ -262,6 +262,14 @@ void ClientNetwork::operatePacket(Packet* packet)
             emit updateCharacterList(list);
         }
         break;
+        case MAP_FLARE:
+        {
+            QPoint c; CLID w=0;
+            QE(extractMapFlareData(packet->data, c, w));
+
+            emit mapFlare(c,w);
+        }
+        break;
         default:
         break;
     }

@@ -485,6 +485,7 @@ QString ClientSettings::ETS(ENUM_TYPE errorCode, const QString& txt)
         stringMap[CANNOT_OPEN_SCRIPT]=tr("Le script \"%1\" n'a pas pu être ouvert.");
         stringMap[CANNOT_RENAME_SCRIPT]=tr("Le script \"%1\" n'a pas pu être renommé.");
         stringMap[CANNOT_DELETE_SCRIPT]=tr("Le script \"%1\" n'a pas pu être supprimé.");
+        stringMap[INVALID_NICKNAME]=tr("Pseudo invalide.");
         first=false;
     }
 
