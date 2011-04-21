@@ -33,5 +33,6 @@ void ClientInterface::sendMapToServer(const MapInformations* const map, const QM
 
 void ClientInterface::mapFlare()
 {
-
+    if(m_mapWi->isMapValid())
+        m_network->send(ETI(MAP_FLARE), serialiseMapFlareData(m_mapWi->selectedCase(),0));
 }

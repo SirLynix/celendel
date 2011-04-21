@@ -43,7 +43,10 @@ class Server : public QObject
         static bool mkscriptpath(const QString& scriptName);
 
         ServerInformations getServerInformations() const;
+
         CLID nickToCLID(const QString& nick);
+
+        QList<CLID> getMatchingPlayers(const QString& regexp);
 
         QString translateText(const QString& text, const QString& language, CLID cID);
 
@@ -61,7 +64,6 @@ class Server : public QObject
         void updateCharacterList(const QStringList&);
         void sendEntityInfos(const QString& name);
         void sendGMMsg(QString ent, QString);
-        void sendOwnerMsg(QString ent, QString);
         void sendMsg(QString ent, QString);
         void sendPlayerMsg(QString ent, QString msg,QString regexp);
 

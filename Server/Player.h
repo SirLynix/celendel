@@ -14,6 +14,8 @@ class Player : public QObject
         bool isGM() const {return m_GM;}
         bool vote(Player* ply); //Return true if the player already voted.
 
+        bool match(const QString& regexp) const;
+
         QString nickname;
 
     public slots:

@@ -69,7 +69,7 @@ ScriptedEntity::~ScriptedEntity()
     onDeath();
 }
 
-void ScriptedEntity::hook(lua_State *L, lua_Debug *ar)
+void ScriptedEntity::hook(lua_State *L, lua_Debug *)
 {
     if(m_tempusFugit.elapsed() > MAX_EXEC_TIME)
     {

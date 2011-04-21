@@ -1,6 +1,5 @@
 #include "Player.h"
 
-#include <QDebug>
 
 Player::Player(CLID cID, QObject* parent) : QObject(parent), m_ID(cID)
 {
@@ -40,4 +39,10 @@ bool Player::vote(Player* ply)
     m_voted=true;
 
     return false;
+}
+
+bool Player::match(const QString& regexp) const
+{
+    QRegExp reg (regexp);
+    return reg.exactMatch(nickname);
 }

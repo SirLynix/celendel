@@ -62,6 +62,8 @@ class ClientNetwork : public QObject
         void narrationChanged(QString);
         void mapChanged(MapPtr);
 
+        void mapFlare(QPoint,CLID);
+
         void scriptToGMMsg(QString ent, QString txt);
         void scriptToOwnerMsg(QString ent, QString txt);
         void scriptActionMsg(QString ent, QString txt);

@@ -24,6 +24,7 @@ struct MapItem
     RSID rsid;
     QString text;
     QColor color;
+    qreal hueStrenght;
     bool hidden;
 };
 

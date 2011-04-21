@@ -35,7 +35,6 @@ Server::Server(QObject* parent) : QObject(parent)
     connect(&m_scripts, SIGNAL(entityRequireUpdate(const QString&)), this, SLOT(sendEntityInfos(const QString&)));
 
     connect(&m_scripts, SIGNAL(sendGMMsg(QString, QString)), this, SLOT(sendGMMsg(QString, QString)));
-    connect(&m_scripts, SIGNAL(sendOwnerMsg(QString, QString)), this, SLOT(sendOwnerMsg(QString, QString)));
     connect(&m_scripts, SIGNAL(sendMsg(QString, QString)), this, SLOT(sendMsg(QString, QString)));
     connect(&m_scripts, SIGNAL(sendPlayerMsg(QString, QString, QString)), this, SLOT(sendPlayerMsg(QString, QString, QString)));
     connect(&m_scripts, SIGNAL(characterListUpdated(const QStringList&)), this, SLOT(updateCharacterList(const QStringList&)));
@@ -79,6 +78,16 @@ ServerInformations Server::getServerInformations() const
     return si;
 }
 
+QList<CLID> Server::getMatchingPlayers(const QString& regexp)
+{
+    QList<CLID> ret;
+    for(int i=0,m=m_players.size();i<m;++i)
+        if(m_players[i]->match(regexp))
+            ret.append(m_players[i]->ID());
+
+    return ret;
+}
+
 void Server::sendLuaError(QString ent, QString m)
 {
     m_network->sendToClient(m_GMID, ETI(SCRIPT_MESSAGE), serialiseScriptMessageData(ERROR_MSG, ent, m));
@@ -89,20 +98,16 @@ void Server::sendGMMsg(QString ent, QString m)
     m_network->sendToClient(m_GMID, ETI(SCRIPT_MESSAGE), serialiseScriptMessageData(TO_GM, ent, m));
 }
 
-void Server::sendOwnerMsg(QString ent, QString m)
-{
-    // m_network->sendToClient(cID, ETI(SCRIPT_MESSAGE), serialiseScriptMessageData(TO_PLAYER, ent, m));
-}
-
 void Server::sendMsg(QString ent, QString m)
 {
     m_network->sendToAll(ETI(SCRIPT_MESSAGE), serialiseScriptMessageData(TO_ALL, ent, m));
 }
 
-void Server::sendPlayerMsg(QString ent, QString m, QString regexp)
+void Server::sendPlayerMsg(QString ent, QString me, QString regexp)
 {
-
-   // m_network->sendToClient(cID, ETI(SCRIPT_MESSAGE), serialiseScriptMessageData(TO_PLAYER, ent, m));
+    QList<CLID> list = getMatchingPlayers(regexp);
+    for(int i=0,m=list.size();i<m;++i)
+        m_network->sendToClient(list[i], ETI(SCRIPT_MESSAGE), serialiseScriptMessageData(TO_PLAYER, ent, me));
 }
 
 bool Server::mkscriptpath(const QString& scriptName)

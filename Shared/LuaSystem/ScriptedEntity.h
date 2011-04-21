@@ -34,6 +34,7 @@ class ScriptedEntity : public QObject
         QString getName() { return getStr("name"); }
         QString getDescription() { return getStr("description"); }
         QString getType() { return getStr("type"); }
+        QString getOwner(){ return getStr("owner");}
         QString getStr(const QString& name, bool* ok = 0);
 
         QVariant getListStrOrNum(const QString& name, bool* b=0); //Return a QString, a double or a QStringPairList

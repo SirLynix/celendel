@@ -41,9 +41,6 @@ class MapEditor : public QMainWindow
         bool replaceRSID();
         bool replaceRSID(RSID before, RSID after);
 
-        bool saveAll();
-        bool saveAllAs(QString mapName=QString(), QString ressName=QString());
-
         void copy();
         void paste(QPoint pos);
         void paste();

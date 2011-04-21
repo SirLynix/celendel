@@ -1,4 +1,3 @@
-#include "MapWidget.h"
 #include <QFile>
 #include <QDir>
 #include <QDebug>
@@ -12,10 +11,40 @@
 #include <QGraphicsColorizeEffect>
 #include <QGraphicsRectItem>
 
+#include "MapWidget.h"
+
 using std::auto_ptr;
 
 const int& qBound (const int& min,const double& value,const int& max) {return qBound(min, (int)value,max);}
 
+class Flare
+{
+    public:
+        Flare(QColor _color, QPoint _pos, int time)
+        {
+            color=_color;
+            m_time=time;
+            pos=_pos;
+
+            m_timer.start();
+        }
+
+        qreal getAlpha() const
+        {
+            return (sin(m_timer.elapsed()/100)+1.0f)/2.0f;
+        }
+
+        bool isRunning() const
+        {
+            return m_timer.elapsed()<m_time;
+        }
+
+        QColor color;
+        QPoint pos;
+    private:
+        QTime m_timer;
+        int m_time;
+};
 
 MapWidget::MapWidget(QWidget* Parent, double FPS) : QGraphicsView(Parent), m_map(NULL), m_FPS(FPS)
 {
@@ -435,7 +464,7 @@ void MapWidget::onUpdate()
                 }
 
             for(int i=0,m=m_map->mapItems.size();i<m;++i)
-                drawBloc(m_map->mapItems[i].coords, m_map->mapItems[i].rsid, m_map->mapItems[i].color);
+                drawBloc(m_map->mapItems[i].coords, m_map->mapItems[i].rsid, m_map->mapItems[i].color, m_map->mapItems[i].hueStrenght);
 
 
             if(timeWatcher.elapsed() > 1.0f/m_FPS*1000)
@@ -464,10 +493,16 @@ void MapWidget::onUpdate()
                 drawBlockBox(m_mouseDownPos,m_mouseUpPos,QColor(245,200,50,175), 2.f);
             }
         }
-
-
-
         drawBlockHighlight(m_selectedCase, QColor(255,170,25,185), 2.f);
+
+        cleanFlares();
+        for(int i=0,m=m_flares.size();i<m;++i)
+        {
+            QColor col = m_flares[i]->color;
+            col.setAlphaF(m_flares[i]->getAlpha());
+            drawBlockHighlight(m_flares[i]->pos, col, 2.f);
+        }
+
     }
 }
 
@@ -505,12 +540,12 @@ void MapWidget::drawBlockHighlight(int x, int y, const QColor& color, float widt
         m_tempItems.append(it);
 }
 
-void MapWidget::drawBloc(QPoint casePos, RSID id, const QColor& hue)
+void MapWidget::drawBloc(QPoint casePos, RSID id, const QColor& hue, qreal hueStrenght)
 {
-    drawBloc(casePos.x(), casePos.y(), id, hue);
+    drawBloc(casePos.x(), casePos.y(), id, hue, hueStrenght);
 }
 
-void MapWidget::drawBloc(int caseX, int caseY, RSID id, const QColor& hue)
+void MapWidget::drawBloc(int caseX, int caseY, RSID id, const QColor& hue, qreal hueStrenght)
 {
     QGraphicsPixmapItem *it = m_scene.addPixmap(*m_ressources.value(id, m_ressources[0]));
     it->setPos(caseX*BLOC_SIZE, caseY*BLOC_SIZE);
@@ -518,7 +553,7 @@ void MapWidget::drawBloc(int caseX, int caseY, RSID id, const QColor& hue)
     {
         QGraphicsColorizeEffect *eff = new QGraphicsColorizeEffect;
         eff->setColor(hue);
-        eff->setStrength(0.75f);
+        eff->setStrength(hueStrenght);
         it->setGraphicsEffect(eff);
         it->setOpacity(hue.alphaF());
     }
@@ -626,4 +661,44 @@ void MapWidget::leaveEvent(QEvent*)
 void MapWidget::enterEvent(QEvent*)
 {
     m_mouseInside=true;
+}
+
+void MapWidget::flare(QPoint c, CLID w)
+{
+    static QStringList colors = QColor::colorNames();
+    static int m=0;
+    static bool first=true;
+    if(first)
+    {
+        colors.removeOne("black");
+        colors.removeOne("indigo");
+        colors.removeOne("darkslategrey");
+        colors.removeOne("darkslategray");
+        colors.removeOne("midnightblue");
+
+        m=colors.size();
+        first = false;
+    }
+
+    flare(c, colors[w%m]);
+}
+
+void MapWidget::flare(QPoint c, QColor col)
+{
+    if(!isMapValid())
+        return;
+
+    Flare* fl = new Flare(col,c,3000);
+    m_flares.append(fl);
+}
+
+void MapWidget::cleanFlares()
+{
+    for(int i=0,m=m_flares.size();i<m;++i)
+        if(!m_flares[i]->isRunning())
+        {
+            delete m_flares[i];
+            m_flares[i]=NULL;
+        }
+    m_flares.removeAll(NULL);
 }

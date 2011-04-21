@@ -508,6 +508,8 @@ bool extractMapItemsInformationsData(QByteArray& data, QList<MapItem>& mi)
         R(in);
         in>>mi[i].color;
         R(in);
+        in>>mi[i].hueStrenght;
+        R(in);
         in>>mi[i].hidden;
         R(in);
     }
@@ -528,6 +530,7 @@ QByteArray serialiseMapItemsInformationsData(const QList<MapItem>& mi)
         out<<mi[i].text;
         out<<mi[i].color;
         out<<mi[i].hidden;
+        out<<mi[i].hueStrenght;
     }
 
     return qCompress(data);

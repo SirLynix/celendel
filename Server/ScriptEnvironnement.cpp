@@ -156,7 +156,12 @@ void ScriptEnvironnement::s_sendOwnerMsg(QString m)
     QString name = m_entities.key(ent);
     if(name.isEmpty())
         return;
-    emit sendOwnerMsg(name,m);
+
+    QString owner = ent->getOwner();
+    if(owner.isEmpty())
+        return;
+
+    emit sendPlayerMsg(name,m,owner);
 }
 
 void ScriptEnvironnement::s_sendMsg(QString m)
