@@ -211,7 +211,10 @@ void ClientInterface::refresh()
     if(!m_needRefresh || !isGM())
         return;
 
-    m_network->send(ETI(ALL_NARRATION), serialiseAllNarrationData(m_narrator->toHtml()));
+    QString t (m_narrator->toHtml().isEmpty());
+
+    if(!t.isEmpty())
+        m_network->send(ETI(ALL_NARRATION), serialiseAllNarrationData(t));
 
     m_needRefresh=false;
 }

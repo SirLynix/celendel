@@ -15,8 +15,12 @@
 
 #define MOTD_DEFAULT_PATH "MOTD.html"
 
-#define SCRIPT_FOLDER "Scripts/"
 #define SCRIPT_EXT "*.lua"
+
+#define SCRIPTS_ROOT_DIR "Scripts/"
+#define SCRIPTS_TEMPLATES_DIR SCRIPTS_ROOT_DIR"Templates/"
+
+#define AUTOCLOSE_DELAY 1000*15
 
 
 class Server : public QObject
@@ -44,6 +48,8 @@ class Server : public QObject
 
         ServerInformations getServerInformations() const;
 
+        static QString getScriptFolder();
+
         CLID nickToCLID(const QString& nick);
 
         QList<CLID> getMatchingPlayers(const QString& regexp);
@@ -59,7 +65,7 @@ class Server : public QObject
 
         void sendLuaError(QString ent, QString m);
 
-        bool updateScript(const QString& name, const QString& content);
+        bool updateScript(QString name, const QString& content);
 
         void updateCharacterList(const QStringList&);
         void sendEntityInfos(const QString& name);
@@ -71,9 +77,13 @@ class Server : public QObject
         void cleanUp();
         void processData(std::auto_ptr<Packet>, CLID);
 
+        void autoClose();
+
     private:
         ServerNetwork *m_network;
         QList<Player*> m_players;
+
+        QTimer *m_autoClose;
 
         bool m_gameStarted;
 

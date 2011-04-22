@@ -435,7 +435,7 @@ void Server::processData(std::auto_ptr<Packet> pa, CLID cID)
             GM_CHECK();
             QString name;
             QE(extractRequestScriptData(pa->data, name));
-            QFile file (SCRIPT_FOLDER+name);
+            QFile file (getScriptFolder()+name);
             if(!file.open(QIODevice::ReadOnly|QIODevice::Text))
             {
                 m_network->sendToClient(cID, ETI(ERROR), serialiseErrorData(ETI(CANNOT_OPEN_SCRIPT), name));
@@ -452,7 +452,7 @@ void Server::processData(std::auto_ptr<Packet> pa, CLID cID)
             GM_CHECK();
             QString name;
             QE(extractDeleteScriptData(pa->data, name));
-            if(isValidScriptName(name) && QFile::remove(SCRIPT_FOLDER+name))
+            if(isValidScriptName(name) && QFile::remove(getScriptFolder()+name))
             {
                 log("GM removed script \"" + name + "\" from hard drive.");
                 sendScriptList(cID);
@@ -469,11 +469,11 @@ void Server::processData(std::auto_ptr<Packet> pa, CLID cID)
             QString name, newName;
             QE(extractRenameScriptData(pa->data, name, newName));
 
-            QFile f(SCRIPT_FOLDER+name);
+            QFile f(getScriptFolder()+name);
             if(isValidScriptName(name) && isValidScriptName(newName))
             {
                 mkscriptpath(newName);
-                f.rename(SCRIPT_FOLDER+newName);
+                f.rename(getScriptFolder()+newName);
                 log("GM renamed script \"" + name + "\" to \"" + newName + "\"");
                 sendScriptList(cID);
             }
@@ -488,7 +488,7 @@ void Server::processData(std::auto_ptr<Packet> pa, CLID cID)
             GM_CHECK();
             QString name, scriptName;
             QE(extractCreateEntityData(pa->data, name, scriptName));
-            if(!m_scripts.makeEntity(name, SCRIPT_FOLDER+scriptName))
+            if(!m_scripts.makeEntity(name, getScriptFolder()+scriptName))
             {
                 log("GM succefully created new entity \"" + name + "\" from script \"" + scriptName + "\"");
                 m_network->sendToAll(ETI(ENTITIES_INFORMATIONS), serialiseEntitiesInformationsData(m_scripts.getEntitiesInformations()));

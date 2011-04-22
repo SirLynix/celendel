@@ -4,6 +4,7 @@
 #include <QCoreApplication>
 #include <QSettings>
 #include <QStringList>
+#include <QDateTime>
 
 
 Server::Server(QObject* parent) : QObject(parent)
@@ -45,14 +46,39 @@ Server::Server(QObject* parent) : QObject(parent)
     m_map=new MapInformations();
     serverName="Server";
 
+    m_autoClose = new QTimer(this);
+    connect(m_autoClose, SIGNAL(timeout()), this, SLOT(autoClose()));
+    m_autoClose->start(AUTOCLOSE_DELAY);
+
+    cpyWholeDir(SCRIPTS_TEMPLATES_DIR,getScriptFolder());
+
 }
 
 Server::~Server()
 {
     for(int i=0; i<m_players.size();++i)
         delete m_players[i];
-
     delete m_map;
+    rmWholeDir(getScriptFolder());
+}
+
+void Server::autoClose()
+{
+    log("Server inactive, exiting...");
+    qCApp->quit();
+}
+
+QString Server::getScriptFolder()
+{
+    static QString s (SCRIPTS_ROOT_DIR);
+    static bool first = true;
+    if(first)
+    {
+        s += QString::number(QDateTime::currentMSecsSinceEpoch())+'/';
+        first = false;
+    }
+
+    return s;
 }
 
 ServerInformations Server::getServerInformations() const
@@ -115,7 +141,7 @@ bool Server::mkscriptpath(const QString& scriptName)
     if(!isValidScriptName(scriptName))
         return true;
 
-    QString path = SCRIPT_FOLDER+scriptName; path = path.replace('\\', '/');
+    QString path = getScriptFolder()+scriptName; path = path.replace('\\', '/');
     path = path.left(path.lastIndexOf('/'));
 
     return mkpath(path);
@@ -123,11 +149,11 @@ bool Server::mkscriptpath(const QString& scriptName)
 
 bool Server::isValidScriptName(const QString& name)
 {
-    QDir d(SCRIPT_FOLDER+name);
+    QDir d(getScriptFolder()+name);
 
-    if(!d.absolutePath().startsWith(QDir::currentPath()+'/'+SCRIPT_FOLDER))
+    if(!d.absolutePath().startsWith(QDir::currentPath()+'/'+getScriptFolder()))
     {
-        DEB() << "Permission error : " << d.absolutePath() << '\t' << QDir::currentPath()+'/'+SCRIPT_FOLDER;
+        DEB() << "Permission error : " << d.absolutePath() << '\t' << QDir::currentPath()+'/'+getScriptFolder();
         return false;
     }
 
@@ -150,7 +176,7 @@ void Server::sendEntityInfos(const QString& name)
 
 QStringList Server::getScriptList()
 {
-    return listFilesInFolder(SCRIPT_FOLDER, SCRIPT_EXT);
+    return listFilesInFolder(getScriptFolder(), SCRIPT_EXT);
 }
 
 void Server::sendScriptList(CLID cID)
@@ -169,6 +195,7 @@ void Server::addClient(CLID cID)
 {
     m_players.append(new Player(cID));
     log("Player "+QString::number(cID)+" added to game.");
+    m_autoClose->stop();
     m_network->sendToClient(cID, ETI(SET_CLID), serialiseSetCLIDData(cID));
     m_network->sendToClient(cID, ETI(SERVER_INFORMATIONS), serialiseServerInformationsData(getServerInformations()));
     m_network->sendToClient(cID, ETI(UPDATE_RESSOURCES), serialiseUpdateRessourcesData(m_ressources));
@@ -201,14 +228,17 @@ void Server::cleanUp()
     }
 }
 
-bool Server::updateScript(const QString& name, const QString& content)
+bool Server::updateScript(QString name, const QString& content)
 {
+    if(!name.endsWith(SCRIPT_EXT))
+        name+=SCRIPT_EXT;
+
     if(!isValidScriptName(name))
         return true;
 
     mkscriptpath(name);
 
-    QFile file(SCRIPT_FOLDER+name);
+    QFile file(getScriptFolder()+name);
 
     if(!file.open(QIODevice::WriteOnly|QIODevice::Text))
         return true;
@@ -242,6 +272,8 @@ void Server::removeClient(CLID cID)
 
             m_network->sendToAll(ETI(CLIENT_LEFT), serialiseClientLeftData(cID));
             log("Player succefully removed from game.");
+            if(!m_players.size())
+                m_autoClose->start(AUTOCLOSE_DELAY);
             return;
         }
     }

@@ -60,6 +60,9 @@ bool mkpath(const QString& s);
 QStringList listFilesInFolder(const QString& folder, const QStringList& filters, const QString& suff="");
 QStringList listFilesInFolder(const QString& folder, const QString& filter="");
 
+bool rmWholeDir(const QString& dir);
+bool cpyWholeDir(const QString& from, const QString& to);
+
 template < typename T>
 
 bool resize(QList<T>& l, int size, const T& def=T())
