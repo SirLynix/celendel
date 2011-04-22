@@ -15,6 +15,54 @@ bool mkpath(const QString& s)
     return !d.mkpath(s);
 }
 
+bool RemoveDirectory(QDir &aDir)
+{
+    bool err=false;
+    if (aDir.exists())
+    {
+        QFileInfoList entries = aDir.entryInfoList(QDir::NoDotAndDotDot | QDir::Dirs | QDir::Files);
+
+        for (int i=0,m=entries.size();i<m;++i)
+        {
+            QString path = entries[i].absoluteFilePath();
+            if (!entries[i].isDir())
+            {
+                QFile file(path);
+                if (!file.remove())
+                    err=true;
+            }
+            else
+            {
+                QDir d=QDir(path);
+                err=RemoveDirectory(d);
+            }
+        }
+        if (!aDir.rmdir(aDir.absolutePath()))
+            err = true;
+    }
+    return err;
+}
+
+bool rmWholeDir(const QString& dir)
+{
+    QDir d(dir);
+    return !RemoveDirectory(d);
+}
+
+bool cpyWholeDir(const QString& from, const QString& to)
+{
+    bool err=false;
+    QStringList li=listFilesInFolder(from);
+    for(int i=0,m=li.size();i<m;++i)
+    {
+        QString fi=to+li[i];
+        mkpath(fi.left(fi.lastIndexOf('/')));
+        if(!QFile::copy(from+li[i],fi))
+            err=true;
+    }
+    return err;
+}
+
 QString hashFile(const QString& filename, QCryptographicHash::Algorithm al)
 {
     QFile file(filename);
