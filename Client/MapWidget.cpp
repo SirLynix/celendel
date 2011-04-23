@@ -549,7 +549,7 @@ void MapWidget::drawBloc(int caseX, int caseY, RSID id, const QColor& hue, qreal
 {
     QGraphicsPixmapItem *it = m_scene.addPixmap(*m_ressources.value(id, m_ressources[0]));
     it->setPos(caseX*BLOC_SIZE, caseY*BLOC_SIZE);
-    if(hue != QColor(255,255,255))
+    if(hue != QColor(255,255,255) && hueStrenght != 0)
     {
         QGraphicsColorizeEffect *eff = new QGraphicsColorizeEffect;
         eff->setColor(hue);
