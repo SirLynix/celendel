@@ -8,6 +8,8 @@ CONFIG += console
 QT += network
 QT += xml
 
+win32:RC_FILE = Client.rc
+
 
 HEADERS += ClientInterface.h \
            ClientNetwork.h \

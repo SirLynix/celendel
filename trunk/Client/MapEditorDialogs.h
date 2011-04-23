@@ -38,6 +38,7 @@ class RSIDDialog : public QDialog
 
 class AddObjectDialog : public QDialog
 {
+    Q_OBJECT
     public:
     AddObjectDialog(QWidget* parent=0, QPoint defaultCase=QPoint(), QPoint maxCase=QPoint(MAP_MAX_SIZE,MAP_MAX_SIZE), QString defaultText=QString(), RSID defaultRSID=0);
 
@@ -45,8 +46,14 @@ class AddObjectDialog : public QDialog
     QString getText() const;
     RSID getRSID() const;
     QColor getColor() const;
+    int getColorValue() const;
+
+    private slots:
+    void vcng(int);
 
     private:
+
+    bool b;
 
     QColorPickerWidget* m_colorPicker;
 

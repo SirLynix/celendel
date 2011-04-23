@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'MapEditorAddObjectDialog.ui'
 **
-** Created: Thu 21. Apr 13:26:02 2011
+** Created: Sat 23. Apr 14:22:06 2011
 **      by: Qt User Interface Compiler version 4.7.0
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
@@ -22,7 +22,9 @@
 #include <QtGui/QHeaderView>
 #include <QtGui/QLabel>
 #include <QtGui/QLineEdit>
+#include <QtGui/QSlider>
 #include <QtGui/QSpinBox>
+#include <QtGui/QVBoxLayout>
 
 QT_BEGIN_NAMESPACE
 
@@ -40,6 +42,11 @@ public:
     QDialogButtonBox *buttonBox;
     QGroupBox *colorGroupBox;
     QHBoxLayout *horizontalLayout;
+    QVBoxLayout *verticalLayout;
+    QGroupBox *groupBox;
+    QHBoxLayout *horizontalLayout_3;
+    QSlider *valueSlider;
+    QSpinBox *valueSB;
     QHBoxLayout *colorLayout;
 
     void setupUi(QDialog *NewMapItemDialog)
@@ -126,20 +133,43 @@ public:
         colorGroupBox->setCheckable(true);
         horizontalLayout = new QHBoxLayout(colorGroupBox);
         horizontalLayout->setObjectName(QString::fromUtf8("horizontalLayout"));
+        verticalLayout = new QVBoxLayout();
+        verticalLayout->setObjectName(QString::fromUtf8("verticalLayout"));
+        groupBox = new QGroupBox(colorGroupBox);
+        groupBox->setObjectName(QString::fromUtf8("groupBox"));
+        horizontalLayout_3 = new QHBoxLayout(groupBox);
+        horizontalLayout_3->setObjectName(QString::fromUtf8("horizontalLayout_3"));
+        valueSlider = new QSlider(groupBox);
+        valueSlider->setObjectName(QString::fromUtf8("valueSlider"));
+        valueSlider->setMaximum(100);
+        valueSlider->setOrientation(Qt::Horizontal);
+
+        horizontalLayout_3->addWidget(valueSlider);
+
+        valueSB = new QSpinBox(groupBox);
+        valueSB->setObjectName(QString::fromUtf8("valueSB"));
+        valueSB->setAccelerated(true);
+        valueSB->setMaximum(100);
+
+        horizontalLayout_3->addWidget(valueSB);
+
+
+        verticalLayout->addWidget(groupBox);
+
         colorLayout = new QHBoxLayout();
         colorLayout->setObjectName(QString::fromUtf8("colorLayout"));
 
-        horizontalLayout->addLayout(colorLayout);
+        verticalLayout->addLayout(colorLayout);
 
-        buttonBox->raise();
+
+        horizontalLayout->addLayout(verticalLayout);
+
 
         gridLayout->addWidget(colorGroupBox, 6, 0, 1, 2);
 
 
         gridLayout_2->addLayout(gridLayout, 0, 0, 1, 1);
 
-        buttonBox->raise();
-        buttonBox->raise();
 
         retranslateUi(NewMapItemDialog);
 
@@ -157,6 +187,8 @@ public:
         RSIDSpinBox->setSuffix(QString());
         RSIDSpinBox->setPrefix(QApplication::translate("NewMapItemDialog", "RSID : ", 0, QApplication::UnicodeUTF8));
         colorGroupBox->setTitle(QApplication::translate("NewMapItemDialog", "Teinte :", 0, QApplication::UnicodeUTF8));
+        groupBox->setTitle(QApplication::translate("NewMapItemDialog", "Intensit\303\251", 0, QApplication::UnicodeUTF8));
+        valueSB->setSuffix(QApplication::translate("NewMapItemDialog", "%", 0, QApplication::UnicodeUTF8));
     } // retranslateUi
 
 };

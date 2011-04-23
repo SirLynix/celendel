@@ -144,20 +144,50 @@
        </property>
        <layout class="QHBoxLayout" name="horizontalLayout">
         <item>
-         <layout class="QHBoxLayout" name="colorLayout"/>
+         <layout class="QVBoxLayout" name="verticalLayout">
+          <item>
+           <widget class="QGroupBox" name="groupBox">
+            <property name="title">
+             <string>Intensité</string>
+            </property>
+            <layout class="QHBoxLayout" name="horizontalLayout_3">
+             <item>
+              <widget class="QSlider" name="valueSlider">
+               <property name="maximum">
+                <number>100</number>
+               </property>
+               <property name="orientation">
+                <enum>Qt::Horizontal</enum>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QSpinBox" name="valueSB">
+               <property name="accelerated">
+                <bool>true</bool>
+               </property>
+               <property name="suffix">
+                <string>%</string>
+               </property>
+               <property name="maximum">
+                <number>100</number>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </widget>
+          </item>
+          <item>
+           <layout class="QHBoxLayout" name="colorLayout"/>
+          </item>
+         </layout>
         </item>
        </layout>
-       <zorder>horizontalLayoutWidget</zorder>
-       <zorder>buttonBox</zorder>
       </widget>
      </item>
     </layout>
    </item>
   </layout>
-  <zorder>gridLayoutWidget</zorder>
-  <zorder>buttonBox</zorder>
-  <zorder>buttonBox</zorder>
-  <zorder>gridLayoutWidget</zorder>
  </widget>
  <resources/>
  <connections/>

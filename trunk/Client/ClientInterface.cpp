@@ -27,6 +27,8 @@ ClientInterface::ClientInterface()
 
     buildGUI();
 
+    setWindowIcon(QIcon("Img/icon.png"));
+
     QSettings* set=NULL;
     set=allocateSettings();
 

@@ -19,7 +19,7 @@ class QString;
 
 struct MapItem
 {
-    MapItem(QPoint co = QPoint(), RSID p=0, QString txt = QString(), QColor col = QColor(0,0,0)):coords(co), rsid(p), text(txt), color(col), hidden(false) {}
+    MapItem(QPoint co = QPoint(), RSID p=0, QString txt = QString(), QColor col = QColor(0,0,0), qreal _hueStr = 0.75f):coords(co), rsid(p), text(txt), color(col), hueStrenght(_hueStr), hidden(false) {}
     QPoint coords;
     RSID rsid;
     QString text;

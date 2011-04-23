@@ -387,7 +387,7 @@ void MapEditor::addMapObject()
     AddObjectDialog dia(this, m_selectedCase, QPoint(m_mapWidget->m_map->mapSizeX(), m_mapWidget->m_map->mapSizeY()), tr("Nouvel objet"));
     if(dia.exec()==QDialog::Accepted)
     {
-        m_mapWidget->m_map->mapItems.append(MapItem(dia.getCoords(), dia.getRSID(), dia.getText(), dia.getColor()));
+        m_mapWidget->m_map->mapItems.append(MapItem(dia.getCoords(), dia.getRSID(), dia.getText(), dia.getColor(), (qreal)dia.getColorValue()/100.0f));
         refreshObjetsList();
     }
 }

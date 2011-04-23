@@ -64,11 +64,17 @@ int RSIDDialog::changeLine(RSID id, const QString& name)
 
 AddObjectDialog::AddObjectDialog(QWidget* parent, QPoint defaultCase, QPoint maxCase, QString defaultText, RSID defaultRSID) : QDialog(parent)
 {
+    b=false;
     ui.setupUi(this);
     ui.coordX->setValue(defaultCase.x()); ui.coordX->setMaximum(maxCase.x());
     ui.coordY->setValue(defaultCase.y()); ui.coordY->setMaximum(maxCase.y());
     ui.text->setText(defaultText);
     ui.RSIDSpinBox->setValue(defaultRSID); ui.RSIDSpinBox->setMaximum(MAX_LOADED_RESSOURCES);
+
+    connect(ui.valueSB,SIGNAL(valueChanged(int)),ui.valueSlider,SLOT(setValue(int)));
+    connect(ui.valueSlider,SIGNAL(valueChanged(int)),this,SLOT(vcng(int)));
+
+    ui.valueSB->setValue(75);
 
     m_colorPicker = new QColorPickerWidget(this);
     ui.colorLayout->addWidget(m_colorPicker);
@@ -77,9 +83,21 @@ AddObjectDialog::AddObjectDialog(QWidget* parent, QPoint defaultCase, QPoint max
     connect(ui.buttonBox->button(QDialogButtonBox::Cancel), SIGNAL(pressed()), this, SLOT(reject()));
 }
 
+void AddObjectDialog::vcng(int i)
+{
+    if(b)
+    {
+        b=false;
+        return;
+    }
+    b=true;
+    ui.valueSB->setValue(i);
+}
+
 QPoint AddObjectDialog::getCoords() const { return QPoint(ui.coordX->value(), ui.coordY->value()); }
 QString AddObjectDialog::getText() const { return ui.text->text(); }
 RSID AddObjectDialog::getRSID() const { return ui.RSIDSpinBox->value(); }
+int AddObjectDialog::getColorValue() const { if(ui.colorGroupBox->isEnabled()) {return ui.valueSB->value(); } return 0; }
 QColor AddObjectDialog::getColor() const
 {
     if(ui.colorGroupBox->isEnabled())
