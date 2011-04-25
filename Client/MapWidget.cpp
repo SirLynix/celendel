@@ -275,6 +275,13 @@ bool MapWidget::saveMap(const QString& fileName) const
     return MapWidget::saveCompressedMap(fileName, *m_map, m_loadedRessourcesName);
 }
 
+bool MapWidget::saveMapMatrix(const QString& fileName) const
+{
+    if(!isMapValid())
+        return true;
+    return MapWidget::saveMap(m_map.get(),fileName);
+}
+
 bool MapWidget::saveMap(const MapInformations* map, QString fileName) //Static
 {
     if(QDir::isRelativePath(fileName)&&!fileName.startsWith(MAP_FOLDER))

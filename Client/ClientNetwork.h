@@ -5,8 +5,8 @@
 #include <QTcpSocket>
 #include <QStringList>
 #include <QTimer>
-#include "..\Shared\Constants.h"
-#include "..\Shared\Packet.h"
+#include "../Shared/Constants.h"
+#include "../Shared/Packet.h"
 
 
 class ClientNetwork : public QObject

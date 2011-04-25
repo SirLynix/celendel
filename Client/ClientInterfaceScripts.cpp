@@ -1,5 +1,5 @@
 #include "ClientInterface.h"
-#include "..\Shared\Serializer.h"
+#include "../Shared/Serializer.h"
 
 
 void ClientInterface::scriptToGMMsg(QString ent, QString txt)

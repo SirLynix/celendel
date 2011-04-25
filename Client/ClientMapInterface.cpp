@@ -1,7 +1,7 @@
 #include "ClientInterface.h"
 #include "MapEditor.h"
 #include <QDebug>
-#include "..\Shared\Serializer.h"
+#include "../Shared/Serializer.h"
 
 void ClientInterface::openMapEditor()
 {

@@ -2,7 +2,7 @@
 #define DEF_SOUNDSGUI
 
 #include <QtGui>
-#include "..\Shared\Constants.h"
+#include "../Shared/Constants.h"
 
 class dial:public QDialog
 {

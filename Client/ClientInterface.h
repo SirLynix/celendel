@@ -4,7 +4,7 @@
 /* Main client class */
 
 #include <QMainWindow>
-#include "..\Shared\Constants.h"
+#include "../Shared/Constants.h"
 #include "ClientNetwork.h"
 #include "ClientSettings.h"
 

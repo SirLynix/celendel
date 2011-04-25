@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>252</width>
-    <height>280</height>
+    <height>368</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -29,6 +29,9 @@
       </item>
      </layout>
     </widget>
+   </item>
+   <item>
+    <widget class="QComboBox" name="typeCB"/>
    </item>
    <item>
     <widget class="QGroupBox" name="groupBox_2">
@@ -63,6 +66,45 @@
     </widget>
    </item>
    <item>
+    <widget class="QGroupBox" name="groupBox_4">
+     <property name="title">
+      <string>Contenu :</string>
+     </property>
+     <layout class="QHBoxLayout" name="horizontalLayout_3">
+      <item>
+       <widget class="QSpinBox" name="RSIDSpinBox">
+        <property name="prefix">
+         <string>RSID par défault : </string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item>
+    <widget class="QGroupBox" name="groupBox_5">
+     <property name="title">
+      <string>Fichier de carte :</string>
+     </property>
+     <layout class="QHBoxLayout" name="horizontalLayout_4">
+      <item>
+       <widget class="QLineEdit" name="mapFile">
+        <property name="placeholderText">
+         <string>Nom du fichier...</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="mbrowse">
+        <property name="text">
+         <string>...</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item>
     <widget class="QGroupBox" name="groupBox_3">
      <property name="title">
       <string>Set d'image :</string>
@@ -85,22 +127,6 @@
         </property>
         <property name="text">
          <string>...</string>
-        </property>
-       </widget>
-      </item>
-     </layout>
-    </widget>
-   </item>
-   <item>
-    <widget class="QGroupBox" name="groupBox_4">
-     <property name="title">
-      <string>Contenu :</string>
-     </property>
-     <layout class="QHBoxLayout" name="horizontalLayout_3">
-      <item>
-       <widget class="QSpinBox" name="RSIDSpinBox">
-        <property name="prefix">
-         <string>RSID par défault : </string>
         </property>
        </widget>
       </item>

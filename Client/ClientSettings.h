@@ -1,7 +1,7 @@
 #ifndef CLIENTSETTINGS_H
 #define CLIENTSETTINGS_H
 
-#include "..\Shared\Constants.h"
+#include "../Shared/Constants.h"
 #include <QtGUI>
 
 class ClientInterface;
