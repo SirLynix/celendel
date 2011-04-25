@@ -74,7 +74,7 @@ QString Server::getScriptFolder()
     static bool first = true;
     if(first)
     {
-        s += QString::number(QDateTime::currentMSecsSinceEpoch())+'/';
+        s += QString::number(QDateTime::currentDateTime().toTime_t())+QString::number(alea(0,99))+'/';
         first = false;
     }
 
