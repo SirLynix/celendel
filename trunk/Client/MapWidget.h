@@ -1,7 +1,7 @@
 #ifndef DEF_MAPWIDGET
 #define DEF_MAPWIDGET
 
-#include "..\Shared\Constants.h"
+#include "../Shared/Constants.h"
 #include <QGraphicsView>
 #include <QGraphicsScene>
 
@@ -60,6 +60,7 @@ class MapWidget : public QGraphicsView
     bool static loadCompressedMap(QString fileName, MapInformations& map, QMap<QString, RSID>& rss);
 
     bool saveMap(const QString& fileName) const;
+    bool saveMapMatrix(const QString& fileName) const;
 
     RSID loadRessource(QString fileName); //Return 0, if the image is already loaded it returns it RSID.
     QList<RSID> loadRessourcesPack(QString fileName); //Return the RSID of succefully loaded ressources. Will free previous ressources.

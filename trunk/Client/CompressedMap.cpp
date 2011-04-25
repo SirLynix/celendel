@@ -1,5 +1,5 @@
-#include "..\Shared\Constants.h"
-#include "..\Shared\Serializer.h"
+#include "../Shared/Constants.h"
+#include "../Shared/Serializer.h"
 #include "MapWidget.h"
 
 #include <QFile>

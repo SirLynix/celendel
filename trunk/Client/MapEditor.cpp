@@ -215,6 +215,13 @@ MapEditor::MapEditor(QWidget* parent, const QString& map, const QString& ressour
     QAction *ac_paste= toolMenu->addAction(tr("Coller...")); ac_paste->setShortcut(QKeySequence::Paste);
     connect(ac_paste, SIGNAL(triggered()), this, SLOT(paste()));
 
+    QMenu *exportMenu = menuBar()->addMenu(tr("&Export"));
+    QAction *ac_ex_rss= exportMenu->addAction(tr("... la liste de ressources"));
+    connect(ac_ex_rss,SIGNAL(triggered()),this,SLOT(exportRss()));
+    QAction *ac_ex_map= exportMenu->addAction(tr("... la matrice de la carte"));
+    connect(ac_ex_map,SIGNAL(triggered()),this,SLOT(exportMap()));
+
+
     m_hoveredCaseLabel = new QLabel(this);
     statusBar()->addWidget(m_hoveredCaseLabel);
 
@@ -318,7 +325,7 @@ bool MapEditor::saveRessourcePackAs(QString fileName)
         return true;
 
     if(fileName.isEmpty())
-        fileName = QFileDialog::getSaveFileName(this, tr("Sauvegarder un pack de ressources..."),QString(),tr("Fichiers de liste de ressources (*.list);;Tous les fichiers (*.*)"));
+        fileName = QFileDialog::getSaveFileName(this, tr("Sauvegarder un pack de ressources..."),"./Ressources/",tr("Fichiers de liste de ressources (*.list);;Tous les fichiers (*.*)"));
 
     if(fileName.isEmpty())
         return true;
@@ -337,7 +344,7 @@ bool MapEditor::saveMapAs(QString fileName)
         return true;
 
     if(fileName.isEmpty())
-        fileName = QFileDialog::getSaveFileName(this, tr("Sauvegarder une carte..."),QString(),tr("Fichiers de carte (*.map);;Tous les fichiers (*.*)"));
+        fileName = QFileDialog::getSaveFileName(this, tr("Sauvegarder une carte..."),"./Maps/",tr("Fichiers de carte (*.map);;Tous les fichiers (*.*)"));
 
     if(fileName.isEmpty())
         return true;
@@ -738,7 +745,7 @@ bool MapEditor::loadMap(QString mapName, QString ressPack)
     saveCheck();
 
     if(mapName.isEmpty())
-        mapName = QFileDialog::getOpenFileName(this, tr("Charger une carte..."),QString(),tr("Fichiers de carte (*.map);;Tous les fichiers (*.*)"));
+        mapName = QFileDialog::getOpenFileName(this, tr("Charger une carte..."),"./Maps/",tr("Fichiers de carte (*.map);;Tous les fichiers (*.*)"));
 
     if(mapName.isEmpty())
         return true;
@@ -824,6 +831,39 @@ bool MapEditor::createEmptyMap(QPoint size, const QString& name, const QString& 
     return false;
 }
 
+bool MapEditor::makeMap(const QString& name, const QString& mapFile, const QString& ressPack)
+{
+    delete m_mapWidget;
+    m_mapWidget = new MapWidget(this, 1.0f);
+    setCentralWidget(m_mapWidget);
+
+    m_mapWidget->setHighlight(true);
+    m_mapWidget->setMultiSelectionEnabled(true);
+    m_mapWidget->setCursor(Qt::CrossCursor);
+
+    m_mapWidget->setMap(MapWidget::loadMap(mapFile));
+    if(!m_mapWidget->isMapValid())
+    {
+        QMessageBox::critical(this,tr("Erreur"),tr("Impossible de charger le fichier \"%1\"").arg(mapFile));
+        return true;
+    }
+
+    m_mapWidget->m_map->name=name;
+
+    if(m_mapWidget->loadRessourcesPack(ressPack).isEmpty())
+    {
+        QMessageBox::critical(this,tr("Erreur"),tr("Impossible de charger le set d'image \"%1\".").arg(ressPack));
+        return true;
+    }
+
+    m_mapName=name;
+
+    enableMapSystem(true);
+    modified();
+
+    return false;
+}
+
 bool MapEditor::newMap()
 {
     saveCheck();
@@ -831,5 +871,25 @@ bool MapEditor::newMap()
     if(!dia.exec())
         return true;
 
-    return createEmptyMap(dia.getSize(), dia.getName(), dia.getRessourceList(), dia.getRSID());
+    if(dia.isEmptyMap())
+        return createEmptyMap(dia.getSize(), dia.getName(), dia.getRessourceList(), dia.getRSID());
+
+    return makeMap(dia.getName(), dia.getMapFile(), dia.getRessourceList());
+}
+
+bool MapEditor::exportMap()
+{
+    QString file = QFileDialog::getSaveFileName(this, tr("Exporter une matrice..."),"./Maps/",tr("Fichiers de matrices (*.rawmap);;Tous les fichiers (*.*)"));
+    if(file.isEmpty())
+        return true;
+
+    return m_mapWidget->saveMapMatrix(file);
+}
+
+bool MapEditor::exportRss()
+{
+    QString file = QFileDialog::getSaveFileName(this, tr("Exporter un pack de ressources..."),"./Ressources/",tr("Fichiers de ressources (*.list);;Tous les fichiers (*.*)"));
+    if(file.isEmpty())
+        return true;
+    return m_mapWidget->saveRessources(file);;
 }

@@ -1,5 +1,5 @@
 #include "ClientNetwork.h"
-#include "..\Shared\Serializer.h"
+#include "../Shared/Serializer.h"
 #include <QDebug>
 #define QE(a) if(a) {emit packetCorrupted(); send(ETI(ERROR), serialiseErrorData(ETI(INVALID_PACKET)));return;}
 

@@ -3,7 +3,7 @@
 
 #include <QWidget>
 #include <QMap>
-#include "..\Shared\Constants.h"
+#include "../Shared/Constants.h"
 
 class QListWidget;
 class QTextEdit;

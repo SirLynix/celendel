@@ -1,5 +1,5 @@
 #include "ClientInterface.h"
-#include "..\Shared\Serializer.h"
+#include "../Shared/Serializer.h"
 #include <QTime>
 
 #include "AboutWindow.h"

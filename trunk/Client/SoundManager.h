@@ -1,7 +1,7 @@
 #ifndef DEF_SOUNDMANAGER
 #define DEF_SOUNDMANAGER
 
-#include "..\Shared\Constants.h"
+#include "../Shared/Constants.h"
 #include <QStringList>
 #include <QDir>
 #include "SFML\Audio.hpp"

@@ -2,7 +2,7 @@
 
 #include <QDebug>
 #include <QDateTime>
-#include "..\Shared\Serializer.h"
+#include "../Shared/Serializer.h"
 #include <QHostAddress>
 
 void log(const QString txt, bool time = true);

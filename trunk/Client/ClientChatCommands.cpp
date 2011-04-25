@@ -1,5 +1,5 @@
 #include "ClientInterface.h"
-#include "..\Shared\Serializer.h"
+#include "../Shared/Serializer.h"
 #include "SoundManager.h"
 
 CLID ClientInterface::CLIDFromString(const QString& str) //Zero on error

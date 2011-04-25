@@ -9,8 +9,8 @@
 #include <QAction>
 #include <QInputDialog>
 #include <QTextStream>
-#include "..\Shared\LuaSystem\ScriptSandbox.h"
-#include "..\Shared\LuaSystem\ScriptedEntity.h"
+#include "../Shared/LuaSystem/ScriptSandbox.h"
+#include "../Shared/LuaSystem/ScriptedEntity.h"
 
 #include "EditorDialog.h"
 

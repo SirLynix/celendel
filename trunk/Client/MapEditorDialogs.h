@@ -2,7 +2,7 @@
 #define DEF_MAPEDITORDIALOGS
 
 #include <QDialog>
-#include "..\Shared\Constants.h"
+#include "../Shared/Constants.h"
 #include "ui_MapEditorAddObjectDialog.h"
 #include "ui_MapEditorNewMapDialog.h"
 
@@ -67,12 +67,17 @@ class NewMapDialog : public QDialog
     NewMapDialog(QWidget* parent=0);
 
     QString getName() const;
+    QString getMapFile() const;
     QString getRessourceList() const;
     RSID getRSID() const;
     QPoint getSize() const;
 
+    bool isEmptyMap() const;
+
     private slots:
     void on_browse_pressed();
+    void on_mbrowse_pressed();
+    void on_typeCB_currentIndexChanged(int ind);
 
     private:
     Ui::NewMapDialog ui;

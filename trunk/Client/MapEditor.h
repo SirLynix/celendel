@@ -33,6 +33,9 @@ class MapEditor : public QMainWindow
         bool saveMap();
         bool saveMapAs(QString fileName = QString());
 
+        bool exportMap();
+        bool exportRss();
+
         bool newMap();
 
         bool saveRessourcePackAs(QString fileName=QString());
@@ -78,6 +81,8 @@ class MapEditor : public QMainWindow
         void enableMapSystem(bool b);
 
         bool createEmptyMap(QPoint size, const QString& name, const QString& ressPack, RSID defaultRSID);
+
+        bool makeMap(const QString& name, const QString& mapFile, const QString& ressPack);
 
         void changeRsMngrFilter(const QString&);
 

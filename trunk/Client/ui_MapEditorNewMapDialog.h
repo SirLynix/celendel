@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'MapEditorNewMapDialog.ui'
 **
-** Created: Thu 21. Apr 13:26:02 2011
+** Created: Sun 24. Apr 11:24:32 2011
 **      by: Qt User Interface Compiler version 4.7.0
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
@@ -14,6 +14,7 @@
 #include <QtGui/QAction>
 #include <QtGui/QApplication>
 #include <QtGui/QButtonGroup>
+#include <QtGui/QComboBox>
 #include <QtGui/QDialog>
 #include <QtGui/QDialogButtonBox>
 #include <QtGui/QGroupBox>
@@ -33,24 +34,29 @@ public:
     QGroupBox *groupBox;
     QVBoxLayout *verticalLayout_2;
     QLineEdit *mapName;
+    QComboBox *typeCB;
     QGroupBox *groupBox_2;
     QHBoxLayout *horizontalLayout;
     QSpinBox *mapSizeX;
     QSpinBox *mapSizeY;
+    QGroupBox *groupBox_4;
+    QHBoxLayout *horizontalLayout_3;
+    QSpinBox *RSIDSpinBox;
+    QGroupBox *groupBox_5;
+    QHBoxLayout *horizontalLayout_4;
+    QLineEdit *mapFile;
+    QPushButton *mbrowse;
     QGroupBox *groupBox_3;
     QHBoxLayout *horizontalLayout_2;
     QLineEdit *ressFile;
     QPushButton *browse;
-    QGroupBox *groupBox_4;
-    QHBoxLayout *horizontalLayout_3;
-    QSpinBox *RSIDSpinBox;
     QDialogButtonBox *buttonBox;
 
     void setupUi(QDialog *NewMapDialog)
     {
         if (NewMapDialog->objectName().isEmpty())
             NewMapDialog->setObjectName(QString::fromUtf8("NewMapDialog"));
-        NewMapDialog->resize(252, 280);
+        NewMapDialog->resize(252, 368);
         verticalLayout = new QVBoxLayout(NewMapDialog);
         verticalLayout->setObjectName(QString::fromUtf8("verticalLayout"));
         groupBox = new QGroupBox(NewMapDialog);
@@ -64,6 +70,11 @@ public:
 
 
         verticalLayout->addWidget(groupBox);
+
+        typeCB = new QComboBox(NewMapDialog);
+        typeCB->setObjectName(QString::fromUtf8("typeCB"));
+
+        verticalLayout->addWidget(typeCB);
 
         groupBox_2 = new QGroupBox(NewMapDialog);
         groupBox_2->setObjectName(QString::fromUtf8("groupBox_2"));
@@ -83,6 +94,35 @@ public:
 
         verticalLayout->addWidget(groupBox_2);
 
+        groupBox_4 = new QGroupBox(NewMapDialog);
+        groupBox_4->setObjectName(QString::fromUtf8("groupBox_4"));
+        horizontalLayout_3 = new QHBoxLayout(groupBox_4);
+        horizontalLayout_3->setObjectName(QString::fromUtf8("horizontalLayout_3"));
+        RSIDSpinBox = new QSpinBox(groupBox_4);
+        RSIDSpinBox->setObjectName(QString::fromUtf8("RSIDSpinBox"));
+
+        horizontalLayout_3->addWidget(RSIDSpinBox);
+
+
+        verticalLayout->addWidget(groupBox_4);
+
+        groupBox_5 = new QGroupBox(NewMapDialog);
+        groupBox_5->setObjectName(QString::fromUtf8("groupBox_5"));
+        horizontalLayout_4 = new QHBoxLayout(groupBox_5);
+        horizontalLayout_4->setObjectName(QString::fromUtf8("horizontalLayout_4"));
+        mapFile = new QLineEdit(groupBox_5);
+        mapFile->setObjectName(QString::fromUtf8("mapFile"));
+
+        horizontalLayout_4->addWidget(mapFile);
+
+        mbrowse = new QPushButton(groupBox_5);
+        mbrowse->setObjectName(QString::fromUtf8("mbrowse"));
+
+        horizontalLayout_4->addWidget(mbrowse);
+
+
+        verticalLayout->addWidget(groupBox_5);
+
         groupBox_3 = new QGroupBox(NewMapDialog);
         groupBox_3->setObjectName(QString::fromUtf8("groupBox_3"));
         horizontalLayout_2 = new QHBoxLayout(groupBox_3);
@@ -99,18 +139,6 @@ public:
 
 
         verticalLayout->addWidget(groupBox_3);
-
-        groupBox_4 = new QGroupBox(NewMapDialog);
-        groupBox_4->setObjectName(QString::fromUtf8("groupBox_4"));
-        horizontalLayout_3 = new QHBoxLayout(groupBox_4);
-        horizontalLayout_3->setObjectName(QString::fromUtf8("horizontalLayout_3"));
-        RSIDSpinBox = new QSpinBox(groupBox_4);
-        RSIDSpinBox->setObjectName(QString::fromUtf8("RSIDSpinBox"));
-
-        horizontalLayout_3->addWidget(RSIDSpinBox);
-
-
-        verticalLayout->addWidget(groupBox_4);
 
         buttonBox = new QDialogButtonBox(NewMapDialog);
         buttonBox->setObjectName(QString::fromUtf8("buttonBox"));
@@ -138,6 +166,11 @@ public:
         mapSizeX->setPrefix(QApplication::translate("NewMapDialog", "X : ", 0, QApplication::UnicodeUTF8));
         mapSizeY->setSuffix(QString());
         mapSizeY->setPrefix(QApplication::translate("NewMapDialog", "Y : ", 0, QApplication::UnicodeUTF8));
+        groupBox_4->setTitle(QApplication::translate("NewMapDialog", "Contenu :", 0, QApplication::UnicodeUTF8));
+        RSIDSpinBox->setPrefix(QApplication::translate("NewMapDialog", "RSID par d\303\251fault : ", 0, QApplication::UnicodeUTF8));
+        groupBox_5->setTitle(QApplication::translate("NewMapDialog", "Fichier de carte :", 0, QApplication::UnicodeUTF8));
+        mapFile->setPlaceholderText(QApplication::translate("NewMapDialog", "Nom du fichier...", 0, QApplication::UnicodeUTF8));
+        mbrowse->setText(QApplication::translate("NewMapDialog", "...", 0, QApplication::UnicodeUTF8));
         groupBox_3->setTitle(QApplication::translate("NewMapDialog", "Set d'image :", 0, QApplication::UnicodeUTF8));
         ressFile->setPlaceholderText(QApplication::translate("NewMapDialog", "Nom du fichier...", 0, QApplication::UnicodeUTF8));
 #ifndef QT_NO_TOOLTIP
@@ -147,8 +180,6 @@ public:
         browse->setWhatsThis(QApplication::translate("NewMapDialog", "Parcourir...", 0, QApplication::UnicodeUTF8));
 #endif // QT_NO_WHATSTHIS
         browse->setText(QApplication::translate("NewMapDialog", "...", 0, QApplication::UnicodeUTF8));
-        groupBox_4->setTitle(QApplication::translate("NewMapDialog", "Contenu :", 0, QApplication::UnicodeUTF8));
-        RSIDSpinBox->setPrefix(QApplication::translate("NewMapDialog", "RSID par d\303\251fault : ", 0, QApplication::UnicodeUTF8));
     } // retranslateUi
 
 };

@@ -113,6 +113,32 @@ NewMapDialog::NewMapDialog(QWidget* parent) : QDialog(parent)
     ui.setupUi(this);
     ui.RSIDSpinBox->setMaximum(MAX_LOADED_RESSOURCES);
     ui.mapSizeX->setRange(1,MAP_MAX_SIZE); ui.mapSizeY->setRange(1,MAP_MAX_SIZE);
+    ui.typeCB->addItem("Carte vide");
+    ui.typeCB->addItem("Depuis un fichier");
+    ui.typeCB->setCurrentIndex(0);
+}
+
+void NewMapDialog::on_typeCB_currentIndexChanged(int ind)
+{
+    if(ind == 0)
+    {
+        ui.groupBox_5->hide();
+        ui.groupBox_4->show();
+        ui.groupBox_2->show();
+        return;
+    }
+
+    ui.groupBox_5->show();
+    ui.groupBox_4->hide();
+    ui.groupBox_2->hide();
+}
+
+void NewMapDialog::on_mbrowse_pressed()
+{
+    QString file = QFileDialog::getOpenFileName(this, tr("Sélectionnez un fichier..."), QString(), tr("Fichiers de carte bruts (*.rawmap);;Tous les fichiers (*.*)"));
+    if(file.isEmpty())
+        return;
+    ui.mapFile->setText(file);
 }
 
 void NewMapDialog::on_browse_pressed()
@@ -123,7 +149,10 @@ void NewMapDialog::on_browse_pressed()
     ui.ressFile->setText(file);
 }
 
+bool NewMapDialog::isEmptyMap() const { return ui.typeCB->currentIndex()==0; }
+
 QString NewMapDialog::getName() const { return ui.mapName->text();}
 QString NewMapDialog::getRessourceList() const  { return ui.ressFile->text(); }
+QString NewMapDialog::getMapFile() const { return ui.mapFile->text(); }
 RSID NewMapDialog::getRSID() const { return ui.RSIDSpinBox->value(); }
 QPoint NewMapDialog::getSize() const { return QPoint(ui.mapSizeX->value(),ui.mapSizeY->value()); }
