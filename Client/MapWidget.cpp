@@ -15,7 +15,7 @@
 
 using std::auto_ptr;
 
-const int& qBound (const int& min,const double& value,const int& max) {return qBound(min, (int)value,max);}
+const int& qBound (const int& min,const double& value,const int& max) {return qBound(min, (int)value,max);} //Overloaded for convenience
 
 class Flare
 {
@@ -81,7 +81,7 @@ void MapWidget::setFPS(double FPS)
     m_FPS=FPS;
     m_timerBG->setInterval(1.f/FPS*1000);
 
-    FPS=qBound(0,FPS*60,100);
+    FPS=qBound(0,FPS*60,100); // 0<FPS<100
 
     m_timer->setInterval(1.f/FPS*1000);
 
@@ -219,7 +219,7 @@ QList<RSID> MapWidget::loadRessourcesPack(QString fileName)
 
     if(!QFile::copy(fileName, TMPPATH))
     {
-        DEB() << "Error : " << fileName << " file not found." << TMPPATH;
+        DEB() << "Error : " << fileName << " file not found.";
         return ret;
     }
 
@@ -239,7 +239,6 @@ QList<RSID> MapWidget::loadRessourcesPack(QString fileName)
     }
 
     QFile::remove(TMPPATH);
-    #undef TMPPATH
 
     repaintBackground();
 
@@ -282,7 +281,7 @@ bool MapWidget::saveMapMatrix(const QString& fileName) const
     return MapWidget::saveMap(m_map.get(),fileName);
 }
 
-bool MapWidget::saveMap(const MapInformations* map, QString fileName) //Static
+bool MapWidget::saveMap(const MapInformations* map, QString fileName) //Static - actually save the map matrix...
 {
     if(QDir::isRelativePath(fileName)&&!fileName.startsWith(MAP_FOLDER))
         fileName.prepend(MAP_FOLDER);
@@ -308,7 +307,7 @@ bool MapWidget::saveMap(const MapInformations* map, QString fileName) //Static
     return false;
 }
 
-auto_ptr<MapInformations> MapWidget::makeMap(QPoint size, RSID defaultRSID)
+auto_ptr<MapInformations> MapWidget::makeMap(QPoint size, RSID defaultRSID) //Create a new map from scratch
 {
     auto_ptr<MapInformations> map;
         map.reset(new MapInformations);
@@ -405,27 +404,11 @@ void MapWidget::updateRessources(const QMap<QString, RSID>& list)
         }
     }
 
-
-
     m_loadedRessources=m_loadedRessourcesName.size()+1;
     m_ressources[0] = new QPixmap(BLOC_SIZE, BLOC_SIZE);
     m_ressources[0]->fill();
     m_loadedRessourcesName[""]=0;
     emit ressourceLoadingProgress(mx,mx);
-}
-
-QMap<RSID, RSID> MapWidget::concatenateRessources(const QMap<RSID, QString>& other)
-{
-    QMap<RSID, RSID> ret;
-
-    QMap<RSID, QString>::const_iterator i = other.constBegin();
-    while (i != other.constEnd())
-    {
-        ret[i.key()]=loadRessource(i.value());
-        ++i;
-    }
-
-    return ret;
 }
 
 void MapWidget::setMap(MapPtr map)
@@ -463,6 +446,7 @@ void MapWidget::onUpdate()
             qint32 mapX = sizeX(m_map->map);
             qint32 mapY = sizeY(m_map->map);
 
+            //Draw the background
             for(int x=0; x<mapX; ++x)
                 for(int y=0; y<mapY; ++y)
                 {
@@ -470,10 +454,11 @@ void MapWidget::onUpdate()
                     drawBlockHighlight(x, y, QColor(25,25,25,150), 1.f, true);
                 }
 
+            //Draw the map items
             for(int i=0,m=m_map->mapItems.size();i<m;++i)
                 drawBloc(m_map->mapItems[i].coords, m_map->mapItems[i].rsid, m_map->mapItems[i].color, m_map->mapItems[i].hueStrenght);
 
-
+            //If we spend too much time at this step, we reduce the background framerate.
             if(timeWatcher.elapsed() > 1.0f/m_FPS*1000)
             {
                 setFPS((1.f/(static_cast<double>(timeWatcher.elapsed())/1000.f)/4));
@@ -637,7 +622,6 @@ void MapWidget::mousePressEvent(QMouseEvent* event)
             m_mouseDownPos=posToMap(event->pos());
         }
     }
-
     QGraphicsView::mousePressEvent(event);
 }
 
@@ -654,9 +638,7 @@ void MapWidget::mouseReleaseEvent(QMouseEvent* event)
             MapArea ma(m_mouseDownPos,m_mouseUpPos); ma.normalise();
             emit mapAreaSelected(ma);
         }
-
     }
-
     QGraphicsView::mouseReleaseEvent(event);
 }
 
@@ -677,6 +659,7 @@ void MapWidget::flare(QPoint c, CLID w)
     static bool first=true;
     if(first)
     {
+        //Thoses colors are too dark to be seen.
         colors.removeOne("black");
         colors.removeOne("indigo");
         colors.removeOne("darkslategrey");

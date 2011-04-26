@@ -44,7 +44,7 @@
 		<Cursor position="48" topLine="1" />
 	</File>
 	<File name="ClientSave.cpp" open="0" top="0" tabpos="0">
-		<Cursor position="143" topLine="0" />
+		<Cursor position="70" topLine="0" />
 	</File>
 	<File name="ClientSettings.cpp" open="0" top="0" tabpos="1">
 		<Cursor position="17174" topLine="441" />
@@ -53,7 +53,7 @@
 		<Cursor position="74" topLine="3" />
 	</File>
 	<File name="CompressedMap.cpp" open="0" top="0" tabpos="6">
-		<Cursor position="881" topLine="9" />
+		<Cursor position="406" topLine="0" />
 	</File>
 	<File name="EditorDialog.cpp" open="0" top="0" tabpos="3">
 		<Cursor position="337" topLine="11" />
@@ -88,11 +88,11 @@
 	<File name="MapEditorDialogs.h" open="0" top="0" tabpos="2">
 		<Cursor position="1244" topLine="32" />
 	</File>
-	<File name="MapWidget.cpp" open="0" top="0" tabpos="4">
-		<Cursor position="7075" topLine="243" />
+	<File name="MapWidget.cpp" open="1" top="1" tabpos="1">
+		<Cursor position="10571" topLine="405" />
 	</File>
 	<File name="MapWidget.h" open="0" top="0" tabpos="3">
-		<Cursor position="71" topLine="0" />
+		<Cursor position="5452" topLine="109" />
 	</File>
 	<File name="QColorPicker\QColorPickerWidget.cpp" open="0" top="0" tabpos="1">
 		<Cursor position="620" topLine="12" />

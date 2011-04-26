@@ -8,13 +8,13 @@
 		<Cursor position="659" topLine="0" />
 	</File>
 	<File name="Network.cpp" open="0" top="0" tabpos="1">
-		<Cursor position="820" topLine="0" />
+		<Cursor position="328" topLine="0" />
 	</File>
 	<File name="Network.h" open="0" top="0" tabpos="2">
 		<Cursor position="318" topLine="0" />
 	</File>
 	<File name="Player.cpp" open="0" top="0" tabpos="0">
-		<Cursor position="659" topLine="0" />
+		<Cursor position="77" topLine="0" />
 	</File>
 	<File name="Player.h" open="0" top="0" tabpos="0">
 		<Cursor position="454" topLine="0" />
@@ -26,16 +26,16 @@
 		<Cursor position="1047" topLine="3" />
 	</File>
 	<File name="Server.cpp" open="0" top="0" tabpos="1">
-		<Cursor position="7364" topLine="207" />
+		<Cursor position="201" topLine="0" />
 	</File>
 	<File name="Server.h" open="0" top="0" tabpos="2">
 		<Cursor position="1744" topLine="41" />
 	</File>
 	<File name="Server.pro" open="0" top="0" tabpos="0">
-		<Cursor position="128" topLine="0" />
+		<Cursor position="166" topLine="0" />
 	</File>
 	<File name="ServerSwitch.cpp" open="0" top="0" tabpos="1">
-		<Cursor position="17516" topLine="137" />
+		<Cursor position="19654" topLine="500" />
 	</File>
 	<File name="Translator.cpp" open="0" top="0" tabpos="2">
 		<Cursor position="2397" topLine="0" />
@@ -62,7 +62,7 @@
 		<Cursor position="718" topLine="7" />
 	</File>
 	<File name="..\Shared\LuaSystem\ScriptedEntityCallbacks.cpp" open="0" top="0" tabpos="1">
-		<Cursor position="5898" topLine="185" />
+		<Cursor position="2060" topLine="56" />
 	</File>
 	<File name="..\Shared\LuaSystem\luaHeader.h" open="0" top="0" tabpos="3">
 		<Cursor position="898" topLine="0" />
@@ -71,16 +71,16 @@
 		<Cursor position="580" topLine="0" />
 	</File>
 	<File name="..\Shared\Miscelaneous.cpp" open="0" top="0" tabpos="0">
-		<Cursor position="1783" topLine="28" />
+		<Cursor position="3044" topLine="65" />
 	</File>
 	<File name="..\Shared\Packet.cpp" open="0" top="0" tabpos="2">
-		<Cursor position="1138" topLine="0" />
+		<Cursor position="1658" topLine="31" />
 	</File>
-	<File name="..\Shared\Packet.h" open="1" top="0" tabpos="0">
-		<Cursor position="788" topLine="0" />
+	<File name="..\Shared\Packet.h" open="0" top="0" tabpos="0">
+		<Cursor position="97" topLine="0" />
 	</File>
 	<File name="..\Shared\Serializer.cpp" open="0" top="0" tabpos="1">
-		<Cursor position="9197" topLine="487" />
+		<Cursor position="12076" topLine="609" />
 	</File>
 	<File name="..\Shared\Serializer.h" open="0" top="0" tabpos="1">
 		<Cursor position="3033" topLine="64" />

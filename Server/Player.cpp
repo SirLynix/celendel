@@ -1,7 +1,7 @@
 #include "Player.h"
 
 
-Player::Player(CLID cID, QObject* parent) : QObject(parent), m_ID(cID)
+Player::Player(CLID cID, QObject* par) : QObject(par), m_ID(cID)
 {
     reset();
 }

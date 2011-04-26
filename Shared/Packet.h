@@ -32,8 +32,6 @@ class Packet : public QObject
         ///Flag
         bool full;
 
-        void show() const;
-
     private:
         void setError();
         Packet(const Packet&) : QObject() {} ///Non-copiable

@@ -97,10 +97,10 @@ QByteArray serialiseChatData(ENUM_TYPE canal, const QString& language, const QSt
     QByteArray data;
     QDataStream out(&data, QIODevice::ReadWrite);
 
-    out<<(ENUM_TYPE)canal;
+    out<<static_cast<ENUM_TYPE>(canal);
     out<<language;
     out<<text;
-    out<<(CLID)sender;
+    out<<static_cast<CLID>(sender);
     return data;
 }
 
@@ -121,7 +121,7 @@ QByteArray serialiseErrorData(ENUM_TYPE error_type, const QString& text)
     QByteArray data;
     QDataStream out(&data, QIODevice::ReadWrite);
 
-    out<<(ENUM_TYPE)error_type;
+    out<<static_cast<ENUM_TYPE>(error_type);
     out<<text;
 
     return data;
@@ -142,7 +142,7 @@ QByteArray serialiseGMElectData(CLID ID)
     QByteArray data;
     QDataStream out(&data, QIODevice::ReadWrite);
 
-    out<<(CLID)ID;
+    out<<static_cast<CLID>(ID);
 
     return data;
 }
@@ -162,7 +162,7 @@ QByteArray serialiseSetCLIDData(CLID ID)
     QByteArray data;
     QDataStream out(&data, QIODevice::ReadWrite);
 
-    out<<(CLID)ID;
+    out<<static_cast<CLID>(ID);
 
     return data;
 }
@@ -182,7 +182,7 @@ QByteArray serialiseNewGMData(CLID ID)
     QByteArray data;
     QDataStream out(&data, QIODevice::ReadWrite);
 
-    out<<(CLID)ID;
+    out<<static_cast<CLID>(ID);
 
     return data;
 }
@@ -204,8 +204,8 @@ QByteArray serialiseVotedData(CLID fID, CLID tID)
     QByteArray data;
     QDataStream out(&data, QIODevice::ReadWrite);
 
-    out<<(CLID)fID;
-    out<<(CLID)tID;
+    out<<static_cast<CLID>(fID);
+    out<<static_cast<CLID>(tID);
 
     return data;
 }
@@ -228,7 +228,7 @@ QByteArray serialiseNewNickData(CLID ID, const QString& nick)
     QByteArray data;
     QDataStream out(&data, QIODevice::ReadWrite);
 
-    out<<(CLID)ID;
+    out<<static_cast<CLID>(ID);
     out<<nick;
 
     return data;
@@ -274,8 +274,8 @@ QByteArray serialiseGTFOLynixData(CLID ID, ENUM_TYPE dropType, const QString& re
     QByteArray data;
     QDataStream out(&data, QIODevice::ReadWrite);
 
-    out<<(CLID)ID;
-    out<<(ENUM_TYPE)dropType;
+    out<<static_cast<CLID>(ID);
+    out<<static_cast<ENUM_TYPE>(dropType);
     out<<reason;
 
     return data;
@@ -459,12 +459,12 @@ QByteArray serialiseMapInformationsData(const MapInformations& mi)
 
     out<<mi.name;
 
-    out<<(qint32)mi.mapItems.size();
+    out<<static_cast<qint32>(mi.mapItems.size());
 
     for(int i=0; i<mi.mapItems.size(); ++i)
     {
         out<<mi.mapItems[i].coords;
-        out<<(RSID) mi.mapItems[i].rsid;
+        out<<static_cast<RSID>(mi.mapItems[i].rsid);
         out<<mi.mapItems[i].text;
         out<<mi.mapItems[i].color;
         out<<mi.mapItems[i].hidden;
@@ -473,8 +473,8 @@ QByteArray serialiseMapInformationsData(const MapInformations& mi)
     qint32 mapX = sizeX(mi.map);
     qint32 mapY = sizeY(mi.map);
 
-    out<<(qint32)mapX;
-    out<<(qint32)mapY;
+    out<<static_cast<qint32>(mapX);
+    out<<static_cast<qint32>(mapY);
 
     for(int x=0; x<mapX; ++x)
     {
@@ -521,12 +521,12 @@ QByteArray serialiseMapItemsInformationsData(const QList<MapItem>& mi)
     QByteArray data;
     QDataStream out(&data, QIODevice::ReadWrite);
 
-    out<<(qint32)mi.size();
+    out<<static_cast<qint32>(mi.size());
 
     for(int i=0; i<mi.size(); ++i)
     {
         out<<mi[i].coords;
-        out<<(RSID) mi[i].rsid;
+        out<<static_cast<RSID>(mi[i].rsid);
         out<<mi[i].text;
         out<<mi[i].color;
         out<<mi[i].hidden;
@@ -555,9 +555,9 @@ QByteArray serialiseDiceRollData(CLID ID, quint16 result, quint16 max)
     QByteArray data;
     QDataStream out(&data, QIODevice::ReadWrite);
 
-    out<<(CLID)ID;
-    out<<(quint16)result;
-    out<<(quint16)max;
+    out<<static_cast<CLID>(ID);
+    out<<static_cast<quint16>(result);
+    out<<static_cast<quint16>(max);
 
     return data;
 }
@@ -622,7 +622,7 @@ QByteArray serialiseClientJoinedData(const CLID& ID, const QString& IP)
     QByteArray data;
     QDataStream out(&data, QIODevice::ReadWrite);
 
-    out<<(CLID)ID;
+    out<<static_cast<CLID>(ID);
     out<<IP;
 
     return data;
@@ -643,7 +643,7 @@ QByteArray serialiseClientLeftData(const CLID& ID)
     QByteArray data;
     QDataStream out(&data, QIODevice::ReadWrite);
 
-    out<<(CLID)ID;
+    out<<static_cast<CLID>(ID);
 
     return data;
 }
@@ -1097,7 +1097,7 @@ QByteArray serialiseScriptMessageData(qint32 type, const QString& ent, const QSt
     QByteArray data;
     QDataStream out(&data, QIODevice::ReadWrite);
 
-    out<<(qint32)type;
+    out<<static_cast<qint32>(type);
     out<<ent;
     out<<txt;
 

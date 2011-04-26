@@ -68,7 +68,7 @@ int ScriptedEntity::onDamage(int amount, const QString& type, const QString& fro
             return 0;
         }
 
-        return (int)lua_tonumber(m_state,-1);
+        return static_cast<int>(lua_tonumber(m_state,-1));
     }
     else
     {

@@ -1,6 +1,6 @@
 #include "ClientInterface.h"
 
-#define VERSION (qint32)0
+#define VERSION static_cast<qint32>(0)
 #define MAGIC_NUMBER (quint32)0x1337C0D3
 #include <QDateTime>
 #include "EntitiesManager.h"

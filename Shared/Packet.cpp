@@ -6,14 +6,9 @@
 
 #define VD(a) if(a.status()!=QDataStream::Ok) {qDebug() << "Packet error : " << __FILE__ << ":" << __LINE__; setError();}
 #define RVD(a) VD(a); return m_error;
-#define MAGIC_NUMBER (qint32)0x1337C0D3
+#define MAGIC_NUMBER static_cast<qint32>(0x1337C0D3)
 
 quint32 getTimeStamp(){return QDateTime::currentDateTime().toTime_t()*1000+QTime::currentTime().msec();}
-
-void Packet::show() const //Temporary - only for debug and tests
-{
-    qDebug() << "ID=" + QString::number(ID) + "\nType=" + QString::number(type) + "\nDataSize=" + QString::number(dataSize) + "\ntimestamp=" + QString::number(timestamp) + "\nDatas (size)=" << QString::number(data.size());
-}
 
 Packet::Packet() : ID(0), type(0), dataSize(0), timestamp(-1)
 {
@@ -77,13 +72,13 @@ void Packet::serialise(QByteArray& pa)
     QDataStream out(&pa, QIODevice::WriteOnly);
 
     out << MAGIC_NUMBER;
-    out << (qint32)ID;
-    out << (qint32)type;
-    out << (qint32)0;
-    out << (qint32)timestamp;
+    out << static_cast<qint32>(ID);
+    out << static_cast<qint32>(type);
+    out << static_cast<qint32>(0);
+    out << static_cast<qint32>(timestamp);
     out << data;
     out.device()->seek(3*sizeof(qint32));
     dataSize=pa.size()-sizeofheader;
-    out << (quint32)dataSize;
+    out << static_cast<qint32>(dataSize);
 
 }

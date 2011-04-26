@@ -12,7 +12,7 @@ class Flare;
 
 void swp (int& x1, int& x2);
 
-struct MapArea
+struct MapArea //Represent a area of the map, defined by two corners.
 {
     MapArea(QPoint lup=QPoint(0,0), QPoint ldown=QPoint(0,0)):leftUp(lup), rightDown(ldown) {}
     void normalise() {if(leftUp.x()>rightDown.x()) {swp(rightDown.rx(),leftUp.rx());} if(leftUp.y()>rightDown.y()) {swp(rightDown.ry(),leftUp.ry());}}
@@ -27,29 +27,32 @@ class MapWidget : public QGraphicsView
     Q_OBJECT
 
     friend class MapEditor;
-    friend class MapWidgetScroll;
 
     public:
 
     MapWidget(QWidget* Parent, const double FPS = 1.f);
     ~MapWidget();
 
+    //Unload all ressources
     void clearRessources();
 
+    //The 'FPS' only concerns the background sprites
     void setFPS(double FPS);
 
     const MapInformations* getMap() const { return m_map.get(); }
     const QMap<QString, RSID>& loadedRessources() const { return m_loadedRessourcesName; }
 
-
+    //Enable/disable the mouse highlight when overing a case
     bool isHightlighEnabled() const { return m_highlightEnabled; }
     void setHighlight(bool highlight);
 
     void setMultiSelectionEnabled(bool d) { m_multiSelectionEnabled=d; }
     bool isMultiSelectionEnabled() const { return m_multiSelectionEnabled; }
 
+    //Load a map from a filename, return true on error
     bool setMap(const QString& fileName) { bool b=(m_map=loadMap(fileName)).get()==NULL;adjustSize(); return b; }
 
+    /// Statics map loaders/makers
     static std::auto_ptr<MapInformations> loadMap(QString fileName);
     static std::auto_ptr<MapInformations> makeMap(QPoint size, RSID defaultRSID);
     static bool saveMap(const MapInformations*, QString fileName);
@@ -59,7 +62,9 @@ class MapWidget : public QGraphicsView
     bool static loadCompressedMap(QDataStream& in, MapInformations& map, QMap<QString, RSID>& rss);
     bool static loadCompressedMap(QString fileName, MapInformations& map, QMap<QString, RSID>& rss);
 
+    //Save the map under the 'fileName' file. True on error.
     bool saveMap(const QString& fileName) const;
+    //Same with the map matrix.
     bool saveMapMatrix(const QString& fileName) const;
 
     RSID loadRessource(QString fileName); //Return 0, if the image is already loaded it returns it RSID.
@@ -69,6 +74,7 @@ class MapWidget : public QGraphicsView
 
     bool saveRessources(QString fileName); //Save the loaded ressources in a ressource pack. True on error.
 
+    //Return 0 if not found.
     RSID ressourceRSID(const QString& fileName) const;
 
     bool isRSIDUsed(RSID id) const { return m_ressources.contains(id); }
@@ -79,14 +85,17 @@ class MapWidget : public QGraphicsView
 
     public slots:
 
+    //When called, the background will be repainted at next screen update.
     void repaintBackground();
 
+    //Show a blinking colored square
     void flare(QPoint,CLID);
     void flare(QPoint,QColor);
 
     void openMapInfoDialog();
     void setMap(MapPtr);
 
+    //Make the internal ressources map like the new one - old unused sprites will be removed, new ones loaded, and the old one still in use will be moved.
     void updateRessources(const QMap<QString, RSID>& list);
 
     private slots:
@@ -114,10 +123,11 @@ class MapWidget : public QGraphicsView
 
     private:
 
+    ///Draw blocks functions - draw a case on the screen
     void drawBloc(QPoint casePos, RSID id, const QColor& hue=QColor(255,255,255), qreal hueStrenght=0.75f);
     void drawBloc(int caseX, int caseY, RSID id, const QColor& hue= QColor(255,255,255), qreal hueStrenght=0.75f);
     void drawBlockHighlight(const QPoint& casePos, const QColor& color, float width);
-    void drawBlockHighlight(int x, int y, const QColor& color, float width, bool noDelete=false);
+    void drawBlockHighlight(int x, int y, const QColor& color, float width, bool noDelete=false); //If noDelete == false, the block will be deleted at next loop. Ex : mouse highlight
     void drawBlockBox(QPoint casePos, QPoint caseEndPos, const QColor& color, float width);
     void drawBlockBox(QPointF casePos, QPointF caseEndPos, const QColor& color, float width);
     void drawBlockHighlight(const QPointF& casePos, const QColor& color, float width);
@@ -126,11 +136,7 @@ class MapWidget : public QGraphicsView
     QPoint posToMap(int x, int y) { return posToMap(QPoint(x,y)); }
     QPoint posToMap(QPoint pos);
 
-    bool pixelCanBeSeen(QPoint pixel) const;
-    bool caseCanBeSeen(QPoint casePos) const;
-    bool pixelCanBeSeen(int x,int y) const;
-    bool caseCanBeSeen(int x,int y) const;
-
+    //Delete unused flares items
     void cleanFlares();
 
     bool m_multiSelectionEnabled;
@@ -144,9 +150,6 @@ class MapWidget : public QGraphicsView
     QPoint m_selectedCase;
 
     bool m_highlightEnabled;
-
-    QMap<RSID, RSID> concatenateRessources(const QMap<RSID, QString>& other);
-
 
     std::auto_ptr<MapInformations> m_map;
 
@@ -163,12 +166,12 @@ class MapWidget : public QGraphicsView
     QTimer* m_timer;
     QTimer* m_timerBG;
 
-    bool m_repaintBG;
+    bool m_repaintBG; //If true, the background will be repainted at next screen update.
 
     double m_FPS;
 
-    QList<QGraphicsRectItem*> m_tempItems;
-    void clearTemporaryItems();
+    QList<QGraphicsRectItem*> m_tempItems; //Temporary items, like highlight blocks.
+    void clearTemporaryItems(); //Remove the temporary items.
 
     QList<Flare*> m_flares;
 
