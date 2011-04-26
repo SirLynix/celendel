@@ -537,7 +537,7 @@ void Server::processData(std::auto_ptr<Packet> pa, CLID cID)
         {
             QPoint c; CLID w=0;
             QE(extractMapFlareData(pa->data, c, w));
-            if((unsigned)c.x()<m_map->mapSizeX() && (unsigned)c.y()<m_map->mapSizeY())
+            if(static_cast<unsigned int>(c.x())<m_map->mapSizeX() && static_cast<unsigned int>(c.y())<m_map->mapSizeY())
                 m_network->sendToAll(ETI(MAP_FLARE), serialiseMapFlareData(c,cID));
         }
         break;

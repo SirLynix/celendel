@@ -12,7 +12,7 @@ QString securise (const QString& in)
     return ret;
 }
 
-ServerNetwork::ServerNetwork(quint16 port, QObject* parent) : QObject(parent)
+ServerNetwork::ServerNetwork(quint16 port, QObject* par) : QObject(par)
 {
     m_server=new QTcpServer(this);
     if(!m_server->listen(QHostAddress::Any, port))

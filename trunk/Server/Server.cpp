@@ -7,7 +7,7 @@
 #include <QDateTime>
 
 
-Server::Server(QObject* parent) : QObject(parent)
+Server::Server(QObject* par) : QObject(par)
 {
     qRegisterMetaType<QStringPair>("QStringPair");
     qRegisterMetaTypeStreamOperators<QStringPair>("QStringPair");

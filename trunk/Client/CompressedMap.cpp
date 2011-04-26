@@ -8,7 +8,7 @@
 
 void MapWidget::saveCompressedMap(QDataStream& out, const MapInformations& map, const QMap<QString, RSID>& rss)
 {
-    out << (qint32) MAGIC_CONSTANT;
+    out << static_cast<qint32>(MAGIC_CONSTANT);
     out << serialiseMapInformationsData(map);
     out << serialiseUpdateRessourcesData(rss);
 }

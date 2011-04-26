@@ -7,7 +7,7 @@
 
 #define tr(a) QObject::tr(a)
 
-int alea(int min,int max){static bool first=true;if(first){srand(time(NULL));first=false;alea(0,150);}return (int)(min+((float)rand()/RAND_MAX*(max-min+1)));}
+int alea(int min,int max){static bool first=true;if(first){srand(time(NULL));first=false;alea(0,150);}return static_cast<int>(min+(static_cast<float>(rand())/RAND_MAX*(max-min+1)));}
 
 bool mkpath(const QString& s)
 {
@@ -115,7 +115,7 @@ QStringList listFilesInFolder(const QString& folder, const QString& filters)
     return listFilesInFolder(folder, filters.split(";;", QString::SkipEmptyParts));
 }
 
-quint32 sizeX(const MapArray& m)  { return (quint32)m.shape()[0];}
-quint32 sizeY(const MapArray& m)  { return (quint32)m.shape()[1];}
-quint32 sizeX(MapArray* m)  { return (quint32)m->shape()[0];}
-quint32 sizeY(MapArray* m)  { return (quint32)m->shape()[1];}
+quint32 sizeX(const MapArray& m)  { return static_cast<quint32>(m.shape()[0]);}
+quint32 sizeY(const MapArray& m)  { return static_cast<quint32>(m.shape()[1]);}
+quint32 sizeX(MapArray* m)  { return static_cast<quint32>(m->shape()[0]);}
+quint32 sizeY(MapArray* m)  { return static_cast<quint32>(m->shape()[1]);}
