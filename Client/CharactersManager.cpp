@@ -7,7 +7,7 @@
 
 #include <QLayout>
 
-CharactersManager::CharactersManager(EntitiesManager* entMngr, QWidget *parent) : QWidget(parent), m_entMngr(entMngr)
+CharactersManager::CharactersManager(EntitiesManager* entMngr, QWidget *par) : QWidget(par), m_entMngr(entMngr)
 {
 
     connect(entMngr, SIGNAL(updated()), this, SLOT(update()));

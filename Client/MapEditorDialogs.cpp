@@ -8,7 +8,7 @@
 #include "QColorPicker/QColorPickerWidget.h"
 
 
-RSIDDialog::RSIDDialog(QWidget* parent) : QDialog(parent), m_used(false)
+RSIDDialog::RSIDDialog(QWidget* par) : QDialog(par), m_used(false)
 {
     m_spinBox=new QSpinBox(this);
     m_lineEdit=new QLineEdit(this);
@@ -62,7 +62,7 @@ int RSIDDialog::changeLine(RSID id, const QString& name)
 
 /// /// /// /// /// /// /// /// /// /// /// /// /// /// /// /// /// /// /// /// /// /// /// /// /// /// /// /// /// /// /// /// /// /// /// /// /// /// /// /// /// /// /// /// /// /// /// /// /// /// /// /// /// ///
 
-AddObjectDialog::AddObjectDialog(QWidget* parent, QPoint defaultCase, QPoint maxCase, QString defaultText, RSID defaultRSID) : QDialog(parent)
+AddObjectDialog::AddObjectDialog(QWidget* par, QPoint defaultCase, QPoint maxCase, QString defaultText, RSID defaultRSID) : QDialog(par)
 {
     b=false;
     ui.setupUi(this);
@@ -108,7 +108,7 @@ QColor AddObjectDialog::getColor() const
 
 /// /// /// /// /// /// /// /// /// /// /// /// /// /// /// /// /// /// /// /// /// /// /// /// /// /// /// /// /// /// /// /// /// /// /// /// /// /// /// /// /// /// /// /// /// /// /// /// /// /// /// /// /// ///
 
-NewMapDialog::NewMapDialog(QWidget* parent) : QDialog(parent)
+NewMapDialog::NewMapDialog(QWidget* par) : QDialog(par)
 {
     ui.setupUi(this);
     ui.RSIDSpinBox->setMaximum(MAX_LOADED_RESSOURCES);

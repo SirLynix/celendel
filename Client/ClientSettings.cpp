@@ -8,10 +8,10 @@ QSettings* allocateSettings(QObject* parent)
     return new QSettings("Celendel Team", "Celendel", parent);
 }
 
-ClientSettings::ClientSettings(ClientInterface* parent)
+ClientSettings::ClientSettings(ClientInterface* par)
 {
-    m_parent = parent;
-    setParent(parent);
+    m_parent = par;
+    setParent(par);
     setWhatsThis(tr("Ici, vous pouvez régler bon nombre d'options du logiciel."));
 
     setWindowFlags(Qt::Dialog|Qt::CustomizeWindowHint|Qt::WindowTitleHint|Qt::WindowCloseButtonHint|Qt::WindowContextHelpButtonHint);
@@ -120,7 +120,7 @@ ClientSettings::ClientSettings(ClientInterface* parent)
         h_la->addWidget(new QLabel(":"));
         h_la->addWidget(m_serverPort);
 
-        if(parent->isConnected())
+        if(par->isConnected())
             gb->setEnabled(false);
     }
 
@@ -344,7 +344,7 @@ void ClientSettings::soundSpinBoxChanged(double value)
 
 void ClientSettings::VOIPQualitySliderChanged(int value)
 {
-    getVOIP().setQuality((float)value/10.f);
+    getVOIP().setQuality(static_cast<float>(value)/10.f);
 }
 
 void ClientSettings::VOIPSoundSliderChanged(int value)
@@ -434,7 +434,7 @@ void ClientSettings::ok()
     m_settings->setValue(PARAM_INTERFACE, m_interfacePath->text());
     m_settings->setValue(PARAM_SOUND, static_cast<float>(m_sound->value())/10.f);
     m_settings->setValue(PARAM_VOIP_SOUND, static_cast<float>(m_VOIPSound->value())/10.f);
-    m_settings->setValue(PARAM_VOIP_QUALITY, (float)m_VOIPQuality->value()/10.f);
+    m_settings->setValue(PARAM_VOIP_QUALITY, static_cast<float>(m_VOIPSound->value())/10.f);
     m_settings->setValue(PARAM_SOUNDLIBS, sndMngr.loadedLibs());
     m_settings->setValue(PARAM_VOIP_ENABLED, m_voip->isChecked());
     getVOIP().setEnabled(m_voip->isChecked());

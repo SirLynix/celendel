@@ -119,7 +119,7 @@ void EntitiesManager::update()
             else if(j.value().isStringPairList())
             {
                 QStringPairList li = j.value().getStringPairList();
-                for(int k=0,m=li.size();k<m;++k)
+                for(int k=0,mk=li.size();k<mk;++k)
                 {
                     QStandardItem *stic=new QStandardItem;
                     stic->setText(li[k].first);

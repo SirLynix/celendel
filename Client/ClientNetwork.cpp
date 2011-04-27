@@ -18,7 +18,7 @@ void log(const QString txt, bool time)
 }
 
 
-ClientNetwork::ClientNetwork(QString IP, quint16 port, QObject* parent):QObject(parent)
+ClientNetwork::ClientNetwork(QString IP, quint16 port, QObject* par):QObject(par)
 {
     m_socket=new QTcpSocket(this);
 
@@ -151,7 +151,7 @@ void ClientNetwork::dataReceived()
 
     if (packet == NULL)//Try to get the header
     {
-        if (m_socket->bytesAvailable() < (int)sizeofheader) //The header is not here yet
+        if (m_socket->bytesAvailable() < static_cast<int>(sizeofheader)) //The header is not here yet
              return;
 
         packet = new Packet();

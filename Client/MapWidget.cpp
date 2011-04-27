@@ -15,7 +15,7 @@
 
 using std::auto_ptr;
 
-const int& qBound (const int& min,const double& value,const int& max) {return qBound(min, (int)value,max);} //Overloaded for convenience
+const int& qBound (const int& min,const double& value,const int& max) {return qBound(min, static_cast<int>(value),max);} //Overloaded for convenience
 
 class Flare
 {
@@ -229,13 +229,13 @@ QList<RSID> MapWidget::loadRessourcesPack(QString fileName)
 
     clearRessources();
 
-    for(int i=0,size=keys.size();i<size;++i)
+    for(int i=0,sizei=keys.size();i<sizei;++i)
     {
         bool ok=false;
         RSID id =  set.value(keys[i]).toUInt(&ok);
         if(ok && !loadRessource(keys[i], id))
             ret << id;
-        emit ressourceLoadingProgress(i,size);
+        emit ressourceLoadingProgress(i,sizei);
     }
 
     QFile::remove(TMPPATH);
@@ -356,7 +356,7 @@ auto_ptr<MapInformations> MapWidget::loadMap(QString fileName)
         {
             if(x<m)
             {
-                map->map[x][y]=(RSID)list[x].toUInt();
+                map->map[x][y]=static_cast<RSID>(list[x].toUInt());
             }
             else
                 map->map[x][y]=0;
@@ -447,11 +447,11 @@ void MapWidget::onUpdate()
             qint32 mapY = sizeY(m_map->map);
 
             //Draw the background
-            for(int x=0; x<mapX; ++x)
-                for(int y=0; y<mapY; ++y)
+            for(int xi=0; xi<mapX; ++xi)
+                for(int yi=0; yi<mapY; ++yi)
                 {
-                    drawBloc(x,y,m_map->map[x][y]);
-                    drawBlockHighlight(x, y, QColor(25,25,25,150), 1.f, true);
+                    drawBloc(xi,yi,m_map->map[xi][yi]);
+                    drawBlockHighlight(xi, yi, QColor(25,25,25,150), 1.f, true);
                 }
 
             //Draw the map items
@@ -500,34 +500,34 @@ void MapWidget::onUpdate()
 
 void swp (int& x1, int& x2) {int t=x1;x1=x2;x2=t;}
 
-void MapWidget::drawBlockBox(QPointF casePos, QPointF caseEndPos, const QColor& color, float width)
+void MapWidget::drawBlockBox(QPointF casePos, QPointF caseEndPos, const QColor& color, float iwidth)
 {
-    drawBlockBox(QPoint(casePos.x(), casePos.y()), QPoint(caseEndPos.x(), caseEndPos.y()), color, width);
+    drawBlockBox(QPoint(casePos.x(), casePos.y()), QPoint(caseEndPos.x(), caseEndPos.y()), color, iwidth);
 }
 
-void MapWidget::drawBlockBox(QPoint casePos, QPoint caseEndPos, const QColor& color, float width)
+void MapWidget::drawBlockBox(QPoint casePos, QPoint caseEndPos, const QColor& color, float iwidth)
 {
     MapArea ma(casePos, caseEndPos); ma.normalise();
 
-    for(int x=ma.leftUp.x(),mx=ma.rightDown.x();x<=mx;++x)
-        for(int y=ma.leftUp.y(),my=ma.rightDown.y();y<=my;++y)
-            drawBlockHighlight(x,y,color,width);
+    for(int xi=ma.leftUp.x(),mx=ma.rightDown.x();xi<=mx;++xi)
+        for(int yi=ma.leftUp.y(),my=ma.rightDown.y();yi<=my;++yi)
+            drawBlockHighlight(xi,yi,color,iwidth);
 }
 
-void MapWidget::drawBlockHighlight(const QPointF& casePos, const QColor& color, float width)
+void MapWidget::drawBlockHighlight(const QPointF& casePos, const QColor& color, float iwidth)
 {
-    drawBlockHighlight(QPoint(casePos.x(), casePos.y()), color, width);
+    drawBlockHighlight(QPoint(casePos.x(), casePos.y()), color, iwidth);
 }
 
-void MapWidget::drawBlockHighlight(const QPoint& casePos, const QColor& color, float width)
+void MapWidget::drawBlockHighlight(const QPoint& casePos, const QColor& color, float iwidth)
 {
-    drawBlockHighlight(casePos.x(), casePos.y(), color, width);
+    drawBlockHighlight(casePos.x(), casePos.y(), color, iwidth);
 }
 
-void MapWidget::drawBlockHighlight(int x, int y, const QColor& color, float width, bool noDelete)
+void MapWidget::drawBlockHighlight(int xi, int yi, const QColor& color, float iwidth, bool noDelete)
 {
-    QPen pe (color); pe.setWidthF(width); pe.setJoinStyle(Qt::MiterJoin);
-    QGraphicsRectItem* it = m_scene.addRect(x*BLOC_SIZE, y*BLOC_SIZE,BLOC_SIZE, BLOC_SIZE,  pe);
+    QPen pe (color); pe.setWidthF(iwidth); pe.setJoinStyle(Qt::MiterJoin);
+    QGraphicsRectItem* it = m_scene.addRect(xi*BLOC_SIZE, yi*BLOC_SIZE,BLOC_SIZE, BLOC_SIZE,  pe);
     if(!noDelete)
         m_tempItems.append(it);
 }
@@ -561,24 +561,24 @@ QPoint MapWidget::posToMap(QPoint p)
     if(!isMapValid())
         return QPoint();
 
-    QPointF pos=mapToScene(p);
+    QPointF po=mapToScene(p);
 
-    int mx=m_map->mapSizeX();
-    int my=m_map->mapSizeY();
+    int mx=m_map->mapSizeX()-1;
+    int my=m_map->mapSizeY()-1;
 
-    int x = pos.x()/BLOC_SIZE;
-    if(x<0)
-        x=0;
-    if(x>mx)
-        x=mx;
+    int xi = po.x()/BLOC_SIZE;
+    if(xi<0)
+        xi=0;
+    if(xi>mx)
+        xi=mx;
 
-    int y = pos.y()/BLOC_SIZE;
-    if(y<0)
-        y=0;
-    if(y>my)
-        y=my;
+    int yi = po.y()/BLOC_SIZE;
+    if(yi<0)
+        yi=0;
+    if(yi>my)
+        yi=my;
 
-    return QPoint(x,y);
+    return QPoint(xi,yi);
 }
 
 void MapWidget::scrollContentsBy (int dx, int dy)
@@ -591,11 +591,11 @@ void MapWidget::scrollContentsBy (int dx, int dy)
     QGraphicsView::scrollContentsBy(dx,dy);
 }
 
-void MapWidget::mouseMoveEvent (QMouseEvent *event)
+void MapWidget::mouseMoveEvent (QMouseEvent *ev)
 {
     if(isMapValid())
     {
-        QPoint p=posToMap(event->pos());
+        QPoint p=posToMap(ev->pos());
         if(p!=m_highlightedCase)
         {
             m_highlightedCase=p;
@@ -603,7 +603,7 @@ void MapWidget::mouseMoveEvent (QMouseEvent *event)
                 emit highlightedCaseChanged(p);
         }
     }
-    QGraphicsView::mouseMoveEvent(event);
+    QGraphicsView::mouseMoveEvent(ev);
 }
 
 void MapWidget::setHighlight(bool highlight)
@@ -612,26 +612,26 @@ void MapWidget::setHighlight(bool highlight)
     setMouseTracking(highlight);
 }
 
-void MapWidget::mousePressEvent(QMouseEvent* event)
+void MapWidget::mousePressEvent(QMouseEvent* ev)
 {
-    if(event->button() == Qt::LeftButton)
+    if(ev->button() == Qt::LeftButton)
     {
         if(isMapValid())
         {
             m_mouseDown=true;
-            m_mouseDownPos=posToMap(event->pos());
+            m_mouseDownPos=posToMap(ev->pos());
         }
     }
-    QGraphicsView::mousePressEvent(event);
+    QGraphicsView::mousePressEvent(ev);
 }
 
-void MapWidget::mouseReleaseEvent(QMouseEvent* event)
+void MapWidget::mouseReleaseEvent(QMouseEvent* ev)
 {
-    if(event->button() == Qt::LeftButton)
+    if(ev->button() == Qt::LeftButton)
     {
         if(isMapValid())
         {
-            m_selectedCase = posToMap(event->pos());
+            m_selectedCase = posToMap(ev->pos());
             emit mapClicked(m_selectedCase);
             m_mouseDown=false;
             m_mouseUpPos=m_selectedCase;
@@ -639,7 +639,7 @@ void MapWidget::mouseReleaseEvent(QMouseEvent* event)
             emit mapAreaSelected(ma);
         }
     }
-    QGraphicsView::mouseReleaseEvent(event);
+    QGraphicsView::mouseReleaseEvent(ev);
 }
 
 void MapWidget::leaveEvent(QEvent*)

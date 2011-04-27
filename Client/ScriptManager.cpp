@@ -14,7 +14,7 @@
 #include "EditorDialog.h"
 
 
-ScriptManager::ScriptManager(QWidget* parent):QWidget(parent)
+ScriptManager::ScriptManager(QWidget* par):QWidget(par)
 {
     m_GM = false;
     m_editor = new EditorDialog(this, SCRIPT_EDIT);

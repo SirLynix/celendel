@@ -5,7 +5,7 @@
 #include <QLayout>
 #include <QScrollArea>
 
-TableLine::TableLine(const QString& s1, const QString& s2, QWidget* parent) : QWidget(parent)
+TableLine::TableLine(const QString& s1, const QString& s2, QWidget* par) : QWidget(par)
 {
         m_l1 = new QLineEdit(this);
         m_l1->setText(s1);
@@ -31,7 +31,7 @@ QStringPair TableLine::getPair() const
 }
 
 
-TableEditor::TableEditor(QWidget* parent, const QStringPairList& list) : QDialog(parent)
+TableEditor::TableEditor(QWidget* par, const QStringPairList& list) : QDialog(par)
 {
     QVBoxLayout* lay = new QVBoxLayout;
     setLayout(lay);

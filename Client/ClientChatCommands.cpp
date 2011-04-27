@@ -76,7 +76,7 @@ void ClientInterface::sendMessage()
     }
 
 
-    bool show=true;
+    bool shw=true;
 
 
     if(txt[0]=='/')
@@ -87,13 +87,13 @@ void ClientInterface::sendMessage()
                 lg(tr("Erreur : pas assez d'arguments."));
 
             m_network->send(ETI(SET_NICK), serialiseSetNickData(txt.mid( tr("/pseudo").size() )));
-            show=false;
+            shw=false;
         }
         else if(txt.startsWith(tr("/ping")))
         {
             lg(tr("Ping actuel : %1ms").arg(m_network->getPing()));
             m_network->ping();
-            show=false;
+            shw=false;
         }
         else if(txt.startsWith(tr("/kick")))
         {
@@ -165,7 +165,7 @@ void ClientInterface::sendMessage()
             }
 
             m_network->send(ETI(GM_ELECT), serialiseGMElectData(CLIDFromString(spl[1])));
-            show=false;
+            shw=false;
         }
         else if(txt.startsWith(tr("/changemj"), Qt::CaseInsensitive))
         {
@@ -182,7 +182,7 @@ void ClientInterface::sendMessage()
         else if(txt.startsWith(tr("/lancerpartie"), Qt::CaseInsensitive))
         {
             m_network->send(ETI(LAUNCH_GAME), QByteArray());
-            show=false;
+            shw=false;
         }
         else if(txt.startsWith(tr("/me"))||txt.startsWith(tr("/moi")))
         {
@@ -195,7 +195,7 @@ void ClientInterface::sendMessage()
             }
 
             m_network->send(ETI(CHAT), serialiseChatData(ETI(SELF_NARRATOR), "", txt.mid( spl[0].size()).simplified(), 0));
-            show=false;
+            shw=false;
         }
         else if(txt.startsWith(tr("/rp"))||txt.startsWith(tr("/jdr")))
         {
@@ -208,13 +208,13 @@ void ClientInterface::sendMessage()
             }
 
             m_network->send(ETI(CHAT), serialiseChatData(ETI(RP), m_RPLanguage->currentText(), txt.mid( spl[0].size()).simplified(), 0));
-            show=false;
+            shw=false;
             m_chatInput->setText(spl[0]+' ');
         }
         else if(txt.startsWith(tr("/1d20")))
         {
             rollDice();
-            show=false;
+            shw=false;
         }
         else if(txt.startsWith(tr("/nomserveur")))
         {
@@ -231,11 +231,11 @@ void ClientInterface::sendMessage()
         else if(txt.startsWith("/stopsounds"))
         {
             sndMngr.stopSounds();
-            show=false;
+            shw=false;
         }
     }
 
-    if(show)
+    if(shw)
         m_network->send(ETI(CHAT), serialiseChatData(ETI(NORMAL), "", txt, 0));
 
 }

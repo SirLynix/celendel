@@ -13,7 +13,7 @@
 
 #include <QDebug>
 
-QColorPickerWidget::QColorPickerWidget(QWidget *parent):QWidget(parent)
+QColorPickerWidget::QColorPickerWidget(QWidget *par):QWidget(par)
 {
     m_SBchanged=false;
     m_alphaEnabled=true;

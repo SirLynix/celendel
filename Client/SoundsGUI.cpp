@@ -118,7 +118,7 @@ void SoundsGUI::createLib()
     d->exec();
 }
 
-dial::dial(QWidget *parent):QDialog(parent)
+dial::dial(QWidget *par):QDialog(par)
 {
     setWindowTitle(tr("42 - Don't panic !"));
     QLabel* l=new QLabel(tr("<h3>Copie des données en cours, création de la bibliothèque...</h3>Il est possible que l'opération prenne du temps, tout spécialement si la machine hôte est lente ou que la quantité de données à copier est importante, merci de patienter. Forcer la fermeture provoquerait la corruption des données de la bibliothèque en cours d'écriture."), this);

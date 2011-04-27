@@ -76,12 +76,12 @@ bool ClientInterface::addLanguage(const QString& lang, const QString& dic)
     return false;
 }
 
-void ClientInterface::languageListMenu(const QPoint& pos)
+void ClientInterface::languageListMenu(const QPoint& p)
 {
     if(!isGM())
         return;
 
-    QTableWidgetItem* dsq=m_languageManagement->itemAt(0,pos.y());
+    QTableWidgetItem* dsq=m_languageManagement->itemAt(0,p.y());
     if(dsq==0)
         return;
 
@@ -97,7 +97,7 @@ void ClientInterface::languageListMenu(const QPoint& pos)
     list << m_removeLanguage;
     list << m_addLanguageAct;
 
-    QMenu::exec(list, m_languageManagement->mapToGlobal(pos));
+    QMenu::exec(list, m_languageManagement->mapToGlobal(p));
 }
 
 void ClientInterface::sendLanguageList()
@@ -107,7 +107,7 @@ void ClientInterface::sendLanguageList()
 
     QList<QPair<QString, QString> > list;
 
-    for(int i=0,size=m_languageManagement->rowCount();i<size;++i)
+    for(int i=0,sizei=m_languageManagement->rowCount();i<sizei;++i)
     {
         list.append(qMakePair(m_languageManagement->item(i,0)->text(),m_languageManagement->item(i,1)->text()));
     }
@@ -162,7 +162,7 @@ void ClientInterface::importLanguageList()
 
     QStringList keys=set.allKeys();
 
-    for(int i=0,size=keys.size();i<size;++i)
+    for(int i=0,sizei=keys.size();i<sizei;++i)
     {
         addLanguage(keys[i], set.value(keys[i]).toString());
     }

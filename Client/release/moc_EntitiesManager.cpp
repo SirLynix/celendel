@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Meta object code from reading C++ file 'EntitiesManager.h'
 **
-** Created: Sat 23. Apr 14:39:02 2011
+** Created: Wed 27. Apr 15:26:21 2011
 **      by: The Qt Meta Object Compiler version 62 (Qt 4.7.0)
 **
 ** WARNING! All changes made in this file will be lost!

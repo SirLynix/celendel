@@ -107,7 +107,7 @@ bool SoundLib::createSoundLib(const QString& name, const QStringList& fileList, 
 
     QDataStream in(&f);
 
-    in<<(LVER)ver;
+    in<<static_cast<LVER>(ver);
     in<<fileName;
     bool err=false;
     for(int i=0; i<fileList.size();++i)
@@ -174,9 +174,9 @@ SoundLib::SoundLib(const QString& n, LVER ver)
         {
             if(soundsName.count(soundsName[i])>1)
             {
-                QString n = soundsName[i];
-                soundsName.removeAll(n);
-                soundsName.append(n);
+                QString ni=soundsName[i];
+                soundsName.removeAll(ni);
+                soundsName.append(ni);
                 break;
             }
             if(i+1==soundsName.size())

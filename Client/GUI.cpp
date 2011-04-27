@@ -303,37 +303,37 @@ m_GMPanelDock->setWidget(GMPanelTab);
 {
 QGroupBox* gb=new QGroupBox(tr("Langages"),this);
 GMPanelTab->addTab(gb, tr("Langages"));
-QVBoxLayout* layout=new QVBoxLayout(gb);
+QVBoxLayout* layouti=new QVBoxLayout(gb);
 m_languageManagement = new QTableWidget(0,2,this);
 m_languageManagement->setContextMenuPolicy(Qt::CustomContextMenu);
 {QStringList _tmp; _tmp<<tr("Langage")<<tr("Dictionnaire", "For the multi-language system"); m_languageManagement->setHorizontalHeaderLabels(_tmp); }
 m_languageManagement->setEditTriggers(QAbstractItemView::NoEditTriggers);
 m_languageManagement->setSelectionMode(QAbstractItemView::SingleSelection);
-layout->addWidget(m_languageManagement);
+layouti->addWidget(m_languageManagement);
 
 m_addLanguage = new QPushButton(tr("Ajouter un langage"), this);
 connect(m_addLanguage, SIGNAL(pressed()), this, SLOT(addLanguage()));
-layout->addWidget(m_addLanguage);
+layouti->addWidget(m_addLanguage);
 
 m_importLanguages = new QPushButton(tr("Importer une liste de langages"), this);
 connect(m_importLanguages, SIGNAL(pressed()), this, SLOT(importLanguageList()));
-layout->addWidget(m_importLanguages);
+layouti->addWidget(m_importLanguages);
 
 m_syncroniseLanguages = new QPushButton(tr("Synchroniser la liste des langages"), this);
 connect(m_syncroniseLanguages, SIGNAL(pressed()), this, SLOT(sendLanguageList()));
-layout->addWidget(m_syncroniseLanguages);
+layouti->addWidget(m_syncroniseLanguages);
 }
 
 {
 QGroupBox* gb=new QGroupBox(tr("Dictionnaires"),this);
 GMPanelTab->addTab(gb, tr("Dictionnaires"));
 
-QVBoxLayout* layout=new QVBoxLayout(gb);
+QVBoxLayout* layouti=new QVBoxLayout(gb);
 m_dictionnariesList = new QListWidget(this);
-layout->addWidget(m_dictionnariesList);
+layouti->addWidget(m_dictionnariesList);
 
 m_addDictionnary = new QPushButton(tr("Ajouter un dictionnaire"), this);
-layout->addWidget(m_addDictionnary);
+layouti->addWidget(m_addDictionnary);
 connect(m_addDictionnary, SIGNAL(pressed()), this, SLOT(addDictionnary()));
 }
 

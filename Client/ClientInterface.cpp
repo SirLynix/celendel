@@ -130,16 +130,16 @@ void ClientInterface::dataPerSecond(int d, int u)
     if(d<1024)
         m_dlPerSec->setText(tr("Download : %1 o/s").arg(d,5));
     else if(d<1024*1024)
-        m_dlPerSec->setText(tr("Download : %1 kio/s").arg((double)d/1024,5,'g',2));
+        m_dlPerSec->setText(tr("Download : %1 kio/s").arg(static_cast<double>(d)/1024,5,'g',2));
     else
-        m_dlPerSec->setText(tr("Download : %1 mio/s").arg((double)d/1024/1024,5,'g',2));
+        m_dlPerSec->setText(tr("Download : %1 mio/s").arg(static_cast<double>(d)/1024/1024,5,'g',2));
 
     if(u<1024)
         m_upPerSec->setText(tr("Upload : %1 o/s", "").arg(u,5));
     else if(u<1024*1024)
-        m_upPerSec->setText(tr("Upload : %1 kio/s").arg((double)u/1024,5,'g',2));
+        m_upPerSec->setText(tr("Upload : %1 kio/s").arg(static_cast<double>(u)/1024,5,'g',2));
     else
-        m_upPerSec->setText(tr("Upload : %1 mio/s").arg((double)u/1024/1024,5,'g',2));
+        m_upPerSec->setText(tr("Upload : %1 mio/s").arg(static_cast<double>(u)/1024/1024,5,'g',2));
 }
 
 void ClientInterface::setInterface(const QString& path)
@@ -151,9 +151,9 @@ void ClientInterface::setInterface(const QString& path)
     restoreState(file.readAll());
 }
 
-void ClientInterface::playerListMenu(const QPoint& pos)
+void ClientInterface::playerListMenu(const QPoint& p)
 {
-    QModelIndex mod = m_v_pl->indexAt(pos);
+    QModelIndex mod = m_v_pl->indexAt(p);
     if(!mod.isValid())
         return;
     CLID cID=mod.data(DTA_CLID).toInt();
@@ -193,7 +193,7 @@ void ClientInterface::playerListMenu(const QPoint& pos)
     }
 
     if(!list.isEmpty())
-        QMenu::exec(list, m_v_pl->mapToGlobal(pos));
+        QMenu::exec(list, m_v_pl->mapToGlobal(p));
 }
 
 void ClientInterface::VOIPRemoveClient()
@@ -815,21 +815,21 @@ QString ClientInterface::getRolePlayName(CLID ID)
     return n;
 }
 
-void ClientInterface::chat(CLID sender, QString lang, QString txt, ENUM_TYPE canal)
+void ClientInterface::chat(CLID send, QString lang, QString txt, ENUM_TYPE canal)
 {
     if(canal==NORMAL)
     {
-        lg(anonym(sender)+" : "+txt);
+        lg(anonym(send)+" : "+txt);
     }
     else if(canal==RP)
     {
         if(!lang.isEmpty())
             lang="["+lang+"] ";
-        m_RPChat->append(getRolePlayName(sender) + " : " + lang + txt);
+        m_RPChat->append(getRolePlayName(send) + " : " + lang + txt);
     }
     else if(canal==SELF_NARRATOR)
     {
-        m_RPChat->append(getRolePlayName(sender) + " " + txt);
-        m_narrator->append(getRolePlayName(sender) + " " + txt);
+        m_RPChat->append(getRolePlayName(send) + " " + txt);
+        m_narrator->append(getRolePlayName(send) + " " + txt);
     }
 }

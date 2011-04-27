@@ -16,8 +16,8 @@ SoundReceiver::SoundReceiver(const QHostAddress& hostAddress, const quint16& por
     connect(updateTimer, SIGNAL(timeout()), this, SLOT(update()));
     updateTimer->start(500);
 
-    dta = 0;
-    DPS = 0;
+    dta=0;
+    DPS=0;
 }
 
 void SoundReceiver::setPort(quint16 port)
@@ -27,8 +27,8 @@ void SoundReceiver::setPort(quint16 port)
 
 void SoundReceiver::update()
 {
-    DPS = dta*2;
-    dta = 0;
+    DPS=dta*2;
+    dta=0;
 }
 
 int SoundReceiver::dataPerSecond()
@@ -39,9 +39,7 @@ int SoundReceiver::dataPerSecond()
 void SoundReceiver::decoded(const ALshortVector& samples)
 {
     if(samples.size())
-    {
         emit dataReceived(samples);
-    }
 }
 
 void SoundReceiver::readPendingDatagrams()
@@ -50,9 +48,9 @@ void SoundReceiver::readPendingDatagrams()
     {
         QByteArray datagram;
         datagram.resize(udpSocket->pendingDatagramSize());
-        QHostAddress sender;
+        QHostAddress sendr;
         quint16 senderPort;
-        udpSocket->readDatagram(datagram.data(), datagram.size(), &sender, &senderPort);
+        udpSocket->readDatagram(datagram.data(), datagram.size(), &sendr, &senderPort);
         dta += datagram.size();
 
         speex.decode(datagram);
