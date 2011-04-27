@@ -2,7 +2,7 @@ TEMPLATE = app
 
 LIBS += -lsfml-audio -lsfml-window -lsfml-system -lALut -lOpenAL32 -lspeex -lspeexdsp -llua5.1 -lqscintilla2
 
-QMAKE_CXXFLAGS +=  -O3 -Wall -Wmain -s -W -Wextra
+QMAKE_CXXFLAGS += -O3 -s -Wall -Wextra -Wold-style-cast -Woverloaded-virtual -Wwrite-strings -Wpointer-arith -Wcast-qual -Wcast-align -Wshadow  -Wredundant-decls -Wswitch
 
 CONFIG += console
 QT += network

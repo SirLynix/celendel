@@ -6,7 +6,7 @@ QColor removeAlpha(const QColor& col)
     return QColor(col.red(), col.green(), col.blue());
 }
 
-QColorViewer::QColorViewer(QWidget *parent):QWidget(parent)
+QColorViewer::QColorViewer(QWidget *par):QWidget(par)
 {
     setMinimumSize(15, 15);
 }
@@ -22,9 +22,9 @@ void QColorViewer::paintEvent(QPaintEvent*)
     p.drawRect( QRect( 2, 2, width()-4, height()-4 ) );
 }
 
-void QColorViewer::setPen(const QPen &pen)
+void QColorViewer::setPen(const QPen &p)
 {
-    actualPen = pen;
+    actualPen = p;
 }
 
 QPen QColorViewer::pen() const
@@ -32,9 +32,9 @@ QPen QColorViewer::pen() const
     return actualPen;
 }
 
-void QColorViewer::setColor(const QColor &color)
+void QColorViewer::setColor(const QColor &col)
 {
-    actualColor = removeAlpha(color);
+    actualColor = removeAlpha(col);
     update();
 }
 
@@ -44,8 +44,8 @@ QColor QColorViewer::color() const
 }
 
 
-void QColorViewer::changeColor(const QColor &color)
+void QColorViewer::changeColor(const QColor &col)
 {
-    actualColor = color;
+    actualColor = col;
     update();
 }

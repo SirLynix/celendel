@@ -64,10 +64,10 @@ void ClientNetwork::operatePacket(Packet* packet)
         {
             QString txt; QString lang;
             ENUM_TYPE can;
-            CLID sender;
-            QE(extractChatData(packet->data, can, lang, txt, sender));
+            CLID se;
+            QE(extractChatData(packet->data, can, lang, txt, se));
 
-            emit chatReceived(sender, lang, txt, can);
+            emit chatReceived(se, lang, txt, can);
         }
         break;
         case NEW_GM:

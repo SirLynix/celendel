@@ -112,31 +112,31 @@ float VOIP::volume(const QString& ip) const
     }
 }
 
-void VOIP::setVolume(float volume, const QString& ip)
+void VOIP::setVolume(float vol, const QString& ip)
 {
-    if(volume<0)
+    if(vol<0)
     {
-        volume=0;
+        vol=0;
     }
-    else if(volume>100)
+    else if(vol>100)
     {
-        volume=1;
+        vol=1;
     }
     else
-        volume=volume/100;
+        vol=vol/100;
 
     if(ip.isEmpty())
     {
-        m_volume=volume;
+        m_volume=vol;
         for(int i=0;i<m_clients.size();++i)
-            m_clients[i].sound->setVolume(volume);
+            m_clients[i].sound->setVolume(vol);
     }
     else
     {
         int in=indexOf(ip);
         if(in==-1)
             return;
-        m_clients[in].sound->setVolume(volume);
+        m_clients[in].sound->setVolume(vol);
     }
 }
 
@@ -200,11 +200,10 @@ void VOIP::send(QByteArray b)
 
 void VOIP::update()
 {
-    int d = 0;
-    for(size_t i = 0; i < (size_t)m_clients.size(); ++i)
-    {
+    int d=0;
+    for(size_t i = 0;i<static_cast<size_t>(m_clients.size());++i)
         d += m_clients[i].receiver->dataPerSecond();
-    }
+
     emit dataPerSecond(d, dataUp);
     dataUp = 0;
 }

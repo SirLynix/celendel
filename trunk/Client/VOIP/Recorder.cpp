@@ -41,9 +41,9 @@ bool Recorder::changeDevice(const QString& name)
 
     stopRecord();
 
-    ALCdevice* tr=m_captureDevice;
+    ALCdevice* t=m_captureDevice;
     m_captureDevice=tmp;
-    alcCaptureCloseDevice(tr);
+    alcCaptureCloseDevice(t);
 
     startRecord();
 

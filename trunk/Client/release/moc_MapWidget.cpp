@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Meta object code from reading C++ file 'MapWidget.h'
 **
-** Created: Tue 26. Apr 17:34:55 2011
+** Created: Wed 27. Apr 15:26:08 2011
 **      by: The Qt Meta Object Compiler version 62 (Qt 4.7.0)
 **
 ** WARNING! All changes made in this file will be lost!

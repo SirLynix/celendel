@@ -14,7 +14,7 @@
 #include "../Shared/LuaSystem/ScriptedEntity.h"
 #include "TableEditor.h"
 
-Line::Line(QWidget* parent) : QWidget(parent)
+Line::Line(QWidget* par) : QWidget(par)
 {
     m_b=false;
 
@@ -149,7 +149,7 @@ QString Line::toScript() const
     return t;
 }
 
-EntityMaker::EntityMaker(QWidget* parent) : QDialog(parent)
+EntityMaker::EntityMaker(QWidget* par) : QDialog(par)
 {
     QHBoxLayout* lay=new QHBoxLayout;
     setLayout(lay);

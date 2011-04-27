@@ -28,7 +28,7 @@
 
 #define UPDATE_DELAY
 
-MapEditor::MapEditor(QWidget* parent, const QString& map, const QString& ressourceList):QMainWindow(parent)
+MapEditor::MapEditor(QWidget* par, const QString& map, const QString& ressourceList):QMainWindow(par)
 {
     m_mapWidget = NULL; m_currentItemIndex=0;
 
@@ -238,11 +238,11 @@ MapEditor::MapEditor(QWidget* parent, const QString& map, const QString& ressour
 void MapEditor::setSendingButtonEnabled(bool b) {m_sendingBtn->setEnabled(b);}
 bool MapEditor::isSendingButtonEnabled() {return m_sendingBtn->isEnabled();}
 
-void MapEditor::closeEvent (QCloseEvent *event)
+void MapEditor::closeEvent (QCloseEvent *ev)
 {
     if(saveCheck())
     {
-        event->ignore();
+        ev->ignore();
         return;
     }
 
@@ -284,12 +284,12 @@ bool MapEditor::replaceRSID(RSID before, RSID after)
     modified();
 
     MapInformations* map = m_mapWidget->m_map.get();
-    for(int x=0,mx=map->mapSizeX();x<mx;++x)
+    for(int xi=0,mx=map->mapSizeX();xi<mx;++xi)
     {
-        for(int y=0,my=map->mapSizeY();y<my;++y)
+        for(int yi=0,my=map->mapSizeY();yi<my;++yi)
         {
-            if(map->map[x][y]==before)
-                map->map[x][y]=after;
+            if(map->map[xi][yi]==before)
+                map->map[xi][yi]=after;
         }
     }
 
@@ -394,7 +394,7 @@ void MapEditor::addMapObject()
     AddObjectDialog dia(this, m_selectedCase, QPoint(m_mapWidget->m_map->mapSizeX(), m_mapWidget->m_map->mapSizeY()), tr("Nouvel objet"));
     if(dia.exec()==QDialog::Accepted)
     {
-        m_mapWidget->m_map->mapItems.append(MapItem(dia.getCoords(), dia.getRSID(), dia.getText(), dia.getColor(), (qreal)dia.getColorValue()/100.0f));
+        m_mapWidget->m_map->mapItems.append(MapItem(dia.getCoords(), dia.getRSID(), dia.getText(), dia.getColor(), static_cast<qreal>(dia.getColorValue())/100.0f));
         refreshObjetsList();
     }
 }
@@ -522,9 +522,9 @@ void MapEditor::changeCurrentCaseRSID(int n)
     if(!isMapValid())
         return;
 
-    if(m_mapWidget->m_map->map[m_selectedCase.x()][ m_selectedCase.y()]!=(RSID)n)
+    if(m_mapWidget->m_map->map[m_selectedCase.x()][ m_selectedCase.y()]!=static_cast<RSID>(n))
     {
-        m_mapWidget->m_map->map[m_selectedCase.x()][ m_selectedCase.y()] = (RSID)n;
+        m_mapWidget->m_map->map[m_selectedCase.x()][ m_selectedCase.y()] = static_cast<RSID>(n);
         modified();
     }
 }
@@ -682,7 +682,7 @@ void MapEditor::copy()
     m_copyReady=true;
 }
 
-void MapEditor::paste(QPoint pos)
+void MapEditor::paste(QPoint p)
 {
     if(!m_copyReady || !isMapValid())
         return;
@@ -692,11 +692,11 @@ void MapEditor::paste(QPoint pos)
 
     QPoint cas = m_copyArea.size();
 
-    for(int x=0; x<cas.x() && x+pos.x()<sizeX; ++x)
+    for(int xi=0; xi<cas.x() && xi+p.x()<sizeX; ++xi)
     {
-        for(int y=0; y<cas.y() && y+pos.y()<sizeY; ++y)
+        for(int yi=0; yi<cas.y() && yi+p.y()<sizeY; ++yi)
         {
-            m_mapWidget->m_map->map[x+pos.x()][y+pos.y()] = m_mapWidget->m_map->map[m_copyArea.leftUp.x()+x][m_copyArea.leftUp.y()+y];
+            m_mapWidget->m_map->map[xi+p.x()][yi+p.y()] = m_mapWidget->m_map->map[m_copyArea.leftUp.x()+xi][m_copyArea.leftUp.y()+yi];
         }
     }
 
@@ -798,7 +798,7 @@ void MapEditor::ressourceLoadingProgress(int curr, int max)
     pgrdia->setValue(2+(97*curr/max));
 }
 
-bool MapEditor::createEmptyMap(QPoint size, const QString& name, const QString& ressPack, RSID defaultRSID)
+bool MapEditor::createEmptyMap(QPoint sizei, const QString& name, const QString& ressPack, RSID defaultRSID)
 {
     delete m_mapWidget;
     m_mapWidget = new MapWidget(this, 1.0f);
@@ -808,10 +808,10 @@ bool MapEditor::createEmptyMap(QPoint size, const QString& name, const QString& 
     m_mapWidget->setMultiSelectionEnabled(true);
     m_mapWidget->setCursor(Qt::CrossCursor);
 
-    m_mapWidget->setMap(MapWidget::makeMap(size, defaultRSID));
+    m_mapWidget->setMap(MapWidget::makeMap(sizei, defaultRSID));
     if(!m_mapWidget->isMapValid())
     {
-        QMessageBox::critical(this,tr("Erreur"),tr("Impossible de créer la carte de dimension %1x%2").arg(size.x(), size.y()));
+        QMessageBox::critical(this,tr("Erreur"),tr("Impossible de créer la carte de dimension %1x%2").arg(sizei.x(), sizei.y()));
         return true;
     }
 

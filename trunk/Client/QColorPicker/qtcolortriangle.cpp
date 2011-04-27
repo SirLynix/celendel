@@ -111,8 +111,7 @@ struct Vertex {
 
     Vertex(const DoubleColor &c, const QPointF &p) : color(c), point(p) {}
     Vertex(const QColor &c, const QPointF &p)
-	: color(DoubleColor((double) c.red(), (double) c.green(),
-			    (double) c.blue())), point(p) {}
+	: color(DoubleColor(static_cast<double>(c.red()), static_cast<double>(c.green()), static_cast<double>(c.blue()))), point(p) {}
 };
 
 /*! \internal
@@ -135,8 +134,7 @@ QColor toGreyScale(const QColor& col)
 /*!
     Constructs a color triangle widget with the given \a parent.
 */
-QtColorTriangle::QtColorTriangle(QWidget *parent)
-    : QWidget(parent), bg(sizeHint(), QImage::Format_RGB32), selMode(Idle)
+QtColorTriangle::QtColorTriangle(QWidget *par):QWidget(par), bg(sizeHint(), QImage::Format_RGB32), selMode(Idle)
 {
     setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Minimum);
     setFocusPolicy(Qt::StrongFocus);
@@ -166,11 +164,11 @@ void QtColorTriangle::polish()
     if ((contentsRect().height() - 1) / 2 < outerRadius)
 	outerRadius = (contentsRect().height() - 1) / 2;
 
-    penWidth = (int) floor(outerRadius / 50.0);
-    ellipseSize = (int) floor(outerRadius / 12.5);
+    penWidth = static_cast<int>(floor(outerRadius / 50.0));
+    ellipseSize = static_cast<int>(floor(outerRadius / 12.5));
 
-    double cx = (double) contentsRect().center().x();
-    double cy = (double) contentsRect().center().y();
+    double cx = static_cast<double>(contentsRect().center().x());
+    double cy = static_cast<double>(contentsRect().center().y());
 
     pa = QPointF(cx + (cos(a) * (outerRadius - (outerRadius / 5.0))),
 		     cy - (sin(a) * (outerRadius - (outerRadius / 5.0))));
@@ -221,16 +219,16 @@ void QtColorTriangle::genBackground()
     p.fillRect(bg.rect(), palette().mid());
 
     QConicalGradient gradient(bg.rect().center(), 90);
-    QColor color;
+    QColor col;
     for (double i = 0; i <= 1.0; i += 0.1) {
 #if QT_VERSION < 0x040100
-        color.setHsv(int(i * 360.0), 255, 255);
+        col.setHsv(int(i * 360.0), 255, 255);
 #else
-        color.setHsv(int(360.0 - (i * 360.0)), 255, 255);
+        col.setHsv(int(360.0 - (i * 360.0)), 255, 255);
 #endif
         if(!isEnabled())
-            color=toGreyScale(color);
-        gradient.setColorAt(i, color);
+            col=toGreyScale(col);
+        gradient.setColorAt(i, col);
     }
 
     QRectF innerRadiusRect(bg.rect().center().x() - innerRadius, bg.rect().center().y() - innerRadius,
@@ -248,31 +246,30 @@ void QtColorTriangle::genBackground()
 
     double penThickness = bg.width() / 400.0;
     for (int f = 0; f <= 5760; f += 20) {
-        int value = int((0.5 + cos(((f - 1800) / 5760.0) * TWOPI) / 2) * 255.0);
+        int value = static_cast<int>((0.5 + cos(((f - 1800) / 5760.0) * TWOPI) / 2) * 255.0);
 
-        color.setHsv(int((f / 5760.0) * 360.0), 128 + (255 - value)/2, 255 - (255 - value)/4);
+        col.setHsv(static_cast<int>((f / 5760.0) * 360.0), 128 + (255 - value)/2, 255 - (255 - value)/4);
         if(!isEnabled())
-            color=toGreyScale(color);
+            col=toGreyScale(col);
 
-        p.setPen(QPen(color, penThickness));
+        p.setPen(QPen(col, penThickness));
         p.drawArc(innerRadiusRect, 1440 - f, 20);
 
-        color.setHsv(int((f / 5760.0) * 360.0), 128 + value/2, 255 - value/4);
+        col.setHsv(static_cast<int>((f / 5760.0) * 360.0), 128 + value/2, 255 - value/4);
         if(!isEnabled())
-            color=toGreyScale(color);
+            col=toGreyScale(col);
 
-        p.setPen(QPen(color, penThickness));
+        p.setPen(QPen(col, penThickness));
         p.drawArc(outerRadiusRect, 2880 - 1440 - f, 20);
     }
     return;
 }
 
-bool QtColorTriangle::event(QEvent *event)
+bool QtColorTriangle::event(QEvent *ev)
 {
-    if(event->type()==QEvent::EnabledChange)
+    if(ev->type()==QEvent::EnabledChange)
         mustGenerateBackground=true;
-   // event->ignore();
-    return QWidget::event(event);
+    return QWidget::event(ev);
 }
 
 /*!
@@ -286,7 +283,7 @@ void QtColorTriangle::mouseMoveEvent(QMouseEvent *e)
     if ((e->buttons() & Qt::LeftButton) == 0)
         return;
 
-    QPointF depos((double) e->pos().x(), (double) e->pos().y());
+    QPointF depos(static_cast<double>(e->pos().x()),static_cast<double>(e->pos().y()));
     bool newColor = false;
 
     if (selMode == SelectingHue) {
@@ -302,7 +299,7 @@ void QtColorTriangle::mouseMoveEvent(QMouseEvent *e)
 	double am = a - PI/2;
 	if (am < 0) am += TWOPI;
 
-	curHue = 360 - (int) (((am) * 360.0) / TWOPI);
+	curHue = 360 - static_cast<int>(((am) * 360.0) / TWOPI);
 	int h,s,v;
 	curColor.getHsv(&h, &s, &v);
 
@@ -311,8 +308,8 @@ void QtColorTriangle::mouseMoveEvent(QMouseEvent *e)
 	    curColor.setHsv(curHue, s, v);
 	}
 
-	double cx = (double) contentsRect().center().x();
-	double cy = (double) contentsRect().center().y();
+	double cx = static_cast<double>(contentsRect().center().x());
+	double cy = static_cast<double>(contentsRect().center().y());
 
 	pa = QPointF(cx + (cos(a) * (outerRadius - (outerRadius / 5.0))),
                      cy - (sin(a) * (outerRadius - (outerRadius / 5.0))));
@@ -368,7 +365,7 @@ void QtColorTriangle::mousePressEvent(QMouseEvent *e)
     if (e->button() != Qt::LeftButton)
 	return;
 
-    QPointF depos((double) e->pos().x(), (double) e->pos().y());
+    QPointF depos(static_cast<double>(e->pos().x()), static_cast<double>(e->pos().y()));
     double rad = radiusAt(depos, contentsRect());
     bool newColor = false;
 
@@ -386,7 +383,7 @@ void QtColorTriangle::mousePressEvent(QMouseEvent *e)
 	double am = a - PI/2;
 	if (am < 0) am += TWOPI;
 
-	curHue = 360 - (int) ((am * 360.0) / TWOPI);
+	curHue = 360 - static_cast<int>((am * 360.0) / TWOPI);
 	int h,s,v;
 	curColor.getHsv(&h, &s, &v);
 
@@ -395,8 +392,8 @@ void QtColorTriangle::mousePressEvent(QMouseEvent *e)
 	    curColor.setHsv(curHue, s, v);
 	}
 
-	double cx = (double) contentsRect().center().x();
-	double cy = (double) contentsRect().center().y();
+	double cx = static_cast<double>(contentsRect().center().x());
+	double cy = static_cast<double>(contentsRect().center().y());
 
 	pa = QPointF(cx + (cos(a) * (outerRadius - (outerRadius / 5.0))),
 			 cy - (sin(a) * (outerRadius - (outerRadius / 5.0))));
@@ -518,11 +515,11 @@ void QtColorTriangle::resizeEvent(QResizeEvent *)
     if ((contentsRect().height() - 1) / 2 < outerRadius)
 	outerRadius = (contentsRect().height() - 1) / 2;
 
-    penWidth = (int) floor(outerRadius / 50.0);
-    ellipseSize = (int) floor(outerRadius / 12.5);
+    penWidth = static_cast<int>(floor(outerRadius / 50.0));
+    ellipseSize = static_cast<int>(floor(outerRadius / 12.5));
 
-    double cx = (double) contentsRect().center().x();
-    double cy = (double) contentsRect().center().y();
+    double cx = static_cast<double>(contentsRect().center().x());
+    double cy = static_cast<double>(contentsRect().center().y());
 
     pa = QPointF(cx + (cos(a) * (outerRadius - (outerRadius / 5.0))),
                  cy - (sin(a) * (outerRadius - (outerRadius / 5.0))));
@@ -589,8 +586,8 @@ void QtColorTriangle::paintEvent(QPaintEvent *e)
 	painter.setPen(QPen(Qt::black, penWidth));
     else
 	painter.setPen(QPen(Qt::white, penWidth));
-    painter.drawEllipse((int) (pd.x() - ellipseSize / 2.0),
-			(int) (pd.y() - ellipseSize / 2.0),
+    painter.drawEllipse(static_cast<int>(pd.x() - ellipseSize / 2.0),
+			static_cast<int>(pd.y() - ellipseSize / 2.0),
 			ellipseSize, ellipseSize);
 
     curColor.getRgb(&ri, &gi, &bi);
@@ -620,21 +617,19 @@ Draws a trigon (polygon with three corners \a pa, \a pb and \a pc
     color \a color, \a pb is black and \a bc is white. Bilinear
     gradient.
 */
-void QtColorTriangle::drawTrigon(QImage *buf, const QPointF &pa,
-			       const QPointF &pb, const QPointF &pc,
-			       QColor color)
+void QtColorTriangle::drawTrigon(QImage *buf, const QPointF &pai, const QPointF &pbi, const QPointF &pci, QColor col)
 {
     if(!isEnabled())
-        color=toGreyScale(color);
+        col=toGreyScale(col);
 
     // Create three Vertex objects. A Vertex contains a double-point
     // coordinate and a color.
     // pa is the tip of the arrow
     // pb is the black corner
-    // pc is the white corner
-    Vertex aa(color, pa);
-    Vertex bb(Qt::black, pb);
-    Vertex cc(Qt::white, pc);
+    // pci is the white corner
+    Vertex aa(col, pai);
+    Vertex bb(Qt::black, pbi);
+    Vertex cc(Qt::white, pci);
 
     // Sort. Make p1 above p2, which is above p3 (using y coordinate).
     // Bubble sorting is fastest here.
@@ -675,145 +670,145 @@ void QtColorTriangle::drawTrigon(QImage *buf, const QPointF &pa,
     // the tallest edge (p1-p3).
     DoubleColor source;
     DoubleColor dest;
-    double r, g, b;
+    double ri, gi, bi;
     double rdelta, gdelta, bdelta;
-    double x;
+    double xh;
     double xdelta;
     int y1, y2;
 
     // Initialize with known values
-    x = p1->point.x();
+    xh = p1->point.x();
     source = p1->color;
     dest = p3->color;
-    r = source.r;
-    g = source.g;
-    b = source.b;
-    y1 = (int) floor(p1->point.y());
-    y2 = (int) floor(p3->point.y());
+    ri = source.r;
+    gi = source.g;
+    bi = source.b;
+    y1 = static_cast<double>(floor(p1->point.y()));
+    y2 = static_cast<double>(floor(p3->point.y()));
 
     // Find slopes (notice that if the y dists are 0, we don't care
     // about the slopes)
     xdelta = p1p3ydist == 0.0 ? 0.0 : p1p3xdist / p1p3ydist;
-    rdelta = p1p3ydist == 0.0 ? 0.0 : (dest.r - r) / p1p3ydist;
-    gdelta = p1p3ydist == 0.0 ? 0.0 : (dest.g - g) / p1p3ydist;
-    bdelta = p1p3ydist == 0.0 ? 0.0 : (dest.b - b) / p1p3ydist;
+    rdelta = p1p3ydist == 0.0 ? 0.0 : (dest.r - ri) / p1p3ydist;
+    gdelta = p1p3ydist == 0.0 ? 0.0 : (dest.g - gi) / p1p3ydist;
+    bdelta = p1p3ydist == 0.0 ? 0.0 : (dest.b - bi) / p1p3ydist;
 
     // Calculate gradients using linear approximation
-    int y;
-    for (y = y1; y < y2; ++y) {
+    int yh;
+    for (yh = y1; yh < y2; ++yh) {
 	if (lefty) {
-	    rightColors[y] = DoubleColor(r, g, b);
-	    rightX[y] = x;
+	    rightColors[yh] = DoubleColor(ri, gi, bi);
+	    rightX[yh] = xh;
 	} else {
-	    leftColors[y] = DoubleColor(r, g, b);
-	    leftX[y] = x;
+	    leftColors[yh] = DoubleColor(ri, gi, bi);
+	    leftX[yh] = xh;
 	}
 
-	r += rdelta;
-	g += gdelta;
-	b += bdelta;
-	x += xdelta;
+	ri += rdelta;
+	gi += gdelta;
+	bi += bdelta;
+	xh += xdelta;
     }
 
     // Scan top shorty - find all left and right colors and x-values
     // for the topmost of the two not-tallest short edges.
-    x = p1->point.x();
+    xh = p1->point.x();
     source = p1->color;
     dest = p2->color;
-    r = source.r;
-    g = source.g;
-    b = source.b;
-    y1 = (int) floor(p1->point.y());
-    y2 = (int) floor(p2->point.y());
+    ri = source.r;
+    gi = source.g;
+    bi = source.b;
+    y1 = static_cast<int>(floor(p1->point.y()));
+    y2 = static_cast<int>(floor(p2->point.y()));
 
     // Find slopes (notice that if the y dists are 0, we don't care
     // about the slopes)
     xdelta = p1p2ydist == 0.0 ? 0.0 : p1p2xdist / p1p2ydist;
-    rdelta = p1p2ydist == 0.0 ? 0.0 : (dest.r - r) / p1p2ydist;
-    gdelta = p1p2ydist == 0.0 ? 0.0 : (dest.g - g) / p1p2ydist;
-    bdelta = p1p2ydist == 0.0 ? 0.0 : (dest.b - b) / p1p2ydist;
+    rdelta = p1p2ydist == 0.0 ? 0.0 : (dest.r - ri) / p1p2ydist;
+    gdelta = p1p2ydist == 0.0 ? 0.0 : (dest.g - gi) / p1p2ydist;
+    bdelta = p1p2ydist == 0.0 ? 0.0 : (dest.b - bi) / p1p2ydist;
 
     // Calculate gradients using linear approximation
-    for (y = y1; y < y2; ++y) {
+    for (yh = y1; yh < y2; ++yh) {
 	if (lefty) {
-	    leftColors[y] = DoubleColor(r, g, b);
-	    leftX[y] = x;
+	    leftColors[yh] = DoubleColor(ri, gi, bi);
+	    leftX[yh] = xh;
 	} else {
-	    rightColors[y] = DoubleColor(r, g, b);
-	    rightX[y] = x;
+	    rightColors[yh] = DoubleColor(ri, gi, bi);
+	    rightX[yh] = xh;
 	}
 
-	r += rdelta;
-	g += gdelta;
-	b += bdelta;
-	x += xdelta;
+	ri += rdelta;
+	gi += gdelta;
+	bi += bdelta;
+	xh += xdelta;
     }
 
     // Scan bottom shorty - find all left and right colors and
     // x-values for the bottommost of the two not-tallest short edges.
-    x = p2->point.x();
+    xh = p2->point.x();
     source = p2->color;
     dest = p3->color;
-    r = source.r;
-    g = source.g;
-    b = source.b;
-    y1 = (int) floor(p2->point.y());
-    y2 = (int) floor(p3->point.y());
+    ri = source.r;
+    gi = source.g;
+    bi = source.b;
+    y1 = static_cast<int>(floor(p2->point.y()));
+    y2 = static_cast<int>(floor(p3->point.y()));
 
     // Find slopes (notice that if the y dists are 0, we don't care
     // about the slopes)
     xdelta = p2p3ydist == 0.0 ? 0.0 : p2p3xdist / p2p3ydist;
-    rdelta = p2p3ydist == 0.0 ? 0.0 : (dest.r - r) / p2p3ydist;
-    gdelta = p2p3ydist == 0.0 ? 0.0 : (dest.g - g) / p2p3ydist;
-    bdelta = p2p3ydist == 0.0 ? 0.0 : (dest.b - b) / p2p3ydist;
+    rdelta = p2p3ydist == 0.0 ? 0.0 : (dest.r - ri) / p2p3ydist;
+    gdelta = p2p3ydist == 0.0 ? 0.0 : (dest.g - gi) / p2p3ydist;
+    bdelta = p2p3ydist == 0.0 ? 0.0 : (dest.b - bi) / p2p3ydist;
 
     // Calculate gradients using linear approximation
-    for (y = y1; y < y2; ++y) {
+    for (yh = y1; yh < y2; ++yh) {
 	if (lefty) {
-	    leftColors[y] = DoubleColor(r, g, b);
-	    leftX[y] = x;
+	    leftColors[yh] = DoubleColor(ri, gi, bi);
+	    leftX[yh] = xh;
 	} else {
-	    rightColors[y] = DoubleColor(r, g, b);
-	    rightX[y] = x;
+	    rightColors[yh] = DoubleColor(ri, gi, bi);
+	    rightX[yh] = xh;
 	}
 
-	r += rdelta;
-	g += gdelta;
-	b += bdelta;
-	x += xdelta;
+	ri += rdelta;
+	gi += gdelta;
+	bi += bdelta;
+	xh += xdelta;
     }
 
     // Inner loop. For each y in the left map of x-values, draw one
     // line from left to right.
-    const int p3yfloor = int(floor(p3->point.y()));
-    for (int y = int(floor(p1->point.y())); y < p3yfloor; ++y) {
-	double lx = leftX[y];
-	double rx = rightX[y];
+    const int p3yfloor = static_cast<int>(floor(p3->point.y()));
+    for (int yt = static_cast<int>(floor(p1->point.y())); yt < p3yfloor; ++yt) {
+	double lx = leftX[yt];
+	double rx = rightX[yt];
 
-	int lxi = (int) floor(lx);
-	int rxi = (int) floor(rx);
-	DoubleColor rc = rightColors[y];
-	DoubleColor lc = leftColors[y];
+	int lxi = static_cast<int>(floor(lx));
+	int rxi = static_cast<int>(floor(rx));
+	DoubleColor rc = rightColors[yt];
+	DoubleColor lc = leftColors[yt];
 
         // if the xdist is 0, don't draw anything.
 	double xdist = rx - lx;
 	if (xdist != 0.0) {
-            double r = lc.r;
-            double g = lc.g;
-            double b = lc.b;
-            double rdelta = (rc.r - r) / xdist;
-            double gdelta = (rc.g - g) / xdist;
-            double bdelta = (rc.b - b) / xdist;
+            double ra = lc.r;
+            double ga = lc.g;
+            double ba = lc.b;
+            double rdeltan = (rc.r - ra) / xdist;
+            double gdeltan = (rc.g - ga) / xdist;
+            double bdeltan = (rc.b - ba) / xdist;
 
-            QRgb *scanline = reinterpret_cast<QRgb *>(buf->scanLine(y));
+            QRgb *scanline = reinterpret_cast<QRgb *>(buf->scanLine(yt));
             scanline += lxi;
 
             // Inner loop 2. Draws the line from left to right.
             for (int i = lxi; i < rxi; ++i) {
-                *scanline++ = qRgb((int) r, (int) g, (int) b);
-                r += rdelta;
-                g += gdelta;
-                b += bdelta;
+                *scanline++ = qRgb(static_cast<int>(ra), static_cast<int>(ga),static_cast<int>(ba));
+                ra += rdeltan;
+                ga += gdeltan;
+                ba += bdeltan;
             }
         }
     }
@@ -847,8 +842,8 @@ void QtColorTriangle::setColor(const QColor &col)
     if (b > TWOPI) b -= TWOPI;
     if (c > TWOPI) c -= TWOPI;
 
-    double cx = (double) contentsRect().center().x();
-    double cy = (double) contentsRect().center().y();
+    double cx = static_cast<double>(contentsRect().center().x());
+    double cy = static_cast<double>(contentsRect().center().y());
     double innerRadius = outerRadius - (outerRadius / 5.0);
     double pointerRadius = outerRadius - (outerRadius / 10.0);
 
@@ -877,10 +872,10 @@ QColor QtColorTriangle::color() const
 
   Returns the distance from \a pos to the center of \a rect.
 */
-double QtColorTriangle::radiusAt(const QPointF &pos, const QRect &rect) const
+double QtColorTriangle::radiusAt(const QPointF &p, const QRect &re) const
 {
-    double mousexdist = pos.x() - (double) rect.center().x();
-    double mouseydist = pos.y() - (double) rect.center().y();
+    double mousexdist = p.x() - static_cast<double>(re.center().x());
+    double mouseydist = p.y() - static_cast<double>(re.center().y());
     return sqrt(mousexdist * mousexdist + mouseydist * mouseydist);
 }
 
@@ -891,10 +886,10 @@ double QtColorTriangle::radiusAt(const QPointF &pos, const QRect &rect) const
     the angle in radians between the line that starts at (0,0) and
     ends at (1,0) and the line that stars at (0,0) and ends at \a pos.
 */
-double QtColorTriangle::angleAt(const QPointF &pos, const QRect &rect) const
+double QtColorTriangle::angleAt(const QPointF &p, const QRect &re) const
 {
-    double mousexdist = pos.x() - (double) rect.center().x();
-    double mouseydist = pos.y() - (double) rect.center().y();
+    double mousexdist = p.x() - static_cast<double>(re.center().x());
+    double mouseydist = p.y() - static_cast<double>(re.center().y());
     double mouserad = sqrt(mousexdist * mousexdist + mouseydist * mouseydist);
     if (mouserad == 0.0)
         return 0.0;
@@ -1115,36 +1110,35 @@ static int pointInLine(double x, double y, double ax, double ay,
 
     Yes, it's trigonometry.
 */
-QPointF QtColorTriangle::movePointToTriangle(double x, double y, const Vertex &a,
-					       const Vertex &b, const Vertex &c) const
+QPointF QtColorTriangle::movePointToTriangle(double xx, double yy, const Vertex &ai, const Vertex &bi, const Vertex &ci) const
 {
-    // Let v1A be the vector from (x,y) to a.
-    // Let v2A be the vector from a to b.
-    // Find the angle alphaA between v1A and v2A.
-    double v1xA = x - a.point.x();
-    double v1yA = y - a.point.y();
-    double v2xA = b.point.x() - a.point.x();
-    double v2yA = b.point.y() - a.point.y();
+    // Let v1A be the vector from (x,y) to ai.
+    // Let v2A be the vector from a to bi.
+    // Find the angle alphaA between v1A and v2ai.
+    double v1xA = xx - ai.point.x();
+    double v1yA = yy - ai.point.y();
+    double v2xA = bi.point.x() - ai.point.x();
+    double v2yA = bi.point.y() - ai.point.y();
     double vpA = vprod(v1xA, v1yA, v2xA, v2yA);
     double cosA = vpA / (vlen(v1xA, v1yA) * vlen(v2xA, v2yA));
     double alphaA = acos(cosA);
 
-    // Let v1B be the vector from x to b.
-    // Let v2B be the vector from b to c.
-    double v1xB = x - b.point.x();
-    double v1yB = y - b.point.y();
-    double v2xB = c.point.x() - b.point.x();
-    double v2yB = c.point.y() - b.point.y();
+    // Let v1B be the vector from x to bi.
+    // Let v2B be the vector from b to ci.
+    double v1xB = xx - bi.point.x();
+    double v1yB = yy - bi.point.y();
+    double v2xB = ci.point.x() - bi.point.x();
+    double v2yB = ci.point.y() - bi.point.y();
     double vpB = vprod(v1xB, v1yB, v2xB, v2yB);
     double cosB = vpB / (vlen(v1xB, v1yB) * vlen(v2xB, v2yB));
     double alphaB = acos(cosB);
 
-    // Let v1C be the vector from x to c.
-    // Let v2C be the vector from c back to a.
-    double v1xC = x - c.point.x();
-    double v1yC = y - c.point.y();
-    double v2xC = a.point.x() - c.point.x();
-    double v2yC = a.point.y() - c.point.y();
+    // Let v1C be the vector from x to ci.
+    // Let v2C be the vector from c back to ai.
+    double v1xC = xx - ci.point.x();
+    double v1yC = yy - ci.point.y();
+    double v2xC = ai.point.x() - ci.point.x();
+    double v2yC = ai.point.y() - ci.point.y();
     double vpC = vprod(v1xC, v1yC, v2xC, v2yC);
     double cosC = vpC / (vlen(v1xC, v1yC) * vlen(v2xC, v2yC));
     double alphaC = acos(cosC);
@@ -1152,72 +1146,72 @@ QPointF QtColorTriangle::movePointToTriangle(double x, double y, const Vertex &a
     // Find the radian angles between the (1,0) vector and the points
     // A, B, C and (x,y). Use this information to determine which of
     // the edges we should project (x,y) onto.
-    double angleA = angleAt(a.point, contentsRect());
-    double angleB = angleAt(b.point, contentsRect());
-    double angleC = angleAt(c.point, contentsRect());
-    double angleP = angleAt(QPointF(x, y), contentsRect());
+    double angleA = angleAt(ai.point, contentsRect());
+    double angleB = angleAt(bi.point, contentsRect());
+    double angleC = angleAt(ci.point, contentsRect());
+    double angleP = angleAt(QPointF(xx, yy), contentsRect());
 
     // If (x,y) is in the a-b area, project onto the a-b vector.
     if (angleBetweenAngles(angleP, angleA, angleB)) {
-	// Find the distance from (x,y) to a. Then use the slope of
+	// Find the distance from (x,y) to ai. Then use the slope of
 	// the a-b vector with this distance and the angle between a-b
 	// and a-(x,y) to determine the point of intersection of the
-	// perpendicular projection from (x,y) onto a-b.
-	double pdist = sqrt(qsqr(x - a.point.x()) + qsqr(y - a.point.y()));
+	// perpendicular projection from (x,y) onto a-bi.
+	double pdist = sqrt(qsqr(xx - ai.point.x()) + qsqr(yy - ai.point.y()));
 
         // the length of all edges is always > 0
-	double p0x = a.point.x() + ((b.point.x() - a.point.x()) / vlen(v2xB, v2yB)) * cos(alphaA) * pdist;
-	double p0y = a.point.y() + ((b.point.y() - a.point.y()) / vlen(v2xB, v2yB)) * cos(alphaA) * pdist;
+	double p0x = ai.point.x() + ((bi.point.x() - ai.point.x()) / vlen(v2xB, v2yB)) * cos(alphaA) * pdist;
+	double p0y = ai.point.y() + ((bi.point.y() - ai.point.y()) / vlen(v2xB, v2yB)) * cos(alphaA) * pdist;
 
 	// If (x,y) is above the a-b line, which basically means it's
-	// outside the triangle, then return its projection onto a-b.
-	if (pointAbovePoint(x, y, p0x, p0y, a.point.x(), a.point.y(), b.point.x(), b.point.y())) {
-	    // If the projection is "outside" a, return a. If it is
-	    // outside b, return b. Otherwise return the projection.
-	    int n = pointInLine(p0x, p0y, a.point.x(), a.point.y(), b.point.x(), b.point.y());
+	// outside the triangle, then return its projection onto a-bi.
+	if (pointAbovePoint(xx, yy, p0x, p0y, ai.point.x(), ai.point.y(), bi.point.x(), bi.point.y())) {
+	    // If the projection is "outside" a, return ai. If it is
+	    // outside b, return bi. Otherwise return the projection.
+	    int n = pointInLine(p0x, p0y, ai.point.x(), ai.point.y(), bi.point.x(), bi.point.y());
 	    if (n < 0)
-		return a.point;
+		return ai.point;
 	    else if (n > 0)
-		return b.point;
+		return bi.point;
 
 	    return QPointF(p0x, p0y);
 	}
     } else if (angleBetweenAngles(angleP, angleB, angleC)) {
 	// If (x,y) is in the b-c area, project onto the b-c vector.
-	double pdist = sqrt(qsqr(x - b.point.x()) + qsqr(y - b.point.y()));
+	double pdist = sqrt(qsqr(xx - bi.point.x()) + qsqr(yy - bi.point.y()));
 
         // the length of all edges is always > 0
-        double p0x = b.point.x() + ((c.point.x() - b.point.x()) / vlen(v2xC, v2yC)) * cos(alphaB) * pdist;
-	double p0y = b.point.y() + ((c.point.y() - b.point.y()) / vlen(v2xC, v2yC)) * cos(alphaB) * pdist;
+        double p0x = bi.point.x() + ((ci.point.x() - bi.point.x()) / vlen(v2xC, v2yC)) * cos(alphaB) * pdist;
+	double p0y = bi.point.y() + ((ci.point.y() - bi.point.y()) / vlen(v2xC, v2yC)) * cos(alphaB) * pdist;
 
-	if (pointAbovePoint(x, y, p0x, p0y, b.point.x(), b.point.y(), c.point.x(), c.point.y())) {
-	    int n = pointInLine(p0x, p0y, b.point.x(), b.point.y(), c.point.x(), c.point.y());
+	if (pointAbovePoint(xx, yy, p0x, p0y, bi.point.x(), bi.point.y(), ci.point.x(), ci.point.y())) {
+	    int n = pointInLine(p0x, p0y, bi.point.x(), bi.point.y(), ci.point.x(), ci.point.y());
 	    if (n < 0)
-		return b.point;
+		return bi.point;
 	    else if (n > 0)
-		return c.point;
+		return ci.point;
 	    return QPointF(p0x, p0y);
 	}
     } else if (angleBetweenAngles(angleP, angleC, angleA)) {
 	// If (x,y) is in the c-a area, project onto the c-a vector.
-	double pdist = sqrt(qsqr(x - c.point.x()) + qsqr(y - c.point.y()));
+	double pdist = sqrt(qsqr(xx - ci.point.x()) + qsqr(yy - ci.point.y()));
 
         // the length of all edges is always > 0
-        double p0x = c.point.x() + ((a.point.x() - c.point.x()) / vlen(v2xA, v2yA)) * cos(alphaC) * pdist;
-	double p0y = c.point.y() + ((a.point.y() - c.point.y()) / vlen(v2xA, v2yA)) * cos(alphaC) * pdist;
+        double p0x = ci.point.x() + ((ai.point.x() - ci.point.x()) / vlen(v2xA, v2yA)) * cos(alphaC) * pdist;
+	double p0y = ci.point.y() + ((ai.point.y() - ci.point.y()) / vlen(v2xA, v2yA)) * cos(alphaC) * pdist;
 
-	if (pointAbovePoint(x, y, p0x, p0y, c.point.x(), c.point.y(), a.point.x(), a.point.y())) {
-	    int n = pointInLine(p0x, p0y, c.point.x(), c.point.y(), a.point.x(), a.point.y());
+	if (pointAbovePoint(xx, yy, p0x, p0y, ci.point.x(), ci.point.y(), ai.point.x(), ai.point.y())) {
+	    int n = pointInLine(p0x, p0y, ci.point.x(), ci.point.y(), ai.point.x(), ai.point.y());
 	    if (n < 0)
-		return c.point;
+		return ci.point;
 	    else if (n > 0)
-		return a.point;
+		return ai.point;
 	    return QPointF(p0x, p0y);
 	}
     }
 
     // (x,y) is inside the triangle (inside a-b, b-c and a-c).
-    return QPointF(x, y);
+    return QPointF(xx, yy);
 }
 
 /*! \internal
@@ -1256,36 +1250,36 @@ QPointF QtColorTriangle::pointFromColor(const QColor &col) const
 
     // Find the line that passes through the triangle where the value
     // is equal to our color's value.
-    double p1 = pa.x() + (ab_deltax * (double) (255 - val)) / 255.0;
-    double q1 = pa.y() + (ab_deltay * (double) (255 - val)) / 255.0;
-    double p2 = pb.x() + (bc_deltax * (double) val) / 255.0;
-    double q2 = pb.y() + (bc_deltay * (double) val) / 255.0;
+    double p1 = pa.x() + (ab_deltax * static_cast<double>(255 - val)) / 255.0;
+    double q1 = pa.y() + (ab_deltay * static_cast<double>(255 - val)) / 255.0;
+    double p2 = pb.x() + (bc_deltax * static_cast<double>(val)) / 255.0;
+    double q2 = pb.y() + (bc_deltay * static_cast<double>(val)) / 255.0;
 
     // Find the line that passes through the triangle where the
     // saturation is equal to our color's value.
-    double p3 = pa.x() + (ac_deltax * (double) (255 - sat)) / 255.0;
-    double q3 = pa.y() + (ac_deltay * (double) (255 - sat)) / 255.0;
+    double p3 = pa.x() + (ac_deltax * static_cast<double>(255 - sat)) / 255.0;
+    double q3 = pa.y() + (ac_deltay * static_cast<double>(255 - sat)) / 255.0;
     double p4 = pb.x();
     double q4 = pb.y();
 
     // Find the intersection between these lines.
-	double x = 0;
-	double y = 0;
+	double xi = 0;
+	double yi = 0;
 	if (p1 != p2) {
-		double a = (q2 - q1) / (p2 - p1);
-		double c = (q4 - q3) / (p4 - p3);
-		double b = q1 - a * p1;
-		double d = q3 - c * p3;
+		double ai = (q2 - q1) / (p2 - p1);
+		double ci = (q4 - q3) / (p4 - p3);
+		double bi = q1 - ai * p1;
+		double di = q3 - ci * p3;
 
-		x = (d - b) / (a - c);
-		y = a * x + b;
+		xi = (di - bi) / (ai - ci);
+		yi = ai * xi + bi;
 	}
 	else {
-		x = p1;
-		y = q3 + (x - p3) * (q4 - q3) / (p4 - p3);
+		xi = p1;
+		yi = q3 + (xi - p3) * (q4 - q3) / (p4 - p3);
 	}
 
-    return QPointF(x, y);
+    return QPointF(xi, yi);
 }
 
 /*! \internal
@@ -1298,22 +1292,19 @@ QPointF QtColorTriangle::pointFromColor(const QColor &col) const
 QColor QtColorTriangle::colorFromPoint(const QPointF &p) const
 {
     // Find the outer radius of the hue gradient.
-    int outerRadius = (contentsRect().width() - 1) / 2;
+    int outerRadiusi = (contentsRect().width() - 1) / 2;
     if ((contentsRect().height() - 1) / 2 < outerRadius)
-	outerRadius = (contentsRect().height() - 1) / 2;
+	outerRadiusi = (contentsRect().height() - 1) / 2;
 
     // Find the center coordinates
-    double cx = (double) contentsRect().center().x();
-    double cy = (double) contentsRect().center().y();
+    double cx = static_cast<double>(contentsRect().center().x());
+    double cy = static_cast<double>(contentsRect().center().y());
 
     // Find the a, b and c from their angles, the center of the rect
     // and the radius of the hue gradient donut.
-    QPointF pa(cx + (cos(a) * (outerRadius - (outerRadius / 5.0))),
-		   cy - (sin(a) * (outerRadius - (outerRadius / 5.0))));
-    QPointF pb(cx + (cos(b) * (outerRadius - (outerRadius / 5.0))),
-		   cy - (sin(b) * (outerRadius - (outerRadius / 5.0))));
-    QPointF pc(cx + (cos(c) * (outerRadius - (outerRadius / 5.0))),
-		   cy - (sin(c) * (outerRadius - (outerRadius / 5.0))));
+    QPointF pai(cx + (cos(a) * (outerRadiusi - (outerRadiusi / 5.0))),cy - (sin(a) * (outerRadiusi - (outerRadiusi / 5.0))));
+    QPointF pbi(cx + (cos(b) * (outerRadiusi - (outerRadiusi / 5.0))),cy - (sin(b) * (outerRadiusi - (outerRadiusi / 5.0))));
+    QPointF pci(cx + (cos(c) * (outerRadiusi - (outerRadiusi / 5.0))),cy - (sin(c) * (outerRadiusi - (outerRadiusi / 5.0))));
 
     // Find the hue value from the angle of the 'a' point.
     double angle = a - PI/2.0;
@@ -1322,14 +1313,14 @@ QColor QtColorTriangle::colorFromPoint(const QPointF &p) const
 
     // Create the color of the 'a' corner point. We know that b is
     // black and c is white.
-    QColor color;
-    color.setHsv(360 - (int) floor(hue), 255, 255);
+    QColor col;
+    col.setHsv(360 - static_cast<int>(floor(hue)), 255, 255);
 
     // See also drawTrigon(), which basically does exactly the same to
     // determine all colors in the trigon.
-    Vertex aa(color, pa);
-    Vertex bb(Qt::black, pb);
-    Vertex cc(Qt::white, pc);
+    Vertex aa(col, pai);
+    Vertex bb(Qt::black, pbi);
+    Vertex cc(Qt::white, pci);
 
     // Make sure p1 is above p2, which is above p3.
     Vertex *p1 = &aa;
@@ -1503,28 +1494,28 @@ QColor QtColorTriangle::colorFromPoint(const QPointF &p) const
 
     // Now determine the r,g,b values of the selector using a linear
     // approximation.
-    double r, g, b;
+    double rn, gn, bn;
     if (xdist != 0.0) {
-	r = (saxdist2 * rl / xdist) + (saxdist * rr / xdist);
-	g = (saxdist2 * gl / xdist) + (saxdist * gr / xdist);
-	b = (saxdist2 * bl / xdist) + (saxdist * br / xdist);
+	rn = (saxdist2 * rl / xdist) + (saxdist * rr / xdist);
+	gn = (saxdist2 * gl / xdist) + (saxdist * gr / xdist);
+	bn = (saxdist2 * bl / xdist) + (saxdist * br / xdist);
     } else {
 	// In theory, the left and right color will be equal here. But
 	// because of the loss of precision, we get an error on both
 	// colors. The best approximation we can get is from adding
 	// the two errors, which in theory will eliminate the error
 	// but in practise will only minimize it.
-	r = (rl + rr) / 2;
-        g = (gl + gr) / 2;
-	b = (bl + br) / 2;
+	rn = (rl + rr) / 2;
+    gn = (gl + gr) / 2;
+	bn = (bl + br) / 2;
     }
 
     // Now floor the color components and fit them into proper
     // boundaries. This again is to compensate for the error caused by
     // loss of precision.
-    int ri = (int) floor(r);
-    int gi = (int) floor(g);
-    int bi = (int) floor(b);
+    int ri = static_cast<int>(floor(rn));
+    int gi = static_cast<int>(floor(gn));
+    int bi = static_cast<int>(floor(bn));
     if (ri < 0) ri = 0;
     else if (ri > 255) ri = 255;
     if (gi < 0) gi = 0;

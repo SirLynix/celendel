@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Meta object code from reading C++ file 'Sound.h'
 **
-** Created: Thu 21. Apr 13:28:14 2011
+** Created: Wed 27. Apr 15:25:51 2011
 **      by: The Qt Meta Object Compiler version 62 (Qt 4.7.0)
 **
 ** WARNING! All changes made in this file will be lost!

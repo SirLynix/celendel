@@ -9,8 +9,8 @@ Screen::Screen()
     showFullScreen();
 }
 
-void Screen::mousePressEvent(QMouseEvent *event)
+void Screen::mousePressEvent(QMouseEvent *ev)
 {
-    emit colorSelected( label->pixmap()->toImage().pixel( event->pos() ) );
+    emit colorSelected(label->pixmap()->toImage().pixel(ev->pos()));
     close();
 }

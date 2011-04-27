@@ -4,7 +4,7 @@
 #include <QLabel>
 #include <QVBoxLayout>
 
-AboutWindow::AboutWindow(const QString& text, QWidget* parent) : QDialog(parent)
+AboutWindow::AboutWindow(const QString& text, QWidget* par) : QDialog(par)
 {
     QPushButton *ok=new QPushButton(tr("Ok"), this);
     connect(ok, SIGNAL(pressed()), this, SLOT(accept()));

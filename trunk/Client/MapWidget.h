@@ -133,7 +133,7 @@ class MapWidget : public QGraphicsView
     void drawBlockHighlight(const QPointF& casePos, const QColor& color, float width);
 
 
-    QPoint posToMap(int x, int y) { return posToMap(QPoint(x,y)); }
+    QPoint posToMap(int xi, int yi) { return posToMap(QPoint(xi,yi)); }
     QPoint posToMap(QPoint pos);
 
     //Delete unused flares items
