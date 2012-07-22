@@ -1,8 +1,8 @@
 /****************************************************************************
 ** Meta object code from reading C++ file 'CharactersManager.h'
 **
-** Created: Wed 27. Apr 15:26:23 2011
-**      by: The Qt Meta Object Compiler version 62 (Qt 4.7.0)
+** Created: Sat 21. Jul 13:54:13 2012
+**      by: The Qt Meta Object Compiler version 62 (Qt 4.7.4)
 **
 ** WARNING! All changes made in this file will be lost!
 *****************************************************************************/
@@ -11,7 +11,7 @@
 #if !defined(Q_MOC_OUTPUT_REVISION)
 #error "The header file 'CharactersManager.h' doesn't include <QObject>."
 #elif Q_MOC_OUTPUT_REVISION != 62
-#error "This file was generated using the moc from 4.7.0. It"
+#error "This file was generated using the moc from 4.7.4. It"
 #error "cannot be used with the include files from this version of Qt."
 #error "(The moc has changed too much.)"
 #endif
@@ -23,7 +23,7 @@ static const uint qt_meta_data_CharactersManager[] = {
        5,       // revision
        0,       // classname
        0,    0, // classinfo
-       2,   14, // methods
+       4,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
@@ -32,7 +32,9 @@ static const uint qt_meta_data_CharactersManager[] = {
 
  // slots: signature, parameters, type, tag, flags
       24,   19,   18,   18, 0x0a,
-      57,   18,   18,   18, 0x08,
+      57,   18,   18,   18, 0x0a,
+      81,   18,   18,   18, 0x0a,
+      95,   18,   18,   18, 0x08,
 
        0        // eod
 };
@@ -40,6 +42,7 @@ static const uint qt_meta_data_CharactersManager[] = {
 static const char qt_meta_stringdata_CharactersManager[] = {
     "CharactersManager\0\0list\0"
     "updateCharacterList(QStringList)\0"
+    "openContextMenu(QPoint)\0ac_stuffEdi()\0"
     "update()\0"
 };
 
@@ -73,10 +76,12 @@ int CharactersManager::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_c == QMetaObject::InvokeMetaMethod) {
         switch (_id) {
         case 0: updateCharacterList((*reinterpret_cast< const QStringList(*)>(_a[1]))); break;
-        case 1: update(); break;
+        case 1: openContextMenu((*reinterpret_cast< const QPoint(*)>(_a[1]))); break;
+        case 2: ac_stuffEdi(); break;
+        case 3: update(); break;
         default: ;
         }
-        _id -= 2;
+        _id -= 4;
     }
     return _id;
 }

@@ -1,8 +1,8 @@
 /********************************************************************************
 ** Form generated from reading UI file 'MapEditorAddObjectDialog.ui'
 **
-** Created: Wed 27. Apr 15:23:56 2011
-**      by: Qt User Interface Compiler version 4.7.0
+** Created: Sat 21. Jul 13:52:12 2012
+**      by: Qt User Interface Compiler version 4.7.4
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
 ********************************************************************************/

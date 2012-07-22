@@ -37,6 +37,7 @@ INPUT(
 ./debug\CharactersManager.o
 ./debug\EntityMaker.o
 ./debug\TableEditor.o
+./debug\EquipmentWidget.o
 ./debug\ScriptedEntity.o
 ./debug\ScriptSandbox.o
 ./debug\ScriptedEntityCallbacks.o
@@ -65,6 +66,7 @@ INPUT(
 ./debug\moc_CharactersManager.o
 ./debug\moc_EntityMaker.o
 ./debug\moc_TableEditor.o
+./debug\moc_EquipmentWidget.o
 ./debug\moc_ScriptedEntity.o
 ./debug\moc_ScriptSandbox.o
 );

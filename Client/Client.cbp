@@ -95,6 +95,8 @@
 		<Unit filename="EntitiesManager.h" />
 		<Unit filename="EntityMaker.cpp" />
 		<Unit filename="EntityMaker.h" />
+		<Unit filename="EquipmentWidget.cpp" />
+		<Unit filename="EquipmentWidget.h" />
 		<Unit filename="GUI.cpp" />
 		<Unit filename="MapEditor.cpp" />
 		<Unit filename="MapEditor.h" />
