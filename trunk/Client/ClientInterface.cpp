@@ -11,6 +11,10 @@
 #include "EntitiesManager.h"
 #include "CharactersManager.h"
 
+#include <QDebug>
+
+#define D() qDebug() << __FILE__ << ";" << __LINE__
+
 
 ClientInterface::ClientInterface()
 {
@@ -60,7 +64,6 @@ ClientInterface::ClientInterface()
             qDebug() << "Error invalid args";
     }
 
-
     m_network=new ClientNetwork(IP, port, this);
     connect(m_network, SIGNAL(chatReceived(CLID, QString, QString, ENUM_TYPE)), this, SLOT(chat(CLID, QString, QString, ENUM_TYPE )));
     connect(m_network, SIGNAL(serverInformationsChanged(ServerInformations)), this, SLOT(changeServerInformations(ServerInformations)));
@@ -106,10 +109,12 @@ ClientInterface::ClientInterface()
     connect(m_network, SIGNAL(updateCharacterList(const QStringList&)), m_characterMngr, SLOT(updateCharacterList(const QStringList&)));
     connect(m_network, SIGNAL(mapFlare(QPoint,CLID)), m_mapWi, SLOT(flare(QPoint,CLID)));
 
+
     getVOIP().setEnabled(set->value(PARAM_VOIP_ENABLED, true).toBool());
     getVOIP().setVolume(set->value(PARAM_VOIP_SOUND, 100.f).toFloat());
     getVOIP().setQuality(set->value(PARAM_VOIP_QUALITY, 4).toFloat());
     connect(&getVOIP(), SIGNAL(dataPerSecond(int, int)), this, SLOT(dataPerSecond(int, int)));
+
 
     resetData();
 
@@ -183,13 +188,13 @@ void ClientInterface::playerListMenu(const QPoint& p)
         {
             list << m_separator;
         }
-        if(getVOIP().contains(m_playersMap.value(cID).ip))
+       /* if(getVOIP().contains(m_playersMap.value(cID).ip))
         {
             list << m_VOIPDisconnect;
         }
         else
             list << m_VOIPConnect;
-        list << m_VOIPVolume;
+        list << m_VOIPVolume;*/
     }
 
     if(!list.isEmpty())
@@ -198,20 +203,20 @@ void ClientInterface::playerListMenu(const QPoint& p)
 
 void ClientInterface::VOIPRemoveClient()
 {
-    CLID cID=m_VOIPDisconnect->data().toInt();
+  /*  CLID cID=m_VOIPDisconnect->data().toInt();
     if(cID==0)
         return;
     getVOIP().remove(m_playersMap.value(cID).ip);
-    updatePlayerList();
+    updatePlayerList();*/
 }
 
 void ClientInterface::VOIPAddClient()
 {
-    CLID cID=m_VOIPConnect->data().toInt();
+   /* CLID cID=m_VOIPConnect->data().toInt();
     if(cID==0)
         return;
     getVOIP().add(m_playersMap.value(cID).ip);
-    updatePlayerList();
+    updatePlayerList();*/
 }
 
 void ClientInterface::VOIPClientVolume()
@@ -219,7 +224,7 @@ void ClientInterface::VOIPClientVolume()
     CLID cID=m_VOIPConnect->data().toInt();
     if(cID==0)
         return;
-
+/*
     bool ok=false;
 
     double v=QInputDialog::getDouble(this,tr("Volume"),tr("Entrez le volume de réception :"),getVOIP().volume(m_playersMap.value(cID).ip),0,100,2,&ok);
@@ -228,7 +233,7 @@ void ClientInterface::VOIPClientVolume()
     {
         getVOIP().setVolume(v, m_playersMap.value(cID).ip);
         updatePlayerList();
-    }
+    }*/
 }
 
 void ClientInterface::aboutUs()
@@ -405,6 +410,8 @@ void ClientInterface::connectionEtablished()
     m_ac_joinOrLeave->setText(tr("&Se déconnecter du serveur"));
     resetData();
 
+    getVOIP().connectToServer(m_network->serverIP(), set->value(PARAM_VOIP_PORT).toInt());
+
     delete set;
 }
 
@@ -412,13 +419,14 @@ void ClientInterface::connectionLost()
 {
     lg(tr("Vous avez été déconnecté du serveur. Tappez /retry pour tenter une reconnexion."));
     m_ac_joinOrLeave->setText(tr("&Se connecter au serveur"));
+
     resetData();
 }
 
 void ClientInterface::resetData()
 {
     setTitle();
-    getVOIP().removeAll();
+    getVOIP().disconnect();
     m_gameStarted=false;
     m_voted=false;
     m_ID=0;
@@ -442,14 +450,16 @@ void ClientInterface::clientJoined(CLID cID, QString IP)
 
     lg(tr("Un joueur s'est connecté (ID %1).").arg(cID));
     m_playersMap.insert(cID, PlayerInformations("", IP));
-    getVOIP().add(IP);
+    //getVOIP().add(IP);
     updatePlayerList();
 }
 
 void ClientInterface::clientLeft(CLID cID)
 {
     lg(tr("%1 s'est déconnecté.").arg(anonym(cID)));
-    getVOIP().remove(m_playersMap[cID].ip);
+
+    //getVOIP().remove(m_playersMap[cID].ip);
+
     m_playersMap.remove(cID);
     updatePlayerList();
 }
@@ -561,7 +571,7 @@ void ClientInterface::updatePlayerList()
             u->setData(i.key(), DTA_CLID);
             it->appendRow(u);
         }
-        if(getVOIP().isEnabled())
+      /*  if(getVOIP().isEnabled())
         {
             QStandardItem *it = new QStandardItem(tr("VOIP :"));
             it->setData(i.key(), DTA_CLID);
@@ -586,7 +596,7 @@ void ClientInterface::updatePlayerList()
                 u->setData(i.key(), DTA_CLID);
                 it->appendRow(u);
             }
-        }
+        }*/
 
 
         ++i;
@@ -706,14 +716,14 @@ void ClientInterface::changeServerInformations(ServerInformations si)
     int nms=si.players.size();
 
     m_playersMap.clear();
-    QMap<CLID, PlayerInformations>::const_iterator i = si.players.constBegin(); //Manual copy - operator=() seems to be broken for empty values like QString("")... I realy don't know why (Gigotdarnaud, 2 July 2010)
+    QMap<CLID, PlayerInformations>::const_iterator i = si.players.constBegin(); //Manual copy - operator=() seems to be broken for empty values like QString("")... I really don't know why (Gigotdarnaud, 2 July 2010)
     while (i != si.players.constEnd())
     {
         m_playersMap.insert(i.key(),i.value());
-        if(!getVOIP().contains(i.value().ip))
+       /* if(!getVOIP().contains(i.value().ip))
         {
             getVOIP().add(i.value().ip);
-        }
+        }*/
         ++i;
     }
 

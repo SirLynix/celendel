@@ -4,6 +4,10 @@
 #define QV(a) if(a.isEmpty()) return true;
 #define R(a) if(a.status()!=QDataStream::Ok) return true;
 
+#define HARDCODED_ARBITRARY_SILLY_NETWORK_VERSION 1
+
+unsigned int getHardcodedNetworkVersion() { return HARDCODED_ARBITRARY_SILLY_NETWORK_VERSION; }
+
 QDataStream &operator<<(QDataStream & ds, const PlayerInformations& p)
 {
     ds<<p.name<<p.ip;
@@ -1161,6 +1165,32 @@ QByteArray serialiseMapFlareData(const QPoint& coords, CLID who)
 
     out<<coords;
     out<<who;
+
+    return data;
+}
+
+bool extractVOIPBlacklistData(QByteArray& data, CLID& toBL, CLID& who, bool& blacklist)
+{
+    QV(data);
+    QDataStream in(data);
+    in>>toBL;
+    R(in);
+    in>>who;
+    R(in);
+    in>>blacklist;
+    R(in);
+
+    return false;
+}
+
+QByteArray serialiseVOIPBlacklistData(CLID toBL, CLID who, bool blacklist)
+{
+    QByteArray data;
+    QDataStream out(&data, QIODevice::ReadWrite);
+
+    out<<toBL;
+    out<<who;
+    out<<blacklist;
 
     return data;
 }

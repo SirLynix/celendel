@@ -196,6 +196,7 @@ void Server::addClient(CLID cID)
     m_players.append(new Player(cID));
     log("Player "+QString::number(cID)+" added to game.");
     m_autoClose->stop();
+
     m_network->sendToClient(cID, ETI(SET_CLID), serialiseSetCLIDData(cID));
     m_network->sendToClient(cID, ETI(SERVER_INFORMATIONS), serialiseServerInformationsData(getServerInformations()));
     m_network->sendToClient(cID, ETI(UPDATE_RESSOURCES), serialiseUpdateRessourcesData(m_ressources));

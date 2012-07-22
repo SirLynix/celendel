@@ -6,6 +6,10 @@
 #include <QTextDocument>
 #include "../Shared/Serializer.h"
 
+#include <QDebug>
+
+#define D() qDebug() << __FILE__ << ";" << __LINE__
+
 QString securise (const QString& in)
 {
     QString ret=Qt::escape(in.simplified());
@@ -31,6 +35,10 @@ ServerNetwork::ServerNetwork(quint16 port, QObject* par) : QObject(par)
     flushTimer->setSingleShot(false);
     connect(flushTimer, SIGNAL(timeout()), this, SLOT(flush()));
     flushTimer->start(100);
+
+
+    m_VOIPServer = new VOIPServer(this);
+
 }
 
 ServerNetwork::~ServerNetwork()
@@ -124,6 +132,7 @@ void ServerNetwork::newConnection()
 
     log("Client connected with ID " + QString::number(newCl->ID()));
     m_clients.append(newCl);
+    m_VOIPServer->addTarget(newCl->socket->peerAddress().toString());
     emit newClient(newCl->ID());
 }
 
@@ -135,6 +144,8 @@ void ServerNetwork::clientDisconnected()
 
     m_clients.removeOne(cl);
     emit clientGone(cl->ID());
+
+    m_VOIPServer->rmTarget(cl->socket->peerAddress().toString());
     log("Client (ID " + QString::number(cl->ID()) + ") left");
     cl->deleteLater();
 }

@@ -15,18 +15,6 @@
 QStringList getOALDevices(bool output=true); //If true, list the output devices. If false, list the capture devices.
 QString getOALCurrentDevice(bool output=true); //Same
 
-struct VOIPClient
-{
-    VOIPClient(const QString& ip, quint16 p, VOIPSystem::SoundReceiver* rec, VOIPSystem::Sound* so):IP(ip),port(p),receiver(rec),sound(so)
-    {
-        QObject::connect(receiver, SIGNAL(dataReceived(const ALshortVector&)), sound, SLOT(queue(const ALshortVector&)));
-        sound->play();
-    }
-    QString IP;
-    quint16 port;
-    VOIPSystem::SoundReceiver* receiver;
-    VOIPSystem::Sound* sound;
-};
 
 class Thread : public QThread
 {
@@ -43,29 +31,21 @@ class VOIP : public QObject
         VOIP(QObject* p=NULL);
         ~VOIP();
 
-        void add(const QString& cl, quint16 port=0);
-        void removeAll();
-        bool remove(const QString& cl);
+        void connectToServer(const QString& IP, quint16 port=0);
+        void disconnect();
 
-        bool mute(const QString& cl);
-        bool unmute(const QString& cl);
-        bool muted(const QString& IP) const{ int in=indexOf(IP); if(in==-1) return false; return m_clients[in].sound;}
 
         float quality() const { return speex.quality(); }
-        float volume(const QString& ip="") const;
+        float volume() const;
         bool isEnabled() const { return m_enabled; }
 
         bool changeCaptureDevice(const QString& name) { return rec->changeDevice(name); }
 
 
-        bool contains(const QString& IP) const { return indexOf(IP)!=-1; }
-
     public slots:
         void setQuality(float q);
-        void setVolume(float volume, const QString& ip="");
+        void setVolume(float volume);
         void setEnabled(bool);
-
-        void setPort(quint16 port, const QString& ip="");
 
     private slots:
         void update();
@@ -75,10 +55,12 @@ class VOIP : public QObject
         void dataPerSecond(int, int);
 
     private:
-        int indexOf(const QString& IP) const;
         VOIPSystem::Speex speex;
         QUdpSocket* udpSocket;
-        QList<VOIPClient> m_clients;
+
+        VOIPSystem::SoundReceiver* m_receiver;
+        VOIPSystem::Sound* m_sound;
+
         VOIPSystem::Recorder *rec;
         int dataUp;
 
@@ -86,7 +68,9 @@ class VOIP : public QObject
         bool m_enabled;
 
         int m_floor;
+
         quint16 m_port;
+        QString m_IP;
 
         Thread m_thread;
 

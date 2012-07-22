@@ -17,13 +17,13 @@
 		<Cursor position="1997" topLine="0" />
 	</File>
 	<File name="ClientChatCommands.cpp" open="0" top="0" tabpos="1">
-		<Cursor position="9469" topLine="184" />
+		<Cursor position="8514" topLine="184" />
 	</File>
 	<File name="ClientGMInterface.cpp" open="0" top="0" tabpos="2">
 		<Cursor position="4279" topLine="130" />
 	</File>
-	<File name="ClientInterface.cpp" open="0" top="0" tabpos="1">
-		<Cursor position="728" topLine="0" />
+	<File name="ClientInterface.cpp" open="1" top="1" tabpos="0">
+		<Cursor position="16288" topLine="433" />
 	</File>
 	<File name="ClientInterface.h" open="0" top="0" tabpos="2">
 		<Cursor position="379" topLine="0" />
@@ -40,7 +40,7 @@
 	<File name="ClientNetwork.h" open="0" top="0" tabpos="2">
 		<Cursor position="189" topLine="7" />
 	</File>
-	<File name="ClientNetworkSwitch.cpp" open="1" top="1" tabpos="0">
+	<File name="ClientNetworkSwitch.cpp" open="0" top="0" tabpos="0">
 		<Cursor position="246" topLine="0" />
 	</File>
 	<File name="ClientSave.cpp" open="0" top="0" tabpos="0">
@@ -194,10 +194,13 @@
 		<Cursor position="1374" topLine="37" />
 	</File>
 	<File name="..\Shared\LuaSystem\luaHeader.h" open="0" top="0" tabpos="0">
-		<Cursor position="157" topLine="0" />
+		<Cursor position="127" topLine="0" />
+	</File>
+	<File name="..\Shared\LuaSystem\lunar.h" open="0" top="0" tabpos="0">
+		<Cursor position="663" topLine="0" />
 	</File>
 	<File name="..\Shared\MapStructs.h" open="0" top="0" tabpos="0">
-		<Cursor position="263" topLine="2" />
+		<Cursor position="82" topLine="0" />
 	</File>
 	<File name="..\Shared\Miscelaneous.cpp" open="0" top="0" tabpos="0">
 		<Cursor position="412" topLine="0" />

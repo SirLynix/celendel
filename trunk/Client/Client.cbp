@@ -11,6 +11,8 @@
 			<CompileFile command="$make -f $makefile $file" />
 			<Clean command="$make -f $makefile $target clean" />
 			<DistClean command="$make -f $makefile $target distclean" />
+			<AskRebuildNeeded command="$make -q -f $makefile $target" />
+			<SilentBuild command="$make -s -f $makefile $target" />
 		</MakeCommands>
 		<Build>
 			<Target title="Debug">
@@ -32,6 +34,8 @@
 					<CompileFile command="$make -f $makefile $file" />
 					<Clean command="$make -f $makefile $target clean" />
 					<DistClean command="$make -f $makefile $target distclean" />
+					<AskRebuildNeeded command="$make -q -f $makefile $target" />
+					<SilentBuild command="$make -s -f $makefile $target" />
 				</MakeCommands>
 			</Target>
 			<Target title="Release">
@@ -57,6 +61,8 @@
 					<CompileFile command="$make -f $makefile $file" />
 					<Clean command="$make -f $makefile $target clean" />
 					<DistClean command="$make -f $makefile $target distclean" />
+					<AskRebuildNeeded command="$make -q -f $makefile $target" />
+					<SilentBuild command="$make -s -f $makefile $target" />
 				</MakeCommands>
 			</Target>
 		</Build>
@@ -140,6 +146,7 @@
 		<Unit filename="..\Shared\LuaSystem\ScriptedEntity.cpp" />
 		<Unit filename="..\Shared\LuaSystem\ScriptedEntity.h" />
 		<Unit filename="..\Shared\LuaSystem\luaHeader.h" />
+		<Unit filename="..\Shared\LuaSystem\lunar.h" />
 		<Unit filename="..\Shared\MapStructs.h" />
 		<Unit filename="..\Shared\Miscelaneous.cpp" />
 		<Unit filename="..\Shared\Packet.cpp" />

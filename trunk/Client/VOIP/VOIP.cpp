@@ -1,5 +1,9 @@
 #include "VOIP.h"
 
+#include <QDebug>
+
+#define D() qDebug() << __FILE__ << ";" << __LINE__
+
 QStringList getOALDevices(bool output)
 {
     if(alcIsExtensionPresent(NULL, "ALC_ENUMERATION_EXT")==AL_FALSE)
@@ -82,12 +86,18 @@ VOIP::VOIP(QObject* p) : QObject(p), speex(SAMPLE_RATE)
     QTimer* updateT = new QTimer;
     connect(updateT, SIGNAL(timeout()), this, SLOT(update()));
     updateT->start(1000);
+
     udpSocket = new QUdpSocket(this);
+    m_port=VOIP_DEFAULT_PORT;
+
+    m_receiver=0;
+    m_sound=new Sound(SAMPLE_RATE);
+    m_sound->play();
+
     dataUp = 0;
     setVolume(50);
     m_enabled=true;
     setQuality(4);
-    m_port=VOIP_DEFAULT_PORT;
 
     updateT->moveToThread(&m_thread);
     moveToThread(&m_thread);
@@ -96,23 +106,35 @@ VOIP::VOIP(QObject* p) : QObject(p), speex(SAMPLE_RATE)
 
 VOIP::~VOIP()
 {
-    removeAll();
+    disconnect();
 }
 
-float VOIP::volume(const QString& ip) const
+void VOIP::connectToServer(const QString& IP, quint16 port)
 {
-    int index;
-    if(ip.isEmpty()||(index=indexOf(ip))==-1)
-    {
-        return m_volume;
-    }
-    else
-    {
-        return m_clients[index].sound->volume()*100;
-    }
+    if(port<1024) port=1024;
+
+    if(!m_IP.isEmpty())
+        disconnect();
+
+    m_port=port; m_IP=IP;
+
+    m_receiver=new SoundReceiver(QHostAddress(m_IP), m_port, SAMPLE_RATE);
+
+    connect(m_receiver, SIGNAL(dataReceived(const ALshortVector&)), m_sound, SLOT(queue(const ALshortVector&)));
 }
 
-void VOIP::setVolume(float vol, const QString& ip)
+void VOIP::disconnect()
+{
+    m_IP="";
+    delete m_receiver; m_receiver=0;
+}
+
+float VOIP::volume() const
+{
+    return m_volume;
+}
+
+void VOIP::setVolume(float vol)
 {
     if(vol<0)
     {
@@ -125,34 +147,19 @@ void VOIP::setVolume(float vol, const QString& ip)
     else
         vol=vol/100;
 
-    if(ip.isEmpty())
-    {
-        m_volume=vol;
-        for(int i=0;i<m_clients.size();++i)
-            m_clients[i].sound->setVolume(vol);
-    }
-    else
-    {
-        int in=indexOf(ip);
-        if(in==-1)
-            return;
-        m_clients[in].sound->setVolume(vol);
-    }
+    m_volume=vol;
+
+    m_sound->setVolume(vol);
 }
 
 void VOIP::setEnabled(bool e)
 {
     m_enabled=e;
 
-    for(int i=0;i<m_clients.size();++i)
-    {
-        if(!m_enabled)
-        {
-            m_clients[i].sound->mute();
-        }
-        else
-            m_clients[i].sound->unmute();
-    }
+    if(!m_enabled)
+        m_sound->mute();
+    else
+        m_sound->unmute();
 }
 
 void VOIP::setQuality(float q)
@@ -188,105 +195,25 @@ void VOIP::setQuality(float q)
 
 void VOIP::send(QByteArray b)
 {
+    if(m_IP.isEmpty())
+        return;
+
+  //  D();
+
     if(b.size() > m_floor && m_enabled)
     {
-        for(int i=0;i<m_clients.size();++i)
-        {
-            udpSocket->writeDatagram(b, b.size(), QHostAddress(m_clients[i].IP), m_port);
-            dataUp += b.size();
-        }
+        qDebug() << m_IP;
+        udpSocket->writeDatagram(b, QHostAddress(m_IP), m_port);
+        dataUp += b.size();
     }
 }
 
 void VOIP::update()
 {
     int d=0;
-    for(size_t i = 0;i<static_cast<size_t>(m_clients.size());++i)
-        d += m_clients[i].receiver->dataPerSecond();
+    if(m_receiver)
+        d=m_receiver->dataPerSecond();
 
     emit dataPerSecond(d, dataUp);
     dataUp = 0;
-}
-
-void VOIP::setPort(quint16 port, const QString& ip)
-{
-    if(port<1024)
-        port=1024;
-
-    if(ip.isEmpty())
-    {
-        m_port=port;
-        for(int i=0;i<m_clients.size();++i)
-            m_clients[i].receiver->setPort(port);
-    }
-    else
-    {
-        int in=indexOf(ip);
-        if(in==-1)
-            return;
-        m_clients[in].receiver->setPort(port);
-    }
-}
-
-int VOIP::indexOf(const QString& IP) const
-{
-    for(int i=0;i<m_clients.size();++i)
-    {
-        if(m_clients[i].IP==IP) return i;
-    }
-    return -1;
-}
-
-void VOIP::add(const QString& cl, quint16 port)
-{
-    if(contains(cl))
-        remove(cl);
-
-    if(port<1024)
-        port=m_port;
-
-    m_clients.append(VOIPClient(cl, port, new SoundReceiver(QHostAddress(cl), m_port, SAMPLE_RATE), new Sound(SAMPLE_RATE)));
-
-    m_clients.last().sound->setVolume(m_volume);
-}
-
-void VOIP::removeAll()
-{
-    for(int i=0;i<m_clients.size();++i)
-    {
-        delete m_clients[i].sound;
-        delete m_clients[i].receiver;
-    }
-    m_clients.clear();
-}
-
-bool VOIP::mute(const QString& cl)
-{
-    int index = indexOf(cl);
-    if(index==-1)
-        return true;
-
-    m_clients[index].sound->mute();
-    return false;
-}
-
-bool VOIP::unmute(const QString& cl)
-{
-    int index = indexOf(cl);
-    if(index==-1)
-        return true;
-
-    m_clients[index].sound->unmute();
-    return false;
-}
-
-bool VOIP::remove(const QString& cl)
-{
-    int index = indexOf(cl);
-    if(index==-1)
-        return true;
-    delete m_clients[index].sound;
-    delete m_clients[index].receiver;
-    m_clients.removeAt(index);
-    return false;
 }

@@ -10,6 +10,7 @@ INPUT(
 ./release\Miscelaneous.o
 ./release\Translator.o
 ./release\ScriptEnvironnement.o
+./release\VOIPServer.o
 ./release\ScriptedEntity.o
 ./release\ScriptedEntityCallbacks.o
 ./release\moc_Network.o
@@ -17,5 +18,6 @@ INPUT(
 ./release\moc_Server.o
 ./release\moc_Player.o
 ./release\moc_ScriptEnvironnement.o
+./release\moc_VOIPServer.o
 ./release\moc_ScriptedEntity.o
 );

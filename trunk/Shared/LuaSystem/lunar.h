@@ -44,7 +44,7 @@ public:
     // fill method table with methods from class T
     for (RegType *l = T::methods; l->name; l++) {
       lua_pushstring(L, l->name);
-      lua_pushlightuserdata(L, (void*)l);
+      lua_pushlightuserdata(L, static_cast<void*>(l));
       lua_pushcclosure(L, thunk, 1);
       lua_settable(L, methods);
     }
@@ -161,7 +161,7 @@ private:
     char buff[32];
     userdataType *ud = static_cast<userdataType*>(lua_touserdata(L, 1));
     T *obj = ud->pT;
-    sprintf(buff, "%p", (void*)obj);
+    sprintf(buff, "%p", static_cast<void*>(obj));
     lua_pushfstring(L, "%s (%s)", T::className, buff);
 
     return 1;

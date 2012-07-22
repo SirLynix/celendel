@@ -153,4 +153,7 @@ QByteArray serialiseCharacterListData(const QStringList& list);
 bool extractMapFlareData(QByteArray& data, QPoint& coords, CLID& who);
 QByteArray serialiseMapFlareData(const QPoint& coords, CLID who);
 
+bool extractVOIPBlacklistData(QByteArray& data, CLID& toBL, CLID& who, bool& blacklist);
+QByteArray serialiseVOIPBlacklistData(CLID toBL, CLID who, bool blacklist);
+
 #endif

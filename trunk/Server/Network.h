@@ -4,6 +4,8 @@
 #include <QCoreApplication>
 #include <QtNetwork>
 
+#include "VOIPServer.h"
+
 #include "Client.h"
 
 class Packet;
@@ -54,6 +56,8 @@ class ServerNetwork : public QObject
     private:
         QTcpServer* m_server;
         QList<Client*> m_clients;
+
+        VOIPServer *m_VOIPServer;
 
         QList<QString> m_banList;
 
