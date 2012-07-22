@@ -9,6 +9,8 @@ class EntitiesManager;
 class QTreeView;
 class QStandardItemModel;
 class EntityInformations;
+class QAction;
+class EquipmentDialog;
 
 class CharactersManager : public QWidget
 {
@@ -23,6 +25,10 @@ class CharactersManager : public QWidget
     public slots:
         void updateCharacterList(const QStringList& list);
 
+        void openContextMenu(const QPoint&);
+
+        void ac_stuffEdi();
+
     private slots:
         void update();
 
@@ -36,6 +42,10 @@ class CharactersManager : public QWidget
 
         QTreeView *m_v_cl;
         QStandardItemModel *m_list;
+
+        QAction* m_stuffEdi;
+
+        EquipmentDialog *m_stuff;
 };
 
 #endif
