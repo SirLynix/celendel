@@ -53,19 +53,19 @@
 		<Cursor position="156" topLine="0" />
 	</File>
 	<File name="..\Shared\LuaSystem\ScriptSandbox.h" open="0" top="0" tabpos="0">
-		<Cursor position="82" topLine="0" />
+		<Cursor position="412" topLine="0" />
 	</File>
 	<File name="..\Shared\LuaSystem\ScriptedEntity.cpp" open="0" top="0" tabpos="4">
 		<Cursor position="642" topLine="0" />
 	</File>
 	<File name="..\Shared\LuaSystem\ScriptedEntity.h" open="0" top="0" tabpos="2">
-		<Cursor position="718" topLine="7" />
+		<Cursor position="616" topLine="22" />
 	</File>
 	<File name="..\Shared\LuaSystem\ScriptedEntityCallbacks.cpp" open="0" top="0" tabpos="1">
 		<Cursor position="2060" topLine="56" />
 	</File>
 	<File name="..\Shared\LuaSystem\luaHeader.h" open="0" top="0" tabpos="3">
-		<Cursor position="898" topLine="0" />
+		<Cursor position="284" topLine="0" />
 	</File>
 	<File name="..\Shared\MapStructs.h" open="0" top="0" tabpos="1">
 		<Cursor position="580" topLine="0" />

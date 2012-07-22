@@ -3,7 +3,7 @@
 
 int main(int argv, char** argc)
 {
-    // The more complex become an application, the smaller get it main
+    // The more complex an application become, the smaller its main() gets
     //    - Me, right now.
     QCoreApplication app (argv, argc);
 
