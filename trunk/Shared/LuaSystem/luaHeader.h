@@ -6,7 +6,7 @@ extern "C"
     #include <lua/lualib.h>
     #include <lua/lauxlib.h>
 }
-#include <lua/lunar.h>
+#include "lunar.h"
 
 class Lua_State //RAII
 {
