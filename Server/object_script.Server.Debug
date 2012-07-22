@@ -10,6 +10,7 @@ INPUT(
 ./debug\Miscelaneous.o
 ./debug\Translator.o
 ./debug\ScriptEnvironnement.o
+./debug\VOIPServer.o
 ./debug\ScriptedEntity.o
 ./debug\ScriptedEntityCallbacks.o
 ./debug\moc_Network.o
@@ -17,5 +18,6 @@ INPUT(
 ./debug\moc_Server.o
 ./debug\moc_Player.o
 ./debug\moc_ScriptEnvironnement.o
+./debug\moc_VOIPServer.o
 ./debug\moc_ScriptedEntity.o
 );

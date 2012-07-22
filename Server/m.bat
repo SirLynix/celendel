@@ -1,2 +1,2 @@
-mingw32-make release --jobs=4 > out.txt
+mingw32-make release -j > out.txt
 release\Server.exe

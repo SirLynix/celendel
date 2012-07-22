@@ -20,7 +20,7 @@
 #define SCRIPTS_ROOT_DIR "Scripts/"
 #define SCRIPTS_TEMPLATES_DIR SCRIPTS_ROOT_DIR"Templates/"
 
-#define AUTOCLOSE_DELAY 1000*15
+#define AUTOCLOSE_DELAY 1000*60*3 //3 mins
 
 
 class Server : public QObject
@@ -84,6 +84,7 @@ class Server : public QObject
         QList<Player*> m_players;
 
         QTimer *m_autoClose;
+
 
         bool m_gameStarted;
 

@@ -18,6 +18,7 @@ QSettings* allocateSettings(QObject* parent=0);
 #define PARAM_VOIP_SOUND "settings/voipsoundlevel"
 #define PARAM_VOIP_ENABLED "settings/voipenabled"
 #define PARAM_VOIP_QUALITY "settings/voipquality"
+#define PARAM_VOIP_PORT "settings/voipport"
 
 #define IEXT ".itr"
 

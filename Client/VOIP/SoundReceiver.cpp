@@ -22,7 +22,7 @@ SoundReceiver::SoundReceiver(const QHostAddress& hostAddress, const quint16& por
 
 void SoundReceiver::setPort(quint16 port)
 {
-    udpSocket->bind(m_IP, port, QUdpSocket::DontShareAddress);
+    udpSocket->bind(m_IP, port, QUdpSocket::ShareAddress);
 }
 
 void SoundReceiver::update()

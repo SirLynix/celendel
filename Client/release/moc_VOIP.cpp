@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Meta object code from reading C++ file 'VOIP.h'
 **
-** Created: Sat 21. Jul 13:53:55 2012
+** Created: Sun 22. Jul 20:25:57 2012
 **      by: The Qt Meta Object Compiler version 62 (Qt 4.7.4)
 **
 ** WARNING! All changes made in this file will be lost!
@@ -23,7 +23,7 @@ static const uint qt_meta_data_VOIP[] = {
        5,       // revision
        0,       // classname
        0,    0, // classinfo
-       9,   14, // methods
+       6,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
@@ -35,24 +35,18 @@ static const uint qt_meta_data_VOIP[] = {
 
  // slots: signature, parameters, type, tag, flags
       33,   31,    5,    5, 0x0a,
-      61,   51,    5,    5, 0x0a,
-      93,   86,    5,    5, 0x2a,
-     110,    5,    5,    5, 0x0a,
-     135,  127,    5,    5, 0x0a,
-     165,  160,    5,    5, 0x2a,
-     182,    5,    5,    5, 0x08,
-     193,  191,    5,    5, 0x08,
+      58,   51,    5,    5, 0x0a,
+      75,    5,    5,    5, 0x0a,
+      92,    5,    5,    5, 0x08,
+     103,  101,    5,    5, 0x08,
 
        0        // eod
 };
 
 static const char qt_meta_stringdata_VOIP[] = {
     "VOIP\0\0,\0dataPerSecond(int,int)\0q\0"
-    "setQuality(float)\0volume,ip\0"
-    "setVolume(float,QString)\0volume\0"
-    "setVolume(float)\0setEnabled(bool)\0"
-    "port,ip\0setPort(quint16,QString)\0port\0"
-    "setPort(quint16)\0update()\0b\0"
+    "setQuality(float)\0volume\0setVolume(float)\0"
+    "setEnabled(bool)\0update()\0b\0"
     "send(QByteArray)\0"
 };
 
@@ -87,16 +81,13 @@ int VOIP::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
         switch (_id) {
         case 0: dataPerSecond((*reinterpret_cast< int(*)>(_a[1])),(*reinterpret_cast< int(*)>(_a[2]))); break;
         case 1: setQuality((*reinterpret_cast< float(*)>(_a[1]))); break;
-        case 2: setVolume((*reinterpret_cast< float(*)>(_a[1])),(*reinterpret_cast< const QString(*)>(_a[2]))); break;
-        case 3: setVolume((*reinterpret_cast< float(*)>(_a[1]))); break;
-        case 4: setEnabled((*reinterpret_cast< bool(*)>(_a[1]))); break;
-        case 5: setPort((*reinterpret_cast< quint16(*)>(_a[1])),(*reinterpret_cast< const QString(*)>(_a[2]))); break;
-        case 6: setPort((*reinterpret_cast< quint16(*)>(_a[1]))); break;
-        case 7: update(); break;
-        case 8: send((*reinterpret_cast< QByteArray(*)>(_a[1]))); break;
+        case 2: setVolume((*reinterpret_cast< float(*)>(_a[1]))); break;
+        case 3: setEnabled((*reinterpret_cast< bool(*)>(_a[1]))); break;
+        case 4: update(); break;
+        case 5: send((*reinterpret_cast< QByteArray(*)>(_a[1]))); break;
         default: ;
         }
-        _id -= 9;
+        _id -= 6;
     }
     return _id;
 }
